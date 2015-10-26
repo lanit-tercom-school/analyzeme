@@ -1,1 +1,4 @@
 language: java
+notifications:
+  slack: analyzeme:J7GgL8r4XiLkOVX5qvg7OIWZ
+  on_success: always
