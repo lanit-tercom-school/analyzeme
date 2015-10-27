@@ -1,0 +1,12 @@
+{
+  "name":"analyzeme",
+  "scripts":{},
+  "env":{
+    "JAVA_OPTS":{
+      "required":true
+    }
+  },
+  "addons":[
+    "heroku-postgresql"
+  ]
+}
