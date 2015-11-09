@@ -8,11 +8,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
     @RequestMapping(value = "/")
     public ModelAndView index() {
-        ModelAndView mav = new ModelAndView("index/index");
+        ModelAndView mav = new ModelAndView("index");
 
         String msg = "Running IndexController.index() method";
 
         mav.addObject("msg", msg);
         return mav;
+    }
+
+    @RequestMapping(value = "/action")
+    public String moveToActionPage() {
+        return "action";
     }
 }
