@@ -6,23 +6,69 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <title>File Upload</title>
+  <title>HTML5 drag'n'drop file upload with Servlet</title>
+  <script>
+    window.onload = function() {
+      var dropbox = document.getElementById("dropbox");
+      dropbox.addEventListener("dragenter", noop, false);
+      dropbox.addEventListener("dragexit", noop, false);
+      dropbox.addEventListener("dragover", noop, false);
+      dropbox.addEventListener("drop", dropUpload, false);
+    }
+
+    function noop(event) {
+      event.stopPropagation();
+      event.preventDefault();
+    }
+
+    function dropUpload(event) {
+      noop(event);
+      var files = event.dataTransfer.files;
+
+      for (var i = 0; i < files.length; i++) {
+        upload(files[i]);
+      }
+    }
+
+    function upload(file) {
+      document.getElementById("status").innerHTML = "Uploading " + file.name;
+
+      var formData = new FormData();
+      formData.append("file", file);
+
+      var xhr = new XMLHttpRequest();
+      xhr.upload.addEventListener("progress", uploadProgress, false);
+      xhr.addEventListener("load", uploadComplete, false);
+      xhr.open("POST", "UploadServlet", true); // If async=false, then you'll miss progress bar support.
+      xhr.send(formData);
+    }
+
+    function uploadProgress(event) {
+      // Note: doesn't work with async=false.
+      var progress = Math.round(event.loaded / event.total * 100);
+      document.getElementById("status").innerHTML = "Progress " + progress + "%";
+    }
+
+    function uploadComplete(event) {
+      document.getElementById("status").innerHTML = event.target.responseText;
+    }
+  </script>
+  <style>
+    #dropbox {
+      width: 300px;
+      height: 200px;
+      border: 1px solid gray;
+      border-radius: 5px;
+      padding: 5px;
+      color: gray;
+    }
+  </style>
 </head>
 <body>
-<center>
-  <h1>File Upload</h1>
-  <form method="post" action="UploadServlet"
-        enctype="multipart/form-data">
-    Select file to upload: <input type="file" name="file" size="60" /><br />
-    <br /> <input type="submit" value="Upload" />
-  </form>
-</center>
+<div id="dropbox">Drag and drop a file here...</div>
+<div id="status"></div>
 </body>
 </html>

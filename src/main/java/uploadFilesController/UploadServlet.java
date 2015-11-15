@@ -18,8 +18,7 @@ import java.io.IOException;
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
         maxFileSize = 1024 * 1024 * 10,      // 10MB
         maxRequestSize = 1024 * 1024 * 50)   // 50MB
-public class UploadServlet extends HttpServlet
-{
+public class UploadServlet extends HttpServlet {
     /**
      * Name of the directory where uploaded files will be saved, relative to
      * the web application directory.
@@ -42,17 +41,19 @@ public class UploadServlet extends HttpServlet
             fileSaveDir.mkdir();
         }
 
-        for (Part part : request.getParts()) {
-            String fileName = extractFileName(part);
-            if (fileName.contains("?")) {
-                fileName = fileName.replace("?", "0");
+        try {
+            String fileName = "";
+            for (Part part : request.getParts()) {
+                fileName = extractFileName(part);
+                part.write(savePath + File.separator + fileName);
             }
-            part.write(savePath + File.separator + fileName);
-        }
 
-        request.setAttribute("message", "Upload has been done successfully!");
-        getServletContext().getRequestDispatcher("/message.jsp").forward(
-                request, response);
+            response.setCharacterEncoding("UTF-32");
+            response.getWriter().write("File " + fileName + " successfully uploaded");
+        } catch (Exception ex) {
+            response.getWriter().write("There was an error, please try again ");
+            response.getWriter().write("Exception info: " + ex.getMessage());
+        }
     }
 
     /**
