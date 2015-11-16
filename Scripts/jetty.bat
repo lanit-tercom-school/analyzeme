@@ -3,7 +3,7 @@
 @rem *****************************************
 
 @echo This batch file
-@call before_deploy.bat
+@call src\before_deploy.bat
 @mvn jetty:run
 
 @rem *****************************************

@@ -10,7 +10,7 @@
 	<properties>
 		<jetty.version>9.3.6.v20151106</jetty.version>
 	 </properties>
- 3. Запустить из командной строки jetty_ultimate.bat
+ 3. Запустить из командной строки (в папке Scripts) jetty.bat
  
  Строкой, означающей успешную работу скрипта, в командной строке должна быть: 
  [INFO] Started Jetty Server
