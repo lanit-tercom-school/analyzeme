@@ -2,11 +2,13 @@
 
 ####Сборка проекта
 Сборка с использованием tomcat
+
 1. Установить maven http://maven.apache.org/download.cgi
 2. Установить tomcat http://tomcat.apache.org/download-80.cgi
 3. Запустить из командной строки в папке scripts: tomcat.bat
 
 Сборка с использованием jetty
+
 1. Установить maven http://maven.apache.org/download.cgi
 2. Установить jetty http://www.eclipse.org/jetty/downloads.php
 3. Запустить из командной строки в папке scripts: jetty.bat
