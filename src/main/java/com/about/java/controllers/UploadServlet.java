@@ -1,8 +1,10 @@
-package uploadFilesController;
+package com.about.java.controllers;
 
 /**
  * Created by Юыќур on 05.11.2015.
  */
+
+import FileRepositoty.FileRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -24,30 +26,27 @@ public class UploadServlet extends HttpServlet {
      * the web application directory.
      */
     private static final String SAVE_DIR = "uploadFiles";
-
     /**
      * handles file upload
      */
+
     protected void doPost(HttpServletRequest request,
                           HttpServletResponse response) throws ServletException, IOException {
         // gets absolute path of the web application
         String appPath = request.getServletContext().getRealPath("");
         // constructs path of the directory to save uploaded file
         String savePath = appPath + File.separator + SAVE_DIR;
-
-        // creates the save directory if it does not exists
-        File fileSaveDir = new File(savePath);
-        if (!fileSaveDir.exists()) {
-            fileSaveDir.mkdir();
+        // creates a directory if need to
+        if(!FileRepository.FILE_REPOSITORY.isRootFolderInitialized())
+        {
+            FileRepository.FILE_REPOSITORY.createRootFolder(savePath);
         }
-
         try {
             String fileName = "";
             for (Part part : request.getParts()) {
                 fileName = extractFileName(part);
-                part.write(savePath + File.separator + fileName);
+                FileRepository.FILE_REPOSITORY.addNewFile(part, fileName);
             }
-
             response.setCharacterEncoding("UTF-32");
             response.getWriter().write("File " + fileName + " successfully uploaded");
         } catch (Exception ex) {
