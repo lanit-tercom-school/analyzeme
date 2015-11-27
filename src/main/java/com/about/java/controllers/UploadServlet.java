@@ -4,7 +4,7 @@ package com.about.java.controllers;
  * Created by Юыќур on 05.11.2015.
  */
 
-import FileRepositoty.FileRepository;
+import FileRepository.FileRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -36,16 +36,15 @@ public class UploadServlet extends HttpServlet {
         String appPath = request.getServletContext().getRealPath("");
         // constructs path of the directory to save uploaded file
         String savePath = appPath + File.separator + SAVE_DIR;
-        // creates a directory if need to
-        if(!FileRepository.FILE_REPOSITORY.isRootFolderInitialized())
+        if(!FileRepository.repo.isRootFolderInitialized())
         {
-            FileRepository.FILE_REPOSITORY.createRootFolder(savePath);
+            FileRepository.repo.createRootFolder(savePath);
         }
         try {
             String fileName = "";
             for (Part part : request.getParts()) {
                 fileName = extractFileName(part);
-                FileRepository.FILE_REPOSITORY.addNewFile(part, fileName);
+                FileRepository.repo.addNewFile(part, fileName, "guest");
             }
             response.setCharacterEncoding("UTF-32");
             response.getWriter().write("File " + fileName + " successfully uploaded");
