@@ -12,9 +12,10 @@ public class AnalyzeFunctionFactory {
 
         if (functionType == "GlobalMaximum") {
             return new GlobalMaximum();
-            } else if (functionType == "GlobalMinimum") {
-                return new GlobalMinimum();
-                } else return null;
+        } else if (functionType == "GlobalMinimum") {
+            return new GlobalMinimum();
+            //if param functionType is not equal to any real class we should return null
+        } else return null;
 
     }
 }
