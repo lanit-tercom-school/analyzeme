@@ -38,20 +38,44 @@
 <body>
 
     <!-- Navigation -->
-    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="index">
+                    <img src="https://pp.vk.me/c631917/v631917040/1fcb/2w3rDEwlJag.jpg" style="width: 40px;height:40px;"/>
+                </a>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="index">AnalyzeMe</a>
+                    </li>
+                    <li class="active">
+                        <a href="action">Try now</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
+
+
+    <%--<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
         <div class="container topnav">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                &lt;%&ndash;<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button>&ndash;%&gt;
                 <a class="navbar-brand topnav" href="index">AnalyzeMe</a>
-		<%--<ul class="nav navbar-nav">
+		&lt;%&ndash;<ul class="nav navbar-nav">
 		  <li><button type="button" class="btn btn-primary navbar-btn"><i class="glyphicon glyphicon-log-in"></i>   Try now</button></li>
-		</ul>--%>
+		</ul>&ndash;%&gt;
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
 
@@ -73,7 +97,7 @@
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
-    </nav>
+    </nav>--%>
 
 
     <!-- Header -->
