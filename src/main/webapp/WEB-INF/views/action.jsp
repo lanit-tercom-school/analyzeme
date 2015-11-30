@@ -39,15 +39,19 @@
 
     <!-- Navigation -->
 
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class="navbar-brand" href="index">
-                    <img src="https://pp.vk.me/c631917/v631917040/1fcb/2w3rDEwlJag.jpg" style="width: 40px;height:40px;"/>
+                    <img src="https://pp.vk.me/c631917/v631917040/1fcb/2w3rDEwlJag.jpg" style="width: 40px;height:40px;">
                 </a>
             </div>
             <div>
-                <ul class="nav navbar-nav">
+                <ul class="nav navbar-nav navbar-collapse collapse">
                     <li>
                         <a href="index">AnalyzeMe</a>
                     </li>
