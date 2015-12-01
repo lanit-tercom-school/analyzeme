@@ -19,12 +19,20 @@
     <!-- Custom CSS -->
     <spring:url value="/resources/css/landing-page.css" var="landingCss" />
     <link href="${landingCss}" rel="stylesheet" />
+    <spring:url value="/resources/css/action-stylesheet.css" var="actionCss" />
+    <link href="${actionCss}" rel="stylesheet" />
 
     <!-- Custom Fonts -->
     <spring:url value="/resources/font-awesome/css/font-awesome.min.css" var="fontAwesomeCss" />
     <link href="${fontAwesomeCss}" rel="stylesheet" type="text/css"/>
     <spring:url value="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" var="fontCss" />
-    <link href="${fontCss}" rel="stylesheet" type="text/css"/>
+    <link href="${fontCss}" rel="stylesheet" type="text/css" />
+
+
+    <!-- D3.js -->
+    <spring:url value="/resources/js/d3.js" var="d3js" />
+    <script type="text/javascript" src="${d3js}"></script>
+    <spring:url value="/resources/js/graph.js" var="graphical" />
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -105,8 +113,38 @@
     </div>--%>
     <!-- /.intro-header -->
 
-<%--    <!-- Page Content -->
+    <!-- Page Content -->
 
+    <div class="sorted-dots">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 well well-lg">
+                    <div class="well well-sm dote"> Here'll be coordinates of dotes</div>
+                    <div class="well well-sm dote"> ( 12 , 32 )</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="graph">
+        <div class="container">
+            <div class="row">
+                <div class="graphic col-lg-9">
+                    <script >
+                        d3.select("body").append("p").text("New paragraph!");
+                    </script>
+                    <script src="${graphical}" ></script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+<%--
 	<a  name="services"></a>
     <div class="content-section-a">
 
@@ -231,6 +269,15 @@
         </div>
     </footer>
 
+    <script>
+        alert("Hello");
+        </script>
+    <p> Old par</p>
+    <script>
+        d3.select("body")
+                .append("p")
+                .text("New par");
+    </script>
     <!-- jQuery -->
     <spring:url value="/resources/js/jquery.js" var="jqueryJs" />
     <script src="${jqueryJs}"></script>

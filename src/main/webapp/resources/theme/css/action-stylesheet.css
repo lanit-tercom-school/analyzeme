@@ -1,0 +1,35 @@
+.sorted-dots{
+    padding-top: 70px;
+    padding-bottom: 50px;
+
+}
+
+.dote{
+    margin-bottom:10px;
+    background-color:white;
+}
+.graphic,
+.graph{
+    height: 450px;
+}
+
+
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+}
+
+.line {
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
+
+.dot {
+    fill: white;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+}
