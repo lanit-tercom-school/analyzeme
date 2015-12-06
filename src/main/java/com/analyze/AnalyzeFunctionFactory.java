@@ -6,16 +6,19 @@ package com.analyze;
  */
 public class AnalyzeFunctionFactory {
 
+    /**
+     * @param functionType name of  AnalyzeFunction class
+     * @return object of some AnalyzeFunction class
+     */
     public AnalyzeFunction getFunction(String functionType) {
 
-        if (functionType == null) return null;
+        if (functionType == null) throw new IllegalArgumentException("param ''functionType'' has illegal value.( Null is illegal value)");
 
         if (functionType == "GlobalMaximum") {
             return new GlobalMaximum();
         } else if (functionType == "GlobalMinimum") {
             return new GlobalMinimum();
-            //if param functionType is not equal to any real class we should return null
-        } else return null;
+        } else throw new IllegalArgumentException("param ''functionType'' has illegal value. ''"+functionType+"'' isn't name of real class");
 
     }
 }
