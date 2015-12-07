@@ -32,7 +32,4 @@ public class FileInfo {
 		//default ctor fills Date with current info
 		uploadingDate = new Date();
 	}
-
-	FileInfo() {
-	}
 }

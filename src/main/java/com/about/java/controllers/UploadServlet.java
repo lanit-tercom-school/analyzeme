@@ -36,9 +36,12 @@ public class UploadServlet extends HttpServlet {
 		// gets absolute path of the web application
 		String appPath = request.getServletContext().getRealPath("");
 		// constructs path of the directory to save uploaded file
-		String savePath = appPath + File.separator + saveDir;
+		StringBuilder savePath = new StringBuilder();
+		savePath.append(appPath);
+		savePath.append(File.separator);
+		savePath.append(saveDir);
 		if (!FileRepository.repo.isRootFolderInitialized()) {
-			FileRepository.repo.createRootFolder(savePath);
+			FileRepository.repo.createRootFolder(savePath.toString());
 		}
 		try {
 			String fileName = "";
