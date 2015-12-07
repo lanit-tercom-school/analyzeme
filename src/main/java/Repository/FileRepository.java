@@ -1,4 +1,4 @@
-package FileRepository;
+package Repository;
 
 import java.util.*;
 import java.io.*;
@@ -6,7 +6,7 @@ import javax.servlet.http.Part;
 
 /**
  * FileRepository is a singleton class that allow to add new files and get them for usage
- * To get access to these functions call FileRepository.getInstance()
+ * To get access to these functions call FileRepository.repo.method();
  * <p>
  * Created by Laetitia_Lagroffe on 27.11.2015.
  */
@@ -18,7 +18,7 @@ public class FileRepository implements IFileRepository {
 	private static String defaultUser = "guest";
 
 	/**
-	 * creates empty repository with default user
+	 * creates empty repository
 	 */
 	private FileRepository() {
 		files = new ArrayList<FileInfo>();
@@ -27,7 +27,7 @@ public class FileRepository implements IFileRepository {
 	/**
 	 * creates root directory
 	 *
-	 * @param path - relative path for the repository that is to be created
+	 * @param path - path for the repository that is to be created
 	 */
 	public void createRootFolder(String path) throws IOException {
 		rootFolder = new File(path);
@@ -49,21 +49,17 @@ public class FileRepository implements IFileRepository {
 	 * @param part     - file information
 	 * @param filename - filename given by user
 	 * @param login    - user id
-	 * @return startfilename + uploadingDate + name in repository if succeed, null if not
+	 * @return startfilename + uploadingDate + name in repository if succeed, exception if not
 	 */
-	public FileInfo addNewFile(Part part, String filename, String login) {
+	public FileInfo addNewFile(Part part, String filename, String login) throws IOException {
 		String fileNameToWrite = filename;
 		if (!isNameCorrect(filename)) {
 			fileNameToWrite = createCorrectName(filename);
 		}
-		try {
-			part.write(rootFolder.getCanonicalPath() + File.separator + fileNameToWrite);
-			FileInfo info = new FileInfo(filename, fileNameToWrite, login);
-			files.add(info);
-			return info;
-		} catch (IOException e) {
-			return null;
-		}
+		part.write(rootFolder.getCanonicalPath() + File.separator + fileNameToWrite);
+		FileInfo info = new FileInfo(filename, fileNameToWrite, login);
+		files.add(info);
+		return info;
 	}
 
 	/**
@@ -105,7 +101,7 @@ public class FileRepository implements IFileRepository {
 	 */
 	public ArrayList<String> getAllWrittenNames() {
 		ArrayList<String> files = new ArrayList<String>();
-		if(rootFolder != null) {
+		if (rootFolder != null) {
 			for (File file : rootFolder.listFiles()) {
 				files.add(file.getName());
 			}
