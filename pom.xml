@@ -7,6 +7,11 @@
   <version>1.0-SNAPSHOT</version>
   <name>analyzeme Maven Webapp</name>
   <url>http://maven.apache.org</url>
+  
+  <properties>
+	<jetty.version>9.3.6.v20151106</jetty.version>
+  </properties>
+	
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -44,12 +49,26 @@
       <artifactId>javax.servlet-api</artifactId>
       <version>3.1.0</version>
     </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <version>3.0.1</version>
-    </dependency>
+	<dependency>
+	  <groupId>org.eclipse.jetty</groupId>
+	  <artifactId>jetty-server</artifactId>
+	  <version>${jetty.version}</version>
+	  <scope>compile</scope>
+	</dependency>
+	<dependency>
+	  <groupId>org.eclipse.jetty</groupId>
+	  <artifactId>jetty-client</artifactId>
+	  <version>${jetty.version}</version>
+	  <scope>compile</scope>
+	</dependency>
+	<dependency>
+	  <groupId>org.eclipse.jetty</groupId>
+	  <artifactId>jetty-webapp</artifactId>
+	  <version>${jetty.version}</version>
+	  <scope>compile</scope>
+	</dependency>
   </dependencies>
+
   <build>
     <finalName>analyzeme</finalName>
     <plugins>
@@ -74,6 +93,26 @@
           </execution>
         </executions>
       </plugin>
+	  <plugin>
+		<groupId>org.eclipse.jetty</groupId>
+		<artifactId>jetty-maven-plugin</artifactId>
+		<version>${jetty.version}</version>
+		<configuration>
+			<webApp>
+				<contextPath>/analyzeme</contextPath>
+			</webApp>
+			<stopPort>9999</stopPort>
+			<stopKey>foo</stopKey>
+		</configuration>
+	  </plugin>
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-war-plugin</artifactId>
+		<version>2.3</version>
+		<configuration>
+			<webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+		</configuration>
+	</plugin>
     </plugins>
   </build>
 </project>
