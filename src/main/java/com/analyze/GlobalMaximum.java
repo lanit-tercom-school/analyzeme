@@ -22,5 +22,20 @@ public class GlobalMaximum implements AnalyzeFunction {
         return max_index;
     }
 
+    /**
+     * @param Point_array array of Point.
+     * @return index of maximum value.
+     */
+    @Override
+    public int Calc(Point[] Point_array) {
+        int max_index = 0;//index of maximum value
+
+        for (int i = 0; i < Point_array.length; i++) //cicle where we looking for maximum.
+            if (Point_array[max_index].GetY() < Point_array[i].GetY()) max_index = i;
+
+        return max_index;
+    }
+
+    ;
 
 }

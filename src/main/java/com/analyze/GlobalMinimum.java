@@ -21,4 +21,18 @@ public class GlobalMinimum implements AnalyzeFunction {
         return min_index;
     }
 
+    /**
+     * @param Point_array array of Point.
+     * @return index of minimum value.
+     */
+    @Override
+    public  int Calc(Point [] Point_array){
+        int min_index = 0;//index of minimum value
+
+        for (int i = 0; i < Point_array.length; i++) //cicle where we looking for minimum.
+            if (Point_array[min_index].GetY() > Point_array[i].GetY()) min_index = i;
+
+        return min_index;
+    }
+
 }
