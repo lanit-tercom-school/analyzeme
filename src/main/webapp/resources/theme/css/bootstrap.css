@@ -168,7 +168,7 @@ input[type="search"]::-webkit-search-decoration {
 fieldset {
   padding: .35em .625em .75em;
   margin: 0 2px;
-  border: 1px solid #c0c0c0;
+  border: 1px solid #B1B0B2;
 }
 legend {
   padding: 0;
@@ -1101,12 +1101,12 @@ textarea {
   line-height: inherit;
 }
 a {
-  color: #337ab7;
+  color: #458235;
   text-decoration: none;
 }
 a:hover,
 a:focus {
-  color: #23527c;
+  color: #33631D;
   text-decoration: underline;
 }
 a:focus {
@@ -1342,10 +1342,10 @@ mark,
   color: #777;
 }
 .text-primary {
-  color: #337ab7;
+  color: #458235;
 }
 a.text-primary:hover {
-  color: #286090;
+  color: #33631D;
 }
 .text-success {
   color: #3c763d;
@@ -1354,10 +1354,10 @@ a.text-success:hover {
   color: #2b542c;
 }
 .text-info {
-  color: #31708f;
+  color: #1C1C1C;
 }
 a.text-info:hover {
-  color: #245269;
+  color: #1C1C1C;
 }
 .text-warning {
   color: #8a6d3b;
@@ -1373,10 +1373,10 @@ a.text-danger:hover {
 }
 .bg-primary {
   color: #fff;
-  background-color: #337ab7;
+  background-color: #458235;
 }
 a.bg-primary:hover {
-  background-color: #286090;
+  background-color: #33631D;
 }
 .bg-success {
   background-color: #dff0d8;
