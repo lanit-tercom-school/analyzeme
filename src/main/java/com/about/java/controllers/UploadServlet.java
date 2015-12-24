@@ -1,9 +1,5 @@
 package com.about.java.controllers;
 
-/**
- * Created by Olga on 05.11.2015.
- */
-
 import Repository.FileRepository;
 
 import javax.servlet.ServletException;
@@ -13,7 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import java.io.File;
 import java.io.IOException;
 
 @WebServlet("/UploadServlet")
@@ -21,49 +16,24 @@ import java.io.IOException;
 		maxFileSize = 1024 * 1024 * 10,      // 10MB
 		maxRequestSize = 1024 * 1024 * 50)   // 50MB
 public class UploadServlet extends HttpServlet {
-	/**
-	 * Name of the directory where uploaded files will be saved, relative to
-	 * the web application directory.
-	 */
-	private static final String saveDir = "uploadFiles";
 
 	/**
 	 * handles file upload
 	 */
-
 	protected void doPost(HttpServletRequest request,
 						  HttpServletResponse response) throws ServletException, IOException {
-		String responseToJS = "";
 		try {
 			String fileName = "";
+			String responseToJS = "";
 			for (Part part : request.getParts()) {
-				try {
-					fileName = extractFileName(part);
-				}
-				catch (Exception ex) {
-					responseToJS += ", cannot extract filename";
-				}
-				if(fileName==null || fileName.equals(""))
-				{
-					responseToJS += ", cannot extract filename";
-				}
-				try {
-					responseToJS += FileRepository.repo.addNewFile(part, fileName, "guest");
-				}
-				catch (Exception e) {
-					responseToJS += ", some mistakes in addNewFile";
-				}
+				fileName = extractFileName(part);
+				responseToJS = FileRepository.repo.addNewFile(part, fileName, "guest");
 			}
 			response.setCharacterEncoding("UTF-32");
-			if(responseToJS.equals("")) {
-				response.getWriter().write("File " + fileName + " was successfully uploaded");
-			}
-			else {
-				response.getWriter().write(responseToJS);
-			}
-		} catch (Exception ex) {
-			response.getWriter().write("Unhandled exception");
-			//response.getWriter().write("There was an error, please try again ");
+			response.getWriter().write("{\"nameToWrite\": \"" + responseToJS + "\"}");
+			//response.getWriter().write("File " + fileName + " was successfully uploaded");
+		} catch (IOException ex) {
+			throw ex;
 			//response.getWriter().write("Exception info: " + ex.getMessage());
 		}
 	}

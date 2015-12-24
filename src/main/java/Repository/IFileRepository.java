@@ -5,9 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Laetitia_Lagroffe on 27.11.2015.
- */
 public interface IFileRepository {
 
 	/**
@@ -19,7 +16,9 @@ public interface IFileRepository {
 	 * @param login    - user id
 	 * @return name in repository if succeed, exception if not
 	 */
-	String addNewFile(final Part part, final String filename, final String login)  throws IOException;
+	String addNewFile(final Part part, final String filename, final String login) throws IOException;
+
+	String addNewFileForTests(final ByteArrayInputStream part, final String filename, final String login) throws IOException;
 
 	/**
 	 * @return all names of files in repository

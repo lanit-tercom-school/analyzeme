@@ -5,20 +5,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Laetitia_Lagroffe on 24.12.2015.
- */
-
 public class FileRepository implements IFileRepository {
 	public static final IFileRepository repo = new FileRepository();
-
 	private static ArrayList<FileInfo> files;
-	private static String defaultUser = "guest";
 
 	/**
 	 * creates empty repository
 	 */
-	private FileRepository() {
+	public FileRepository() {
 		files = new ArrayList<FileInfo>();
 	}
 
@@ -31,13 +25,32 @@ public class FileRepository implements IFileRepository {
 	 * @param login    - user id
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	//! after fixing problems change comments or return value
-	public String addNewFile(Part part, String filename, String login)  throws IOException {
+	public String addNewFile(final Part part, final String filename, final String login) throws IOException {
 		String nameToWrite = filename;
-		if(!isNameCorrect(nameToWrite)) {
+		if (!isNameCorrect(nameToWrite)) {
 			nameToWrite = createCorrectName(filename);
 		}
 		FileInfo newFile = new FileInfo(filename, nameToWrite, login, part.getInputStream());
+		files.add(newFile);
+		return nameToWrite;
+	}
+
+	/**
+	 * just the same with addNewFile except for Part object (cannot be create as far as Part is an abstract class)
+	 * adding new file in repository
+	 * if you don't know user, just give defaultUser ("guest") as login
+	 *
+	 * @param part     - file data (stream)
+	 * @param filename - filename given by user
+	 * @param login    - user id
+	 * @return nameToWrite - if succeed, exception if not
+	 */
+	public String addNewFileForTests(final ByteArrayInputStream part, final String filename, final String login) throws IOException {
+		String nameToWrite = filename;
+		if (!isNameCorrect(nameToWrite)) {
+			nameToWrite = createCorrectName(filename);
+		}
+		FileInfo newFile = new FileInfo(filename, nameToWrite, login, part);
 		files.add(newFile);
 		return nameToWrite;
 	}
@@ -76,30 +89,28 @@ public class FileRepository implements IFileRepository {
 		return true;
 	}
 
-
 	/**
 	 * @return all names of files in repository
 	 */
 	public ArrayList<String> getAllWrittenNames() throws IOException {
 		ArrayList<String> list = new ArrayList<String>();
 		if (files != null) {
-			for(FileInfo info : files) {
+			for (FileInfo info : files) {
 				list.add(info.nameToWrite);
 			}
 		}
 		return list;
 	}
 
-
 	/**
 	 * Return file if nameToWrite is given
 	 *
 	 * @param nameToWrite - name in repository
-	 * @return file handler (or null if not found)
+	 * @return stream (or null if not found)
 	 */
 	public ByteArrayInputStream getFileByID(final String nameToWrite) {
-		for(FileInfo info : files) {
-			if(info.nameToWrite.equals(nameToWrite)) {
+		for (FileInfo info : files) {
+			if (info.nameToWrite.equals(nameToWrite)) {
 				return info.data;
 			}
 		}
@@ -111,16 +122,16 @@ public class FileRepository implements IFileRepository {
 	 *
 	 * @param name  - name given by user
 	 * @param login - user name
-	 * @return file handlers array (or null if not found)
+	 * @return streams array (or null if not found)
 	 */
 	public ArrayList<ByteArrayInputStream> getFiles(final String name, final String login) {
 		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
-		for(FileInfo info : files) {
-			if(info.nameToWrite.equals(name) && info.login.equals(login)) {
+		for (FileInfo info : files) {
+			if (info.nameToWrite.equals(name) && info.login.equals(login)) {
 				found.add(info.data);
 			}
 		}
-		if(found.isEmpty()) return null;
+		if (found.isEmpty()) return null;
 		return found;
 	}
 
@@ -128,16 +139,16 @@ public class FileRepository implements IFileRepository {
 	 * Return all files with given name
 	 *
 	 * @param name - name given by user
-	 * @return file handlers array (or null if not found)
+	 * @return streams array (or null if not found)
 	 */
 	public ArrayList<ByteArrayInputStream> getFiles(String name) {
 		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
-		for(FileInfo info : files) {
-			if(info.nameToWrite.equals(name)) {
+		for (FileInfo info : files) {
+			if (info.nameToWrite.equals(name)) {
 				found.add(info.data);
 			}
 		}
-		if(found.isEmpty()) return null;
+		if (found.isEmpty()) return null;
 		return found;
 	}
 }
