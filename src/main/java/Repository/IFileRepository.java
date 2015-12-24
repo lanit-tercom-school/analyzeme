@@ -31,12 +31,13 @@ public interface IFileRepository {
 	 * @param login    - user id
 	 * @return startfilename + uploadingDate + name in repository if succeed, exception if not
 	 */
-	FileInfo addNewFile(Part part, String filename, String login)  throws IOException;
+	//! after fixing problems change comments or return value
+	String addNewFile(Part part, String filename, String login)  throws IOException;
 
 	/**
 	 * @return all names of files in repository
 	 */
-	ArrayList<String> getAllWrittenNames();
+	ArrayList<String> getAllWrittenNames() throws IOException;
 
 	/**
 	 * Return file if nameToWrite is given

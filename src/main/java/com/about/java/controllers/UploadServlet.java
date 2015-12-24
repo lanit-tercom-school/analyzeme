@@ -1,7 +1,7 @@
 package com.about.java.controllers;
 
 /**
- * Created by Юыќур on 05.11.2015.
+ * Created by Olga on 05.11.2015.
  */
 
 import Repository.FileRepository;
@@ -33,34 +33,69 @@ public class UploadServlet extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request,
 						  HttpServletResponse response) throws ServletException, IOException {
+		String responseToJS = "";
 		// gets absolute path of the web application
-		String appPath = request.getServletContext().getRealPath("");
+		String appPath = "";
+		try {
+			appPath = request.getServletContext().getRealPath("");
+		}
+		catch (Exception e) {
+			responseToJS = "Impossible to get real path";
+		}
 		// constructs path of the directory to save uploaded file
 		StringBuilder savePath = new StringBuilder();
 		savePath.append(appPath);
 		savePath.append(File.separator);
 		savePath.append(saveDir);
 		if (!FileRepository.repo.isRootFolderInitialized()) {
-			FileRepository.repo.createRootFolder(savePath.toString());
+			try {
+				FileRepository.repo.createRootFolder(savePath.toString());
+			}
+			catch (Exception e) {
+				responseToJS = "Impossible to initialize root folder";
+			}
+			if(!FileRepository.repo.isRootFolderInitialized()) {
+				responseToJS = "Impossible to initialize root folder";
+			}
 		}
 		try {
 			String fileName = "";
 			for (Part part : request.getParts()) {
-				fileName = extractFileName(part);
-				Repository.FileInfo fileInRepo = FileRepository.repo.addNewFile(part, fileName, "guest");
+				try {
+					fileName = extractFileName(part);
+				}
+				catch (Exception ex) {
+					responseToJS += ", cannot extract filename";
+				}
+				if(fileName==null || fileName.equals(""))
+				{
+					responseToJS += ", cannot extract filename";
+				}
+				try {
+					responseToJS += FileRepository.repo.addNewFile(part, fileName, "guest");
+				}
+				catch (Exception e) {
+					responseToJS += ", some mistakes in addNewFile";
+				}
 			}
 			response.setCharacterEncoding("UTF-32");
-			response.getWriter().write("File " + fileName + " successfully uploaded");
+			if(responseToJS.equals("")) {
+				response.getWriter().write("File " + fileName + " was successfully uploaded");
+			}
+			else {
+				response.getWriter().write(responseToJS);
+			}
 		} catch (Exception ex) {
-			response.getWriter().write("There was an error, please try again ");
-			response.getWriter().write("Exception info: " + ex.getMessage());
+			response.getWriter().write("Unhandled exception");
+			//response.getWriter().write("There was an error, please try again ");
+			//response.getWriter().write("Exception info: " + ex.getMessage());
 		}
 	}
 
 	/**
 	 * Extracts file name from HTTP header content-disposition
 	 */
-	private String extractFileName(Part part) {
+	private String extractFileName(Part part) throws IOException {
 		String contentDisp = part.getHeader("content-disposition");
 		String[] items = contentDisp.split(";");
 		for (String s : items) {

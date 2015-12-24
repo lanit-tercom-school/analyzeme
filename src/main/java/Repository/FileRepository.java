@@ -31,7 +31,7 @@ public class FileRepository implements IFileRepository {
 	 */
 	public void createRootFolder(String path) throws IOException {
 		rootFolder = new File(path);
-		rootFolder.mkdir();
+		if(!rootFolder.mkdir()) throw new IOException();
 	}
 
 	/**
@@ -51,15 +51,36 @@ public class FileRepository implements IFileRepository {
 	 * @param login    - user id
 	 * @return startfilename + uploadingDate + name in repository if succeed, exception if not
 	 */
-	public FileInfo addNewFile(Part part, String filename, String login) throws IOException {
+	//! after fixing problems change comments or return value
+	public String addNewFile(Part part, String filename, String login) throws IOException {
+		String response = "";
 		String fileNameToWrite = filename;
-		if (!isNameCorrect(filename)) {
-			fileNameToWrite = createCorrectName(filename);
+		try {
+			if (!isNameCorrect(filename)) {
+				fileNameToWrite = createCorrectName(filename);
+				if (fileNameToWrite == null || fileNameToWrite.equals("")) {
+					response += ", cannot create a name to write";
+				}
+			}
 		}
-		part.write(rootFolder.getCanonicalPath() + File.separator + fileNameToWrite);
-		FileInfo info = new FileInfo(filename, fileNameToWrite, login);
+		catch (Exception e) {
+			response += ", cannot create a name to write";
+		}
+		try {
+			part.write(rootFolder.getCanonicalPath() + File.separator + fileNameToWrite);
+		}
+		catch (Exception e) {
+			response += ", cannot write to repository";
+		}
+		FileInfo info = null;
+		try {
+			info = new FileInfo(filename, fileNameToWrite, login);
+		}
+		catch (Exception e){
+			response += ", cannot create fileInfo structure";
+		}
 		files.add(info);
-		return info;
+		return response;
 	}
 
 	/**
@@ -68,7 +89,7 @@ public class FileRepository implements IFileRepository {
 	 * @param fileName - name given by user
 	 * @return created name
 	 */
-	private String createCorrectName(String fileName) {
+	private String createCorrectName(String fileName) throws IOException {
 		final char point = '.';
 		String extension = fileName.substring(fileName.indexOf(point) + 1);
 		String name = fileName.substring(0, fileName.indexOf(point)) + "_";
@@ -87,7 +108,7 @@ public class FileRepository implements IFileRepository {
 	 * @param fileName - name given by user
 	 * @return true if free
 	 */
-	private boolean isNameCorrect(String fileName) {
+	private boolean isNameCorrect(String fileName) throws IOException {
 		for (String file : getAllWrittenNames()) {
 			if (file.equals(fileName)) {
 				return false;
@@ -99,7 +120,7 @@ public class FileRepository implements IFileRepository {
 	/**
 	 * @return all names of files in repository
 	 */
-	public ArrayList<String> getAllWrittenNames() {
+	public ArrayList<String> getAllWrittenNames() throws IOException {
 		ArrayList<String> files = new ArrayList<String>();
 		if (rootFolder != null) {
 			for (File file : rootFolder.listFiles()) {

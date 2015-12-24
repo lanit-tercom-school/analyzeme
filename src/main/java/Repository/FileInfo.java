@@ -1,6 +1,7 @@
 package Repository;
 
 import java.util.Date;
+import java.io.IOException;
 
 /**
  * For one particular user:
@@ -25,8 +26,10 @@ public class FileInfo {
 	 * @param startName   - name given by user
 	 * @param nameToWrite - name generated for repository
 	 */
-	FileInfo(final String startName, final String nameToWrite, final String login) {
+	FileInfo(final String startName, final String nameToWrite, final String login) throws IOException {
+		if(startName == null || startName.equals("")) throw new IOException();
 		this.startName = startName;
+		if(nameToWrite == null || nameToWrite.equals("")) throw new IOException();
 		this.nameToWrite = nameToWrite;
 		this.login = login;
 		//default ctor fills Date with current info
