@@ -1,7 +1,7 @@
 package Repository;
 
 import javax.servlet.http.Part;
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -11,28 +11,15 @@ import java.util.ArrayList;
 public interface IFileRepository {
 
 	/**
-	 * creates root directory
-	 *
-	 * @param path - path for the repository that is to be created
-	 */
-	void createRootFolder(String path) throws IOException;
-
-	/**
-	 * checks if rootFolder is attached to the root directory
-	 */
-	boolean isRootFolderInitialized();
-
-	/**
 	 * adding new file in repository
-	 * if you don't know user, just give defaultUser as login
+	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
 	 * @param part     - file information
 	 * @param filename - filename given by user
 	 * @param login    - user id
-	 * @return startfilename + uploadingDate + name in repository if succeed, exception if not
+	 * @return name in repository if succeed, exception if not
 	 */
-	//! after fixing problems change comments or return value
-	String addNewFile(Part part, String filename, String login)  throws IOException;
+	String addNewFile(final Part part, final String filename, final String login)  throws IOException;
 
 	/**
 	 * @return all names of files in repository
@@ -45,7 +32,7 @@ public interface IFileRepository {
 	 * @param nameToWrite - name in repository
 	 * @return file handler (or null if not found)
 	 */
-	File getFileByID(String nameToWrite);
+	ByteArrayInputStream getFileByID(final String nameToWrite);
 
 	/**
 	 * Return files for user if name and login are given
@@ -54,7 +41,7 @@ public interface IFileRepository {
 	 * @param login - user name
 	 * @return file handlers array (or null if not found)
 	 */
-	ArrayList<File> getFiles(String name, String login);
+	ArrayList<ByteArrayInputStream> getFiles(final String name, final String login);
 
 	/**
 	 * Return all files with given name
@@ -62,5 +49,5 @@ public interface IFileRepository {
 	 * @param name - name given by user
 	 * @return file handlers array (or null if not found)
 	 */
-	ArrayList<File> getFiles(String name);
+	ArrayList<ByteArrayInputStream> getFiles(final String name);
 }

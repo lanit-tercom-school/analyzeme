@@ -34,30 +34,6 @@ public class UploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 						  HttpServletResponse response) throws ServletException, IOException {
 		String responseToJS = "";
-		// gets absolute path of the web application
-		String appPath = "";
-		try {
-			appPath = request.getServletContext().getRealPath("");
-		}
-		catch (Exception e) {
-			responseToJS = "Impossible to get real path";
-		}
-		// constructs path of the directory to save uploaded file
-		StringBuilder savePath = new StringBuilder();
-		savePath.append(appPath);
-		savePath.append(File.separator);
-		savePath.append(saveDir);
-		if (!FileRepository.repo.isRootFolderInitialized()) {
-			try {
-				FileRepository.repo.createRootFolder(savePath.toString());
-			}
-			catch (Exception e) {
-				responseToJS = "Impossible to initialize root folder";
-			}
-			if(!FileRepository.repo.isRootFolderInitialized()) {
-				responseToJS = "Impossible to initialize root folder";
-			}
-		}
 		try {
 			String fileName = "";
 			for (Part part : request.getParts()) {

@@ -1,20 +1,18 @@
 package Repository;
 
-import java.util.*;
-import java.io.*;
 import javax.servlet.http.Part;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 
 /**
- * FileRepository is a singleton class that allow to add new files and get them for usage
- * To get access to these functions call FileRepository.repo.method();
- * <p>
- * Created by Laetitia_Lagroffe on 27.11.2015.
+ * Created by Laetitia_Lagroffe on 24.12.2015.
  */
+
 public class FileRepository implements IFileRepository {
 	public static final IFileRepository repo = new FileRepository();
 
 	private static ArrayList<FileInfo> files;
-	private static File rootFolder;
 	private static String defaultUser = "guest";
 
 	/**
@@ -25,62 +23,23 @@ public class FileRepository implements IFileRepository {
 	}
 
 	/**
-	 * creates root directory
-	 *
-	 * @param path - path for the repository that is to be created
-	 */
-	public void createRootFolder(String path) throws IOException {
-		rootFolder = new File(path);
-		if(!rootFolder.mkdir()) throw new IOException();
-	}
-
-	/**
-	 * checks if rootFolder is attached to the root directory
-	 */
-	public boolean isRootFolderInitialized() {
-
-		return (rootFolder != null);
-	}
-
-	/**
 	 * adding new file in repository
-	 * if you don't know user, just give defaultUser as login
+	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
 	 * @param part     - file information
 	 * @param filename - filename given by user
 	 * @param login    - user id
-	 * @return startfilename + uploadingDate + name in repository if succeed, exception if not
+	 * @return nameToWrite - if succeed, exception if not
 	 */
 	//! after fixing problems change comments or return value
-	public String addNewFile(Part part, String filename, String login) throws IOException {
-		String response = "";
-		String fileNameToWrite = filename;
-		try {
-			if (!isNameCorrect(filename)) {
-				fileNameToWrite = createCorrectName(filename);
-				if (fileNameToWrite == null || fileNameToWrite.equals("")) {
-					response += ", cannot create a name to write";
-				}
-			}
+	public String addNewFile(Part part, String filename, String login)  throws IOException {
+		String nameToWrite = filename;
+		if(!isNameCorrect(nameToWrite)) {
+			nameToWrite = createCorrectName(filename);
 		}
-		catch (Exception e) {
-			response += ", cannot create a name to write";
-		}
-		try {
-			part.write(rootFolder.getCanonicalPath() + File.separator + fileNameToWrite);
-		}
-		catch (Exception e) {
-			response += ", cannot write to repository";
-		}
-		FileInfo info = null;
-		try {
-			info = new FileInfo(filename, fileNameToWrite, login);
-		}
-		catch (Exception e){
-			response += ", cannot create fileInfo structure";
-		}
-		files.add(info);
-		return response;
+		FileInfo newFile = new FileInfo(filename, nameToWrite, login, part.getInputStream());
+		files.add(newFile);
+		return nameToWrite;
 	}
 
 	/**
@@ -117,18 +76,20 @@ public class FileRepository implements IFileRepository {
 		return true;
 	}
 
+
 	/**
 	 * @return all names of files in repository
 	 */
 	public ArrayList<String> getAllWrittenNames() throws IOException {
-		ArrayList<String> files = new ArrayList<String>();
-		if (rootFolder != null) {
-			for (File file : rootFolder.listFiles()) {
-				files.add(file.getName());
+		ArrayList<String> list = new ArrayList<String>();
+		if (files != null) {
+			for(FileInfo info : files) {
+				list.add(info.nameToWrite);
 			}
 		}
-		return files;
+		return list;
 	}
+
 
 	/**
 	 * Return file if nameToWrite is given
@@ -136,12 +97,10 @@ public class FileRepository implements IFileRepository {
 	 * @param nameToWrite - name in repository
 	 * @return file handler (or null if not found)
 	 */
-	public File getFileByID(String nameToWrite) {
-		if (rootFolder != null) {
-			for (File file : rootFolder.listFiles()) {
-				if (file.getName().equals(nameToWrite)) {
-					return file;
-				}
+	public ByteArrayInputStream getFileByID(final String nameToWrite) {
+		for(FileInfo info : files) {
+			if(info.nameToWrite.equals(nameToWrite)) {
+				return info.data;
 			}
 		}
 		return null;
@@ -154,18 +113,15 @@ public class FileRepository implements IFileRepository {
 	 * @param login - user name
 	 * @return file handlers array (or null if not found)
 	 */
-	public ArrayList<File> getFiles(String name, String login) {
-		ArrayList<File> filesToGet = null;
-		for (FileInfo i : files) {
-			if (i.startName.equals(name) && i.login.equals(login)) {
-				if (files == null) {
-					filesToGet = new ArrayList<File>();
-				}
-				filesToGet.add(getFileByID(i.nameToWrite));
+	public ArrayList<ByteArrayInputStream> getFiles(final String name, final String login) {
+		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
+		for(FileInfo info : files) {
+			if(info.nameToWrite.equals(name) && info.login.equals(login)) {
+				found.add(info.data);
 			}
 		}
-
-		return filesToGet;
+		if(found.isEmpty()) return null;
+		return found;
 	}
 
 	/**
@@ -174,17 +130,14 @@ public class FileRepository implements IFileRepository {
 	 * @param name - name given by user
 	 * @return file handlers array (or null if not found)
 	 */
-	public ArrayList<File> getFiles(String name) {
-		ArrayList<File> filesToGet = null;
-		for (FileInfo i : files) {
-			if (i.startName.equals(name)) {
-				if (files == null) {
-					filesToGet = new ArrayList<File>();
-				}
-				filesToGet.add(getFileByID(i.nameToWrite));
+	public ArrayList<ByteArrayInputStream> getFiles(String name) {
+		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
+		for(FileInfo info : files) {
+			if(info.nameToWrite.equals(name)) {
+				found.add(info.data);
 			}
 		}
-
-		return filesToGet;
+		if(found.isEmpty()) return null;
+		return found;
 	}
 }
