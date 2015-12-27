@@ -75,7 +75,6 @@
 </head>
 <body>
 <!-- Navigation -->
-
 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -101,8 +100,6 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
-
-
 <%--<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
     <div class="container topnav">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -144,10 +141,11 @@
     <!-- /.container -->
     <svg id="svgVisualize" width="500" height="500" style="border:1px solid Red;"></svg>
     <button onclick="InitChart()">Go!</button>
-   <%-- <svg id="svgVisualizeFix" width="500" height="500" style="border:1px solid Red;"></svg>
-    <button onclick="InitChartFix()">Go Fix data!</button>
---%>         <a href="javascript:PopUpShow()">Upload</a>
-        <div class="popup" id="popup">
+    <%-- <svg id="svgVisualizeFix" width="500" height="500" style="border:1px solid Red;"></svg>
+     <button onclick="InitChartFix()">Go Fix data!</button>
+ --%> <a href="javascript:PopUpShow()">Upload</a>
+
+    <div class="popup" id="popup">
         <div id="dropbox">
             Drag and drop a file here...
         </div>
@@ -315,7 +313,7 @@
 <script src="${mainJs}"></script>
 
 <script>
-    var Data= [{
+    var Data = [{
         "x": 1,
         "y": 5
     }, {
@@ -336,7 +334,7 @@
     }];
     <!-- function for display graph  -->
     function InitChart() {
-alert("Data is fix");
+        alert("Data is fix");
         var vis = d3.select("#svgVisualize");
         var xRange = d3.scale.linear().range([40, 400]).domain([d3.min(Data, function (d) {
             return (d.x);
@@ -367,7 +365,7 @@ alert("Data is fix");
                 })
                 .attr("r", 10)
                 .style("fill", "red");
-            }
+    }
 </script>
 <!-- Drag and Drop Script -->
 <script>

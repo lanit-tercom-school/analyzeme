@@ -75,7 +75,6 @@
 </head>
 <body>
 <!-- Navigation -->
-
 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -101,8 +100,6 @@
     </div>
     <!-- /.container-fluid -->
 </nav>
-
-
 <%--<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
     <div class="container topnav">
         <!-- Brand and toggle get grouped for better mobile display -->

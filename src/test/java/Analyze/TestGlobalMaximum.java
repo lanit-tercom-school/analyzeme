@@ -3,16 +3,15 @@ package Analyze;
 import com.analyze.GlobalMaximum;
 import org.junit.Test;
 import static junit.framework.Assert.assertTrue;
+
 /**
  * Created by Sergey on 23.11.2015.
  */
 public class TestGlobalMaximum {
     /**
      * Test method of GlobalMax
-     *
      */
     final double e = 0.001;//constant need to compare two double numbers
-
 
     @Test
     public void TestGlobalMax() throws Exception {
