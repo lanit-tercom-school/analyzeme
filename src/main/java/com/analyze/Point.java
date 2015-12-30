@@ -22,10 +22,9 @@ public class Point {
      * @param x value of x coordinate
      * @param y value of y coordinate
      */
-    Point(double x, double y) {
+    public Point(double x, double y) {
         this.x = x;
         this.y = y;
-
     }
 
     /**
@@ -33,7 +32,7 @@ public class Point {
      *
      * @param x value of x coordinate
      */
-    public void SetX(double x) {
+    public void setX(double x) {
         this.x = x;
     }
 
@@ -42,21 +41,37 @@ public class Point {
      *
      * @param y value of x coordinate
      */
-    public void SetY(double y) {
+    public void setY(double y) {
         this.y = y;
     }
 
     /**
      * get value of x coordinate
      */
-    public double GetX() {
+    public double getX() {
         return x;
     }
 
     /**
      * get value of x coordinate
      */
-    public double GetY() {
+    public double getY() {
         return y;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        }
+        if (other == this) {
+            return true;
+        }
+        if (!(other instanceof Point)) {
+            return false;
+        }
+        Point otherPoint = (Point) other;
+        return Double.compare(x, otherPoint.getX()) == 0
+                && Double.compare(y, otherPoint.getY()) == 0;
     }
 }

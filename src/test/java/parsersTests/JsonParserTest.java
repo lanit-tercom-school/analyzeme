@@ -1,0 +1,133 @@
+package parsersTests;
+
+import com.parsers.JsonParser;
+import com.parsers.JsonParserException;
+import com.analyze.Point;
+import org.json.simple.parser.ParseException;
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.*;
+
+
+/**
+ * Created by Андрей Каликин on 07.12.2015.
+ */
+public class JsonParserTest {
+    JsonParser jsonParser;
+    Point[] points;
+
+    @Test(expected = NullPointerException.class)
+    public void testNullArgumentInConstructor() throws Exception {
+        jsonParser = new JsonParser((InputStream) null);
+    }
+
+    @Test
+    public void testIncorrectFile() throws JsonParserException {
+        String s = String.join("\n"
+                , "{"
+                , "\"x\":"
+        );
+        InputStream is = new ByteArrayInputStream(s.getBytes());
+        jsonParser = new JsonParser(is);
+        try {
+            points = jsonParser.getPoints();
+            Assert.assertTrue(true);
+        } catch (JsonParserException ex) {
+            Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
+                    ex.getExType());
+        }
+    }
+
+    @Test
+    public void testDifferentArraysLength() throws JsonParserException {
+        String s = String.join("\n"
+                , "{"
+                , "\"x\": ["
+                , "\"4.7\""
+                , "],"
+                , "\"y\": ["
+                , "\"5\","
+                , "\"7.7\""
+                , "]"
+                , "}"
+        );
+        InputStream is = new ByteArrayInputStream(s.getBytes());
+        jsonParser = new JsonParser(is);
+        try {
+            points = jsonParser.getPoints();
+            Assert.assertTrue(true);
+        } catch (JsonParserException ex) {
+            Assert.assertEquals(JsonParserException.ExceptionType.DIFFERENT_LENGTH,
+                    ex.getExType());
+        }
+    }
+
+    @Test
+    public void testIncorrectArrayElement() throws JsonParserException {
+        String s = String.join("\n"
+                , "{"
+                , "\"x\": ["
+                , "\"4.7\""
+                , "],"
+                , "\"y\": ["
+                , "\"b"
+                , "]"
+                , "}"
+        );
+        InputStream is = new ByteArrayInputStream(s.getBytes());
+        jsonParser = new JsonParser(is);
+        try {
+            points = jsonParser.getPoints();
+            Assert.assertTrue(true);
+        } catch (JsonParserException ex) {
+            Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
+                    ex.getExType());
+        }
+    }
+
+    @Test(expected = NullPointerException.class)
+    public void testAnotherArrayName() throws JsonParserException {
+        String s = String.join("\n"
+                , "{"
+                , "\"x\": ["
+                , "\"4.7\""
+                , "],"
+                , "\"z\": ["
+                , "\"7.7\""
+                , "]"
+                , "}"
+        );
+        InputStream is = new ByteArrayInputStream(s.getBytes());
+        jsonParser = new JsonParser(is);
+        try {
+            points = jsonParser.getPoints();
+            Assert.assertTrue(true);
+        } catch (JsonParserException ex) {
+            Assert.fail();
+        }
+    }
+
+    @Test
+    public void test3PointsDoubleWithInteger() throws JsonParserException {
+        String s = String.join("\n"
+                , "{"
+                , "\"x\": ["
+                , "\"1\","
+                , "\"2.5\","
+                , "\"4.7\""
+                , "],"
+                , "\"y\": ["
+                , "\"5\","
+                , "\"6.5\","
+                , "\"7.7\""
+                , "]"
+                , "}"
+        );
+        InputStream is = new ByteArrayInputStream(s.getBytes());
+        jsonParser = new JsonParser(is);
+        points = jsonParser.getPoints();
+        Assert.assertArrayEquals(new Point[]{new Point(1.0, 5.0), new Point(2.5, 6.5),
+                new Point(4.7, 7.7)}, points);
+    }
+}
