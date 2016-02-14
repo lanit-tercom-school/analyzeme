@@ -31,7 +31,7 @@ public interface IFileRepository {
 	 * @param nameToWrite - name in repository
 	 * @return file handler (or null if not found)
 	 */
-	ByteArrayInputStream getFileByID(final String nameToWrite);
+	ByteArrayInputStream getFileByID(final String nameToWrite) throws IOException ;
 
 	/**
 	 * Return files for user if name and login are given
@@ -40,7 +40,7 @@ public interface IFileRepository {
 	 * @param login - user name
 	 * @return file handlers array (or null if not found)
 	 */
-	ArrayList<ByteArrayInputStream> getFiles(final String name, final String login);
+	ArrayList<ByteArrayInputStream> getFiles(final String name, final String login) throws IOException ;
 
 	/**
 	 * Return all files with given name
@@ -48,5 +48,5 @@ public interface IFileRepository {
 	 * @param name - name given by user
 	 * @return file handlers array (or null if not found)
 	 */
-	ArrayList<ByteArrayInputStream> getFiles(final String name);
+	ArrayList<ByteArrayInputStream> getFiles(final String name) throws IOException ;
 }

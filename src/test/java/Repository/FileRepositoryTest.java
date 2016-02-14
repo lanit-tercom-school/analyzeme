@@ -1,5 +1,6 @@
 package Repository;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -8,31 +9,62 @@ import java.util.Arrays;
 import static junit.framework.Assert.assertTrue;
 
 public class FileRepositoryTest {
+	private static ByteArrayInputStream file;
+	private static FileRepository repo;
+	private static char[] buffer = {'a', 'b', 'c', 'd'};
+	public static Boolean[] correct = new Boolean[200];
+
+	/**
+	 * creates ByteArrayInputStream object before tests
+	 */
+	@Before
+	public void createFile() {
+		byte[] b = new byte[4];
+		for (int i = 0; i < b.length; i++) {
+
+			b[i] = (byte) buffer[i];
+
+		}
+		file = new ByteArrayInputStream(b);
+	}
+
+	private void cleanCorrect() {
+		for (int i = 0; i < 200; i++) {
+			correct[i] = false;
+		}
+	}
+
+	private Boolean checkCorrect() {
+		for (int i = 0; i < 200; i++) {
+			if (correct[i] == false) {
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * test method for addNewFile - check for exceptions and return value
 	 */
 	@Test
 	public void testAddNewFile() throws Exception {
+		FileRepositoryTest.repo = new FileRepository();
 		int a = 0;
 		String nameToWrite = "";
 		try {
-			IFileRepository repo = new FileRepository();
-			char[] buffer = {'a', 'b', 'c', 'd'};
-			byte[] b = new byte[4];
-			for (int i = 0; i < b.length; i++) {
-
-				b[i] = (byte) buffer[i];
-
+			for (int j = 0; j < 10; j++) {
+				nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt", "guest");
 			}
-			ByteArrayInputStream file = new ByteArrayInputStream(b);
-			nameToWrite = repo.addNewFileForTests(file, "filename", "guest");
 		} catch (Exception e) {
 			assertTrue("Exceptions in adding new file", false);
 			a++;
 		}
 		if (nameToWrite == null) {
 			assertTrue("Wrong return value in adding new file", false);
+			a++;
+		}
+		if (FileRepositoryTest.repo.countFiles() != 10) {
+			assertTrue("Wrong counter of added files", false);
 			a++;
 		}
 		if (a == 0) assertTrue("Exceptions in adding new file", true);
@@ -44,8 +76,8 @@ public class FileRepositoryTest {
 	 */
 	@Test
 	public void testEmptyRepository() throws Exception {
-		IFileRepository empty = new FileRepository();
-		ByteArrayInputStream get = empty.getFileByID("anything");
+		FileRepositoryTest.repo = new FileRepository();
+		ByteArrayInputStream get = FileRepositoryTest.repo.getFileByID("anything");
 		assertTrue("Empty repository does not work properly", get == null);
 	}
 
@@ -55,22 +87,71 @@ public class FileRepositoryTest {
 	 */
 	@Test
 	public void testRecentlyAdded() throws Exception {
-		IFileRepository repo = new FileRepository();
-		char[] buffer = {'a', 'b', 'c', 'd'};
-		byte[] b = new byte[4];
-		for (int i = 0; i < b.length; i++) {
-			b[i] = (byte) buffer[i];
+		FileRepositoryTest.repo = new FileRepository();
+		String nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt", "guest");
+		for (int i = 0; i < 10; i++) {
+			ByteArrayInputStream file2 = FileRepositoryTest.repo.getFileByID(nameToWrite);
+			byte[] b2 = new byte[4];
+			file2.read(b2);
+			char[] buffer2 = new char[4];
+			for (int j = 0; j < b2.length; j++) {
+				buffer2[j] = (char) b2[j];
+			}
+			assertTrue("File is not returned correctly", Arrays.equals(buffer, buffer2));
 		}
-		ByteArrayInputStream file = new ByteArrayInputStream(b);
-		String nameToWrite = repo.addNewFileForTests(file, "filename", "guest");
-		ByteArrayInputStream file2 = repo.getFileByID(nameToWrite);
+	}
 
-		byte[] b2 = new byte[4];
-		file2.read(b2);
-		char[] buffer2 = new char[4];
-		for (int i = 0; i < b.length; i++) {
-			buffer2[i] = (char) b2[i];
+	/**
+	 * Test method of getFileById
+	 * checks if it is possible to correctly get file from different threads
+	 */
+	@Test
+	public void testThreadsForReading() throws Exception {
+		cleanCorrect();
+		FileRepositoryTest.repo = new FileRepository();
+		String nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt", "guest");
+
+		for (int i = 0; i < 200; i++) {
+			testReaderThread testReader = new testReaderThread(nameToWrite, i);
+			testReader.start();
 		}
-		assertTrue("File is not returned correctly", Arrays.equals(buffer, buffer2));
+		Thread.sleep(5000);
+
+		Boolean check = checkCorrect();
+		assertTrue("Filereading from other thread is incorrect", check);
+	}
+
+
+	private class testReaderThread extends Thread {
+		String nameToWrite;
+		int number;
+
+		testReaderThread(String name, int number) {
+			nameToWrite = name;
+			this.number = number;
+		}
+
+		@Override
+		public void run() {
+			try {
+				ByteArrayInputStream file2 = FileRepositoryTest.repo.getFileByID(nameToWrite);
+				byte[] b2 = new byte[4];
+				file2.read(b2);
+				char[] buffer2 = new char[4];
+				for (int i = 0; i < b2.length; i++) {
+					buffer2[i] = (char) b2[i];
+				}
+
+				if (Arrays.equals(buffer, buffer2)) {
+					FileRepositoryTest.correct[number] = true;
+				} else {
+					System.out.println("Incorrect file");
+					FileRepositoryTest.correct[number] = false;
+				}
+			} catch (Exception e) {
+				System.out.println("Incorrect file exception");
+				FileRepositoryTest.correct[number] = false;
+			}
+		}
 	}
 }

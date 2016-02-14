@@ -24,7 +24,7 @@ public class FileInfo {
 	public String login;
 	public ByteArrayInputStream data;
 
-	private static byte[] getBytesFromInputStream(InputStream is) throws IOException {
+	private synchronized static byte[] getBytesFromInputStream(InputStream is) throws IOException {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();
 			byte[] buffer = new byte[0xFFFF];

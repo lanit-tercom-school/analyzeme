@@ -2,11 +2,12 @@ package Repository;
 
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class FileRepository implements IFileRepository {
-	public static final IFileRepository repo = new FileRepository();
+	public static /*final*/ IFileRepository repo = new FileRepository();
 	private static ArrayList<FileInfo> files;
 
 	/**
@@ -25,7 +26,7 @@ public class FileRepository implements IFileRepository {
 	 * @param login    - user id
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public String addNewFile(final Part part, final String filename, final String login) throws IOException {
+	public synchronized String addNewFile(final Part part, final String filename, final String login) throws IOException {
 		String nameToWrite = filename;
 		if (!isNameCorrect(nameToWrite)) {
 			nameToWrite = createCorrectName(filename);
@@ -36,7 +37,7 @@ public class FileRepository implements IFileRepository {
 	}
 
 	/**
-	 * just the same with addNewFile except for Part object (cannot be create as far as Part is an abstract class)
+	 * just the same with addNewFile except for Part object (cannot be create as Part is an abstract class)
 	 * adding new file in repository
 	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
@@ -45,7 +46,7 @@ public class FileRepository implements IFileRepository {
 	 * @param login    - user id
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public String addNewFileForTests(final ByteArrayInputStream part, final String filename, final String login) throws IOException {
+	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename, final String login) throws IOException {
 		String nameToWrite = filename;
 		if (!isNameCorrect(nameToWrite)) {
 			nameToWrite = createCorrectName(filename);
@@ -61,7 +62,7 @@ public class FileRepository implements IFileRepository {
 	 * @param fileName - name given by user
 	 * @return created name
 	 */
-	private String createCorrectName(String fileName) throws IOException {
+	private synchronized String createCorrectName(String fileName) throws IOException {
 		final char point = '.';
 		String extension = fileName.substring(fileName.indexOf(point) + 1);
 		String name = fileName.substring(0, fileName.indexOf(point)) + "_";
@@ -80,7 +81,7 @@ public class FileRepository implements IFileRepository {
 	 * @param fileName - name given by user
 	 * @return true if free
 	 */
-	private boolean isNameCorrect(String fileName) throws IOException {
+	private synchronized boolean isNameCorrect(String fileName) throws IOException {
 		for (String file : getAllWrittenNames()) {
 			if (file.equals(fileName)) {
 				return false;
@@ -92,7 +93,7 @@ public class FileRepository implements IFileRepository {
 	/**
 	 * @return all names of files in repository
 	 */
-	public ArrayList<String> getAllWrittenNames() throws IOException {
+	public synchronized ArrayList<String> getAllWrittenNames() throws IOException {
 		ArrayList<String> list = new ArrayList<String>();
 		if (files != null) {
 			for (FileInfo info : files) {
@@ -108,10 +109,20 @@ public class FileRepository implements IFileRepository {
 	 * @param nameToWrite - name in repository
 	 * @return stream (or null if not found)
 	 */
-	public ByteArrayInputStream getFileByID(final String nameToWrite) {
+	public synchronized ByteArrayInputStream getFileByID(final String nameToWrite) throws IOException {
 		for (FileInfo info : files) {
 			if (info.nameToWrite.equals(nameToWrite)) {
-				return info.data;
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = info.data.read(buffer)) > -1 ) {
+					baos.write(buffer, 0, len);
+				}
+				baos.flush();
+
+				info.data = new ByteArrayInputStream(baos.toByteArray());
+				return new ByteArrayInputStream(baos.toByteArray());
 			}
 		}
 		return null;
@@ -124,11 +135,21 @@ public class FileRepository implements IFileRepository {
 	 * @param login - user name
 	 * @return streams array (or null if not found)
 	 */
-	public ArrayList<ByteArrayInputStream> getFiles(final String name, final String login) {
+	public synchronized ArrayList<ByteArrayInputStream> getFiles(final String name, final String login)throws IOException  {
 		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
 		for (FileInfo info : files) {
 			if (info.nameToWrite.equals(name) && info.login.equals(login)) {
-				found.add(info.data);
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = info.data.read(buffer)) > -1 ) {
+					baos.write(buffer, 0, len);
+				}
+				baos.flush();
+
+				info.data = new ByteArrayInputStream(baos.toByteArray());
+				found.add(new ByteArrayInputStream(baos.toByteArray()));
 			}
 		}
 		if (found.isEmpty()) return null;
@@ -141,14 +162,28 @@ public class FileRepository implements IFileRepository {
 	 * @param name - name given by user
 	 * @return streams array (or null if not found)
 	 */
-	public ArrayList<ByteArrayInputStream> getFiles(String name) {
+	public synchronized ArrayList<ByteArrayInputStream> getFiles(String name)throws IOException  {
 		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
 		for (FileInfo info : files) {
 			if (info.nameToWrite.equals(name)) {
-				found.add(info.data);
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+				byte[] buffer = new byte[1024];
+				int len;
+				while ((len = info.data.read(buffer)) > -1 ) {
+					baos.write(buffer, 0, len);
+				}
+				baos.flush();
+
+				info.data = new ByteArrayInputStream(baos.toByteArray());
+				found.add(new ByteArrayInputStream(baos.toByteArray()));
 			}
 		}
 		if (found.isEmpty()) return null;
 		return found;
+	}
+
+	public synchronized int countFiles() {
+		return files.size();
 	}
 }
