@@ -8,9 +8,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+
+/**
+ * TODO: line 33
+ */
 
 /**
  * Servlet what return data from file using fileName by header called "Data"
@@ -19,14 +23,16 @@ import java.nio.charset.StandardCharsets;
 
 @WebServlet("/GetDataServlet")
 public class GetDataServlet extends HttpServlet {
-    @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	@Override
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
-        String fileName = request.getParameter("fileName");
-        File file = FileRepository.repo.getFileByID(fileName);
-        String Data = FileToString.convertFile(String.valueOf(file), StandardCharsets.UTF_8);
-        response.setHeader("Data", Data);
-    }
-
+		String fileName = request.getParameter("fileName");
+		ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
+		/*
+		SHOULD BE CHANGED BECAUSE getFileByID returns Stream, not File!
+         */
+		String Data = FileToString.convertFile(String.valueOf(file), StandardCharsets.UTF_8);
+		response.setHeader("Data", Data);
+	}
 }
