@@ -14,6 +14,8 @@ import java.io.*;
 
 public class JsonParser {
     private final InputStream inputStream;
+    private final String xName = "x";
+    private final String yName = "y";
 
     public JsonParser(InputStream inputStream) {
         if (inputStream == null) {
@@ -29,8 +31,8 @@ public class JsonParser {
         try {
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             JSONObject jsonObject = (JSONObject) parser.parse(inputStreamReader);
-            JSONArray xPoints = (JSONArray) jsonObject.get("x");
-            JSONArray yPoints = (JSONArray) jsonObject.get("y");
+            JSONArray xPoints = (JSONArray) jsonObject.get(xName);
+            JSONArray yPoints = (JSONArray) jsonObject.get(yName);
 
             if (xPoints.size() != yPoints.size()) {
                 throw new JsonParserException(JsonParserException.ExceptionType.DIFFERENT_LENGTH);

@@ -8,6 +8,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
+import java.util.List;
 
 
 /**
@@ -24,15 +25,16 @@ public class JsonParserTest {
 
     @Test
     public void testIncorrectFile() throws JsonParserException {
-        String s = String.join("\n"
-                , "{"
-                , "\"x\":"
-        );
+        String s = join("\n", new String[]{
+                "{",
+                "\"x\":"
+        });
+
         InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser(is);
         try {
             points = jsonParser.getPoints();
-            Assert.assertTrue(true);
+            Assert.fail();
         } catch (JsonParserException ex) {
             Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
                     ex.getExType());
@@ -41,22 +43,23 @@ public class JsonParserTest {
 
     @Test
     public void testDifferentArraysLength() throws JsonParserException {
-        String s = String.join("\n"
-                , "{"
-                , "\"x\": ["
-                , "\"4.7\""
-                , "],"
-                , "\"y\": ["
-                , "\"5\","
-                , "\"7.7\""
-                , "]"
-                , "}"
-        );
+        String s = join("\n", new String[]{
+                "{",
+                "\"x\": [",
+                "\"4.7\"",
+                "],",
+                "\"y\": [",
+                "\"5\",",
+                "\"7.7\"",
+                "]",
+                "}",
+        });
+
         InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser(is);
         try {
             points = jsonParser.getPoints();
-            Assert.assertTrue(true);
+            Assert.fail();
         } catch (JsonParserException ex) {
             Assert.assertEquals(JsonParserException.ExceptionType.DIFFERENT_LENGTH,
                     ex.getExType());
@@ -65,21 +68,22 @@ public class JsonParserTest {
 
     @Test
     public void testIncorrectArrayElement() throws JsonParserException {
-        String s = String.join("\n"
-                , "{"
-                , "\"x\": ["
-                , "\"4.7\""
-                , "],"
-                , "\"y\": ["
-                , "\"b"
-                , "]"
-                , "}"
-        );
+        String s = join("\n", new String[]{
+                "{",
+                "\"x\": [",
+                "\"4.7\"",
+                "],",
+                "\"y\": [",
+                "\"b",
+                "]",
+                "}",
+        });
+
         InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser(is);
         try {
             points = jsonParser.getPoints();
-            Assert.assertTrue(true);
+            Assert.fail();
         } catch (JsonParserException ex) {
             Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
                     ex.getExType());
@@ -88,46 +92,56 @@ public class JsonParserTest {
 
     @Test(expected = NullPointerException.class)
     public void testAnotherArrayName() throws JsonParserException {
-        String s = String.join("\n"
-                , "{"
-                , "\"x\": ["
-                , "\"4.7\""
-                , "],"
-                , "\"z\": ["
-                , "\"7.7\""
-                , "]"
-                , "}"
-        );
+        String s = join("\n", new String[]{
+                "{",
+                "\"x\": [",
+                "\"4.7\"",
+                "],",
+                "\"z\": [",
+                "\"7.7\"",
+                "]",
+                "}"
+        });
+
         InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser(is);
-        try {
-            points = jsonParser.getPoints();
-            Assert.assertTrue(true);
-        } catch (JsonParserException ex) {
-            Assert.fail();
-        }
+        points = jsonParser.getPoints();
     }
 
     @Test
-    public void test3PointsDoubleWithInteger() throws JsonParserException {
-        String s = String.join("\n"
-                , "{"
-                , "\"x\": ["
-                , "\"1\","
-                , "\"2.5\","
-                , "\"4.7\""
-                , "],"
-                , "\"y\": ["
-                , "\"5\","
-                , "\"6.5\","
-                , "\"7.7\""
-                , "]"
-                , "}"
-        );
+    public void testPointsDoubleWithInteger() throws JsonParserException {
+        String s = join("\n", new String[]{
+                "{",
+                "\"x\": [",
+                "\"1\",",
+                "\"2.5\",",
+                "\"4.7\"",
+                "],",
+                "\"y\": [",
+                "\"5\",",
+                "\"6.5\",",
+                "\"7.7\"",
+                "]",
+                "}"
+        });
+
         InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser(is);
         points = jsonParser.getPoints();
         Assert.assertArrayEquals(new Point[]{new Point(1.0, 5.0), new Point(2.5, 6.5),
                 new Point(4.7, 7.7)}, points);
+    }
+
+    static public String join(String delimiter, String[] list) {
+        StringBuilder sb = new StringBuilder();
+        boolean first = true;
+        for (String item : list) {
+            if (first)
+                first = false;
+            else
+                sb.append(delimiter);
+            sb.append(item);
+        }
+        return sb.toString();
     }
 }
