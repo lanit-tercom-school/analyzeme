@@ -67,7 +67,7 @@
     <!-- /.container -->
     <!-- Div for Upload file -->
     <div>
-        <button onclick="PopUpShow()">Upload</button>
+        <button onclick="PopUpShow()">Upload and display</button>
 
         <div class="popup" id="popup">
             <div id="dropbox">
@@ -81,13 +81,11 @@
         <div>
             <svg id="svgVisualize" width="500" height="500" style="border:1px solid Red;"></svg>
         </div>
-        <div>
-            <button id="DisplayGraphButton" onclick="Display()">Display</button>
-        </div>
+
     </div>
     <!-- Div for GlobalMin button -->
     <div>
-        <button id="GlobalMinButton" onclick="GlobalMin()">Calculate Global Min</button>
+        <button id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</button>
     </div>
 </div>
 
@@ -123,56 +121,18 @@
 <!-- Bootstrap Core JavaScript -->
 <spring:url value="/resources/js/bootstrap.min.js" var="mainJs"/>
 <script src="${mainJs}"></script>
-<!-- Script for display Graph -->
-<spring:url value="/resources/js/DrawGraph.js" var="DrawGraphJs"/>
-<script src="${DrawGraphJs}"></script>
-<!-- script for Display button -->
+
+<!-- Script for GlobalMin button -->
+<spring:url value="/resources/js/GlobalMinButton.js" var="GlobalMinButtonJs"/>
+<script src="${GlobalMinButtonJs}"></script>
+
+
 <script>
     var Data;
     var fileName;
-    //AJAX request for getting Data
-    function Display() {
-        $(document).on("click", "#DisplayGraphButton", function () {
-            $.ajax({
-                type: "GET",
-                async: true,
-                url: "GetDataServlet",
-                data: {'fileName': fileName},
-                success: function (data, textStatus, request) {
-                    Data = JSON.parse(request.getResponseHeader('Data'));
-                    DrawGraph();
-                },
-                error: function (request, textStatus, errorThrown) {
-                    alert("Error");
-                }
-            });
 
-        })
-    }
 </script>
-<!-- Script for GlobalMin button -->
-<script>
-    //A
-    function GlobalMin() {
-        alert("Button returns fixed value from servlet");
-        //AJAX request for getting minimum of Data
-        $(document).on("click", "#GlobalMinButton", function () {
-            $.ajax({
-                type: "GET",
-                async: true,
-                url: "GlobalMinServlet",
-                data: {'fileName': fileName},
-                success: function (data, textStatus, request) {
-                    alert(request.getResponseHeader('minimum'));
-                },
-                error: function (request, textStatus, errorThrown) {
-                    alert("Error");
-                }
-            });
-        })
-    }
-</script>
-<!-- DragAndDrop script-->
+<!-- Drag and Drop script -->
 <script>
     //Function displays PopUp
     function PopUpShow() {
@@ -204,10 +164,7 @@
             uploadFile(files[i]);
 
         }
-        //save fileName for future
-        fileName = files[0].name;
         PopUpHide();
-
     }
     //Uploads file
     function uploadFile(file) {
@@ -219,6 +176,10 @@
         xhr.upload.addEventListener("progress", uploadProgress, false);
         xhr.addEventListener("load", uploadComplete, false);
         xhr.open("POST", "UploadServlet", true); // If async=false, then you'll miss progress bar support.
+        xhr.onreadystatechange = function () {
+            fileName = xhr.getResponseHeader("fileName");
+            Data = JSON.parse(xhr.getResponseHeader('Data'));
+        };
         xhr.send(formData);
     }
     //Calculates upload progress
@@ -230,6 +191,48 @@
     //Shows result after upload complete
     function uploadComplete(event) {
         document.getElementById("status").innerHTML = event.target.responseText;
+        DrawGraph(Data);
+
+    }
+
+</script>
+<!-- script for display graph  -->
+<script>
+
+    function DrawGraph(Data) {
+        var vis = d3.select("#svgVisualize");
+        //clear Graph
+        vis.selectAll("*").remove();
+
+        var xRange = d3.scale.linear().range([40, 400]).domain([d3.min(Data, function (d) {
+            return (d.x);
+        }),
+            d3.max(Data, function (d) {
+                return d.x;
+            })]);
+        var yRange = d3.scale.linear().range([400, 40]).domain([d3.min(Data, function (d) {
+            return d.y;
+        }),
+            d3.max(Data, function (d) {
+                return d.y;
+            })]);
+        var xAxis = d3.svg.axis().scale(xRange);
+        var yAxis = d3.svg.axis().scale(yRange).orient("left");
+        vis.append("svg:g").call(xAxis).attr("transform", "translate(0,400)");
+        vis.append("svg:g").call(yAxis).attr("transform", "translate(40,0)");
+
+        var circles = vis.selectAll("circle").data(Data);
+        circles
+                .enter()
+                .insert("circle")
+                .attr("cx", function (d) {
+                    return xRange(d.x);
+                })
+                .attr("cy", function (d) {
+                    return yRange(d.y);
+                })
+                .attr("r", 10)
+                .style("fill", "red");
     }
 </script>
 

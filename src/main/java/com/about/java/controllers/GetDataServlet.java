@@ -1,7 +1,7 @@
 package com.about.java.controllers;
 
 import Repository.FileRepository;
-import fileReader.FileToString;
+import StreamReader.StreamToString;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 /**
  * TODO: line 33
@@ -23,16 +22,16 @@ import java.nio.charset.StandardCharsets;
 
 @WebServlet("/GetDataServlet")
 public class GetDataServlet extends HttpServlet {
-	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
 
-		String fileName = request.getParameter("fileName");
-		ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
-		/*
-		SHOULD BE CHANGED BECAUSE getFileByID returns Stream, not File!
+        String fileName = request.getParameter("fileName");
+        ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
+        /*
+		Convert ByteArrayInputStream into String
          */
-		String Data = FileToString.convertFile(String.valueOf(file), StandardCharsets.UTF_8);
-		response.setHeader("Data", Data);
-	}
+        String Data = StreamToString.ConvertStream(file);
+        response.setHeader("Data", Data);
+    }
 }
