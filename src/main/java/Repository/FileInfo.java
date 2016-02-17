@@ -21,7 +21,7 @@ public class FileInfo {
 	public String startName;
 	public String nameToWrite;
 	public Date uploadingDate;
-	public String login;
+	public String username;
 	public ByteArrayInputStream data;
 
 	private synchronized static byte[] getBytesFromInputStream(InputStream is) throws IOException {
@@ -43,16 +43,16 @@ public class FileInfo {
 	/**
 	 * @param startName   - name given by user
 	 * @param nameToWrite - name generated for repository
-	 * @param login       - username
+	 * @param username    - username
 	 * @param data        - input stream with byte info (to extract from Part use method getInputStream)
 	 */
-	FileInfo(final String startName, final String nameToWrite, final String login, final InputStream data) throws IOException {
+	FileInfo(final String startName, final String nameToWrite, final String username, final InputStream data) throws IOException {
 		if (startName == null || startName.equals("")) throw new IOException();
 		this.startName = startName;
 		if (nameToWrite == null || nameToWrite.equals("")) throw new IOException();
 		this.nameToWrite = nameToWrite;
-		if (login == null || login.equals("")) throw new IOException();
-		this.login = login;
+		if (username == null || username.equals("")) throw new IOException();
+		this.username = username;
 		this.data = new ByteArrayInputStream(getBytesFromInputStream(data));
 		//default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
 		uploadingDate = new Date();

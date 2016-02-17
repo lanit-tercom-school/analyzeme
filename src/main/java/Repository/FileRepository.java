@@ -116,7 +116,7 @@ public class FileRepository implements IFileRepository {
 
 				byte[] buffer = new byte[1024];
 				int len;
-				while ((len = info.data.read(buffer)) > -1 ) {
+				while ((len = info.data.read(buffer)) > -1) {
 					baos.write(buffer, 0, len);
 				}
 				baos.flush();
@@ -131,19 +131,19 @@ public class FileRepository implements IFileRepository {
 	/**
 	 * Return files for user if name and login are given
 	 *
-	 * @param name  - name given by user
-	 * @param login - user name
+	 * @param name     - name given by user
+	 * @param username - user name
 	 * @return streams array (or null if not found)
 	 */
-	public synchronized ArrayList<ByteArrayInputStream> getFiles(final String name, final String login)throws IOException  {
+	public synchronized ArrayList<ByteArrayInputStream> getFiles(final String name, final String username) throws IOException {
 		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
 		for (FileInfo info : files) {
-			if (info.nameToWrite.equals(name) && info.login.equals(login)) {
+			if (info.nameToWrite.equals(name) && info.username.equals(username)) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 				byte[] buffer = new byte[1024];
 				int len;
-				while ((len = info.data.read(buffer)) > -1 ) {
+				while ((len = info.data.read(buffer)) > -1) {
 					baos.write(buffer, 0, len);
 				}
 				baos.flush();
@@ -162,7 +162,7 @@ public class FileRepository implements IFileRepository {
 	 * @param name - name given by user
 	 * @return streams array (or null if not found)
 	 */
-	public synchronized ArrayList<ByteArrayInputStream> getFiles(String name)throws IOException  {
+	public synchronized ArrayList<ByteArrayInputStream> getFiles(String name) throws IOException {
 		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
 		for (FileInfo info : files) {
 			if (info.nameToWrite.equals(name)) {
@@ -170,7 +170,7 @@ public class FileRepository implements IFileRepository {
 
 				byte[] buffer = new byte[1024];
 				int len;
-				while ((len = info.data.read(buffer)) > -1 ) {
+				while ((len = info.data.read(buffer)) > -1) {
 					baos.write(buffer, 0, len);
 				}
 				baos.flush();
