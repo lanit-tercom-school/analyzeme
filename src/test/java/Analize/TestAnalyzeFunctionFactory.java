@@ -1,6 +1,6 @@
 package Analize;
-import com.analyze.AnalyzeFunction;
-import com.analyze.AnalyzeFunctionFactory;
+import com.analyzeme.analyze.AnalyzeFunction;
+import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import org.junit.Test;
 import static junit.framework.Assert.assertTrue;
 

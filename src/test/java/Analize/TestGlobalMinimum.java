@@ -1,6 +1,6 @@
 package Analize;
 
-import com.analyze.GlobalMinimum;
+import com.analyzeme.analyze.GlobalMinimum;
 import org.junit.Test;
 import static junit.framework.Assert.assertTrue;
 

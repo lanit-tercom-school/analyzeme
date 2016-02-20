@@ -1,6 +1,6 @@
 package Analize;
 
-import com.analyze.GlobalMaximum;
+import com.analyzeme.analyze.GlobalMaximum;
 import org.junit.Test;
 import static junit.framework.Assert.assertTrue;
 /**
