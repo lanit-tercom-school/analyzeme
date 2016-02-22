@@ -13,12 +13,11 @@ public interface IFileRepository {
 	 *
 	 * @param part     - file information
 	 * @param filename - filename given by user
-	 * @param login    - user id
 	 * @return name in repository if succeed, exception if not
 	 */
-	String addNewFile(final Part part, final String filename, final String login) throws IOException;
+	String addNewFile(final Part part, final String filename) throws IOException;
 
-	String addNewFileForTests(final ByteArrayInputStream part, final String filename, final String login) throws IOException;
+	String addNewFileForTests(final ByteArrayInputStream part, final String filename) throws IOException;
 
 	/**
 	 * @return all names of files in repository
@@ -32,15 +31,6 @@ public interface IFileRepository {
 	 * @return file handler (or null if not found)
 	 */
 	ByteArrayInputStream getFileByID(final String nameToWrite) throws IOException;
-
-	/**
-	 * Return files for user if name and login are given
-	 *
-	 * @param name  - name given by user
-	 * @param login - user name
-	 * @return file handlers array (or null if not found)
-	 */
-	ArrayList<ByteArrayInputStream> getFiles(final String name, final String login) throws IOException;
 
 	/**
 	 * Return all files with given name

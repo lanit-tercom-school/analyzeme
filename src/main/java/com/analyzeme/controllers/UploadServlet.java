@@ -33,7 +33,7 @@ public class UploadServlet extends HttpServlet {
 			String responseToJS = "";
 			for (Part part : request.getParts()) {
 				fileName = extractFileName(part);
-				responseToJS = FileRepository.repo.addNewFile(part, fileName, "guest");
+				responseToJS = FileRepository.repo.addNewFile(part, fileName);
 			}
 
 			//Set responseHeader "Data" and "fileName";

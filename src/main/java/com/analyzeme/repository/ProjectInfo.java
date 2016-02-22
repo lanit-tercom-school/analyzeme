@@ -16,19 +16,15 @@ public class ProjectInfo {
 	public String projectName;
 	public Date creationDate;
 	public Date lastChangeDate;
-	public String username;
 	public ArrayList<String> filenames;
 
 	/**
-	 * @param name     - name of a project (shoud be unique for user)
-	 * @param username - user name of project owner
+	 * @param name - name of a project (shoud be unique for user)
 	 * @throws IOException
 	 */
-	ProjectInfo(final String name, final String username) throws IOException {
+	ProjectInfo(final String name) throws IOException {
 		if (name == null || name.equals("")) throw new IOException();
 		this.projectName = name;
-		if (username == null || username.equals("")) throw new IOException();
-		this.username = username;
 		//default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
 		creationDate = new Date();
 		lastChangeDate = new Date();
@@ -39,7 +35,7 @@ public class ProjectInfo {
 		if (filename == null || filename.equals("") || part == null) {
 			throw new DataFormatException();
 		}
-		String nameInRepo = FileRepository.repo.addNewFile(part, filename, username);
+		String nameInRepo = FileRepository.repo.addNewFile(part, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}
@@ -52,7 +48,7 @@ public class ProjectInfo {
 		if (filename == null || filename.equals("") || part == null) {
 			throw new DataFormatException();
 		}
-		String nameInRepo = FileRepository.repo.addNewFileForTests(part, filename, username);
+		String nameInRepo = FileRepository.repo.addNewFileForTests(part, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}
