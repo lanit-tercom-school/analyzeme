@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
 
+
 /**
  * Test class of AnalyzeFunctionFactory
  * Created by Sergey on 06.12.2015.
@@ -22,6 +23,7 @@ public class TestAnalyzeFunctionFactory {
 		//Test: If functionMin object of class GlobalMinimum?
 		assertTrue(functionMin instanceof GlobalMinimum);
 	}
+
 }
 
 

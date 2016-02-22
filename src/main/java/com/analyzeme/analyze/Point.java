@@ -11,7 +11,7 @@ public class Point {
 	/**
 	 * default constructor
 	 */
-	Point() {
+	public Point() {
 		this.x = 0;
 		this.y = 0;
 	}
@@ -22,7 +22,7 @@ public class Point {
 	 * @param x value of x coordinate
 	 * @param y value of y coordinate
 	 */
-	Point(double x, double y) {
+	public Point(double x, double y) {
 		this.x = x;
 		this.y = y;
 
@@ -60,4 +60,19 @@ public class Point {
 		return y;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		if (other == this) {
+			return true;
+		}
+		if (!(other instanceof Point)) {
+			return false;
+		}
+		Point otherPoint = (Point) other;
+		return Double.compare(x, otherPoint.GetX()) == 0
+				&& Double.compare(y, otherPoint.GetY()) == 0;
+	}
 }

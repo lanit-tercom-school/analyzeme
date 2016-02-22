@@ -44,6 +44,7 @@ public class TestGlobalMinimum {
 		}
 		//Compare -1 and minimum of y=sin(x^2)
 		assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(-1 - Y_array[tester.Calc(X_array, Y_array)]) < e);
+
 	}
 }
 
