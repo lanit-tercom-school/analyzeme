@@ -11,7 +11,7 @@ public class Point {
 	/**
 	 * default constructor
 	 */
-	Point() {
+	public Point() {
 		this.x = 0;
 		this.y = 0;
 	}
@@ -25,6 +25,7 @@ public class Point {
 	public Point(double x, double y) {
 		this.x = x;
 		this.y = y;
+
 	}
 
 	/**
@@ -32,7 +33,7 @@ public class Point {
 	 *
 	 * @param x value of x coordinate
 	 */
-	public void setX(double x) {
+	public void SetX(double x) {
 		this.x = x;
 	}
 
@@ -41,21 +42,21 @@ public class Point {
 	 *
 	 * @param y value of x coordinate
 	 */
-	public void setY(double y) {
+	public void SetY(double y) {
 		this.y = y;
 	}
 
 	/**
 	 * get value of x coordinate
 	 */
-	public double getX() {
+	public double GetX() {
 		return x;
 	}
 
 	/**
 	 * get value of x coordinate
 	 */
-	public double getY() {
+	public double GetY() {
 		return y;
 	}
 
@@ -71,7 +72,7 @@ public class Point {
 			return false;
 		}
 		Point otherPoint = (Point) other;
-		return Double.compare(x, otherPoint.getX()) == 0
-				&& Double.compare(y, otherPoint.getY()) == 0;
+		return Double.compare(x, otherPoint.GetX()) == 0
+				&& Double.compare(y, otherPoint.GetY()) == 0;
 	}
 }

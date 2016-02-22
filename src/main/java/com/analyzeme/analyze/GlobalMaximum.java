@@ -1,7 +1,6 @@
 package com.analyzeme.analyze;
 
 /**
- * /**
  * Class of AnalyzeFunction  "GlobalMaximum" .
  * Created by Sergey on 23.11.2015.
  */
@@ -31,7 +30,7 @@ public class GlobalMaximum implements AnalyzeFunction {
 		int max_index = 0;//index of maximum value
 
 		for (int i = 0; i < Point_array.length; i++) //cicle where we looking for maximum.
-			if (Point_array[max_index].getY() < Point_array[i].getY()) max_index = i;
+			if (Point_array[max_index].GetY() < Point_array[i].GetY()) max_index = i;
 
 		return max_index;
 	}

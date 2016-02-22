@@ -1,9 +1,5 @@
 package com.analyzeme.analyze;
 
-import com.analyzeme.analyze.AnalyzeFunction;
-import com.analyzeme.analyze.AnalyzeFunctionFactory;
-import com.analyzeme.analyze.GlobalMaximum;
-import com.analyzeme.analyze.GlobalMinimum;
 import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
@@ -15,18 +11,18 @@ import static junit.framework.Assert.assertTrue;
  */
 public class TestAnalyzeFunctionFactory {
 
-    @Test
-    public void TestAnalyzeFunctionFactory() throws Exception {
-        AnalyzeFunctionFactory testFactory = new AnalyzeFunctionFactory();
-        //Create object of class GlobalMaximum.
-        AnalyzeFunction functionMax = testFactory.getFunction("GlobalMaximum");
-        //Test: If functionMax object of class GlobalMaximum?
-        assertTrue(functionMax instanceof GlobalMaximum);
-        //Create object of class GlobalMinimum.
-        AnalyzeFunction functionMin = testFactory.getFunction("GlobalMinimum");
-        //Test: If functionMin object of class GlobalMinimum?
-        assertTrue(functionMin instanceof GlobalMinimum);
-    }
+	@Test
+	public void TestAnalyzeFunctionFactory() throws Exception {
+		AnalyzeFunctionFactory testFactory = new AnalyzeFunctionFactory();
+		//Create object of class GlobalMaximum.
+		AnalyzeFunction functionMax = testFactory.getFunction("GlobalMaximum");
+		//Test: If functionMax object of class GlobalMaximum?
+		assertTrue(functionMax instanceof GlobalMaximum);
+		//Create object of class GlobalMinimum.
+		AnalyzeFunction functionMin = testFactory.getFunction("GlobalMinimum");
+		//Test: If functionMin object of class GlobalMinimum?
+		assertTrue(functionMin instanceof GlobalMinimum);
+	}
 
 }
 
