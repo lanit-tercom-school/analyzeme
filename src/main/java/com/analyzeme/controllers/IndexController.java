@@ -20,4 +20,10 @@ public class IndexController {
 	public String moveToActionPage() {
 		return "action";
 	}
+    @RequestMapping(value = "/project")
+    public String moveToProjectPage() {
+        return "project-page";
+    }
+
 }
+

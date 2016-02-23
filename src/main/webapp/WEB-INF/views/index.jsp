@@ -91,7 +91,9 @@
                             <li>
                                 <a href="action" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i> <span class="network-name">   Try now </span></a>
                             </li>
-                            
+                            <li>
+                                <a href="project" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i> <span class="network-name">  Project </span></a>
+                            </li>
 							
                         </ul>
                     </div>

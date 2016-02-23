@@ -58,7 +58,7 @@
             <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
             <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-info btn-lg"><i
                     class="fa fa-github fa-fw"></i> Source code</a>
-            <a href="action" type="button" class="btn btn-info btn-lg">Try now</a>
+
 
 
         </div>
