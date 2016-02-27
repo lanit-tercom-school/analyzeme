@@ -4,14 +4,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
  * Created by lagroffe on 22.02.2016 23:03
  */
 public class UsersRepository implements IRepository {
-	public IRepository repo = new UsersRepository();
-	public ArrayList<UserInfo> users;
+	public static UsersRepository repo = new UsersRepository();
+	public static ArrayList<UserInfo> users;
 	//unique id of a new user - users.size()+1
 
 	/**
@@ -28,7 +29,7 @@ public class UsersRepository implements IRepository {
 	 *
 	 * @return unique object of repository
 	 */
-	public IRepository checkInitializationAndCreate() {
+	public synchronized IRepository checkInitializationAndCreate() {
 		if (users == null) {
 			new UsersRepository();
 		}
@@ -42,7 +43,7 @@ public class UsersRepository implements IRepository {
 	 *
 	 * @return existing unique object of repository or null
 	 */
-	public IRepository checkInitialization() {
+	public synchronized IRepository checkInitialization() {
 		if (users == null) {
 			return null;
 		}
@@ -51,13 +52,13 @@ public class UsersRepository implements IRepository {
 
 
 	/**
-	 * add new item into repository
+	 * add new User into repository
 	 *
 	 * @param data contains login, email, password  (IN THIS ORDER)
-	 * @return identificator in repository or throws Exception
+	 * @return id in repository or throws Exception
 	 * @throws Exception
 	 */
-	public String newItem(final String[] data) throws Exception {
+	public synchronized String newItem(final String[] data) throws Exception {
 		int id = users.size() + 1;
 		UserInfo newUser = new UserInfo(data[0], id, data[1], data[2]);
 		users.add(newUser);
@@ -70,7 +71,8 @@ public class UsersRepository implements IRepository {
 	 * @param id - user id in repository
 	 * @throws Exception
 	 */
-	private UserInfo findUser(final int id) throws Exception {
+	public synchronized UserInfo findUser(final int id) throws Exception {
+		if (id <= 0 || id > users.size()) throw new ArrayIndexOutOfBoundsException();
 		return users.get(id - 1);
 	}
 
@@ -81,7 +83,7 @@ public class UsersRepository implements IRepository {
 	 * @param login
 	 * @throws Exception
 	 */
-	private UserInfo findUser(final String login) throws Exception {
+	public synchronized UserInfo findUser(final String login) throws Exception {
 		for (UserInfo info : users) {
 			if (info.login.equals(login)) {
 				return info;
@@ -98,7 +100,7 @@ public class UsersRepository implements IRepository {
 	 * @return true if project created
 	 * @throws Exception
 	 */
-	public boolean newProject(final String login, final String projectName) throws Exception {
+	public synchronized boolean newProject(final String login, final String projectName) throws Exception {
 		return (findUser(login).projects.createProject(projectName) != null);
 	}
 
@@ -112,7 +114,7 @@ public class UsersRepository implements IRepository {
 	 * @return unique filename in repository or throws Exception
 	 * @throws Exception
 	 */
-	public String persist(final Part part, final String[] data) throws Exception {
+	public synchronized String persist(final Part part, final String[] data) throws Exception {
 		return findUser(data[2]).projects.persist(part, data[0], data[1]);
 	}
 
@@ -123,7 +125,7 @@ public class UsersRepository implements IRepository {
 	 *
 	 * @return array of names or null if repository is empty
 	 */
-	public ArrayList<String> getAllNames() {
+	public synchronized ArrayList<String> getAllNames() {
 		ArrayList<String> names = new ArrayList<String>();
 		for (UserInfo info : users) {
 			names.add(info.login);
@@ -138,7 +140,7 @@ public class UsersRepository implements IRepository {
 	 *
 	 * @return json string with array of objects
 	 */
-	public String getAllItems() throws Exception {
+	public synchronized String getAllItems() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
 		StringBuilder items = new StringBuilder();
 		items.append("[ ");
@@ -156,7 +158,7 @@ public class UsersRepository implements IRepository {
 	 * @param id - unique name or id of an object
 	 * @return json string with an object
 	 */
-	public String getItem(final String id) throws Exception {
+	public synchronized String getItem(final String id) throws Exception {
 		int num = Integer.parseInt(id);
 		UserInfo info = findUser(num);
 		ObjectMapper mapper = new ObjectMapper();
@@ -172,7 +174,7 @@ public class UsersRepository implements IRepository {
 	 * @param params     - projectName, username (IN THIS ORDER)
 	 * @return
 	 */
-	public ByteArrayInputStream getFile(final String uniqueName, final String[] params) throws Exception {
+	public synchronized ByteArrayInputStream getFile(final String uniqueName, final String[] params) throws Exception {
 		/**
 		 * some checking logic
 		 * if requirements are met ->

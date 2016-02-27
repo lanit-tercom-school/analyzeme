@@ -8,8 +8,9 @@ import java.util.ArrayList;
 
 public class FileRepository implements IFileRepository {
 	public static IFileRepository repo = new FileRepository();
-	private static ArrayList<FileInfo> files;
+	public static ArrayList<FileInfo> files;
 
+	//TODO : rewrite tests to make ctor private
 	/**
 	 * creates empty repository
 	 */
@@ -19,7 +20,6 @@ public class FileRepository implements IFileRepository {
 
 	/**
 	 * adding new file in repository
-	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
 	 * @param part     - file information
 	 * @param filename - filename given by user
@@ -38,7 +38,6 @@ public class FileRepository implements IFileRepository {
 	/**
 	 * just the same with addNewFile except for Part object (cannot be create as Part is an abstract class)
 	 * adding new file in repository
-	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
 	 * @param part     - file data (stream)
 	 * @param filename - filename given by user
@@ -60,7 +59,7 @@ public class FileRepository implements IFileRepository {
 	 * @param fileName - name given by user
 	 * @return created name
 	 */
-	private synchronized String createCorrectName(String fileName) throws IOException {
+	private synchronized String createCorrectName(final String fileName) throws IOException {
 		final char point = '.';
 		String extension = fileName.substring(fileName.indexOf(point) + 1);
 		String name = fileName.substring(0, fileName.indexOf(point)) + "_";
@@ -79,7 +78,7 @@ public class FileRepository implements IFileRepository {
 	 * @param fileName - name given by user
 	 * @return true if free
 	 */
-	private synchronized boolean isNameCorrect(String fileName) throws IOException {
+	private synchronized boolean isNameCorrect(final String fileName) throws IOException {
 		for (String file : getAllWrittenNames()) {
 			if (file.equals(fileName)) {
 				return false;
@@ -89,7 +88,7 @@ public class FileRepository implements IFileRepository {
 	}
 
 	/**
-	 * @return all names of files in repository
+	 * @return all names (unique) of files in repository
 	 */
 	public synchronized ArrayList<String> getAllWrittenNames() throws IOException {
 		ArrayList<String> list = new ArrayList<String>();
@@ -102,7 +101,7 @@ public class FileRepository implements IFileRepository {
 	}
 
 	/**
-	 * Return file if nameToWrite is given
+	 * Return file if uniqueName is given
 	 *
 	 * @param uniqueName - name in repository
 	 * @return stream (or null if not found)
@@ -126,6 +125,7 @@ public class FileRepository implements IFileRepository {
 		return null;
 	}
 
+	//TODO: decide whether to keep this or not
 	/**
 	 * Return all files with given name
 	 *

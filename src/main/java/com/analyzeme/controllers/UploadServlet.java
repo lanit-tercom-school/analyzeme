@@ -5,6 +5,7 @@ package com.analyzeme.controllers;
  */
 
 import com.analyzeme.repository.FileRepository;
+import com.analyzeme.repository.UsersRepository;
 import com.analyzeme.streamreader.StreamToString;
 
 import javax.servlet.ServletException;
@@ -33,9 +34,16 @@ public class UploadServlet extends HttpServlet {
 			String responseToJS = "";
 			for (Part part : request.getParts()) {
 				fileName = extractFileName(part);
-				responseToJS = FileRepository.repo.addNewFile(part, fileName);
+				UsersRepository.repo.checkInitializationAndCreate();
+				if (UsersRepository.repo.findUser("guest") == null) {
+					//login, email, password  (IN THIS ORDER)
+					String[] param = {"guest", "guest@mail.sth", "1234"};
+					UsersRepository.repo.newItem(param);
+				}
+				//part, filename, projectName, username (IN THIS ORDER)
+				String[] param = {fileName, "default", "guest"};
+				responseToJS = UsersRepository.repo.persist(part, param);
 			}
-
 			//Set responseHeader "Data" and "fileName";
 			response.setHeader("fileName", responseToJS);
 			ByteArrayInputStream file = FileRepository.repo.getFileByID(responseToJS);
@@ -44,11 +52,11 @@ public class UploadServlet extends HttpServlet {
 
 
 			response.setCharacterEncoding("UTF-32");
-			response.getWriter().write("{\"nameToWrite\": \"" + responseToJS + "\"}");
-			//response.getWriter().write("File " + fileName + " was successfully uploaded");
-		} catch (IOException ex) {
-			throw ex;
-			//response.getWriter().write("Exception info: " + ex.getMessage());
+			response.getWriter().write("unique name: " + responseToJS);
+		} catch (IOException e) {
+			throw e;
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 

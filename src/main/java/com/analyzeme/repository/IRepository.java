@@ -45,7 +45,6 @@ public interface IRepository {
 	 */
 	String newItem(final String[] data) throws Exception;
 
-
 	/**
 	 * add new file, that is connected to this repository
 	 * should use all necessary information about file for future usage, then
@@ -62,7 +61,7 @@ public interface IRepository {
 
 	/**
 	 * return all names of items in repository
-	 * (item from repository name, e.g. for UsersRepository use this function to add new User)
+	 * (item from repository name, e.g. for UsersRepository use this function to get names of users)
 	 *
 	 * @return array of names or null if repository is empty
 	 */
@@ -71,7 +70,7 @@ public interface IRepository {
 
 	/**
 	 * return json with info about all items in repository
-	 * (item from repository name, e.g. for UsersRepository use this function to add new User)
+	 * (item from repository name, e.g. for UsersRepository use this function to get all users)
 	 *
 	 * @return json string with array of objects
 	 */
@@ -79,7 +78,7 @@ public interface IRepository {
 
 	/**
 	 * return json with info about an item if id or unique name is qiven
-	 * (item from repository name, e.g. for UsersRepository use this function to add new User)
+	 * (item from repository name, e.g. for UsersRepository use this function to get the user)
 	 *
 	 * @param id - unique name or id of an object
 	 * @return json string with an object

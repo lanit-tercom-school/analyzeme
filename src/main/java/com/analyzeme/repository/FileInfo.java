@@ -6,13 +6,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-public class FileInfo {
+/**
+ * FileInfo object contains binary file data and
+ * all information about file
+ */
 
+public class FileInfo {
 	public String nameForUser;
 	public String uniqueName;
 	public Date uploadingDate;
 	public ByteArrayInputStream data;
 
+	/**
+	 * function to convert input stream to bytes array
+	 *
+	 * @throws IOException
+	 */
 	private synchronized static byte[] getBytesFromInputStream(InputStream is) throws IOException {
 		try {
 			ByteArrayOutputStream os = new ByteArrayOutputStream();

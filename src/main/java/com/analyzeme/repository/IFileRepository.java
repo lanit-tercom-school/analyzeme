@@ -9,7 +9,6 @@ public interface IFileRepository {
 
 	/**
 	 * adding new file in repository
-	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
 	 * @param part     - file information
 	 * @param filename - filename given by user
@@ -17,6 +16,16 @@ public interface IFileRepository {
 	 */
 	String addNewFile(final Part part, final String filename) throws IOException;
 
+	//TODO: rewrite tests to work with addNewFile
+
+	/**
+	 * same with addNewFile except for Part object
+	 * adding new file in repository
+	 *
+	 * @param part     - file information
+	 * @param filename - filename given by user
+	 * @return name in repository if succeed, exception if not
+	 */
 	String addNewFileForTests(final ByteArrayInputStream part, final String filename) throws IOException;
 
 	/**
@@ -31,6 +40,8 @@ public interface IFileRepository {
 	 * @return file handler (or null if not found)
 	 */
 	ByteArrayInputStream getFileByID(final String nameToWrite) throws IOException;
+
+	// TODO: decide whether to keep this or not
 
 	/**
 	 * Return all files with given name

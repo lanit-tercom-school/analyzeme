@@ -1,5 +1,7 @@
 package com.analyzeme.repository;
 
+// TODO: rewrite to avoid using *-test functions
+
 import org.junit.Before;
 import org.junit.Test;
 

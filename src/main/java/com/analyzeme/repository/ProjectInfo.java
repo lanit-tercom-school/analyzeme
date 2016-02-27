@@ -18,6 +18,21 @@ public class ProjectInfo {
 	public Date lastChangeDate;
 	public ArrayList<String> filenames;
 
+
+	/**
+	 * returns all unique names of files
+	 *
+	 * @return
+	 */
+	public ArrayList<String> returnAllNames() {
+		if (filenames.isEmpty()) return null;
+		ArrayList<String> names = new ArrayList<String>();
+		for (String name : filenames) {
+			names.add(name);
+		}
+		return names;
+	}
+
 	/**
 	 * @param name - name of a project (shoud be unique for user)
 	 * @throws IOException

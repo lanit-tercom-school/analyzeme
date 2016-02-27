@@ -24,7 +24,7 @@ public class ProjectsRepository {
 	 * @param projectName
 	 * @return
 	 */
-	private ProjectInfo findProject(final String projectName) {
+	public ProjectInfo findProject(final String projectName) {
 		for (ProjectInfo project : projects) {
 			if (project.projectName.equals(projectName)) {
 				return project;
@@ -34,7 +34,21 @@ public class ProjectsRepository {
 	}
 
 	/**
-	 * creates empty project for given user
+	 * returns all names of projects
+	 *
+	 * @return
+	 */
+	public ArrayList<String> returnAllNames() {
+		if (projects.isEmpty()) return null;
+		ArrayList<String> names = new ArrayList<String>();
+		for (ProjectInfo info : projects) {
+			names.add(info.projectName);
+		}
+		return names;
+	}
+
+	/**
+	 * creates empty project
 	 */
 	public ProjectInfo createProject(final String projectName) throws Exception {
 		if (findProject(projectName) != null) {
@@ -45,9 +59,22 @@ public class ProjectsRepository {
 		return info;
 	}
 
+	// TODO: decide what to do with files
+	/**
+	 * deletes project by name
+	 */
+	public boolean deleteProject(final String projectName) throws Exception {
+		for (int i = 0; i < projects.size(); i++) {
+			if (projects.get(i).projectName.equals(projectName)) {
+				projects.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * adding new file in repository
-	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
 	 * @param part     - file information
 	 * @param filename - filename given by user
