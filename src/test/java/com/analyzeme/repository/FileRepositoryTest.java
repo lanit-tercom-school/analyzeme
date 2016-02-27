@@ -1,5 +1,7 @@
 package com.analyzeme.repository;
 
+// TODO: rewrite to avoid using *-test functions
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,7 +55,7 @@ public class FileRepositoryTest {
 		String nameToWrite = "";
 		try {
 			for (int j = 0; j < 10; j++) {
-				nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt", "guest");
+				nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt");
 			}
 		} catch (Exception e) {
 			assertTrue("Exceptions in adding new file", false);
@@ -88,7 +90,7 @@ public class FileRepositoryTest {
 	@Test
 	public void testRecentlyAdded() throws Exception {
 		FileRepositoryTest.repo = new FileRepository();
-		String nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt", "guest");
+		String nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt");
 		for (int i = 0; i < 10; i++) {
 			ByteArrayInputStream file2 = FileRepositoryTest.repo.getFileByID(nameToWrite);
 			byte[] b2 = new byte[4];
@@ -109,7 +111,7 @@ public class FileRepositoryTest {
 	public void testThreadsForReading() throws Exception {
 		cleanCorrect();
 		FileRepositoryTest.repo = new FileRepository();
-		String nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt", "guest");
+		String nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt");
 
 		for (int i = 0; i < 200; i++) {
 			testReaderThread testReader = new testReaderThread(nameToWrite, i);

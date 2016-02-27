@@ -21,13 +21,12 @@ public class ProjectsRepository {
 	/**
 	 * finds project for given user
 	 *
-	 * @param username
 	 * @param projectName
 	 * @return
 	 */
-	private ProjectInfo findProject(final String username, final String projectName) {
+	public ProjectInfo findProject(final String projectName) {
 		for (ProjectInfo project : projects) {
-			if (project.projectName.equals(projectName) && project.username.equals(username)) {
+			if (project.projectName.equals(projectName)) {
 				return project;
 			}
 		}
@@ -35,30 +34,56 @@ public class ProjectsRepository {
 	}
 
 	/**
-	 * creates empty project for given user
+	 * returns all names of projects
+	 *
+	 * @return
 	 */
-	public ProjectInfo createProject(final String username, final String projectName) throws Exception {
-		if (findProject(username, projectName) != null) {
+	public ArrayList<String> returnAllNames() {
+		if (projects.isEmpty()) return null;
+		ArrayList<String> names = new ArrayList<String>();
+		for (ProjectInfo info : projects) {
+			names.add(info.projectName);
+		}
+		return names;
+	}
+
+	/**
+	 * creates empty project
+	 */
+	public ProjectInfo createProject(final String projectName) throws Exception {
+		if (findProject(projectName) != null) {
 			return null;
 		}
-		ProjectInfo info = new ProjectInfo(projectName, username);
+		ProjectInfo info = new ProjectInfo(projectName);
 		projects.add(info);
 		return info;
 	}
 
+	// TODO: decide what to do with files
+	/**
+	 * deletes project by name
+	 */
+	public boolean deleteProject(final String projectName) throws Exception {
+		for (int i = 0; i < projects.size(); i++) {
+			if (projects.get(i).projectName.equals(projectName)) {
+				projects.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * adding new file in repository
-	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
 	 * @param part     - file information
 	 * @param filename - filename given by user
-	 * @param username - user id
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public synchronized String addNewFile(final Part part, final String filename, final String username, final String projectName) throws Exception {
-		ProjectInfo info = findProject(username, projectName);
+	public synchronized String persist(final Part part, final String filename, final String projectName) throws Exception {
+		ProjectInfo info = findProject(projectName);
 		if (info == null) {
-			info = createProject(username, projectName);
+			info = createProject(projectName);
 		}
 		String nameToWrite = info.addNewFile(part, filename);
 		return nameToWrite;
@@ -71,13 +96,12 @@ public class ProjectsRepository {
 	 *
 	 * @param part     - file data (stream)
 	 * @param filename - filename given by user
-	 * @param username - user id
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename, final String username, final String projectName) throws Exception {
-		ProjectInfo info = findProject(username, projectName);
+	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename, final String projectName) throws Exception {
+		ProjectInfo info = findProject(projectName);
 		if (info == null) {
-			info = createProject(username, projectName);
+			info = createProject(projectName);
 		}
 		String nameToWrite = info.addNewFileForTests(part, filename);
 		return nameToWrite;
@@ -94,21 +118,10 @@ public class ProjectsRepository {
 	}
 
 	/**
-	 * Return files for user if name and login are given
-	 *
-	 * @param name     - name given by user
-	 * @param username - user name
-	 * @return streams array (or null if not found)
-	 */
-	public synchronized ArrayList<ByteArrayInputStream> getFiles(final String name, final String username) throws IOException {
-		return FileRepository.repo.getFiles(name, username);
-	}
-
-	/**
 	 * Returns all files from the project
 	 */
-	public synchronized ArrayList<ByteArrayInputStream> getFilesFromProject(final String username, final String projectName) throws Exception {
-		ProjectInfo project = findProject(username, projectName);
+	public synchronized ArrayList<ByteArrayInputStream> getFilesFromProject(final String projectName) throws Exception {
+		ProjectInfo project = findProject(projectName);
 		if (project == null || project.filenames.isEmpty()) {
 			return null;
 		}
@@ -122,8 +135,8 @@ public class ProjectsRepository {
 	/**
 	 * Return a file from the project
 	 */
-	public synchronized ByteArrayInputStream getFileFromProject(final String filename, final String username, final String projectName) throws Exception {
-		ProjectInfo project = findProject(username, projectName);
+	public synchronized ByteArrayInputStream getFileFromProject(final String filename, final String projectName) throws Exception {
+		ProjectInfo project = findProject(projectName);
 		if (project == null || project.filenames.isEmpty()) {
 			return null;
 		}
