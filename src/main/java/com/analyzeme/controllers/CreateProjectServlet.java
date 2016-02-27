@@ -21,6 +21,11 @@ public class CreateProjectServlet extends HttpServlet {
 		try {
 			String projectName = request.getParameter("projectName");
 			UsersRepository.repo.checkInitializationAndCreate();
+			if (UsersRepository.repo.findUser("guest") == null) {
+				//login, email, password  (IN THIS ORDER)
+				String[] param = {"guest", "guest@mail.sth", "1234"};
+				UsersRepository.repo.newItem(param);
+			}
 			boolean a = UsersRepository.repo.newProject("guest", projectName);
 			response.setHeader("Success", a ? "project created" : "project not created");
 		} catch (Exception e) {
