@@ -33,6 +33,15 @@ public class ProjectsRepository {
 		return null;
 	}
 
+	public ProjectInfo findProject(final int projectId) {
+		for (ProjectInfo project : projects) {
+			if (project.id == projectId) {
+				return project;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * returns all names of projects
 	 *

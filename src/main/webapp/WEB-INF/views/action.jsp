@@ -220,6 +220,8 @@
         };
         xhr.send(formData);
     }
+
+
     //Calculates upload progress
     function uploadProgress(event) {
         // Note: doesn't work with async=false.

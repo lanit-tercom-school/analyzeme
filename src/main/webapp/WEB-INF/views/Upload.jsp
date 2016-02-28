@@ -52,7 +52,7 @@
             var xhr = new XMLHttpRequest();
             xhr.upload.addEventListener("progress", uploadProgress, false);
             xhr.addEventListener("load", uploadComplete, false);
-            xhr.open("POST", "UploadServlet", true); // If async=false, then you'll miss progress bar support.
+            xhr.open("POST", "upload/1/1", true); // If async=false, then you'll miss progress bar support.
             xhr.send(formData);
         }
         //Calculates upload progress

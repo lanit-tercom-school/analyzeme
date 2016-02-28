@@ -14,6 +14,7 @@ import java.util.zip.DataFormatException;
 public class ProjectInfo {
 
 	public String projectName;
+	public int id;
 	public Date creationDate;
 	public Date lastChangeDate;
 	public ArrayList<String> filenames;
