@@ -96,11 +96,11 @@ public class UsersRepository implements IRepository {
 	 *
 	 * @param login
 	 * @param projectName
-	 * @return true if project created
+	 * @return project id
 	 * @throws Exception
 	 */
-	public synchronized boolean newProject(final String login, final String projectName) throws Exception {
-		return (findUser(login).projects.createProject(projectName) != null);
+	public synchronized String newProject(final String login, final String projectName) throws Exception {
+		return findUser(login).projects.createProject(projectName);
 	}
 
 	/**
@@ -117,10 +117,23 @@ public class UsersRepository implements IRepository {
 		return findUser(data[2]).projects.persist(part, data[0], data[1]);
 	}
 
+	/**
+	 * add new file, that is connected to this repository
+	 * should use all necessary information about file for future usage, then
+	 * give it to other class that guarantees that file data will be saved correctly
+	 *
+	 * @param part - part from http request, contains all the information about the file
+	 * @param data - filename, projectId, username (IN THIS ORDER)
+	 * @return unique filename in repository or throws Exception
+	 * @throws Exception
+	 */
+	public synchronized String persistByProjectId(final Part part, final String[] data) throws Exception {
+		return findUser(data[2]).projects.persistById(part, data[0], data[1]);
+	}
+
 
 	/**
-	 * return all names of items in repository
-	 * (item from repository name, e.g. for UsersRepository use this function to add new User)
+	 * return all names of users in repository
 	 *
 	 * @return array of names or null if repository is empty
 	 */
@@ -134,8 +147,7 @@ public class UsersRepository implements IRepository {
 
 
 	/**
-	 * return json with info about all items in repository
-	 * (item from repository name, e.g. for UsersRepository use this function to add new User)
+	 * return json with info about all users in repository
 	 *
 	 * @return json string with array of objects
 	 */
@@ -151,10 +163,9 @@ public class UsersRepository implements IRepository {
 	}
 
 	/**
-	 * return json with info about an item if id or unique name is qiven
-	 * (item from repository name, e.g. for UsersRepository use this function to add new User)
+	 * return json with info about a user if id or unique name is qiven
 	 *
-	 * @param id - unique name or id of an object
+	 * @param id - unique name or id of the user
 	 * @return json string with an object
 	 */
 	public synchronized String getItem(final String id) throws Exception {

@@ -41,10 +41,15 @@ public class UploadServlet extends HttpServlet {
 					//login, email, password  (IN THIS ORDER)
 					String[] param = {"guest", "guest@mail.sth", "1234"};
 					UsersRepository.repo.newItem(param);
+					UsersRepository.repo.newProject("guest", "default");
 				}
 				//part, filename, projectName, username (IN THIS ORDER)
-				String[] param = {fileName, "default", "guest"};
-				responseToJS = UsersRepository.repo.persist(part, param);
+				//String[] param = {fileName, "default", "guest"};
+				//responseToJS = UsersRepository.repo.persist(part, param);
+
+				//part, filename, projectId, username (IN THIS ORDER)
+				String[] param = {fileName, "project", "guest"};
+				responseToJS = UsersRepository.repo.persistByProjectId(part, param);
 			}
 			//Set responseHeader "Data" and "fileName";
 			response.setHeader("fileName", responseToJS);

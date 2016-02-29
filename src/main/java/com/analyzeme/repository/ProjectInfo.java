@@ -14,6 +14,7 @@ import java.util.zip.DataFormatException;
 public class ProjectInfo {
 
 	public String projectName;
+	public String uniqueName;
 	public Date creationDate;
 	public Date lastChangeDate;
 	public ArrayList<String> filenames;
@@ -35,12 +36,15 @@ public class ProjectInfo {
 	}
 
 	/**
-	 * @param name - name of a project (should be unique for user)
+	 * @param name       - name of a project (should be unique for user)
+	 * @param uniqueName - name in repo for future usage
 	 * @throws IOException
 	 */
-	ProjectInfo(final String name) throws IOException {
+	ProjectInfo(final String name, final String uniqueName) throws IOException {
 		if (name == null || name.equals("")) throw new IOException();
 		this.projectName = name;
+		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+		this.uniqueName = uniqueName;
 		//default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
 		creationDate = new Date();
 		lastChangeDate = new Date();
