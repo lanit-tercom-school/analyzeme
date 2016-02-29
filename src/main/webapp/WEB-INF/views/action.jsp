@@ -56,9 +56,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>-->
             <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
-            <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-info btn-lg"><i
-                    class="fa fa-github fa-fw"></i> Source code</a>
-            <a href="action" type="button" class="btn btn-info btn-lg">Try now</a>
+            <a href="action" type="button" class="btn btn-success btn-lg">Try now</a>
+            <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
+            <!--       <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-info btn-lg"><i>class="fa fa-github fa-fw"></i> Source code</a>-->
 
 
         </div>
@@ -85,9 +85,11 @@
     <!-- /.container -->
 </nav>
 
+
 <!-- Header -->
 <a name="about"></a>
-<div class="intro-header">
+    <div class="intro-header2">
+<!--<div class="intro-header">-->
     <div class="container">
 
         <div class="row">
@@ -95,8 +97,8 @@
 
                 <!-- Div for Upload file -->
                 <div>
-                    <button onclick="PopUpShow()">Upload and display</button>
-
+                    <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
+                   <!-- <button type="button" onclick="PopUpShow()">Upload and display</button>-->                    
                     <div class="popup" id="popup">
                         <div id="dropbox">
                             Drag and drop a file here...
@@ -107,13 +109,14 @@
                 <!-- Div for display Graph -->
                 <div>
                     <div>
-                        <svg id="svgVisualize" width="500" height="500" style="border:1px solid Red;"></svg>
+                        <svg id="svgVisualize" width="500" height="500" style="border:1px solid white;"></svg>
                     </div>
 
                 </div>
                 <!-- Div for GlobalMin button -->
                 <div>
-                    <button id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</button>
+                    <a type="button" class="btn btn-primary btn-lg" id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</a>
+                     <!-- <button id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</button>-->
                 </div>
 
 
@@ -270,7 +273,7 @@
                     return yRange(d.y);
                 })
                 .attr("r", 10)
-                .style("fill", "red");
+                . 
     }
 </script>
 
