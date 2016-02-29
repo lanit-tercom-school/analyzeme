@@ -14,10 +14,10 @@ import java.util.zip.DataFormatException;
 public class ProjectInfo {
 
 	public String projectName;
-	public int id;
 	public Date creationDate;
 	public Date lastChangeDate;
 	public ArrayList<String> filenames;
+	public boolean isActive = true;
 
 
 	/**
@@ -29,13 +29,13 @@ public class ProjectInfo {
 		if (filenames.isEmpty()) return null;
 		ArrayList<String> names = new ArrayList<String>();
 		for (String name : filenames) {
-			names.add(name);
+			if (FileRepository.repo.findFileById(name).isActive) names.add(name);
 		}
 		return names;
 	}
 
 	/**
-	 * @param name - name of a project (shoud be unique for user)
+	 * @param name - name of a project (should be unique for user)
 	 * @throws IOException
 	 */
 	ProjectInfo(final String name) throws IOException {

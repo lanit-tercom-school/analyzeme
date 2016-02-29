@@ -11,6 +11,7 @@ public class FileRepository implements IFileRepository {
 	public static ArrayList<FileInfo> files;
 
 	//TODO : rewrite tests to make ctor private
+
 	/**
 	 * creates empty repository
 	 */
@@ -88,6 +89,38 @@ public class FileRepository implements IFileRepository {
 	}
 
 	/**
+	 * deletes file with given unique name
+	 *
+	 * @param uniqueName - name of file in repository
+	 * @return true if  succeded
+	 */
+	public synchronized boolean deleteFileByIdCompletely(final String uniqueName) {
+		for (int i = 0; i < files.size(); i++) {
+			if (files.get(i).uniqueName.equals(uniqueName)) {
+				files.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * deactivates file with given unique name
+	 *
+	 * @param uniqueName - name of file in repository
+	 * @return true if  succeded
+	 */
+	public synchronized boolean deleteFileById(final String uniqueName) {
+		for (int i = 0; i < files.size(); i++) {
+			if (files.get(i).uniqueName.equals(uniqueName)) {
+				files.get(i).isActive = false;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
 	 * @return all names (unique) of files in repository
 	 */
 	public synchronized ArrayList<String> getAllWrittenNames() throws IOException {
@@ -108,7 +141,7 @@ public class FileRepository implements IFileRepository {
 	 */
 	public synchronized ByteArrayInputStream getFileByID(final String uniqueName) throws IOException {
 		for (FileInfo info : files) {
-			if (info.uniqueName.equals(uniqueName)) {
+			if (info.uniqueName.equals(uniqueName) && info.isActive) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 				byte[] buffer = new byte[1024];
@@ -126,6 +159,7 @@ public class FileRepository implements IFileRepository {
 	}
 
 	//TODO: decide whether to keep this or not
+
 	/**
 	 * Return all files with given name
 	 *
@@ -135,7 +169,7 @@ public class FileRepository implements IFileRepository {
 	public synchronized ArrayList<ByteArrayInputStream> getFiles(String name) throws IOException {
 		ArrayList<ByteArrayInputStream> found = new ArrayList<ByteArrayInputStream>();
 		for (FileInfo info : files) {
-			if (info.nameForUser.equals(name)) {
+			if (info.nameForUser.equals(name) && info.isActive) {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
 				byte[] buffer = new byte[1024];
@@ -155,5 +189,14 @@ public class FileRepository implements IFileRepository {
 
 	public synchronized int countFiles() {
 		return files.size();
+	}
+
+	public synchronized FileInfo findFileById(final String uniqueName) {
+		for (FileInfo info : files) {
+			if (info.uniqueName.equals(uniqueName)) {
+				return info;
+			}
+		}
+		return null;
 	}
 }

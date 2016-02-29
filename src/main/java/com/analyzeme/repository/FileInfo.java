@@ -16,6 +16,7 @@ public class FileInfo {
 	public String uniqueName;
 	public Date uploadingDate;
 	public ByteArrayInputStream data;
+	public boolean isActive = true;
 
 	/**
 	 * function to convert input stream to bytes array

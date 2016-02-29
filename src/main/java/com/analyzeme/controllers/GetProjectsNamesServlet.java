@@ -23,7 +23,7 @@ public class GetProjectsNamesServlet extends HttpServlet {
 				response.setHeader("Success", "no projects exists");
 				return;
 			}
-			ArrayList<String> projects = UsersRepository.repo.findUser("guest").projects.returnAllNames();
+			ArrayList<String> projects = UsersRepository.repo.findUser("guest").projects.returnAllProjectsNames();
 			response.setHeader("ProjectNames", projects.toString());
 		} catch (Exception e) {
 			e.printStackTrace();

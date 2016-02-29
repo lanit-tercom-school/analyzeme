@@ -28,6 +28,23 @@ public interface IFileRepository {
 	 */
 	String addNewFileForTests(final ByteArrayInputStream part, final String filename) throws IOException;
 
+
+	/**
+	 * deletes file with given unique name
+	 *
+	 * @param uniqueName - name of file in repository
+	 * @return true if  succeded
+	 */
+	boolean deleteFileByIdCompletely(final String uniqueName);
+
+	/**
+	 * deactivates file with given unique name
+	 *
+	 * @param uniqueName - name of file in repository
+	 * @return true if  succeded
+	 */
+	boolean deleteFileById(final String uniqueName);
+
 	/**
 	 * @return all names of files in repository
 	 */
@@ -50,4 +67,6 @@ public interface IFileRepository {
 	 * @return file handlers array (or null if not found)
 	 */
 	ArrayList<ByteArrayInputStream> getFiles(final String name) throws IOException;
+
+	FileInfo findFileById(final String uniqueName);
 }

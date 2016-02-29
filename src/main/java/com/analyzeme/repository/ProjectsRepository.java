@@ -4,6 +4,7 @@ import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by lagroffe on 17.02.2016 18:40
@@ -33,21 +34,12 @@ public class ProjectsRepository {
 		return null;
 	}
 
-	public ProjectInfo findProject(final int projectId) {
-		for (ProjectInfo project : projects) {
-			if (project.id == projectId) {
-				return project;
-			}
-		}
-		return null;
-	}
-
 	/**
 	 * returns all names of projects
 	 *
 	 * @return
 	 */
-	public ArrayList<String> returnAllNames() {
+	public ArrayList<String> returnAllProjectsNames() {
 		if (projects.isEmpty()) return null;
 		ArrayList<String> names = new ArrayList<String>();
 		for (ProjectInfo info : projects) {
@@ -68,19 +60,73 @@ public class ProjectsRepository {
 		return info;
 	}
 
-	// TODO: decide what to do with files
 	/**
-	 * deletes project by name
+	 * deletes all files with unique names in ArrayList
+	 *
+	 * @param filenames - ArrayList<String> of names in repository
+	 * @return true if succeed
 	 */
-	public boolean deleteProject(final String projectName) throws Exception {
+	private boolean deleteFilesInProjectCompletely(final ArrayList<String> filenames) {
+		for (String filename : filenames) {
+			if (!FileRepository.repo.deleteFileByIdCompletely(filename)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * deletes project by name (+ erase all files)
+	 *
+	 * @param projectName - id of project to delete
+	 * @return true if succeed
+	 */
+	public synchronized boolean deleteProjectCompletely(final String projectName) throws Exception {
 		for (int i = 0; i < projects.size(); i++) {
 			if (projects.get(i).projectName.equals(projectName)) {
+				if (!deleteFilesInProjectCompletely(projects.get(i).filenames)) return false;
 				projects.remove(i);
 				return true;
 			}
 		}
 		return false;
 	}
+
+	/**
+	 * deactivates all files with unique names in ArrayList
+	 *
+	 * @param filenames - ArrayList<String> of names in repository
+	 * @return true if succeed
+	 */
+	private boolean deactivateFiles(final ArrayList<String> filenames) {
+		for (String filename : filenames) {
+			for (FileInfo info : FileRepository.files) {
+				if (info.uniqueName.equals(filename)) {
+					info.isActive = false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * deactivates the project by name
+	 *
+	 * @param projectName - id of project to delete
+	 * @return true if succeed
+	 */
+	public synchronized boolean deleteProject(final String projectName) throws Exception {
+		for (ProjectInfo info : projects) {
+			if (info.projectName.equals(projectName)) {
+				deactivateFiles(info.filenames);
+				info.isActive = false;
+				info.lastChangeDate = new Date();
+				return true;
+			}
+		}
+		return false;
+	}
+
 
 	/**
 	 * adding new file in repository
@@ -131,6 +177,7 @@ public class ProjectsRepository {
 	 */
 	public synchronized ArrayList<ByteArrayInputStream> getFilesFromProject(final String projectName) throws Exception {
 		ProjectInfo project = findProject(projectName);
+		if (!project.isActive) return null;
 		if (project == null || project.filenames.isEmpty()) {
 			return null;
 		}
@@ -146,6 +193,7 @@ public class ProjectsRepository {
 	 */
 	public synchronized ByteArrayInputStream getFileFromProject(final String filename, final String projectName) throws Exception {
 		ProjectInfo project = findProject(projectName);
+		if (!project.isActive) return null;
 		if (project == null || project.filenames.isEmpty()) {
 			return null;
 		}
