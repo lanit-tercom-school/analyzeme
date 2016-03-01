@@ -1,6 +1,7 @@
 package com.analyzeme.controllers;
 
 import com.analyzeme.repository.UsersRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,7 +25,11 @@ public class GetProjectsNamesServlet extends HttpServlet {
 				return;
 			}
 			ArrayList<String> projects = UsersRepository.repo.findUser("guest").projects.returnAllProjectsNames();
-			response.setHeader("ProjectNames", projects.toString());
+
+			ObjectMapper mapper = new ObjectMapper();
+			//arraylist to json string (not tested)
+			String result = mapper.writeValueAsString(projects);
+			response.setHeader("ProjectNames", result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

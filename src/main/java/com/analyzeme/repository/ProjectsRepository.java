@@ -10,7 +10,7 @@ import java.util.Date;
  * Created by lagroffe on 17.02.2016 18:40
  */
 public class ProjectsRepository {
-	private ArrayList<ProjectInfo> projects;
+	public ArrayList<ProjectInfo> projects;
 	private int counter = 0;
 
 	/**

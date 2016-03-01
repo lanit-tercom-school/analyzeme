@@ -24,6 +24,9 @@ public class DeleteProjectServlet extends HttpServlet {
 				return;
 			}
 			String projectName = request.getParameter("projectName");
+			//to change to deleting by id use ...projects.deleteProjectById(projectId)
+			//deleteProject or deleteProjectById deactivate project and all files in it
+			//to remove them completely use deleteProjectCompletely or deleteProjectCompletelyById
 			boolean a = UsersRepository.repo.findUser("guest").projects.deleteProject(projectName);
 			response.setHeader("Success", a ? "project deleted" : "project not deleted");
 		} catch (Exception e) {

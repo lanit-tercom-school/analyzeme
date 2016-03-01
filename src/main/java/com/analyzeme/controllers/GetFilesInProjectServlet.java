@@ -5,6 +5,7 @@ package com.analyzeme.controllers;
  */
 
 import com.analyzeme.repository.UsersRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,8 +25,16 @@ public class GetFilesInProjectServlet extends HttpServlet {
 				response.setHeader("Success", "no projects exists");
 			}
 			String projectName = request.getParameter("projectName");
+
+			//this line will return all filenames in project, including temporary deleted files
 			ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).filenames;
-			response.setHeader("Success", filenames.toString());
+			//to get only active files use:
+			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNames();
+
+			ObjectMapper mapper = new ObjectMapper();
+			//arraylist to json string (not tested)
+			String result = mapper.writeValueAsString(filenames);
+			response.setHeader("Success", result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
