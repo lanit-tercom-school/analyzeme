@@ -31,7 +31,6 @@
     <link href="${fontCss}" rel="stylesheet" type="text/css"/>
 
 
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -40,7 +39,6 @@
     <![endif]-->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-
 
 
 </head>
@@ -55,10 +53,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>-->
-            <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
+            <a href="index" type="button" class="btn btn-info btn-lg" >AnalyzeMe</a>
             <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-info btn-lg"><i
                     class="fa fa-github fa-fw"></i> Source code</a>
-
 
 
         </div>
@@ -103,6 +100,7 @@
                         </div>
                     </div>
                     <div id="status"></div>
+                    <div id="ButtonList"></div>
                 </div>
                 <!-- Div for display Graph -->
                 <div>
@@ -114,6 +112,7 @@
                 <!-- Div for GlobalMin button -->
                 <div>
                     <button id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</button>
+
                 </div>
 
 
@@ -168,7 +167,7 @@
 <script>
     var Data;
     var fileName;
-
+    var fileList = [];
 </script>
 <!-- Drag and Drop script -->
 <script>
@@ -217,6 +216,9 @@
         xhr.onreadystatechange = function () {
             fileName = xhr.getResponseHeader("fileName");
             Data = JSON.parse(xhr.getResponseHeader('Data'));
+            //Add fileName into array of fileNames
+            fileList[fileList.length] = fileName;
+
         };
         xhr.send(formData);
     }
@@ -232,6 +234,12 @@
     function uploadComplete(event) {
         document.getElementById("status").innerHTML = event.target.responseText;
         DrawGraph(Data);
+
+        var newLi = document.createElement('li');
+
+        newLi.innerHTML = '<button value=0 onclick="UpdateData(fileList[value]) "<span class=\"network-name\">" + fileName +"</span></button>';
+        ButtonList.appendChild(newLi);
+
 
     }
 
@@ -275,7 +283,31 @@
                 .style("fill", "red");
     }
 </script>
+<script>
+    function UpdateData(newFileName) {
+        alert(fileName);
+        alert(newFileName);
+        fileName = newFileName;
+        alert(fileName);
 
+        //AJAX request for getting minimum of Data
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "GetDataServlet",
+            data: {'fileName': fileName},
+            success: function (data, textStatus, request) {
+                alert(Data);
+                Data = JSON.parse(request.getResponseHeader('Data'));
+                DrawGraph(Data);
+            },
+            error: function (request, textStatus, errorThrown) {
+                alert("Error");
+            }
+        });
+
+    }
+</script>
 </body>
 
 </html>
