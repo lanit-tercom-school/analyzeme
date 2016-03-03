@@ -2,6 +2,9 @@ package com.analyzeme.controllers;
 
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
+import com.analyzeme.analyze.Point;
+import com.analyzeme.parsers.JsonParser;
+import com.analyzeme.parsers.JsonParserException;
 import com.analyzeme.repository.FileRepository;
 import com.analyzeme.streamreader.StreamToString;
 
@@ -21,28 +24,35 @@ import java.io.IOException;
 @WebServlet("/GlobalMinServlet")
 public class GlobalMinServlet extends HttpServlet {
 
-	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		//Analyze Factory
-		AnalyzeFunctionFactory ServletFactory = new AnalyzeFunctionFactory();
-		//Create GlobalMinimum function
-		AnalyzeFunction GlobalMinimum = ServletFactory.getFunction("GlobalMinimum");
-		double minimum;
+    @Override
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        //Analyze Factory
+        AnalyzeFunctionFactory ServletFactory = new AnalyzeFunctionFactory();
+        //Create GlobalMinimum function
+        AnalyzeFunction GlobalMinimum = ServletFactory.getFunction("GlobalMinimum");
+        double minimum;
+        Point[] Data = new Point[0];
+        String fileName = request.getParameter("fileName");
+        ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
 
-		String fileName = request.getParameter("fileName");
+        try {
+            Data = getData(file);
+        } catch (JsonParserException e) {
+            e.printStackTrace();
+        }
+        minimum = -4;
+        minimum = Data[GlobalMinimum.Calc(Data)].GetY();
+        response.setHeader("minimum", String.valueOf(minimum));
 
-		ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
+    }
 
-         /*
-		Convert ByteArrayInputStream into String
-         */
-		String Data = StreamToString.ConvertStream(file);
+    public Point[] getData(ByteArrayInputStream file) throws JsonParserException {
+        JsonParser jsonParser;
+        jsonParser = new JsonParser(file);
+        return jsonParser.getPoints();
 
-		//DataArray = new Point[];
-		//minimum=DataArray[GlobalMinimum.Calc(DataArray)].y;
-		minimum = -4;
-		response.setHeader("minimum", String.valueOf(minimum));
-
-	}
+    }
 }
+
+

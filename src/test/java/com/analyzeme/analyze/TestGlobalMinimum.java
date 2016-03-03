@@ -12,7 +12,7 @@ public class TestGlobalMinimum {
 	final double e = 0.001;//constant need to compare two double numbers
 
 	@Test
-	public void TestGlobalMin() throws Exception {
+	public void TestGlobalMinTwoArray() throws Exception {
 		GlobalMinimum tester = new GlobalMinimum();
 		double[] X_array = new double[1001];
 		double[] Y_array = new double[1001];
@@ -45,6 +45,22 @@ public class TestGlobalMinimum {
 		//Compare -1 and minimum of y=sin(x^2)
 		assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(-1 - Y_array[tester.Calc(X_array, Y_array)]) < e);
 
+	}
+
+	@Test
+	public void TestGlobalMinPointArray() throws Exception {
+		Point[] pointArray = new Point[1001];
+		GlobalMinimum tester = new GlobalMinimum();
+		double x;
+		double y;
+		//generate array of  y=sin(x^2)
+		for (int i = 0; i < 1001; i++) {
+			x = 4 - i * 0.008;
+			y = Math.sin(x * x);
+			pointArray[i] = new Point(x, y);
+		}
+		//Compare -1 and minimum of y=sin(x^2)
+		assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(-1 - pointArray[tester.Calc(pointArray)].GetY()) < e);
 	}
 }
 

@@ -40,6 +40,12 @@
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 
+    <style>
+        #ButtonList{
+            position: relative;
+            left: -400px;
+        }
+    </style>
 
 </head>
 <body>
@@ -53,7 +59,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>-->
-            <a href="index" type="button" class="btn btn-info btn-lg" >AnalyzeMe</a>
+            <a href="index" type="button" class="btn btn-info btn-lg">AnalyzeMe</a>
             <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-info btn-lg"><i
                     class="fa fa-github fa-fw"></i> Source code</a>
 
@@ -165,9 +171,14 @@
 
 
 <script>
+    //Data what will display
     var Data;
+    //variable for saving name of file
     var fileName;
+    //Array what save all file name
     var fileList = [];
+    //Size of fileList
+    var size = 0;
 </script>
 <!-- Drag and Drop script -->
 <script>
@@ -216,8 +227,6 @@
         xhr.onreadystatechange = function () {
             fileName = xhr.getResponseHeader("fileName");
             Data = JSON.parse(xhr.getResponseHeader('Data'));
-            //Add fileName into array of fileNames
-            fileList[fileList.length] = fileName;
 
         };
         xhr.send(formData);
@@ -234,12 +243,15 @@
     function uploadComplete(event) {
         document.getElementById("status").innerHTML = event.target.responseText;
         DrawGraph(Data);
-
+        //create new element
         var newLi = document.createElement('li');
-
-        newLi.innerHTML = '<button value=0 onclick="UpdateData(fileList[value]) "<span class=\"network-name\">" + fileName +"</span></button>';
+        //add new button
+        newLi.innerHTML = '<button onclick="UpdateData(fileList[' + size + ']) "<span class=\"network-name\">"' + fileName + '"</span></button>';
         ButtonList.appendChild(newLi);
-
+        //increase counter of number of file
+        size = +size + 1;
+        //Add fileName into array of fileNames
+        fileList.push(fileName);
 
     }
 
@@ -283,21 +295,19 @@
                 .style("fill", "red");
     }
 </script>
+<!-- script for updating data -->
 <script>
     function UpdateData(newFileName) {
-        alert(fileName);
-        alert(newFileName);
-        fileName = newFileName;
-        alert(fileName);
 
-        //AJAX request for getting minimum of Data
+
+        fileName = newFileName;
+        //AJAX request for updating Data
         $.ajax({
             type: "GET",
             async: true,
             url: "GetDataServlet",
             data: {'fileName': fileName},
             success: function (data, textStatus, request) {
-                alert(Data);
                 Data = JSON.parse(request.getResponseHeader('Data'));
                 DrawGraph(Data);
             },
