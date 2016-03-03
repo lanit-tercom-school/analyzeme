@@ -24,6 +24,7 @@ public class GetProjectsNamesServlet extends HttpServlet {
 				response.setHeader("Success", "no projects exists");
 				return;
 			}
+			//this returns all projects (deleted included)
 			ArrayList<String> projects = UsersRepository.repo.findUser("guest").projects.returnAllProjectsNames();
 
 			ObjectMapper mapper = new ObjectMapper();

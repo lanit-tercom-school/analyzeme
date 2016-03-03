@@ -26,7 +26,6 @@ public class ReturnProjectsInfoServlet extends HttpServlet {
 			if (UsersRepository.repo.checkInitialization() == null) {
 				response.setHeader("Success", "no projects exists");
 			}
-			//nothing here is tested
 			JSONArray result = new JSONArray();
 			//logic below should be changed when other users will be created
 			for (ProjectInfo info : UsersRepository.repo.findUser("guest").projects.projects) {

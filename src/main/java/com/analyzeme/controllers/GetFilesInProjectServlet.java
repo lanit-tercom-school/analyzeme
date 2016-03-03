@@ -24,7 +24,7 @@ public class GetFilesInProjectServlet extends HttpServlet {
 			if (UsersRepository.repo.checkInitialization() == null) {
 				response.setHeader("Success", "no projects exists");
 			}
-			String projectName = request.getParameter("projectName");
+			String projectName = request.getHeader("projectName");
 
 			//this line will return all filenames in project, including temporary deleted files
 			ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).filenames;

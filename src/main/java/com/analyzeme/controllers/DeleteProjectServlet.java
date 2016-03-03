@@ -23,7 +23,7 @@ public class DeleteProjectServlet extends HttpServlet {
 				response.setHeader("Success", "project doesn't exist");
 				return;
 			}
-			String projectName = request.getParameter("projectName");
+			String projectName = request.getHeader("projectName");
 			//to change to deleting by id use ...projects.deleteProjectById(projectId)
 			//deleteProject or deleteProjectById deactivate project and all files in it
 			//to remove them completely use deleteProjectCompletely or deleteProjectCompletelyById

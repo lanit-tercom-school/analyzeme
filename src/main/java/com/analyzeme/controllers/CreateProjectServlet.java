@@ -19,15 +19,19 @@ public class CreateProjectServlet extends HttpServlet {
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try {
-			String projectName = request.getParameter("projectName");
+			String projectName = request.getHeader("projectName");
 			UsersRepository.repo.checkInitializationAndCreate();
 			if (UsersRepository.repo.findUser("guest") == null) {
 				//login, email, password  (IN THIS ORDER)
 				String[] param = {"guest", "guest@mail.sth", "1234"};
 				UsersRepository.repo.newItem(param);
 			}
-			String a = UsersRepository.repo.newProject("guest", projectName);
-			response.setHeader("projectId", a);
+			String project = UsersRepository.repo.newProject("guest", projectName);
+			if(project == null) {
+				response.setHeader("Success", "project was not created");
+			} else {
+				response.setHeader("projectId", project);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

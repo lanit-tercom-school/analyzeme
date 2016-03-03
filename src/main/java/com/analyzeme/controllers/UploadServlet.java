@@ -42,13 +42,16 @@ public class UploadServlet extends HttpServlet {
 					UsersRepository.repo.newItem(param);
 					UsersRepository.repo.newProject("guest", "default");
 				}
+				if (UsersRepository.repo.findUser("guest").projects.findProject("default") == null) {
+					UsersRepository.repo.newProject("guest", "default");
+				}
 				//part, filename, projectName, username (IN THIS ORDER)
-				//String[] param = {fileName, "default", "guest"};
-				//responseToJS = UsersRepository.repo.persist(part, param);
+				String[] param = {fileName, "default", "guest"};
+				responseToJS = UsersRepository.repo.persist(part, param);
 
 				//part, filename, projectId, username (IN THIS ORDER)
-				String[] param = {fileName, "project", "guest"};
-				responseToJS = UsersRepository.repo.persistByProjectId(part, param);
+				//String[] param = {fileName, "project", "guest"};
+				//responseToJS = UsersRepository.repo.persistByProjectId(part, param);
 			}
 			//Set responseHeader "Data" and "fileName";
 			response.setHeader("fileName", responseToJS);
