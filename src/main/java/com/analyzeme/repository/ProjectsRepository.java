@@ -210,10 +210,24 @@ public class ProjectsRepository {
 	 */
 	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename, String projectName) throws Exception {
 		ProjectInfo info = findProject(projectName);
-		if (info == null) {
-			projectName = createProject(projectName);
-			info = findProject(projectName);
-		}
+		if (info == null) throw new IllegalArgumentException();
+		String nameToWrite = info.addNewFileForTests(part, filename);
+		return nameToWrite;
+	}
+
+
+	/**
+	 * just the same with addNewFile except for Part object (cannot be create as Part is an abstract class)
+	 * adding new file in repository
+	 * if you don't know user, just give defaultUser ("guest") as login
+	 *
+	 * @param part     - file data (stream)
+	 * @param filename - filename given by user
+	 * @return nameToWrite - if succeed, exception if not
+	 */
+	public synchronized String addNewFileForTestsById(ByteArrayInputStream part, final String filename, final String projectId) throws Exception {
+		ProjectInfo info = findProjectById(projectId);
+		if (info == null) throw new IllegalArgumentException();
 		String nameToWrite = info.addNewFileForTests(part, filename);
 		return nameToWrite;
 	}
@@ -297,22 +311,6 @@ public class ProjectsRepository {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * just the same with addNewFile except for Part object (cannot be create as Part is an abstract class)
-	 * adding new file in repository
-	 * if you don't know user, just give defaultUser ("guest") as login
-	 *
-	 * @param part     - file data (stream)
-	 * @param filename - filename given by user
-	 * @return nameToWrite - if succeed, exception if not
-	 */
-	public synchronized String addNewFileForTestsById(ByteArrayInputStream part, final String filename, final String projectName) throws Exception {
-		ProjectInfo info = findProject(projectName);
-		if (info == null) return null;
-		String nameToWrite = info.addNewFileForTests(part, filename);
-		return nameToWrite;
 	}
 
 	/**

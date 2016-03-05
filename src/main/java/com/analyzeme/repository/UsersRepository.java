@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class UsersRepository implements IRepository {
 	public static UsersRepository repo = new UsersRepository();
 	public static ArrayList<UserInfo> users;
-	//unique id of a new user - users.size()+1 (user deletion isn't planned
+	//unique id of a new user - users.size()+1 (user deletion isn't planned)
 
 	/**
 	 * ctor should be private - call only from checkInitializationAndCreate()
