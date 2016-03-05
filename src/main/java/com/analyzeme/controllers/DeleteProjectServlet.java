@@ -1,9 +1,5 @@
 package com.analyzeme.controllers;
 
-/**
- * Created by lagroffe on 28.02.2016 0:11
- */
-
 import com.analyzeme.repository.UsersRepository;
 
 import javax.servlet.ServletException;
@@ -12,6 +8,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+/**
+ * Created by lagroffe on 28.02.2016 0:11
+ */
 
 @WebServlet("/DeleteProjectServlet")
 public class DeleteProjectServlet extends HttpServlet {

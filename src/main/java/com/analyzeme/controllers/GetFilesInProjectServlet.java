@@ -1,9 +1,5 @@
 package com.analyzeme.controllers;
 
-/**
- * Created by lagroffe on 27.02.2016 23:44
- */
-
 import com.analyzeme.repository.UsersRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -14,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+
+/**
+ * Created by lagroffe on 27.02.2016 23:44
+ */
 
 @WebServlet("/GetFilesInProjectServlet")
 public class GetFilesInProjectServlet extends HttpServlet {
@@ -32,7 +32,7 @@ public class GetFilesInProjectServlet extends HttpServlet {
 			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNames();
 
 			ObjectMapper mapper = new ObjectMapper();
-			//arraylist to json string (not tested)
+			//arraylist to json string
 			String result = mapper.writeValueAsString(filenames);
 			response.setHeader("Success", result);
 		} catch (Exception e) {

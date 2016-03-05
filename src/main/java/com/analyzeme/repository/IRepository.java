@@ -7,12 +7,12 @@ import java.util.ArrayList;
 /**
  * Created by lagroffe on 22.02.2016 22:27
  */
+
 public interface IRepository {
 
 	/**
 	 * ctor should be private - call only from checkInitializationAndCreate()
 	 */
-
 
 	/**
 	 * checks if the object of class exists

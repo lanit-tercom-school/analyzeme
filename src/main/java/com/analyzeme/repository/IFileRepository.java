@@ -68,5 +68,9 @@ public interface IFileRepository {
 	 */
 	ArrayList<ByteArrayInputStream> getFiles(final String name) throws IOException;
 
+	/**
+	 * @param uniqueName - name of the file in repository
+	 * @return FileInfo with all information about the file
+	 */
 	FileInfo findFileById(final String uniqueName);
 }

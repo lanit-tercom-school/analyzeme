@@ -36,6 +36,8 @@ public class FileRepository implements IFileRepository {
 		return uniqueName;
 	}
 
+	//TODO: rewrite tests to not use this
+
 	/**
 	 * just the same with addNewFile except for Part object (cannot be create as Part is an abstract class)
 	 * adding new file in repository
@@ -187,10 +189,17 @@ public class FileRepository implements IFileRepository {
 		return found;
 	}
 
+	/**
+	 * @return size of repository
+	 */
 	public synchronized int countFiles() {
 		return files.size();
 	}
 
+	/**
+	 * @param uniqueName - name of the file in repository
+	 * @return FileInfo with all information about the file
+	 */
 	public synchronized FileInfo findFileById(final String uniqueName) {
 		for (FileInfo info : files) {
 			if (info.uniqueName.equals(uniqueName)) {

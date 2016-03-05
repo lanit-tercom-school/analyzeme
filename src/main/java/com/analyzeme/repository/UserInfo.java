@@ -5,6 +5,7 @@ import java.io.IOException;
 /**
  * Created by lagroffe on 22.02.2016 23:12
  */
+
 public class UserInfo {
 	public String login;
 	public int id;

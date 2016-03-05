@@ -1,9 +1,5 @@
 package com.analyzeme.controllers;
 
-/**
- * Created by Olga on 05.11.2015.
- */
-
 import com.analyzeme.repository.FileRepository;
 import com.analyzeme.repository.UsersRepository;
 import com.analyzeme.streamreader.StreamToString;
@@ -17,6 +13,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+
+/**
+ * Created by Olga on 05.11.2015.
+ */
 
 @WebServlet("/UploadServlet")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024 * 2, // 2MB
@@ -35,25 +35,25 @@ public class UploadServlet extends HttpServlet {
 			String responseToJS = "";
 			for (Part part : request.getParts()) {
 				fileName = extractFileName(part);
+				//when other users created, CheckInitializationAndCreate() should be called from user creator only
+				//now it's possible to create a default user with default project here
 				UsersRepository.repo.checkInitializationAndCreate();
 				if (UsersRepository.repo.findUser("guest") == null) {
-					//login, email, password  (IN THIS ORDER)
+					//login, email, password
 					String[] param = {"guest", "guest@mail.sth", "1234"};
 					UsersRepository.repo.newItem(param);
 					UsersRepository.repo.newProject("guest", "default");
 				}
+				//in the future this block should be deleted, create project before downloading files
 				if (UsersRepository.repo.findUser("guest").projects.findProject("default") == null) {
 					UsersRepository.repo.newProject("guest", "default");
 				}
-				//part, filename, projectName, username (IN THIS ORDER)
+				//should use part, filename, projectId, userId - use persistByIds in the future
+				//part, filename, projectName, username
 				String[] param = {fileName, "default", "guest"};
 				responseToJS = UsersRepository.repo.persist(part, param);
-
-				//part, filename, projectId, username (IN THIS ORDER)
-				//String[] param = {fileName, "project", "guest"};
-				//responseToJS = UsersRepository.repo.persistByProjectId(part, param);
 			}
-			//Set responseHeader "Data" and "fileName";
+			//Set responseHeaders "Data" and "fileName";
 			response.setHeader("fileName", responseToJS);
 			ByteArrayInputStream file = FileRepository.repo.getFileByID(responseToJS);
 			String Data = StreamToString.ConvertStream(file);

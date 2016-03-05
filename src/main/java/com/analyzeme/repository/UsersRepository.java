@@ -9,10 +9,11 @@ import java.util.ArrayList;
 /**
  * Created by lagroffe on 22.02.2016 23:03
  */
+
 public class UsersRepository implements IRepository {
 	public static UsersRepository repo = new UsersRepository();
 	public static ArrayList<UserInfo> users;
-	//unique id of a new user - users.size()+1
+	//unique id of a new user - users.size()+1 (user deletion isn't planned
 
 	/**
 	 * ctor should be private - call only from checkInitializationAndCreate()
@@ -21,9 +22,12 @@ public class UsersRepository implements IRepository {
 		users = new ArrayList<UserInfo>();
 	}
 
+
+	//TODO: when users are added, checkInitializationAndCreate() should be private and called from creation of a new user only (newItem)
+
 	/**
 	 * checks if the object of class exists
-	 * if yes, return it
+	 * if yes, return this
 	 * if no, creates and return it
 	 *
 	 * @return unique object of repository
@@ -37,7 +41,7 @@ public class UsersRepository implements IRepository {
 
 	/**
 	 * checks if the object of class exists
-	 * if yes, return it
+	 * if yes, return this
 	 * if no, return null
 	 *
 	 * @return existing unique object of repository or null
@@ -104,12 +108,24 @@ public class UsersRepository implements IRepository {
 	}
 
 	/**
+	 * creates new project for a user
+	 *
+	 * @param userId
+	 * @param projectName
+	 * @return project id
+	 * @throws Exception
+	 */
+	public synchronized String newProject(final int userId, final String projectName) throws Exception {
+		return findUser(userId).projects.createProject(projectName);
+	}
+
+	/**
 	 * add new file, that is connected to this repository
 	 * should use all necessary information about file for future usage, then
 	 * give it to other class that guarantees that file data will be saved correctly
 	 *
 	 * @param part - part from http request, contains all the information about the file
-	 * @param data - filename, projectName, username (IN THIS ORDER)
+	 * @param data - filename, projectName, username
 	 * @return unique filename in repository or throws Exception
 	 * @throws Exception
 	 */
@@ -123,7 +139,7 @@ public class UsersRepository implements IRepository {
 	 * give it to other class that guarantees that file data will be saved correctly
 	 *
 	 * @param part - part from http request, contains all the information about the file
-	 * @param data - filename, projectId, username (IN THIS ORDER)
+	 * @param data - filename, projectId, username
 	 * @return unique filename in repository or throws Exception
 	 * @throws Exception
 	 */
@@ -131,6 +147,19 @@ public class UsersRepository implements IRepository {
 		return findUser(data[2]).projects.persistById(part, data[0], data[1]);
 	}
 
+	/**
+	 * add new file, that is connected to this repository
+	 * should use all necessary information about file for future usage, then
+	 * give it to other class that guarantees that file data will be saved correctly
+	 *
+	 * @param part - part from http request, contains all the information about the file
+	 * @param data - filename, projectId, userId
+	 * @return unique filename in repository or throws Exception
+	 * @throws Exception
+	 */
+	public synchronized String persistByIds(final Part part, final String[] data) throws Exception {
+		return findUser(Integer.parseInt(data[2])).projects.persistById(part, data[0], data[1]);
+	}
 
 	/**
 	 * return all names of users in repository
@@ -145,7 +174,7 @@ public class UsersRepository implements IRepository {
 		return names;
 	}
 
-
+	//not tested
 	/**
 	 * return json with info about all users in repository
 	 *
@@ -162,6 +191,7 @@ public class UsersRepository implements IRepository {
 		return items.toString();
 	}
 
+	//not tested
 	/**
 	 * return json with info about a user if id or unique name is qiven
 	 *
@@ -181,7 +211,7 @@ public class UsersRepository implements IRepository {
 	 * if so, returns file by id from FileRepository
 	 *
 	 * @param uniqueName - filename in FileRepository
-	 * @param params     - projectName, username (IN THIS ORDER)
+	 * @param params     - projectName, username)
 	 * @return
 	 */
 	public synchronized ByteArrayInputStream getFile(final String uniqueName, final String[] params) throws Exception {

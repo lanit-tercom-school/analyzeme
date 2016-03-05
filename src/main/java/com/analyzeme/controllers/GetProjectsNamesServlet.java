@@ -14,6 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by lagroffe on 27.02.2016 23:44
  */
+
 @WebServlet("/GetProjectsNamesServlet")
 public class GetProjectsNamesServlet extends HttpServlet {
 	@Override
@@ -24,11 +25,12 @@ public class GetProjectsNamesServlet extends HttpServlet {
 				response.setHeader("Success", "no projects exists");
 				return;
 			}
-			//this returns all projects (deleted included)
+			//this returns all projects (temporary deleted included)
+			//to get only active projects use ...returnAllActiveProjectsNames()
 			ArrayList<String> projects = UsersRepository.repo.findUser("guest").projects.returnAllProjectsNames();
 
 			ObjectMapper mapper = new ObjectMapper();
-			//arraylist to json string (not tested)
+			//arraylist to json string
 			String result = mapper.writeValueAsString(projects);
 			response.setHeader("ProjectNames", result);
 		} catch (Exception e) {

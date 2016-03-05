@@ -28,6 +28,8 @@ public class ReturnProjectsInfoServlet extends HttpServlet {
 			}
 			JSONArray result = new JSONArray();
 			//logic below should be changed when other users will be created
+			//this will return info about all projects
+			//to get info only about active add if(info.isActive)
 			for (ProjectInfo info : UsersRepository.repo.findUser("guest").projects.projects) {
 				JSONObject project = new JSONObject();
 				project.put("projectName", info.projectName);

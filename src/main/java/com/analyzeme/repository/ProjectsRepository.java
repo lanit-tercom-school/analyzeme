@@ -9,6 +9,7 @@ import java.util.Date;
 /**
  * Created by lagroffe on 17.02.2016 18:40
  */
+
 public class ProjectsRepository {
 	public ArrayList<ProjectInfo> projects;
 	private int counter = 0;
@@ -61,6 +62,20 @@ public class ProjectsRepository {
 		ArrayList<String> names = new ArrayList<String>();
 		for (ProjectInfo info : projects) {
 			names.add(info.projectName);
+		}
+		return names;
+	}
+
+	/**
+	 * returns all names of active projects
+	 *
+	 * @return
+	 */
+	public ArrayList<String> returnAllActiveProjectsNames() {
+		if (projects.isEmpty()) return null;
+		ArrayList<String> names = new ArrayList<String>();
+		for (ProjectInfo info : projects) {
+			if (info.isActive) names.add(info.projectName);
 		}
 		return names;
 	}

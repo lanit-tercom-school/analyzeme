@@ -11,6 +11,7 @@ import java.util.zip.DataFormatException;
 /**
  * Created by lagroffe on 17.02.2016 18:40
  */
+
 public class ProjectInfo {
 
 	public String projectName;
