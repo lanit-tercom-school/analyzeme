@@ -48,7 +48,7 @@
                     <span class="icon-bar"></span>-->
                 <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
 				<a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-info btn-lg"><i class="fa fa-github fa-fw"></i> Source code</a>
-                <a href="action" type="button" class="btn btn-info btn-lg">Try now</a>
+                <a href="demoProject" type="button" class="btn btn-info btn-lg">Try now</a>
 
 
             </div>
@@ -89,7 +89,7 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li>
-                                <a href="action" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i> <span class="network-name">   Try now </span></a>
+                                <a href="demoProject" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i> <span class="network-name">   Try now </span></a>
                             </li>
                             <li>
                                 <a href="project" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i> <span class="network-name">  Project </span></a>

@@ -213,7 +213,7 @@
         var xhr = new XMLHttpRequest();
         xhr.upload.addEventListener("progress", uploadProgress, false);
         xhr.addEventListener("load", uploadComplete, false);
-        xhr.open("POST", "/upload/1/1", true); // If async=false, then you'll miss progress bar support.
+        xhr.open("POST", "/upload/demo", true); // If async=false, then you'll miss progress bar support.
         xhr.onreadystatechange = function () {
             fileName = xhr.getResponseHeader("fileName");
             Data = JSON.parse(xhr.getResponseHeader('Data'));
