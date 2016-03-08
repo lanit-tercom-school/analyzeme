@@ -1,6 +1,7 @@
 package com.analyzeme.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
@@ -124,13 +125,13 @@ public class UsersRepository implements IRepository {
 	 * should use all necessary information about file for future usage, then
 	 * give it to other class that guarantees that file data will be saved correctly
 	 *
-	 * @param part - part from http request, contains all the information about the file
+	 * @param file - contains all the information about the file
 	 * @param data - filename, projectName, username
 	 * @return unique filename in repository or throws Exception
 	 * @throws Exception
 	 */
-	public synchronized String persist(final Part part, final String[] data) throws Exception {
-		return findUser(data[2]).projects.persist(part, data[0], data[1]);
+	public synchronized String persist(final MultipartFile file, final String[] data) throws Exception {
+		return findUser(data[2]).projects.persist(file, data[0], data[1]);
 	}
 
 	/**
@@ -138,13 +139,13 @@ public class UsersRepository implements IRepository {
 	 * should use all necessary information about file for future usage, then
 	 * give it to other class that guarantees that file data will be saved correctly
 	 *
-	 * @param part - part from http request, contains all the information about the file
+	 * @param file - contains all the information about the file
 	 * @param data - filename, projectId, username
 	 * @return unique filename in repository or throws Exception
 	 * @throws Exception
 	 */
-	public synchronized String persistByProjectId(final Part part, final String[] data) throws Exception {
-		return findUser(data[2]).projects.persistById(part, data[0], data[1]);
+	public synchronized String persistByProjectId(final MultipartFile file, final String[] data) throws Exception {
+		return findUser(data[2]).projects.persistById(file, data[0], data[1]);
 	}
 
 	/**
@@ -152,13 +153,13 @@ public class UsersRepository implements IRepository {
 	 * should use all necessary information about file for future usage, then
 	 * give it to other class that guarantees that file data will be saved correctly
 	 *
-	 * @param part - part from http request, contains all the information about the file
+	 * @param file - part from http request, contains all the information about the file
 	 * @param data - filename, projectId, userId
 	 * @return unique filename in repository or throws Exception
 	 * @throws Exception
 	 */
-	public synchronized String persistByIds(final Part part, final String[] data) throws Exception {
-		return findUser(Integer.parseInt(data[2])).projects.persistById(part, data[0], data[1]);
+	public synchronized String persistByIds(final MultipartFile file, final String[] data) throws Exception {
+		return findUser(Integer.parseInt(data[2])).projects.persistById(file, data[0], data[1]);
 	}
 
 	/**

@@ -1,9 +1,12 @@
 package com.analyzeme.repository;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 public class FileRepository implements IFileRepository {
@@ -22,16 +25,17 @@ public class FileRepository implements IFileRepository {
 	/**
 	 * adding new file in repository
 	 *
-	 * @param part     - file information
+	 * @param file     - file information
 	 * @param filename - filename given by user
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public synchronized String addNewFile(final Part part, final String filename) throws IOException {
+	public synchronized String addNewFile(final MultipartFile file, final String filename) throws IOException {
 		String uniqueName = filename;
 		if (!isNameCorrect(uniqueName)) {
 			uniqueName = createCorrectName(filename);
 		}
-		FileInfo newFile = new FileInfo(filename, uniqueName, part.getInputStream());
+		InputStream g = file.getInputStream();
+		FileInfo newFile = new FileInfo(filename, uniqueName, file.getInputStream());
 		files.add(newFile);
 		return uniqueName;
 	}

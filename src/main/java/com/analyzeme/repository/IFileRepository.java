@@ -1,5 +1,7 @@
 package com.analyzeme.repository;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -10,11 +12,11 @@ public interface IFileRepository {
 	/**
 	 * adding new file in repository
 	 *
-	 * @param part     - file information
+	 * @param file     - file information
 	 * @param filename - filename given by user
 	 * @return name in repository if succeed, exception if not
 	 */
-	String addNewFile(final Part part, final String filename) throws IOException;
+	String addNewFile(final MultipartFile file, final String filename) throws IOException;
 
 	//TODO: rewrite tests to work with addNewFile
 
