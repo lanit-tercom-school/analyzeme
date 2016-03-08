@@ -106,7 +106,7 @@ public class UsersRepositoryTest {
 
 	@Test
 	public void testGetAllNames() throws Exception {
-		ArrayList<String> names = new ArrayList<>();
+		ArrayList<String> names = new ArrayList<String>();
 		for (int i = 0; i < 5; i++) {
 			names.add("another_guest_" + i);
 			String[] param = {"another_guest_" + i, "guest@sth.sth", "1234"};

@@ -1,5 +1,7 @@
 package com.analyzeme.repository;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -52,11 +54,11 @@ public class ProjectInfo {
 		filenames = new ArrayList<String>();
 	}
 
-	public String addNewFile(Part part, String filename) throws Exception {
-		if (filename == null || filename.equals("") || part == null) {
+	public String addNewFile(MultipartFile file, String filename) throws Exception {
+		if (filename == null || filename.equals("") || file == null) {
 			throw new DataFormatException();
 		}
-		String nameInRepo = FileRepository.repo.addNewFile(part, filename);
+		String nameInRepo = FileRepository.repo.addNewFile(file, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}

@@ -1,5 +1,7 @@
 package com.analyzeme.repository;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -171,31 +173,31 @@ public class ProjectsRepository {
 	/**
 	 * adding new file in repository
 	 *
-	 * @param part     - file information
+	 * @param file     - file information
 	 * @param filename - filename given by user
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public synchronized String persist(final Part part, final String filename, String projectName) throws Exception {
+	public synchronized String persist(final MultipartFile file, final String filename, String projectName) throws Exception {
 		ProjectInfo info = findProject(projectName);
 		if (info == null) {
 			projectName = createProject(projectName);
 			info = findProject(projectName);
 		}
-		String nameToWrite = info.addNewFile(part, filename);
+		String nameToWrite = info.addNewFile(file, filename);
 		return nameToWrite;
 	}
 
 	/**
 	 * adding new file in repository
 	 *
-	 * @param part     - file information
+	 * @param file     - file information
 	 * @param filename - filename given by user
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public synchronized String persistById(final Part part, final String filename, final String projectId) throws Exception {
+	public synchronized String persistById(final MultipartFile file, final String filename, final String projectId) throws Exception {
 		ProjectInfo info = findProjectById(projectId);
 		if (info == null) return null;
-		String nameToWrite = info.addNewFile(part, filename);
+		String nameToWrite = info.addNewFile(file, filename);
 		return nameToWrite;
 	}
 

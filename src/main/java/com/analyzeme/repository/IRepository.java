@@ -1,5 +1,7 @@
 package com.analyzeme.repository;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -50,13 +52,13 @@ public interface IRepository {
 	 * should use all necessary information about file for future usage, then
 	 * give it to other class that guarantees that file data will be saved correctly
 	 *
-	 * @param part - part from http request, contains all the information about the file
+	 * @param file - part from http request, contains all the information about the file
 	 * @param data - parameters from part that are useful for this repository
 	 *             specification for parameters in data should be specified in javadoc for specific repositories
 	 * @return unique filename in repository or throws Exception
 	 * @throws Exception
 	 */
-	String persist(final Part part, final String[] data) throws Exception;
+	String persist(final MultipartFile file, final String[] data) throws Exception;
 
 
 	/**
