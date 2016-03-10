@@ -241,6 +241,7 @@
 <script>
 
     function DrawGraph(Data) {
+
         var vis = d3.select("#svgVisualize");
         //clear Graph
         vis.selectAll("*").remove();
@@ -272,8 +273,7 @@
                 .attr("cy", function (d) {
                     return yRange(d.y);
                 })
-                .attr("r", 10)
-                . 
+                .attr("r", 10);
     }
 </script>
 

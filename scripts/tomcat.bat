@@ -1,13 +1,13 @@
 @rem *****************************************
-@rem Tomcat Build Script - third version
+@rem Tomcat Build Script - fourth version
 @rem *****************************************
 
-@echo This batch file
+@echo Tomcat Build Script
 @if "%~1"=="" (Goto :default)
 @if not "%~1"=="" (Goto :yourPath)
 
 :default
-@call src\before_deploy.bat
+@call scripts\src\before_deploy.bat
 @call %CATALINA_HOME%\bin\startup.bat
 @copy target\analyzeme.war %CATALINA_HOME%\webapps
 @Goto :finish
@@ -15,7 +15,7 @@
 :yourPath
 @set project_name=%~1
 @echo Deploying to localhost:8080/%project_name%
-@call src\before_deploy.bat
+@call scripts\src\before_deploy.bat
 @call %CATALINA_HOME%\bin\startup.bat
 @copy target\analyzeme.war %CATALINA_HOME%\
 @rename %CATALINA_HOME%\analyzeme.war %project_name%.war
