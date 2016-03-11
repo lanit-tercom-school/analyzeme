@@ -36,6 +36,15 @@
 
      <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
      <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+
+     <!-- Delete row -->
+     <script type="text/javascript">
+         function killRow(src) {
+             var dRow = src.parentElement.parentElement;
+             document.all("myTable").deleteRow(dRow.rowIndex);
+         }
+     </script>
  </head>
  
  <body>
@@ -78,6 +87,8 @@
     </div>
     <!-- /.container -->
 </nav>
+
+ <!-- Make a table -->
 <a name="about"></a>
     <div class="intro-header2">
      <div class="container">
@@ -102,30 +113,34 @@
                          </tr>
                     </thead>
                     <tbody>
-                         <tr id='addr0'>
-                             <!--   <td>
-                                     <input type="checkbox" id="shest001">
-                                </td>
-                                <td>
-                               <input type="text" name='title0'  placeholder='Title' class="form-control"/>
-                              </td>
-                              <td>
-                                  <input type="text" name='owner0' placeholder='Owner' class="form-control"/>
-                                 </td>
-                                 <td>
-                                 <input type="text" name='last_modified0' placeholder='Last modified' class="form-control"/>
-                                 </td>
-                            </tr>-->
-                       <tr id='addr1'></tr>
+                    <!-- <tr class="coloring">
+                            <td>
+                                 <input type="checkbox" id="shest001">
+                            </td>
+                            <td>
+                           <input type="text" name='title0'  placeholder='Title' class="form-control"/>
+                          </td>
+                          <td>
+                              <input type="text" name='owner0' placeholder='Owner' class="form-control"/>
+                             </td>
+                             <td>
+                             <input type="text" name='last_modified0' placeholder='Last modified' class="form-control"/>
+                             </td>
+                        </tr>
+                       </tr>-->
                        </tbody>
                   </table>
              </div>
         </div>
+
+         <!-- New project button -->
             <a class="btn btn-default pull-left" onclick="addRow('myTable');return false;">New Project</a>
         <!-- <div class="popup" id="popup">
 
          </div>-->
-        <a id='delete_row' class="pull-right btn btn-default" onclick="myDeleteFunction('1');return false;">Delete Project</a>
+
+         <!-- Delete project button is not ready yet-->
+        <a id='delete_row' class="pull-right btn btn-default" onclick="DeleteARow();">Delete Project</a>
    </div>
 
     </div>
@@ -134,14 +149,15 @@
         function addRow(id){
 
 
-
+            <!-- Show a window for Project name -->
             var projectName = prompt('New Project', "Project1");
 
+            <!-- Make a new row -->
             var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
             var row = document.createElement("TR")
             var td1 = document.createElement("TD")
             //td1.innerHTML = '<input class="form-control" type="text" name="title0"/>';
-            td1.innerHTML = '<input type="checkbox" id="shest001">';
+            td1.innerHTML = '<i class = "glyphicon glyphicon-remove" type="button" onclick="killRow(this);">';
             td1.appendChild(document.createTextNode(""))
             var td2 = document.createElement("TD")
             td2.appendChild (document.createTextNode(projectName))
@@ -156,9 +172,20 @@
             tbody.appendChild(row);
         }
 
-        function myDeleteFunction(r) {
+        /*function myDeleteFunction(r) {
             document.getElementById("myTable").deleteRow(r);
         }
+
+        function DeleteARow() {
+            var Rows = document.getElementById('myTable').getElementsByTagName('tr');
+            var RowsCount = Rows.length;
+            alert('Your table has ' + RowsCount + ' rows.');
+            if (document.getElementById('cb').checked == true) {
+
+                document.getElementById('cb').parentNode('td').parentNode('tr').remove();
+
+            }
+        }*/
 
         /*$('.myTable tbody tr').each(function(i) {
             var number = i + 1;
@@ -174,14 +201,30 @@
             });
 
         });*/
+       /* function removeAllRowsContainingCheckedCheckbox(table) {
+            for (var rowi= table.rows.length; rowi-->0;) {
+                var row= table.rows[rowi];
+                var inputs= row.getElementsByTagName('input');
+                for (var inputi= inputs.length; inputi-->0;) {
+                    var input= inputs[inputi];
 
-        function PopUpShow() {
+                    if (input.type==='checkbox' && input.checked) {
+                        row.parentNode.removeChild(row);
+                        break;
+                    }
+                }
+            }
+        }*/
+
+
+
+       /* function PopUpShow() {
             $("#popup").show();
         }
         //Function hides PopUp
         function PopUpHide() {
             $("#popup").hide();
-        }
+        }*/
     </script>
 
 
