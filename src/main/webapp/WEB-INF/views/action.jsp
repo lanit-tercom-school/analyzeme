@@ -95,7 +95,38 @@
 
         <div class="row">
             <div class="col-lg-12">
+                <!-- Modal FileAlreadyExist http://bootstrap-ru.com/javascript.php#modals-->
+                <!-- keyboard="true"  close window by pressing Esc on keyboard-->
+                <div class="modal" id="FileAlreadyExistModal" tabindex="-1" role="dialog"
+                     aria-labelledby="FileAlreadyExistModalLabel" aria-hidden="true">
 
+                    <div class="modal-body">
+                        <p>File already exist</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true" onclick="ChangeName()">Change name
+                        </button>
+                        <button class="btn btn-primary" aria-hidden="true" onclick="Overwrite()">Overwrite</button>
+                    </div>
+                </div>
+                <!-- Modal  of change name-->
+                <div class="modal" id="changeNameModal" tabindex="-1" role="dialog"
+                     aria-labelledby="changeNameModalLabel"
+                     aria-hidden="true">
+
+                    <div class="modal-body">
+                        <p>Write new name</p>
+                        <p><label>
+                            <input type="TEXT" name="fileName" value="" size="20" id="fileNameInput" color='red'>
+                        </label></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn" data-dismiss="modal" aria-hidden="true" onclick="DoChangingName()" >
+                            Ok
+                        </button>
+                        <button class="btn btn-primary" aria-hidden="true" onclick="CancelChangingName()">Cancel</button>
+                    </div>
+                </div>
                 <!-- Div for Upload file -->
                 <div>
                     <button onclick="PopUpShow()">Upload and display</button>
@@ -117,7 +148,7 @@
                 </div>
                 <!-- Div for GlobalMin button -->
                 <div>
-                    <button id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</button>
+                    <button id="GlobalMinButton" onclick="AnalyzeButton(fileName,'GlobalMinimum')">Calculate Global Min</button>
 
                 </div>
 
@@ -165,10 +196,6 @@
 <spring:url value="/resources/js/bootstrap.min.js" var="mainJs"/>
 <script src="${mainJs}"></script>
 
-<!-- Script for GlobalMin button -->
-<spring:url value="/resources/js/GlobalMinButton.js" var="GlobalMinButtonJs"/>
-<script src="${GlobalMinButtonJs}"></script>
-
 
 <script>
     //Data what will display
@@ -179,6 +206,7 @@
     var fileList = [];
     //Size of fileList
     var size = 0;
+
 </script>
 <!-- Drag and Drop script -->
 <script>
@@ -208,31 +236,58 @@
     function dropUpload(event) {
         noop(event);
         var files = event.dataTransfer.files;
-        for (var i = 0; i < files.length; i++) {
-            uploadFile(files[i]);
 
-        }
-        PopUpHide();
+
+            for (var i = 0; i < files.length; i++) {
+                uploadFile(files[i]);
+            }
+            PopUpHide();
+
     }
     //Uploads file
     function uploadFile(file) {
-        //Adding text to status
-        document.getElementById("status").innerHTML = "Uploading " + file.name;
-        var formData = new FormData();
-        formData.append("file", file);
-        var xhr = new XMLHttpRequest();
-        xhr.upload.addEventListener("progress", uploadProgress, false);
-        xhr.addEventListener("load", uploadComplete, false);
-        xhr.open("POST", "UploadServlet", true); // If async=false, then you'll miss progress bar support.
-        xhr.onreadystatechange = function () {
-            fileName = xhr.getResponseHeader("fileName");
-            Data = JSON.parse(xhr.getResponseHeader('Data'));
 
-        };
-        xhr.send(formData);
+        $('#FileAlreadyExistModal').on('hide.bs.modal', function () {
+            //Adding text to status
+            document.getElementById("status").innerHTML = "Uploading " + file.name;
+            var formData = new FormData();
+            formData.append("file", file);
+            var xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener("progress", uploadProgress, false);
+            xhr.addEventListener("load", uploadComplete, false);
+            xhr.open("POST", "UploadServlet", true); // If async=false, then you'll miss progress bar support.
+            xhr.onreadystatechange = function () {
+                fileName = xhr.getResponseHeader("fileName");
+                Data = JSON.parse(xhr.getResponseHeader('Data'));
+            };
+            xhr.send(formData);
+
+        });
+        $('#changeNameModal').on('hide.bs.modal', function () {
+            file.name = document.getElementById("fileNameInput").value;
+            $('#FileAlreadyExistModal').modal('hide');
+        });
+
+        if (file.name == fileList[0]) {
+
+            $('#FileAlreadyExistModal').modal('show');
+
+        }else {
+            //Adding text to status
+            document.getElementById("status").innerHTML = "Uploading " + file.name;
+            var formData = new FormData();
+            formData.append("file", file);
+            var xhr = new XMLHttpRequest();
+            xhr.upload.addEventListener("progress", uploadProgress, false);
+            xhr.addEventListener("load", uploadComplete, false);
+            xhr.open("POST", "UploadServlet", true); // If async=false, then you'll miss progress bar support.
+            xhr.onreadystatechange = function () {
+                fileName = xhr.getResponseHeader("fileName");
+                Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
+            };
+            xhr.send(formData);
+        }
     }
-
-
     //Calculates upload progress
     function uploadProgress(event) {
         // Note: doesn't work with async=false.
@@ -260,6 +315,7 @@
 <script>
 
     function DrawGraph(Data) {
+        alert(Data);
         var vis = d3.select("#svgVisualize");
         //clear Graph
         vis.selectAll("*").remove();
@@ -308,13 +364,50 @@
             url: "GetDataServlet",
             data: {'fileName': fileName},
             success: function (data, textStatus, request) {
-                Data = JSON.parse(request.getResponseHeader('Data'));
+                Data = JSON.parse(request.getResponseHeader('Data')).Data;
                 DrawGraph(Data);
             },
-            error: function (request, textStatus, errorThrown) {
-                alert("Error");
+            error: function (response, textStatus, errorThrown) {
+                alert(response.statusText);
             }
         });
+
+    }
+
+    function ChangeName() {
+         $("#changeNameModal").modal('show');
+    }
+    function Overwrite() {
+        $('#FileAlreadyExistModal').modal('hide');
+    }
+    function DoChangingName(){
+        $('#FileAlreadyExistModal').modal('show');
+}
+    function CancelChangingName() {
+         $("#FileAlreadyExistModal").modal('show');
+    }
+
+</script>
+
+
+<script>
+    function AnalyzeButton(fileName,functionType) {
+        //AJAX request for getting minimum of Data
+        $(document).on("click", "#GlobalMinButton", function () {
+            $.ajax({
+                type: "GET",
+                async: true,
+                url: "AnalyzeServlet",
+                data: {'fileName': fileName, 'functionType':functionType},
+                success: function (data, textStatus, request) {
+
+                    alert(request.getResponseHeader('minimum'));
+                },
+                error: function (response, textStatus, errorThrown) {
+                    alert(response.statusText);
+                }
+            });
+        })
 
     }
 </script>
