@@ -70,7 +70,7 @@
 
 <!-- Header -->
 <a name="about"></a>
-<div class="intro-header">
+<div class="intro-header2">
     <div class="container">
 
         <div class="row">
