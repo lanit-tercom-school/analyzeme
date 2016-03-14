@@ -62,7 +62,7 @@
 
  <!-- Make a table -->
 <a name="about"></a>
-    <div class="intro-header2">
+    <div class="intro-header">
      <div class="container">
     <div class="row clearfix">
           <div class="col-md-12 column">
