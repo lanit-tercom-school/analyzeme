@@ -42,34 +42,13 @@
         <div class="container topnav">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <!--<span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>-->
                 <a href="index" type="button" class="btn btn-success btn-lg" href="index">AnalyzeMe</a>
                 <a href="action" type="button" class="btn btn-info btn-lg">Try now</a>
-                
+                <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
 
 
             </div>
-			
-            <!-- Collect the nav links, forms, and other content for toggling -->
 
-	<!--
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li>
-                        <a href="#services">Services</a>
-                    </li>
-                    <li>
-                        <a href="#contact">Contact</a>
-                    </li>
-                </ul>
-            </div>
-	-->
             <!-- /.navbar-collapse -->
         </div>
         <!-- /.container -->
@@ -89,7 +68,7 @@
                         <hr class="intro-divider">
                         <ul class="list-inline intro-social-buttons">
                             <li>
-                                <a href="demoProject" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i> <span class="network-name">   Try now </span></a>
+                                <a href="action" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i> <span class="network-name">   Try now </span></a>
                             </li>
                             <li>
                                 <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-primary btn-lg"><i class="fa fa-github fa-fw"></i> Source code</a>

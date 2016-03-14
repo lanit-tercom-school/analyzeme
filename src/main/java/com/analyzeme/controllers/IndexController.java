@@ -21,6 +21,8 @@ public class IndexController {
 		return "action";
 	}
 
+	@RequestMapping(value = "/projects")
+	public String moveToProjectPage() { return "projects"; }
 
 }
 

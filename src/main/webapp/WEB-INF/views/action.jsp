@@ -57,29 +57,12 @@
                 <span class="icon-bar"></span>-->
             <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
             <a href="action" type="button" class="btn btn-success btn-lg">Try now</a>
-
+            <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
 
 
 
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-
-        <!--
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li>
-                            <a href="#services">Services</a>
-                        </li>
-                        <li>
-                            <a href="#contact">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-        -->
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
@@ -87,7 +70,7 @@
 
 <!-- Header -->
 <a name="about"></a>
-<div class="intro-header">
+<div class="intro-header2">
     <div class="container">
 
         <div class="row">
@@ -95,7 +78,7 @@
 
                 <!-- Div for Upload file -->
                 <div>
-                    <button onclick="PopUpShow()">Upload and display</button>
+                    <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
 
                     <div class="popup" id="popup">
                         <div id="dropbox">
@@ -107,13 +90,13 @@
                 <!-- Div for display Graph -->
                 <div>
                     <div>
-                        <svg id="svgVisualize" width="500" height="500" style="border:1px solid Red;"></svg>
+                        <svg id="svgVisualize" width="500" height="500" style="border:1px solid white;"></svg>
                     </div>
 
                 </div>
                 <!-- Div for GlobalMin button -->
                 <div>
-                    <button id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</button>
+                    <a type="button" class="btn btn-primary btn-lg" id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</a>
                 </div>
 
 
