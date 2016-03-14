@@ -34,10 +34,6 @@
      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
      <![endif]-->
 
-     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-
-
      <!-- Delete row -->
      <script type="text/javascript">
          function killRow(src) {
@@ -46,43 +42,19 @@
          }
      </script>
  </head>
- 
+
  <body>
- 
+
  <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
     <div class="container topnav">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <!--<span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>-->
             <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
                 <a href="action" type="button" class="btn btn-info btn-lg">Try now</a>
                     <a href="projects" type="button" class="btn btn-success btn-lg">Projects</a>
-            <!--       <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-info btn-lg"><i>class="fa fa-github fa-fw"></i> Source code</a>-->
-
-
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-
-        <!--
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li>
-                            <a href="#services">Services</a>
-                        </li>
-                        <li>
-                            <a href="#contact">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-        -->
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
@@ -113,21 +85,6 @@
                          </tr>
                     </thead>
                     <tbody>
-                    <!-- <tr class="coloring">
-                            <td>
-                                 <input type="checkbox" id="shest001">
-                            </td>
-                            <td>
-                           <input type="text" name='title0'  placeholder='Title' class="form-control"/>
-                          </td>
-                          <td>
-                              <input type="text" name='owner0' placeholder='Owner' class="form-control"/>
-                             </td>
-                             <td>
-                             <input type="text" name='last_modified0' placeholder='Last modified' class="form-control"/>
-                             </td>
-                        </tr>
-                       </tr>-->
                        </tbody>
                   </table>
              </div>
@@ -135,12 +92,6 @@
 
          <!-- New project button -->
             <a class="btn btn-default pull-left" onclick="addRow('myTable');return false;">New Project</a>
-        <!-- <div class="popup" id="popup">
-
-         </div>-->
-
-         <!-- Delete project button is not ready yet-->
-        <a id='delete_row' class="pull-right btn btn-default" onclick="DeleteARow();">Delete Project</a>
    </div>
 
     </div>
@@ -171,119 +122,7 @@
             row.appendChild(td4);
             tbody.appendChild(row);
         }
-
-        /*function myDeleteFunction(r) {
-            document.getElementById("myTable").deleteRow(r);
-        }
-
-        function DeleteARow() {
-            var Rows = document.getElementById('myTable').getElementsByTagName('tr');
-            var RowsCount = Rows.length;
-            alert('Your table has ' + RowsCount + ' rows.');
-            if (document.getElementById('cb').checked == true) {
-
-                document.getElementById('cb').parentNode('td').parentNode('tr').remove();
-
-            }
-        }*/
-
-        /*$('.myTable tbody tr').each(function(i) {
-            var number = i + 1;
-            $(this).find('td:first').text(number+".");
-        });
-
-        $(document).ready(function(){
-
-            $('tr').click(function(){
-
-                alert(this.rowIndex+1);
-
-            });
-
-        });*/
-       /* function removeAllRowsContainingCheckedCheckbox(table) {
-            for (var rowi= table.rows.length; rowi-->0;) {
-                var row= table.rows[rowi];
-                var inputs= row.getElementsByTagName('input');
-                for (var inputi= inputs.length; inputi-->0;) {
-                    var input= inputs[inputi];
-
-                    if (input.type==='checkbox' && input.checked) {
-                        row.parentNode.removeChild(row);
-                        break;
-                    }
-                }
-            }
-        }*/
-
-
-
-       /* function PopUpShow() {
-            $("#popup").show();
-        }
-        //Function hides PopUp
-        function PopUpHide() {
-            $("#popup").hide();
-        }*/
     </script>
-
-
-
-
-
-   <!-- <div class="row row-spaced">
-        <div class="col-xs-12">
-             <div class="card card-thin project-list-card">
-                  <ul select-all-list ng-if="projects.length &gt; 0" max-height="projectListHeight - 25" ng-cloak class="list-unstyled project-list structured-list">
-   <li class="container-fluid">
-        <div class="row">
-             <div class="col-xs-6">
-                  <input select-all type="checkbox" class="select-all">
-                  <span ng-click="changePredicate('name')" class="header clickable">Title
-                       <i ng-class="getSortIconClass('name')" class="tablesort fa">
-                       </i>
-                  </span>
-             </div>
-             <div class="col-xs-2">
-                  <span ng-click="changePredicate('accessLevel')" class="header clickable">Owner
-                       <i ng-class="getSortIconClass('accessLevel')" class="tablesort fa">
-                       </i>
-                  </span>
-             </div>
-             <div class="col-xs-4">
-                  <span ng-click="changePredicate('lastUpdated')" class="header clickable">Last modified
-                       <i ng-class="getSortIconClass('lastUpdated')" class="tablesort fa">
-                       </i>
-                  </span>
-             </div>
-        </div>
-   </li>
-   <li ng-repeat="project in visibleProjects | orderBy:predicate:reverse" ng-controller="ProjectListItemController" class="project_entry container-fluid">
-        <div class="row">
-             <div class="col-xs-6">
-                  <input select-individual type="checkbox" ng-model="project.selected" class="select-item">
-                  <span>
-                       <a href="/project/{{project.id}}" class="projectName">{{project.name}}</a>
-                       <span ng-controller="TagListController">
-                            <a href ng-repeat="tag in project.tags" ng-click="selectTag(tag)" class="label label-default tag-label">{{tag.name}}
-                            </a>
-                       </span>
-                  </span>
-             </div>
-             <div class="col-xs-2"><span class="owner">{{ownerName()}}</span></div><div class="col-xs-4">
-             <span class="last-modified">{{project.lastUpdated | formatDate}}
-             </span>
-        </div>
-   </div>
-   </li>
-     </div>
-      </div>
-       </div>-->
-
-
-
-
-
 
  <!-- jQuery -->
  <spring:url value="/resources/js/jquery.js" var="jqueryJs"/>
