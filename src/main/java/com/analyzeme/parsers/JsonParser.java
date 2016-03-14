@@ -28,8 +28,8 @@ public class JsonParser {
 
 		this.inputStream = inputStream;
 	}
-	/*
-    //Method for parsing string type {"x": ["1", "2.5", "4.7"],"y": ["5", "6.5", "7.7"]}
+	/**
+	 * Method for parsing string type {"x": ["1", "2.5", "4.7"],"y": ["5", "6.5", "7.7"]}
      */
 	public Point[] getPoints() throws JsonParserException {
 		JSONParser parser = new JSONParser();
@@ -59,8 +59,8 @@ public class JsonParser {
 			throw new JsonParserException(e.getStackTrace().toString());
 		}
 	}
-/*
-//Method for parsing string type {Data:[{"x": "1","y": "15"},{"x": "20","y": "60" }]}
+/**
+ * Method for parsing string type {Data:[{"x": "1","y": "15"},{"x": "20","y": "60" }]}
  */
 	public Point[] getPointsFromPointJson() throws JsonParserException {
 		JSONParser parser = new JSONParser();
