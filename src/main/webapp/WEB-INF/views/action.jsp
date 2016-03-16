@@ -22,6 +22,8 @@
 
     <spring:url value="/resources/css/drag-and-drop.css" var="dragAndDropCss"/>
     <link href="${dragAndDropCss}" rel="stylesheet"/>
+    <spring:url value="/resources/css/simple-slidebar.css" var="SimpleSlidebarCss"/>
+    <link href="${SimpleSlidebarCss}" rel="stylesheet"/>
 
     <!-- Custom Fonts -->
     <spring:url value="/resources/font-awesome/css/font-awesome.min.css" var="fontAwesomeCss"/>
@@ -40,12 +42,6 @@
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 
-    <style>
-        #ButtonList{
-            position: relative;
-            left: -400px;
-        }
-    </style>
 
 </head>
 <body>
@@ -91,72 +87,61 @@
 <!-- Header -->
 <a name="about"></a>
 <div class="intro-header">
-    <div class="container">
 
-        <div class="row">
-            <div class="col-lg-12">
-                <!-- Modal FileAlreadyExist http://bootstrap-ru.com/javascript.php#modals-->
-                <!-- keyboard="true"  close window by pressing Esc on keyboard-->
-                <div class="modal" id="FileAlreadyExistModal" tabindex="-1" role="dialog"
-                     aria-labelledby="FileAlreadyExistModalLabel" aria-hidden="true">
+    <!-- Page Content -->
 
-                    <div class="modal-body">
-                        <p>File already exist</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal" aria-hidden="true" onclick="ChangeName()">Change name
-                        </button>
-                        <button class="btn btn-primary" aria-hidden="true" onclick="Overwrite()">Overwrite</button>
-                    </div>
-                </div>
-                <!-- Modal  of change name-->
-                <div class="modal" id="changeNameModal" tabindex="-1" role="dialog"
-                     aria-labelledby="changeNameModalLabel"
-                     aria-hidden="true">
-
-                    <div class="modal-body">
-                        <p>Write new name</p>
-                        <p><label>
-                            <input type="TEXT" name="fileName" value="" size="20" id="fileNameInput" color='red'>
-                        </label></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn" data-dismiss="modal" aria-hidden="true" onclick="DoChangingName()" >
-                            Ok
-                        </button>
-                        <button class="btn btn-primary" aria-hidden="true" onclick="CancelChangingName()">Cancel</button>
-                    </div>
-                </div>
-                <!-- Div for Upload file -->
-                <div>
-                    <button onclick="PopUpShow()">Upload and display</button>
-
-                    <div class="popup" id="popup">
-                        <div id="dropbox">
-                            Drag and drop a file here...
+        <div class="container">
+            <div class="row">
+                <!-- Sidebar -->
+                <div class="col-md-2">
+                    <ul>
+                        <div>
+                            <li>
+                                <p>
+                                <h3>File list</h3></p>
+                                <button onclick="PopUpShow()">Upload and display</button>
+                            </li>
                         </div>
-                    </div>
-                    <div id="status"></div>
-                    <div id="ButtonList"></div>
+                        <div id="ButtonList"></div>
+                    </ul>
                 </div>
-                <!-- Div for display Graph -->
-                <div>
+                <div class="col-md-10">
+                    <!-- Div for Upload file -->
                     <div>
-                        <svg id="svgVisualize" width="500" height="500" style="border:1px solid Red;"></svg>
+                        <div class="popup" id="popup">
+                            <div id="dropbox">
+                                Drag and drop a file here...
+                            </div>
+                        </div>
+                        <div id="status"></div>
                     </div>
+                    <!-- Div for display Graph -->
+                    <div>
+                        <div>
+                            <svg id="svgVisualize" width="500" height="500" style="border:1px solid Red;"></svg>
+                        </div>
 
+                    </div>
+                    <!-- dropdown for Analyze buttons -->
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                            Analyze function list <span class="caret"></span>
+                        </button>
+                        <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                            <li>
+                                <button onclick="AnalyzeButton(fileName,'GlobalMinimum')">Calculate Global Min</button>
+                            </li>
+                            <li>
+                                <button onclick="AnalyzeButton(fileName,'GlobalMaximum')">Calculate Global Max</button>
+                            </li>
+
+                        </ul>
+                    </div>
                 </div>
-                <!-- Div for GlobalMin button -->
-                <div>
-                    <button id="GlobalMinButton" onclick="AnalyzeButton(fileName,'GlobalMinimum')">Calculate Global Min</button>
-
-                </div>
-
-
             </div>
         </div>
 
-    </div>
     <!-- /.container -->
 
 </div>
@@ -195,7 +180,6 @@
 <!-- Bootstrap Core JavaScript -->
 <spring:url value="/resources/js/bootstrap.min.js" var="mainJs"/>
 <script src="${mainJs}"></script>
-
 
 <script>
     //Data what will display
@@ -238,10 +222,10 @@
         var files = event.dataTransfer.files;
 
 
-            for (var i = 0; i < files.length; i++) {
-                uploadFile(files[i]);
-            }
-            PopUpHide();
+        for (var i = 0; i < files.length; i++) {
+            uploadFile(files[i]);
+        }
+        PopUpHide();
 
     }
     //Uploads file
@@ -272,7 +256,7 @@
 
             $('#FileAlreadyExistModal').modal('show');
 
-        }else {
+        } else {
             //Adding text to status
             document.getElementById("status").innerHTML = "Uploading " + file.name;
             var formData = new FormData();
@@ -375,42 +359,42 @@
     }
 
     function ChangeName() {
-         $("#changeNameModal").modal('show');
+        $("#changeNameModal").modal('show');
     }
     function Overwrite() {
         $('#FileAlreadyExistModal').modal('hide');
     }
-    function DoChangingName(){
+    function DoChangingName() {
         $('#FileAlreadyExistModal').modal('show');
-}
+    }
     function CancelChangingName() {
-         $("#FileAlreadyExistModal").modal('show');
+        $("#FileAlreadyExistModal").modal('show');
     }
 
 </script>
 
-
+<!-- analyze button script-->
 <script>
-    function AnalyzeButton(fileName,functionType) {
+    function AnalyzeButton(fileName, functionType) {
         //AJAX request for getting minimum of Data
-        $(document).on("click", "#GlobalMinButton", function () {
-            $.ajax({
-                type: "GET",
-                async: true,
-                url: "AnalyzeServlet",
-                data: {'fileName': fileName, 'functionType':functionType},
-                success: function (data, textStatus, request) {
+        $.ajax({
+            type: "GET",
+            async: true,
+            url: "AnalyzeServlet",
+            data: {'fileName': fileName, 'functionType': functionType},
+            success: function (data, textStatus, request) {
 
-                    alert(request.getResponseHeader('minimum'));
-                },
-                error: function (response, textStatus, errorThrown) {
-                    alert(response.statusText);
-                }
-            });
-        })
+                alert(request.getResponseHeader('minimum'));
+            },
+            error: function (response, textStatus, errorThrown) {
+                alert(response.statusText);
+            }
+        });
+
 
     }
 </script>
+
 </body>
 
 </html>
