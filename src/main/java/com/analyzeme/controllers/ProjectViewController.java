@@ -18,7 +18,7 @@ public class ProjectViewController {
     }
 
     @RequestMapping("/project/{project_id}")
-    public ModelAndView doGetDemoProjectPage(@PathVariable("project_id") int projectId) {
+    public ModelAndView doGetDemoProjectPage(@PathVariable("project_id") String projectId) {
         return new ModelAndView("action", "projectId", projectId);
     }
 }
