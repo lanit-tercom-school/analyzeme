@@ -5,11 +5,7 @@ import com.analyzeme.repository.ProjectInfo;
 import com.analyzeme.repository.UserInfo;
 import com.analyzeme.repository.UsersRepository;
 import com.analyzeme.streamreader.StreamToString;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -20,8 +16,8 @@ import java.io.IOException;
  * Created by Olga on 05.11.2015.
  */
 
-@Controller
-public class UploadServlet {
+@RestController
+public class FileController {
 
     /**
      * handles files upload
@@ -49,7 +45,7 @@ public class UploadServlet {
             }
 
             //part, filename, projectName, username (IN THIS ORDER)
-             String[] param = {fileName, project.projectName, user.login};
+            String[] param = {fileName, project.projectName, user.login};
             //String[] param = {fileName, "default", "guest"};
             responseToJS = UsersRepository.repo.persist(multipartFile, param);
 
@@ -84,7 +80,7 @@ public class UploadServlet {
                 UsersRepository.repo.newItem(param);
                 user = UsersRepository.repo.findUser("guest");
             }
-                user.projects.createProject("default");
+            user.projects.createProject("default");
 
             //part, filename, projectName, username (IN THIS ORDER)
             String[] param = {fileName, "default", "guest"};
@@ -102,6 +98,27 @@ public class UploadServlet {
             throw e;
         } catch (Exception ex) {
             ex.printStackTrace();
+        }
+    }
+
+    /**
+     * deletes file by unique name
+     *
+     * @param uniqueName
+     * @return true if file was deleted successfully
+     * false otherwise
+     * IOException
+     */
+    @RequestMapping(value = "/file/{unique_name}/delete", method = RequestMethod.DELETE)
+    public boolean doGet(@PathVariable("unique_name") String uniqueName)
+            throws IOException {
+        try {
+            //this call deactivates file
+            //to delete it completely use deleteFileByIdCompletely
+            return FileRepository.repo.deleteFileById(uniqueName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }
