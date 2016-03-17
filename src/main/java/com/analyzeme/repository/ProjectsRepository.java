@@ -2,18 +2,18 @@ package com.analyzeme.repository;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by lagroffe on 17.02.2016 18:40
  */
 
 public class ProjectsRepository {
-	public ArrayList<ProjectInfo> projects;
+	private List<ProjectInfo> projects;
 	private int counter = 0;
 
 	/**
@@ -29,9 +29,10 @@ public class ProjectsRepository {
 	 * @param projectName
 	 * @return
 	 */
-	public ProjectInfo findProject(final String projectName) {
-		for (ProjectInfo project : projects) {
-			if (project.projectName.equals(projectName)) {
+	public ProjectInfo findProject(final String projectName) throws IOException {
+		if (projectName == null || projectName.equals("")) throw new IOException();
+		for (ProjectInfo project : getProjects()) {
+			if (project.getProjectName().equals(projectName)) {
 				return project;
 			}
 		}
@@ -45,9 +46,10 @@ public class ProjectsRepository {
 	 * @param projectId
 	 * @return
 	 */
-	public ProjectInfo findProjectById(final String projectId) {
-		for (ProjectInfo project : projects) {
-			if (project.uniqueName.equals(projectId)) {
+	public ProjectInfo findProjectById(final String projectId) throws IOException {
+		if (projectId == null || projectId.equals("")) throw new IOException();
+		for (ProjectInfo project : getProjects()) {
+			if (project.getUniqueName().equals(projectId)) {
 				return project;
 			}
 		}
@@ -59,11 +61,11 @@ public class ProjectsRepository {
 	 *
 	 * @return
 	 */
-	public ArrayList<String> returnAllProjectsNames() {
-		if (projects.isEmpty()) return null;
+	public List<String> returnAllProjectsNames() {
+		if (getProjects().isEmpty()) return null;
 		ArrayList<String> names = new ArrayList<String>();
-		for (ProjectInfo info : projects) {
-			names.add(info.projectName);
+		for (ProjectInfo info : getProjects()) {
+			names.add(info.getProjectName());
 		}
 		return names;
 	}
@@ -73,11 +75,11 @@ public class ProjectsRepository {
 	 *
 	 * @return
 	 */
-	public ArrayList<String> returnAllActiveProjectsNames() {
-		if (projects.isEmpty()) return null;
+	public List<String> returnAllActiveProjectsNames() {
+		if (getProjects().isEmpty()) return null;
 		ArrayList<String> names = new ArrayList<String>();
-		for (ProjectInfo info : projects) {
-			if (info.isActive) names.add(info.projectName);
+		for (ProjectInfo info : getProjects()) {
+			if (info.isActive()) names.add(info.getProjectName());
 		}
 		return names;
 	}
@@ -92,12 +94,13 @@ public class ProjectsRepository {
 	 * creates empty project
 	 */
 	public String createProject(final String projectName) throws Exception {
+		if (projectName == null || projectName.equals("")) throw new IOException();
 		if (findProject(projectName) != null) {
 			return null;
 		}
 		String uniqueName = createUniqueName();
 		ProjectInfo info = new ProjectInfo(projectName, uniqueName);
-		projects.add(info);
+		getProjects().add(info);
 		counter++;
 		return uniqueName;
 	}
@@ -105,12 +108,13 @@ public class ProjectsRepository {
 	/**
 	 * deletes all files with unique names in ArrayList
 	 *
-	 * @param filenames - ArrayList<String> of names in repository
+	 * @param filenames - List<String> of names in repository
 	 * @return true if succeed
 	 */
-	private boolean deleteFilesInProjectCompletely(final ArrayList<String> filenames) {
+	private boolean deleteFilesInProjectCompletely(final List<String> filenames) throws Exception {
 		for (String filename : filenames) {
-			if (!FileRepository.repo.deleteFileByIdCompletely(filename)) {
+			if (filename == null || filename.equals("")) throw new IOException();
+			if (!FileRepository.getRepo().deleteFileByIdCompletely(filename)) {
 				return false;
 			}
 		}
@@ -124,10 +128,11 @@ public class ProjectsRepository {
 	 * @return true if succeed
 	 */
 	public synchronized boolean deleteProjectCompletely(final String projectName) throws Exception {
-		for (int i = 0; i < projects.size(); i++) {
-			if (projects.get(i).projectName.equals(projectName)) {
-				if (!deleteFilesInProjectCompletely(projects.get(i).filenames)) return false;
-				projects.remove(i);
+		if (projectName == null || projectName.equals("")) throw new IOException();
+		for (int i = 0; i < getProjects().size(); i++) {
+			if (getProjects().get(i).getProjectName().equals(projectName)) {
+				if (!deleteFilesInProjectCompletely(getProjects().get(i).getFilenames())) return false;
+				getProjects().remove(i);
 				return true;
 			}
 		}
@@ -135,16 +140,17 @@ public class ProjectsRepository {
 	}
 
 	/**
-	 * deactivates all files with unique names in ArrayList
+	 * deactivates all files with unique names in List
 	 *
-	 * @param filenames - ArrayList<String> of names in repository
+	 * @param filenames - List<String> of names in repository
 	 * @return true if succeed
 	 */
-	private boolean deactivateFiles(final ArrayList<String> filenames) {
+	private boolean deactivateFiles(final List<String> filenames) throws IOException {
 		for (String filename : filenames) {
-			for (FileInfo info : FileRepository.files) {
-				if (info.uniqueName.equals(filename)) {
-					info.isActive = false;
+			if (filename == null || filename.equals("")) throw new IOException();
+			for (FileInfo info : FileRepository.getFiles()) {
+				if (info.getUniqueName().equals(filename)) {
+					info.setIsActive(false);
 				}
 			}
 		}
@@ -158,11 +164,12 @@ public class ProjectsRepository {
 	 * @return true if succeed
 	 */
 	public synchronized boolean deleteProject(final String projectName) throws Exception {
-		for (ProjectInfo info : projects) {
-			if (info.projectName.equals(projectName)) {
-				deactivateFiles(info.filenames);
-				info.isActive = false;
-				info.lastChangeDate = new Date();
+		if (projectName == null || projectName.equals("")) throw new IOException();
+		for (ProjectInfo info : getProjects()) {
+			if (info.getProjectName().equals(projectName)) {
+				deactivateFiles(info.getFilenames());
+				info.setIsActive(false);
+				info.setLastChangeDate(new Date());
 				return true;
 			}
 		}
@@ -178,6 +185,9 @@ public class ProjectsRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String persist(final MultipartFile file, final String filename, String projectName) throws Exception {
+		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (filename == null || filename.equals("")) throw new IOException();
+		if (file == null) throw new IOException();
 		ProjectInfo info = findProject(projectName);
 		if (info == null) {
 			projectName = createProject(projectName);
@@ -195,6 +205,9 @@ public class ProjectsRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String persistById(final MultipartFile file, final String filename, final String projectId) throws Exception {
+		if (projectId == null || projectId.equals("")) throw new IOException();
+		if (filename == null || filename.equals("")) throw new IOException();
+		if (file == null) throw new IOException();
 		ProjectInfo info = findProjectById(projectId);
 		if (info == null) return null;
 		String nameToWrite = info.addNewFile(file, filename);
@@ -211,6 +224,9 @@ public class ProjectsRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename, String projectName) throws Exception {
+		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (filename == null || filename.equals("")) throw new IOException();
+		if (part == null) throw new IOException();
 		ProjectInfo info = findProject(projectName);
 		if (info == null) throw new IllegalArgumentException();
 		String nameToWrite = info.addNewFileForTests(part, filename);
@@ -228,6 +244,9 @@ public class ProjectsRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String addNewFileForTestsById(ByteArrayInputStream part, final String filename, final String projectId) throws Exception {
+		if (projectId == null || projectId.equals("")) throw new IOException();
+		if (filename == null || filename.equals("")) throw new IOException();
+		if (part == null) throw new IOException();
 		ProjectInfo info = findProjectById(projectId);
 		if (info == null) throw new IllegalArgumentException();
 		String nameToWrite = info.addNewFileForTests(part, filename);
@@ -241,20 +260,22 @@ public class ProjectsRepository {
 	 * @return stream (or null if not found)
 	 */
 	public synchronized ByteArrayInputStream getFileByID(final String nameToWrite) throws IOException {
-		return FileRepository.repo.getFileByID(nameToWrite);
+		if (nameToWrite == null || nameToWrite.equals("")) throw new IOException();
+		return FileRepository.getRepo().getFileByID(nameToWrite);
 	}
 
 	/**
 	 * Returns all files from the project
 	 */
-	public synchronized ArrayList<ByteArrayInputStream> getFilesFromProject(final String projectName) throws Exception {
+	public synchronized List<ByteArrayInputStream> getFilesFromProject(final String projectName) throws Exception {
+		if (projectName == null || projectName.equals("")) throw new IOException();
 		ProjectInfo project = findProject(projectName);
-		if (!project.isActive) return null;
-		if (project == null || project.filenames.isEmpty()) {
+		if (!project.isActive()) return null;
+		if (project == null || project.getFilenames().isEmpty()) {
 			return null;
 		}
 		ArrayList<ByteArrayInputStream> files = new ArrayList<ByteArrayInputStream>();
-		for (String name : project.filenames) {
+		for (String name : project.getFilenames()) {
 			files.add(getFileByID(name));
 		}
 		for (int i = 0; i < files.size(); i++) {
@@ -267,12 +288,14 @@ public class ProjectsRepository {
 	 * Return a file from the project
 	 */
 	public synchronized ByteArrayInputStream getFileFromProject(final String filename, final String projectName) throws Exception {
+		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (filename == null || filename.equals("")) throw new IOException();
 		ProjectInfo project = findProject(projectName);
-		if (!project.isActive) return null;
-		if (project == null || project.filenames.isEmpty()) {
+		if (!project.isActive()) return null;
+		if (project == null || project.getFilenames().isEmpty()) {
 			return null;
 		}
-		for (String name : project.filenames) {
+		for (String name : project.getFilenames()) {
 			if (name.equals(filename))
 				return getFileByID(filename);
 		}
@@ -287,10 +310,11 @@ public class ProjectsRepository {
 	 * @return true if succeed
 	 */
 	public synchronized boolean deleteProjectCompletelyById(final String projectId) throws Exception {
-		for (int i = 0; i < projects.size(); i++) {
-			if (projects.get(i).uniqueName.equals(projectId)) {
-				if (!deleteFilesInProjectCompletely(projects.get(i).filenames)) return false;
-				projects.remove(i);
+		if (projectId == null || projectId.equals("")) throw new IOException();
+		for (int i = 0; i < getProjects().size(); i++) {
+			if (getProjects().get(i).getUniqueName().equals(projectId)) {
+				if (!deleteFilesInProjectCompletely(getProjects().get(i).getFilenames())) return false;
+				getProjects().remove(i);
 				return true;
 			}
 		}
@@ -304,11 +328,12 @@ public class ProjectsRepository {
 	 * @return true if succeed
 	 */
 	public synchronized boolean deleteProjectById(final String projectId) throws Exception {
-		for (ProjectInfo info : projects) {
-			if (info.uniqueName.equals(projectId)) {
-				deactivateFiles(info.filenames);
-				info.isActive = false;
-				info.lastChangeDate = new Date();
+		if (projectId == null || projectId.equals("")) throw new IOException();
+		for (ProjectInfo info : getProjects()) {
+			if (info.getUniqueName().equals(projectId)) {
+				deactivateFiles(info.getFilenames());
+				info.setIsActive(false);
+				info.setLastChangeDate(new Date());
 				return true;
 			}
 		}
@@ -318,14 +343,15 @@ public class ProjectsRepository {
 	/**
 	 * Returns all files from the project
 	 */
-	public synchronized ArrayList<ByteArrayInputStream> getFilesFromProjectById(final String projectId) throws Exception {
+	public synchronized List<ByteArrayInputStream> getFilesFromProjectById(final String projectId) throws Exception {
+		if (projectId == null || projectId.equals("")) throw new IOException();
 		ProjectInfo project = findProjectById(projectId);
-		if (!project.isActive) return null;
-		if (project == null || project.filenames.isEmpty()) {
+		if (!project.isActive()) return null;
+		if (project == null || project.getFilenames().isEmpty()) {
 			return null;
 		}
 		ArrayList<ByteArrayInputStream> files = new ArrayList<ByteArrayInputStream>();
-		for (String name : project.filenames) {
+		for (String name : project.getFilenames()) {
 			files.add(getFileByID(name));
 		}
 		for (int i = 0; i < files.size(); i++) {
@@ -338,15 +364,21 @@ public class ProjectsRepository {
 	 * Return a file from the project
 	 */
 	public synchronized ByteArrayInputStream getFileFromProjectById(final String filename, final String projectId) throws Exception {
+		if (projectId == null || projectId.equals("")) throw new IOException();
+		if (filename == null || filename.equals("")) throw new IOException();
 		ProjectInfo project = findProjectById(projectId);
-		if (!project.isActive) return null;
-		if (project == null || project.filenames.isEmpty()) {
+		if (!project.isActive()) return null;
+		if (project == null || project.getFilenames().isEmpty()) {
 			return null;
 		}
-		for (String name : project.filenames) {
+		for (String name : project.getFilenames()) {
 			if (name.equals(filename))
 				return getFileByID(filename);
 		}
 		return null;
+	}
+
+	public List<ProjectInfo> getProjects() {
+		return projects;
 	}
 }

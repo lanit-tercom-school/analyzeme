@@ -1,19 +1,22 @@
 package com.analyzeme.repository;
 
+//TODO: synchronized - ?
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lagroffe on 22.02.2016 23:03
  */
 
 public class UsersRepository implements IRepository {
-	public static UsersRepository repo = new UsersRepository();
-	public static ArrayList<UserInfo> users;
+	private static UsersRepository repo = new UsersRepository();
+	private static List<UserInfo> users;
 	//unique id of a new user - users.size()+1 (user deletion isn't planned)
 
 	/**
@@ -21,6 +24,14 @@ public class UsersRepository implements IRepository {
 	 */
 	private UsersRepository() {
 		users = new ArrayList<UserInfo>();
+	}
+
+	public static UsersRepository getRepo() {
+		return repo;
+	}
+
+	public static List<UserInfo> getUsers() {
+		return users;
 	}
 
 
@@ -34,10 +45,10 @@ public class UsersRepository implements IRepository {
 	 * @return unique object of repository
 	 */
 	public synchronized IRepository checkInitializationAndCreate() {
-		if (users == null) {
+		if (getUsers() == null) {
 			new UsersRepository();
 		}
-		return repo;
+		return getRepo();
 	}
 
 	/**
@@ -48,10 +59,10 @@ public class UsersRepository implements IRepository {
 	 * @return existing unique object of repository or null
 	 */
 	public synchronized IRepository checkInitialization() {
-		if (users == null) {
+		if (getUsers() == null) {
 			return null;
 		}
-		return repo;
+		return getRepo();
 	}
 
 
@@ -63,9 +74,12 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String newItem(final String[] data) throws Exception {
-		int id = users.size() + 1;
+		for (String str : data) {
+			if (str == null || str.equals("")) throw new IOException();
+		}
+		int id = getUsers().size() + 1;
 		UserInfo newUser = new UserInfo(data[0], id, data[1], data[2]);
-		users.add(newUser);
+		getUsers().add(newUser);
 		return Integer.toString(id);
 	}
 
@@ -76,8 +90,8 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized UserInfo findUser(final int id) throws Exception {
-		if (id <= 0 || id > users.size()) throw new ArrayIndexOutOfBoundsException();
-		return users.get(id - 1);
+		if (id <= 0 || id > getUsers().size()) throw new ArrayIndexOutOfBoundsException();
+		return getUsers().get(id - 1);
 	}
 
 
@@ -88,8 +102,9 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized UserInfo findUser(final String login) throws Exception {
-		for (UserInfo info : users) {
-			if (info.login.equals(login)) {
+		if (login == null || login.equals("")) throw new IOException();
+		for (UserInfo info : getUsers()) {
+			if (info.getLogin().equals(login)) {
 				return info;
 			}
 		}
@@ -105,7 +120,8 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String newProject(final String login, final String projectName) throws Exception {
-		return findUser(login).projects.createProject(projectName);
+		if (login == null || login.equals("") || projectName == null || projectName.equals("")) throw new IOException();
+		return findUser(login).getProjects().createProject(projectName);
 	}
 
 	/**
@@ -117,7 +133,8 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String newProject(final int userId, final String projectName) throws Exception {
-		return findUser(userId).projects.createProject(projectName);
+		if (userId <= 0 || projectName == null || projectName.equals("")) throw new IOException();
+		return findUser(userId).getProjects().createProject(projectName);
 	}
 
 	/**
@@ -131,7 +148,11 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String persist(final MultipartFile file, final String[] data) throws Exception {
-		return findUser(data[2]).projects.persist(file, data[0], data[1]);
+		if (file == null) throw new IOException();
+		for (String str : data) {
+			if (str == null || str.equals("")) throw new IOException();
+		}
+		return findUser(data[2]).getProjects().persist(file, data[0], data[1]);
 	}
 
 	/**
@@ -145,7 +166,11 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String persistByProjectId(final MultipartFile file, final String[] data) throws Exception {
-		return findUser(data[2]).projects.persistById(file, data[0], data[1]);
+		if (file == null) throw new IOException();
+		for (String str : data) {
+			if (str == null || str.equals("")) throw new IOException();
+		}
+		return findUser(data[2]).getProjects().persistById(file, data[0], data[1]);
 	}
 
 	/**
@@ -159,23 +184,28 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String persistByIds(final MultipartFile file, final String[] data) throws Exception {
-		return findUser(Integer.parseInt(data[2])).projects.persistById(file, data[0], data[1]);
+		if (file == null) throw new IOException();
+		for (String str : data) {
+			if (str == null || str.equals("")) throw new IOException();
+		}
+		return findUser(Integer.parseInt(data[2])).getProjects().persistById(file, data[0], data[1]);
 	}
 
 	/**
 	 * return all names of users in repository
 	 *
-	 * @return array of names or null if repository is empty
+	 * @return list of names or null if repository is empty
 	 */
-	public synchronized ArrayList<String> getAllNames() {
+	public synchronized List<String> getAllNames() {
 		ArrayList<String> names = new ArrayList<String>();
-		for (UserInfo info : users) {
-			names.add(info.login);
+		for (UserInfo info : getUsers()) {
+			names.add(info.getLogin());
 		}
 		return names;
 	}
 
 	//not tested
+
 	/**
 	 * return json with info about all users in repository
 	 *
@@ -183,16 +213,11 @@ public class UsersRepository implements IRepository {
 	 */
 	public synchronized String getAllItems() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
-		StringBuilder items = new StringBuilder();
-		items.append("[ ");
-		for (UserInfo info : users) {
-			items.append(mapper.writeValueAsString(info));
-		}
-		items.append(" ]");
-		return items.toString();
+		return mapper.writeValueAsString(getUsers());
 	}
 
 	//not tested
+
 	/**
 	 * return json with info about a user if id or unique name is qiven
 	 *
@@ -200,6 +225,7 @@ public class UsersRepository implements IRepository {
 	 * @return json string with an object
 	 */
 	public synchronized String getItem(final String id) throws Exception {
+		if (id == null || id.equals("")) throw new IOException();
 		int num = Integer.parseInt(id);
 		UserInfo info = findUser(num);
 		ObjectMapper mapper = new ObjectMapper();
@@ -216,10 +242,14 @@ public class UsersRepository implements IRepository {
 	 * @return
 	 */
 	public synchronized ByteArrayInputStream getFile(final String uniqueName, final String[] params) throws Exception {
+		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+		for (String str : params) {
+			if (str == null || str.equals("")) throw new IOException();
+		}
 		/**
 		 * some checking logic
 		 * if requirements are met ->
 		 */
-		return FileRepository.repo.getFileByID(uniqueName);
+		return FileRepository.getRepo().getFileByID(uniqueName);
 	}
 }

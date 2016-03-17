@@ -27,7 +27,7 @@ public class AnalysisController {
     public String getData(@PathVariable("file_name") String fileName)
             throws IOException {
         try {
-            ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
+            ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
         /*
         Convert ByteArrayInputStream into String
          */
@@ -59,7 +59,7 @@ public class AnalysisController {
 
             // String fileName = request.getParameter("fileName");
 
-            ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
+            ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 
          /*
         Convert ByteArrayInputStream into String

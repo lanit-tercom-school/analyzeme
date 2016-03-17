@@ -2,12 +2,12 @@ package com.analyzeme.repository;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.zip.DataFormatException;
 
 /**
@@ -15,13 +15,12 @@ import java.util.zip.DataFormatException;
  */
 
 public class ProjectInfo {
-
-	public String projectName;
-	public String uniqueName;
-	public Date creationDate;
-	public Date lastChangeDate;
-	public ArrayList<String> filenames;
-	public boolean isActive = true;
+	private String projectName;
+	private String uniqueName;
+	private Date creationDate;
+	private Date lastChangeDate;
+	private List<String> filenames;
+	private boolean isActive = true;
 
 
 	/**
@@ -29,11 +28,11 @@ public class ProjectInfo {
 	 *
 	 * @return
 	 */
-	public ArrayList<String> returnAllNames() {
-		if (filenames.isEmpty()) return null;
+	public List<String> returnAllNames() throws IOException {
+		if (getFilenames().isEmpty()) return null;
 		ArrayList<String> names = new ArrayList<String>();
-		for (String name : filenames) {
-			if (FileRepository.repo.findFileById(name).isActive) names.add(name);
+		for (String name : getFilenames()) {
+			if (FileRepository.getRepo().findFileById(name).isActive()) names.add(name);
 		}
 		return names;
 	}
@@ -45,12 +44,12 @@ public class ProjectInfo {
 	 */
 	ProjectInfo(final String name, final String uniqueName) throws IOException {
 		if (name == null || name.equals("")) throw new IOException();
-		this.projectName = name;
+		this.setProjectName(name);
 		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
 		this.uniqueName = uniqueName;
 		//default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
 		creationDate = new Date();
-		lastChangeDate = new Date();
+		setLastChangeDate(new Date());
 		filenames = new ArrayList<String>();
 	}
 
@@ -58,12 +57,12 @@ public class ProjectInfo {
 		if (filename == null || filename.equals("") || file == null) {
 			throw new DataFormatException();
 		}
-		String nameInRepo = FileRepository.repo.addNewFile(file, filename);
+		String nameInRepo = FileRepository.getRepo().addNewFile(file, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}
-		filenames.add(nameInRepo);
-		lastChangeDate = new Date();
+		getFilenames().add(nameInRepo);
+		setLastChangeDate(new Date());
 		return nameInRepo;
 	}
 
@@ -71,12 +70,50 @@ public class ProjectInfo {
 		if (filename == null || filename.equals("") || part == null) {
 			throw new DataFormatException();
 		}
-		String nameInRepo = FileRepository.repo.addNewFileForTests(part, filename);
+		String nameInRepo = FileRepository.getRepo().addNewFileForTests(part, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}
-		filenames.add(nameInRepo);
-		lastChangeDate = new Date();
+		getFilenames().add(nameInRepo);
+		setLastChangeDate(new Date());
 		return nameInRepo;
+	}
+
+	public String getProjectName() {
+		return projectName;
+	}
+
+	public void setProjectName(String projectName) throws IOException {
+		if (projectName == null || projectName.equals("")) throw new IOException();
+		this.projectName = projectName;
+	}
+
+	public Date getLastChangeDate() {
+		return lastChangeDate;
+	}
+
+	public void setLastChangeDate(Date lastChangeDate) throws IOException {
+		if (lastChangeDate == null) throw new IOException();
+		this.lastChangeDate = lastChangeDate;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
+	}
+
+	public String getUniqueName() {
+		return uniqueName;
+	}
+
+	public Date getCreationDate() {
+		return creationDate;
+	}
+
+	public List<String> getFilenames() {
+		return filenames;
 	}
 }

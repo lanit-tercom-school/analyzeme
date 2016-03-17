@@ -12,11 +12,11 @@ import java.util.Date;
  */
 
 public class FileInfo {
-	public String nameForUser;
-	public String uniqueName;
-	public Date uploadingDate;
-	public ByteArrayInputStream data;
-	public boolean isActive = true;
+	private String nameForUser;
+	private String uniqueName;
+	private Date uploadingDate;
+	ByteArrayInputStream data;
+	private boolean isActive = true;
 
 	/**
 	 * function to convert input stream to bytes array
@@ -46,11 +46,45 @@ public class FileInfo {
 	 */
 	FileInfo(final String nameForUser, final String uniqueName, final InputStream data) throws IOException {
 		if (nameForUser == null || nameForUser.equals("")) throw new IOException();
-		this.nameForUser = nameForUser;
+		this.setNameForUser(nameForUser);
 		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
 		this.uniqueName = uniqueName;
-		this.data = new ByteArrayInputStream(getBytesFromInputStream(data));
+		this.setData(new ByteArrayInputStream(getBytesFromInputStream(data)));
 		//default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
 		uploadingDate = new Date();
+	}
+
+	public String getNameForUser() {
+		return nameForUser;
+	}
+
+	public void setNameForUser(String nameForUser) throws IOException {
+		if (nameForUser == null || nameForUser.equals("")) throw new IOException();
+		this.nameForUser = nameForUser;
+	}
+
+	public String getUniqueName() {
+		return uniqueName;
+	}
+
+	public Date getUploadingDate() {
+		return uploadingDate;
+	}
+
+	public ByteArrayInputStream getData() {
+		return data;
+	}
+
+	public void setData(ByteArrayInputStream data) throws IOException {
+		if (data == null) throw new IOException();
+		this.data = data;
+	}
+
+	public boolean isActive() {
+		return isActive;
+	}
+
+	public void setIsActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 }
