@@ -45,10 +45,10 @@ public class UsersRepository implements IRepository {
 	 * @return unique object of repository
 	 */
 	public synchronized IRepository checkInitializationAndCreate() {
-		if (getUsers() == null) {
+		if (users == null) {
 			new UsersRepository();
 		}
-		return getRepo();
+		return repo;
 	}
 
 	/**
@@ -59,10 +59,10 @@ public class UsersRepository implements IRepository {
 	 * @return existing unique object of repository or null
 	 */
 	public synchronized IRepository checkInitialization() {
-		if (getUsers() == null) {
+		if (users == null) {
 			return null;
 		}
-		return getRepo();
+		return repo;
 	}
 
 
@@ -77,9 +77,9 @@ public class UsersRepository implements IRepository {
 		for (String str : data) {
 			if (str == null || str.equals("")) throw new IOException();
 		}
-		int id = getUsers().size() + 1;
+		int id = users.size() + 1;
 		UserInfo newUser = new UserInfo(data[0], id, data[1], data[2]);
-		getUsers().add(newUser);
+		users.add(newUser);
 		return Integer.toString(id);
 	}
 
@@ -90,8 +90,8 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized UserInfo findUser(final int id) throws Exception {
-		if (id <= 0 || id > getUsers().size()) throw new ArrayIndexOutOfBoundsException();
-		return getUsers().get(id - 1);
+		if (id <= 0 || id > users.size()) throw new ArrayIndexOutOfBoundsException();
+		return users.get(id - 1);
 	}
 
 
@@ -103,7 +103,7 @@ public class UsersRepository implements IRepository {
 	 */
 	public synchronized UserInfo findUser(final String login) throws Exception {
 		if (login == null || login.equals("")) throw new IOException();
-		for (UserInfo info : getUsers()) {
+		for (UserInfo info : users) {
 			if (info.getLogin().equals(login)) {
 				return info;
 			}
@@ -198,7 +198,7 @@ public class UsersRepository implements IRepository {
 	 */
 	public synchronized List<String> getAllNames() {
 		ArrayList<String> names = new ArrayList<String>();
-		for (UserInfo info : getUsers()) {
+		for (UserInfo info : users) {
 			names.add(info.getLogin());
 		}
 		return names;
@@ -213,7 +213,7 @@ public class UsersRepository implements IRepository {
 	 */
 	public synchronized String getAllItems() throws Exception {
 		ObjectMapper mapper = new ObjectMapper();
-		return mapper.writeValueAsString(getUsers());
+		return mapper.writeValueAsString(users);
 	}
 
 	//not tested

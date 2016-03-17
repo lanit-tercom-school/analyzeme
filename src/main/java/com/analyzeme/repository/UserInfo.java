@@ -17,13 +17,13 @@ public class UserInfo {
 
 	UserInfo(final String login, final int id, final String email, final String password) throws IOException {
 		if (login == null || login.equals("")) throw new IOException();
-		this.setLogin(login);
+		this.login = login;
 		if (id == 0) throw new IOException();
 		this.id = id;
 		if (email == null || email.equals("")) throw new IOException();
-		this.setEmail(email);
+		this.email = email;
 		if (password == null || password.equals("")) throw new IOException();
-		this.setPassword(password);
+		this.password = password;
 		this.projects = new ProjectsRepository();
 	}
 

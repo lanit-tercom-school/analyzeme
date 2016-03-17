@@ -61,7 +61,7 @@ public class ProjectInfo {
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}
-		getFilenames().add(nameInRepo);
+		filenames.add(nameInRepo);
 		setLastChangeDate(new Date());
 		return nameInRepo;
 	}
@@ -74,7 +74,7 @@ public class ProjectInfo {
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}
-		getFilenames().add(nameInRepo);
+		filenames.add(nameInRepo);
 		setLastChangeDate(new Date());
 		return nameInRepo;
 	}

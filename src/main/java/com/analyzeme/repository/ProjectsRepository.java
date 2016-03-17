@@ -31,7 +31,7 @@ public class ProjectsRepository {
 	 */
 	public ProjectInfo findProject(final String projectName) throws IOException {
 		if (projectName == null || projectName.equals("")) throw new IOException();
-		for (ProjectInfo project : getProjects()) {
+		for (ProjectInfo project : projects) {
 			if (project.getProjectName().equals(projectName)) {
 				return project;
 			}
@@ -48,7 +48,7 @@ public class ProjectsRepository {
 	 */
 	public ProjectInfo findProjectById(final String projectId) throws IOException {
 		if (projectId == null || projectId.equals("")) throw new IOException();
-		for (ProjectInfo project : getProjects()) {
+		for (ProjectInfo project : projects) {
 			if (project.getUniqueName().equals(projectId)) {
 				return project;
 			}
@@ -62,9 +62,9 @@ public class ProjectsRepository {
 	 * @return
 	 */
 	public List<String> returnAllProjectsNames() {
-		if (getProjects().isEmpty()) return null;
+		if (projects.isEmpty()) return null;
 		ArrayList<String> names = new ArrayList<String>();
-		for (ProjectInfo info : getProjects()) {
+		for (ProjectInfo info : projects) {
 			names.add(info.getProjectName());
 		}
 		return names;
@@ -76,9 +76,9 @@ public class ProjectsRepository {
 	 * @return
 	 */
 	public List<String> returnAllActiveProjectsNames() {
-		if (getProjects().isEmpty()) return null;
+		if (projects.isEmpty()) return null;
 		ArrayList<String> names = new ArrayList<String>();
-		for (ProjectInfo info : getProjects()) {
+		for (ProjectInfo info : projects) {
 			if (info.isActive()) names.add(info.getProjectName());
 		}
 		return names;
@@ -100,7 +100,7 @@ public class ProjectsRepository {
 		}
 		String uniqueName = createUniqueName();
 		ProjectInfo info = new ProjectInfo(projectName, uniqueName);
-		getProjects().add(info);
+		projects.add(info);
 		counter++;
 		return uniqueName;
 	}
@@ -129,10 +129,10 @@ public class ProjectsRepository {
 	 */
 	public synchronized boolean deleteProjectCompletely(final String projectName) throws Exception {
 		if (projectName == null || projectName.equals("")) throw new IOException();
-		for (int i = 0; i < getProjects().size(); i++) {
-			if (getProjects().get(i).getProjectName().equals(projectName)) {
-				if (!deleteFilesInProjectCompletely(getProjects().get(i).getFilenames())) return false;
-				getProjects().remove(i);
+		for (int i = 0; i < projects.size(); i++) {
+			if (projects.get(i).getProjectName().equals(projectName)) {
+				if (!deleteFilesInProjectCompletely(projects.get(i).getFilenames())) return false;
+				projects.remove(i);
 				return true;
 			}
 		}
@@ -165,7 +165,7 @@ public class ProjectsRepository {
 	 */
 	public synchronized boolean deleteProject(final String projectName) throws Exception {
 		if (projectName == null || projectName.equals("")) throw new IOException();
-		for (ProjectInfo info : getProjects()) {
+		for (ProjectInfo info : projects) {
 			if (info.getProjectName().equals(projectName)) {
 				deactivateFiles(info.getFilenames());
 				info.setIsActive(false);
@@ -311,10 +311,10 @@ public class ProjectsRepository {
 	 */
 	public synchronized boolean deleteProjectCompletelyById(final String projectId) throws Exception {
 		if (projectId == null || projectId.equals("")) throw new IOException();
-		for (int i = 0; i < getProjects().size(); i++) {
-			if (getProjects().get(i).getUniqueName().equals(projectId)) {
-				if (!deleteFilesInProjectCompletely(getProjects().get(i).getFilenames())) return false;
-				getProjects().remove(i);
+		for (int i = 0; i < projects.size(); i++) {
+			if (projects.get(i).getUniqueName().equals(projectId)) {
+				if (!deleteFilesInProjectCompletely(projects.get(i).getFilenames())) return false;
+				projects.remove(i);
 				return true;
 			}
 		}
@@ -329,7 +329,7 @@ public class ProjectsRepository {
 	 */
 	public synchronized boolean deleteProjectById(final String projectId) throws Exception {
 		if (projectId == null || projectId.equals("")) throw new IOException();
-		for (ProjectInfo info : getProjects()) {
+		for (ProjectInfo info : projects) {
 			if (info.getUniqueName().equals(projectId)) {
 				deactivateFiles(info.getFilenames());
 				info.setIsActive(false);
