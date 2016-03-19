@@ -1,20 +1,28 @@
 package com.analyzeme.R.call;
 
+import com.analyzeme.analyze.Point;
+
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lagroffe on 15.03.2016 22:33
  */
 
-//TODO: discuss the type of return value (stream may be better)
 public interface IRCaller {
+
+	//------------------
+	//default for scripts
+	//return - json
+	//may be errors
+	//------------------
 
 	/**
 	 * @param scriptName - name of the script to be called
 	 * @param rScript    - script to call, correct .R file as a stream
 	 * @param dataFiles  - data necessary for the script as streams from files
-	 * @return json string with results
+	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call R or script errored
 	 */
 	String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception;
@@ -23,15 +31,84 @@ public interface IRCaller {
 	 * @param scriptName - name of the script to be called
 	 * @param rScript    - script to call, correct .R file as a stream
 	 * @param jsonData   - data necessary for the script
-	 * @return json string with results
+	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call R or script errored
 	 */
 	String runScript(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception;
 
+
+	//------------------
+	//script for files
+	//------------------
+
+	/**
+	 * @param scriptName - name of the script to be called
+	 * @param rScript    - script to call, correct .R file as a stream
+	 * @param dataFiles  - data necessary for the script as streams from files
+	 * @return double result
+	 * @throws Exception if failed to call R or script errored
+	 */
+	double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception;
+
+	/**
+	 * @param scriptName - name of the script to be called
+	 * @param rScript    - script to call, correct .R file as a stream
+	 * @param dataFiles  - data necessary for the script as streams from files
+	 * @return one point
+	 * @throws Exception if failed to call R or script errored
+	 */
+	Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception;
+
+	/**
+	 * @param scriptName - name of the script to be called
+	 * @param rScript    - script to call, correct .R file as a stream
+	 * @param dataFiles  - data necessary for the script as streams from files
+	 * @return List<Point>
+	 * @throws Exception if failed to call R or script errored
+	 */
+	List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception;
+
+	//------------------
+	//script for data
+	//------------------
+
+	/**
+	 * @param scriptName - name of the script to be called
+	 * @param rScript    - script to call, correct .R file as a stream
+	 * @param jsonData   - data necessary for the script
+	 * @return double result
+	 * @throws Exception if failed to call R or script errored
+	 */
+	double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception;
+
+	/**
+	 * @param scriptName - name of the script to be called
+	 * @param rScript    - script to call, correct .R file as a stream
+	 * @param jsonData   - data necessary for the script
+	 * @return one point
+	 * @throws Exception if failed to call R or script errored
+	 */
+	Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception;
+
+	/**
+	 * @param scriptName - name of the script to be called
+	 * @param rScript    - script to call, correct .R file as a stream
+	 * @param jsonData   - data necessary for the script
+	 * @return List<Point>
+	 * @throws Exception if failed to call R or script errored
+	 */
+	List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception;
+
+	//------------------
+	//default for commands
+	//return - json
+	//may be errors
+	//------------------
+
 	/**
 	 * @param rCommand  - string with a command in R language
 	 * @param dataFiles - data necessary for the script as streams from files
-	 * @return json string with results
+	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call R or command errored
 	 */
 	String runCommand(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception;
@@ -39,35 +116,65 @@ public interface IRCaller {
 	/**
 	 * @param rCommand - string with a command in R language
 	 * @param jsonData - data necessary for the script
-	 * @return json string with results
+	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call R or command errored
 	 */
 	String runCommand(String rCommand, String jsonData) throws Exception;
 
 
-	//----------------------------------------------------------------------------------------
-	//the following depends on the type of integration
-	//it will be removed from the interface later
-	//
-	//if R has separate back-end:
+	//------------------
+	//command for files
+	//------------------
 
 	/**
-	 * convert stream to file and send it where R can call it from
-	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - stream with data from .R file
-	 * @return true if succeded
+	 * @param rCommand  - string with a command in R language
+	 * @param dataFiles - data necessary for the script as streams from files
+	 * @return double result
+	 * @throws Exception if failed to call R or command errored
 	 */
-	boolean sendScript(String rScriptName, ByteArrayInputStream rScript);
+	double runCommandToGetNumber(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception;
 
 	/**
-	 * convert stream to file and send it where R can use it from
-	 *
-	 * @param dataFileName - name of the file in the script
-	 * @param dataFile     - stream with data from the file we know R can work with
-	 * @return true if succeded
+	 * @param rCommand  - string with a command in R language
+	 * @param dataFiles - data necessary for the script as streams from files
+	 * @return one point
+	 * @throws Exception if failed to call R or command errored
 	 */
-	boolean sendFile(String dataFileName, ByteArrayInputStream dataFile);
+	Point runCommandToGetPoint(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception;
 
-	//----------------------------------------------------------------------------------------
+	/**
+	 * @param rCommand  - string with a command in R language
+	 * @param dataFiles - data necessary for the script as streams from files
+	 * @return List<Point>
+	 * @throws Exception if failed to call R or command errored
+	 */
+	List<Point> runCommandToGetPoints(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception;
+
+	//------------------
+	//command for data
+	//------------------
+
+	/**
+	 * @param rCommand - string with a command in R language
+	 * @param jsonData - data necessary for the script
+	 * @return double result
+	 * @throws Exception if failed to call R or command errored
+	 */
+	double runCommandToGetNumber(String rCommand, String jsonData) throws Exception;
+
+	/**
+	 * @param rCommand - string with a command in R language
+	 * @param jsonData - data necessary for the script
+	 * @return one point
+	 * @throws Exception if failed to call R or command errored
+	 */
+	Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception;
+
+	/**
+	 * @param rCommand - string with a command in R language
+	 * @param jsonData - data necessary for the script
+	 * @return List<Point>
+	 * @throws Exception if failed to call R or command errored
+	 */
+	List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception;
 }

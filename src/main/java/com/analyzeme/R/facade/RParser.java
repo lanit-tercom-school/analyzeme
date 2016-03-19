@@ -7,9 +7,6 @@ import java.util.ArrayList;
  * Created by lagroffe on 15.03.2016 22:32
  */
 
-/**
- * Visible in package to call from RConnector
- */
 
 class RParser {
 
