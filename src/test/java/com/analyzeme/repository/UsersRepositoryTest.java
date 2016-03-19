@@ -6,6 +6,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -18,8 +19,8 @@ public class UsersRepositoryTest {
 
 	@BeforeClass
 	public static void Before() {
-		UsersRepository.repo.checkInitializationAndCreate();
-		repo = UsersRepository.repo;
+		UsersRepository.getRepo().checkInitializationAndCreate();
+		repo = UsersRepository.getRepo();
 	}
 
 	@Test
@@ -27,7 +28,7 @@ public class UsersRepositoryTest {
 		try {
 			String[] param = {"guest", "guest@sth.sth", "1234"};
 			String id = repo.newItem(param);
-			int id2 = repo.findUser("guest").id;
+			int id2 = repo.findUser("guest").getId();
 			assertTrue("User wasn't created correctly", Integer.parseInt(id) == id2);
 		} catch (Exception e) {
 			assertTrue("User wasn't created correctly", false);
@@ -41,7 +42,7 @@ public class UsersRepositoryTest {
 			String id = repo.newItem(param);
 			UserInfo info = repo.findUser(Integer.parseInt(id));
 			if (info != null) {
-				assertTrue("User wasn't returned correctly", ("another_guest".equals(info.login)) && ("guest@sth.sth".equals(info.email)) && ("1234".equals(info.password)));
+				assertTrue("User wasn't returned correctly", ("another_guest".equals(info.getLogin())) && ("guest@sth.sth".equals(info.getEmail())) && ("1234".equals(info.getPassword())));
 			} else {
 				assertTrue("User wasn't returned correctly", false);
 			}
@@ -57,7 +58,7 @@ public class UsersRepositoryTest {
 			String id = repo.newItem(param);
 			UserInfo info = repo.findUser("another_guest1");
 			if (info != null) {
-				assertTrue("User wasn't returned correctly", ("another_guest1".equals(info.login)) && ("guest@sth.sth".equals(info.email)) && ("1234".equals(info.password)));
+				assertTrue("User wasn't returned correctly", ("another_guest1".equals(info.getLogin())) && ("guest@sth.sth".equals(info.getEmail())) && ("1234".equals(info.getPassword())));
 			} else {
 				assertTrue("User wasn't returned correctly", false);
 			}
@@ -112,7 +113,7 @@ public class UsersRepositoryTest {
 			String[] param = {"another_guest_" + i, "guest@sth.sth", "1234"};
 			String id = repo.newItem(param);
 		}
-		ArrayList<String> names2 = repo.getAllNames();
+		List<String> names2 = repo.getAllNames();
 		for (int i = 0; i < 5; i++) {
 			assertTrue("Names does not returned correctly", names2.get(i).equals(names.get(i)));
 		}

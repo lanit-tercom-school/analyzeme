@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -36,7 +37,7 @@ public class ProjectsRepositoryTest {
 		String newProjectName = "myProject";
 		String id = repo.createProject(newProjectName);
 		ProjectInfo info = repo.findProjectById(id);
-		assertTrue("Project wasn't returned correctly", newProjectName.equals(info.projectName));
+		assertTrue("Project wasn't returned correctly", newProjectName.equals(info.getProjectName()));
 	}
 
 	@Test
@@ -46,7 +47,7 @@ public class ProjectsRepositoryTest {
 		boolean result = repo.deleteProject(newProjectName);
 		assertTrue("Impossible to delete existing project", result);
 		ProjectInfo info = repo.findProjectById(id);
-		assertTrue("Inaccurate deleting of the project", !info.isActive);
+		assertTrue("Inaccurate deleting of the project", !info.isActive());
 	}
 
 	@Test
@@ -56,7 +57,7 @@ public class ProjectsRepositoryTest {
 		boolean result = repo.deleteProjectById(id);
 		assertTrue("Impossible to delete existing project", result);
 		ProjectInfo info = repo.findProjectById(id);
-		assertTrue("Inaccurate deleting of the project", !info.isActive);
+		assertTrue("Inaccurate deleting of the project", !info.isActive());
 	}
 
 	@Test
@@ -113,7 +114,7 @@ public class ProjectsRepositoryTest {
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
 			String name = repo.addNewFileForTests(file, "name.txt", "default");
 			assertTrue("Persist does not work correctly", !name.equals("") && name != null);
-			boolean a = FileRepository.repo.deleteFileById(name);
+			boolean a = FileRepository.getRepo().deleteFileById(name);
 		} catch (Exception e) {
 			assertTrue("Persist does not work correctly", false);
 		}
@@ -133,7 +134,7 @@ public class ProjectsRepositoryTest {
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
 			String name = repo.addNewFileForTestsById(file, "name.txt", projectId);
 			assertTrue("Persist does not work correctly", (!(name.equals("")) && (name != null)));
-			boolean a = FileRepository.repo.deleteFileById(name);
+			boolean a = FileRepository.getRepo().deleteFileById(name);
 		} catch (Exception e) {
 			assertTrue("Persist does not work correctly", false);
 		}
@@ -142,14 +143,14 @@ public class ProjectsRepositoryTest {
 	@Test
 	public void testGetFilesFromProjectForEmptyByName() throws Exception {
 		String id = repo.createProject("project");
-		ArrayList<ByteArrayInputStream> result = repo.getFilesFromProject("project");
+		List<ByteArrayInputStream> result = repo.getFilesFromProject("project");
 		assertTrue("Get files by name from empty repository does not work correctly", result == null);
 	}
 
 	@Test
 	public void testGetFilesFromProjectForEmptyById() throws Exception {
 		String id = repo.createProject("project");
-		ArrayList<ByteArrayInputStream> result = repo.getFilesFromProjectById(id);
+		List<ByteArrayInputStream> result = repo.getFilesFromProjectById(id);
 		assertTrue("Get files by id from empty repository does not work correctly", result == null);
 	}
 
@@ -166,11 +167,11 @@ public class ProjectsRepositoryTest {
 			}
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
 			String name = repo.addNewFileForTestsById(file, "name.txt", projectId);
-			ArrayList<ByteArrayInputStream> result = repo.getFilesFromProject("default");
+			List<ByteArrayInputStream> result = repo.getFilesFromProject("default");
 			byte[] res = new byte[4];
 			result.get(0).read(res);
 			assertTrue("GetFiles by name does not work correctly", Arrays.equals(res, b));
-			boolean a = FileRepository.repo.deleteFileById(name);
+			boolean a = FileRepository.getRepo().deleteFileById(name);
 		} catch (Exception e) {
 			assertTrue("GetFiles by name does not work correctly", false);
 		}
@@ -189,11 +190,11 @@ public class ProjectsRepositoryTest {
 			}
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
 			String name = repo.addNewFileForTestsById(file, "name.txt", projectId);
-			ArrayList<ByteArrayInputStream> result = repo.getFilesFromProjectById(projectId);
+			List<ByteArrayInputStream> result = repo.getFilesFromProjectById(projectId);
 			byte[] res = new byte[4];
 			result.get(0).read(res);
 			assertTrue("GetFiles by id does not work correctly", Arrays.equals(res, b));
-			boolean a = FileRepository.repo.deleteFileById(name);
+			boolean a = FileRepository.getRepo().deleteFileById(name);
 		} catch (Exception e) {
 			assertTrue("GetFiles by id does not work correctly", false);
 		}
@@ -230,7 +231,7 @@ public class ProjectsRepositoryTest {
 			byte[] res = new byte[4];
 			result.read(res);
 			assertTrue("GetFile by name does not work correctly", Arrays.equals(res, b));
-			boolean a = FileRepository.repo.deleteFileById(name);
+			boolean a = FileRepository.getRepo().deleteFileById(name);
 		} catch (Exception e) {
 			assertTrue("GetFile by name does not work correctly", false);
 		}
@@ -253,7 +254,7 @@ public class ProjectsRepositoryTest {
 			byte[] res = new byte[4];
 			result.read(res);
 			assertTrue("GetFile by id does not work correctly", Arrays.equals(res, b));
-			boolean a = FileRepository.repo.deleteFileById(name);
+			boolean a = FileRepository.getRepo().deleteFileById(name);
 		} catch (Exception e) {
 			assertTrue("GetFile by id does not work correctly", false);
 		}

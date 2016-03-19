@@ -2,14 +2,14 @@ package com.analyzeme.repository;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lagroffe on 22.02.2016 22:27
  */
 
+//TODO: change to generic
 public interface IRepository {
 
 	/**
@@ -67,7 +67,7 @@ public interface IRepository {
 	 *
 	 * @return array of names or null if repository is empty
 	 */
-	ArrayList<String> getAllNames();
+	List<String> getAllNames();
 
 
 	/**

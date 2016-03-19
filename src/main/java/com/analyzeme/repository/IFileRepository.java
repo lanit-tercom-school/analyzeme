@@ -2,10 +2,9 @@ package com.analyzeme.repository;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.Part;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IFileRepository {
 
@@ -17,8 +16,6 @@ public interface IFileRepository {
 	 * @return name in repository if succeed, exception if not
 	 */
 	String addNewFile(final MultipartFile file, final String filename) throws IOException;
-
-	//TODO: rewrite tests to work with addNewFile
 
 	/**
 	 * same with addNewFile except for Part object
@@ -37,7 +34,7 @@ public interface IFileRepository {
 	 * @param uniqueName - name of file in repository
 	 * @return true if  succeded
 	 */
-	boolean deleteFileByIdCompletely(final String uniqueName);
+	boolean deleteFileByIdCompletely(final String uniqueName) throws IOException;
 
 	/**
 	 * deactivates file with given unique name
@@ -45,12 +42,17 @@ public interface IFileRepository {
 	 * @param uniqueName - name of file in repository
 	 * @return true if  succeded
 	 */
-	boolean deleteFileById(final String uniqueName);
+	boolean deleteFileById(final String uniqueName) throws IOException;
+
+	/**
+	 * cleans up the repository
+	 */
+	boolean deleteAllDeactivatedFiles() throws IOException;
 
 	/**
 	 * @return all names of files in repository
 	 */
-	ArrayList<String> getAllWrittenNames() throws IOException;
+	List<String> getAllWrittenNames() throws IOException;
 
 	/**
 	 * Return file if nameToWrite is given
@@ -60,19 +62,9 @@ public interface IFileRepository {
 	 */
 	ByteArrayInputStream getFileByID(final String nameToWrite) throws IOException;
 
-	// TODO: decide whether to keep this or not
-
-	/**
-	 * Return all files with given name
-	 *
-	 * @param name - name given by user
-	 * @return file handlers array (or null if not found)
-	 */
-	ArrayList<ByteArrayInputStream> getFiles(final String name) throws IOException;
-
 	/**
 	 * @param uniqueName - name of the file in repository
 	 * @return FileInfo with all information about the file
 	 */
-	FileInfo findFileById(final String uniqueName);
+	FileInfo findFileById(final String uniqueName) throws IOException;
 }

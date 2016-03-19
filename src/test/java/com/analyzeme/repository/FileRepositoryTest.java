@@ -107,14 +107,14 @@ public class FileRepositoryTest {
 	@Test
 	public void testDeactivateNonExisting() throws Exception {
 		FileRepositoryTest.repo = new FileRepository();
-		boolean result = FileRepository.repo.deleteFileById("sth");
+		boolean result = FileRepository.getRepo().deleteFileById("sth");
 		assertTrue("Empty repository does not work properly", !result);
 	}
 
 	@Test
 	public void testDeleteNonExisting() throws Exception {
 		FileRepositoryTest.repo = new FileRepository();
-		boolean result = FileRepository.repo.deleteFileByIdCompletely("sth");
+		boolean result = FileRepository.getRepo().deleteFileByIdCompletely("sth");
 		assertTrue("Empty repository does not work properly", !result);
 	}
 
