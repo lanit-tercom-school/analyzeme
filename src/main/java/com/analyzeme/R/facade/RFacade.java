@@ -59,7 +59,7 @@ public class RFacade {
 		ArrayList<String> files = RParser.parse(rCommand, userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
 		String result = caller.runCommand(rCommand, filesData);
 		return result;
@@ -91,7 +91,7 @@ public class RFacade {
 		ArrayList<String> files = RParser.parse(rCommand, userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
 		double result = caller.runCommandToGetNumber(rCommand, filesData);
 		return result;
@@ -123,7 +123,7 @@ public class RFacade {
 		ArrayList<String> files = RParser.parse(rCommand, userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
 		Point result = caller.runCommandToGetPoint(rCommand, filesData);
 		return result;
@@ -155,7 +155,7 @@ public class RFacade {
 		ArrayList<String> files = RParser.parse(rCommand, userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
 		List<Point> result = caller.runCommandToGetPoints(rCommand, filesData);
 		return result;
@@ -194,7 +194,6 @@ public class RFacade {
      */
 
 
-
 	/**
 	 * calls R using some logic from R.call package
 	 *
@@ -209,7 +208,7 @@ public class RFacade {
 		ArrayList<String> files = RParser.parse(rScript, userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
 		String result = caller.runScript(rScriptName, rScript, filesData);
 		return result;
@@ -239,13 +238,13 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static String runScript(String rScriptId, int userId, String projectId) throws Exception {
-		FileInfo script = FileRepository.repo.findFileById(rScriptId);
-		ArrayList<String> files = RParser.parse(script.data, userId, projectId);
+		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+		ArrayList<String> files = RParser.parse(script.getData(), userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
-		String result = caller.runScript(script.uniqueName, script.data, filesData);
+		String result = caller.runScript(script.getUniqueName(), script.getData(), filesData);
 		return result;
 	}
 
@@ -258,8 +257,8 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static String runScript(String rScriptId, String jsonData) throws Exception {
-		FileInfo script = FileRepository.repo.findFileById(rScriptId);
-		String result = caller.runScript(script.uniqueName, script.data, jsonData);
+		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+		String result = caller.runScript(script.getUniqueName(), script.getData(), jsonData);
 		return result;
 	}
 
@@ -283,7 +282,7 @@ public class RFacade {
 		ArrayList<String> files = RParser.parse(rScript, userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
 		double result = caller.runScriptToGetNumber(rScriptName, rScript, filesData);
 		return result;
@@ -315,13 +314,13 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static double runScriptToGetNumber(String rScriptId, int userId, String projectId) throws Exception {
-		FileInfo script = FileRepository.repo.findFileById(rScriptId);
-		ArrayList<String> files = RParser.parse(script.data, userId, projectId);
+		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+		ArrayList<String> files = RParser.parse(script.getData(), userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
-		double result = caller.runScriptToGetNumber(script.uniqueName, script.data, filesData);
+		double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), filesData);
 		return result;
 	}
 
@@ -335,8 +334,8 @@ public class RFacade {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static double runScriptToGetNumber(String rScriptId, String jsonData) throws Exception {
-		FileInfo script = FileRepository.repo.findFileById(rScriptId);
-		double result = caller.runScriptToGetNumber(script.uniqueName, script.data, jsonData);
+		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+		double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), jsonData);
 		return result;
 	}
 
@@ -359,7 +358,7 @@ public class RFacade {
 		ArrayList<String> files = RParser.parse(rScript, userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
 		Point result = caller.runScriptToGetPoint(rScriptName, rScript, filesData);
 		return result;
@@ -391,13 +390,13 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static Point runScriptToGetPoint(String rScriptId, int userId, String projectId) throws Exception {
-		FileInfo script = FileRepository.repo.findFileById(rScriptId);
-		ArrayList<String> files = RParser.parse(script.data, userId, projectId);
+		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+		ArrayList<String> files = RParser.parse(script.getData(), userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
-		Point result = caller.runScriptToGetPoint(script.uniqueName, script.data, filesData);
+		Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), filesData);
 		return result;
 	}
 
@@ -411,8 +410,8 @@ public class RFacade {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static Point runScriptToGetPoint(String rScriptId, String jsonData) throws Exception {
-		FileInfo script = FileRepository.repo.findFileById(rScriptId);
-		Point result = caller.runScriptToGetPoint(script.uniqueName, script.data, jsonData);
+		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+		Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), jsonData);
 		return result;
 	}
 
@@ -436,7 +435,7 @@ public class RFacade {
 		ArrayList<String> files = RParser.parse(rScript, userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
 		List<Point> result = caller.runScriptToGetPoints(rScriptName, rScript, filesData);
 		return result;
@@ -467,13 +466,13 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScriptToGetPoints(String rScriptId, int userId, String projectId) throws Exception {
-		FileInfo script = FileRepository.repo.findFileById(rScriptId);
-		ArrayList<String> files = RParser.parse(script.data, userId, projectId);
+		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+		ArrayList<String> files = RParser.parse(script.getData(), userId, projectId);
 		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
 		for (String name : files) {
-			filesData.add(FileRepository.repo.getFileByID(name));
+			filesData.add(FileRepository.getRepo().getFileByID(name));
 		}
-		List<Point> result = caller.runScriptToGetPoints(script.uniqueName, script.data, filesData);
+		List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), filesData);
 		return result;
 	}
 
@@ -487,8 +486,8 @@ public class RFacade {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScriptToGetPoints(String rScriptId, String jsonData) throws Exception {
-		FileInfo script = FileRepository.repo.findFileById(rScriptId);
-		List<Point> result = caller.runScriptToGetPoints(script.uniqueName, script.data, jsonData);
+		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+		List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), jsonData);
 		return result;
 	}
 }
