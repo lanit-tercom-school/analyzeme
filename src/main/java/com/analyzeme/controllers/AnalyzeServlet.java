@@ -38,7 +38,7 @@ public class AnalyzeServlet extends HttpServlet {
 
             Point[] Data;
 
-            ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
+            ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
             String DataString = StreamToString.ConvertStream(file);
 
 

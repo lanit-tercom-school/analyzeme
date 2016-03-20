@@ -1,6 +1,7 @@
 package com.analyzeme.repository;
 
 // TODO: rewrite to avoid using *-test functions
+// TODO: tests for multithreading writing should be added
 
 import org.junit.Before;
 import org.junit.Test;
@@ -101,6 +102,20 @@ public class FileRepositoryTest {
 			}
 			assertTrue("File is not returned correctly", Arrays.equals(buffer, buffer2));
 		}
+	}
+
+	@Test
+	public void testDeactivateNonExisting() throws Exception {
+		FileRepositoryTest.repo = new FileRepository();
+		boolean result = FileRepository.getRepo().deleteFileById("sth");
+		assertTrue("Empty repository does not work properly", !result);
+	}
+
+	@Test
+	public void testDeleteNonExisting() throws Exception {
+		FileRepositoryTest.repo = new FileRepository();
+		boolean result = FileRepository.getRepo().deleteFileByIdCompletely("sth");
+		assertTrue("Empty repository does not work properly", !result);
 	}
 
 	/**

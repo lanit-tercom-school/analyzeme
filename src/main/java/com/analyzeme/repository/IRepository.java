@@ -1,18 +1,20 @@
 package com.analyzeme.repository;
 
-import javax.servlet.http.Part;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lagroffe on 22.02.2016 22:27
  */
+
+//TODO: change to generic
 public interface IRepository {
 
 	/**
 	 * ctor should be private - call only from checkInitializationAndCreate()
 	 */
-
 
 	/**
 	 * checks if the object of class exists
@@ -50,13 +52,13 @@ public interface IRepository {
 	 * should use all necessary information about file for future usage, then
 	 * give it to other class that guarantees that file data will be saved correctly
 	 *
-	 * @param part - part from http request, contains all the information about the file
+	 * @param file - part from http request, contains all the information about the file
 	 * @param data - parameters from part that are useful for this repository
 	 *             specification for parameters in data should be specified in javadoc for specific repositories
 	 * @return unique filename in repository or throws Exception
 	 * @throws Exception
 	 */
-	String persist(final Part part, final String[] data) throws Exception;
+	String persist(final MultipartFile file, final String[] data) throws Exception;
 
 
 	/**
@@ -65,7 +67,7 @@ public interface IRepository {
 	 *
 	 * @return array of names or null if repository is empty
 	 */
-	ArrayList<String> getAllNames();
+	List<String> getAllNames();
 
 
 	/**

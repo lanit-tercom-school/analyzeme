@@ -23,7 +23,7 @@ public class GetDataServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String fileName = request.getParameter("fileName");
-		ByteArrayInputStream file = FileRepository.repo.getFileByID(fileName);
+		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		/*
 		Convert ByteArrayInputStream into String
          */

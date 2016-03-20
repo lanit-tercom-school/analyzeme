@@ -55,30 +55,12 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>-->
-            <a href="index" type="button" class="btn btn-info btn-lg">AnalyzeMe</a>
-            <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-info btn-lg"><i
-                    class="fa fa-github fa-fw"></i> Source code</a>
-
+            <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
+            <a href="action" type="button" class="btn btn-success btn-lg">Try now</a>
+            <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
 
         </div>
 
-        <!-- Collect the nav links, forms, and other content for toggling -->
-
-        <!--
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li>
-                            <a href="#about">About</a>
-                        </li>
-                        <li>
-                            <a href="#services">Services</a>
-                        </li>
-                        <li>
-                            <a href="#contact">Contact</a>
-                        </li>
-                    </ul>
-                </div>
-        -->
         <!-- /.navbar-collapse -->
     </div>
     <!-- /.container -->
@@ -88,60 +70,79 @@
 <a name="about"></a>
 <div class="intro-header">
 
-    <!-- Page Content -->
 
-        <div class="container">
-            <div class="row">
-                <!-- Sidebar -->
-                <div class="col-md-2">
-                    <ul>
-                        <div>
-                            <li>
-                                <p>
-                                <h3>File list</h3></p>
-                                <button onclick="PopUpShow()">Upload and display</button>
-                            </li>
+    <div class="container">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2">
+                <ul>
+                    <div>
+                        <p>
+                        <h3>File list</h3></p>
+                        <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
+
+                        <a href="#OverwriteModal" role="button" class="btn" data-toggle="modal">Launch demo
+                            modal</a>
+
+                    </div>
+                    <div id="ButtonList"></div>
+                </ul>
+            </div>
+            <!-- Page Content -->
+            <div class="col-md-10">
+                <!-- Div for Upload file -->
+                <div>
+
+                    <div class="popup" id="popup">
+                        <div id="dropbox">
+                            Drag and drop a file here...
                         </div>
-                        <div id="ButtonList"></div>
-                    </ul>
+                    </div>
+                    <div id="status"></div>
                 </div>
-                <div class="col-md-10">
-                    <!-- Div for Upload file -->
+                <!-- Div for display Graph -->
+                <div>
                     <div>
-                        <div class="popup" id="popup">
-                            <div id="dropbox">
-                                Drag and drop a file here...
-                            </div>
-                        </div>
-                        <div id="status"></div>
+                        <svg id="svgVisualize" width="500" height="500" style="border:1px solid white;"></svg>
                     </div>
-                    <!-- Div for display Graph -->
-                    <div>
-                        <div>
-                            <svg id="svgVisualize" width="500" height="500" style="border:1px solid Red;"></svg>
-                        </div>
 
-                    </div>
-                    <!-- dropdown for Analyze buttons -->
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
-                                aria-haspopup="true" aria-expanded="false">
-                            Analyze function list <span class="caret"></span>
-                        </button>
-                        <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
-                            <li>
-                                <button onclick="AnalyzeButton(fileName,'GlobalMinimum')">Calculate Global Min</button>
-                            </li>
-                            <li>
-                                <button onclick="AnalyzeButton(fileName,'GlobalMaximum')">Calculate Global Max</button>
-                            </li>
+                </div>
 
-                        </ul>
-                    </div>
+                <!-- dropdown for Analyze buttons -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        Analyze function list <span class="caret"></span>
+                    </button>
+                    <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                        <li>
+                            <a type="button" class="btn btn-primary btn-lg"
+                               onclick="AnalyzeButton(fileName,'GlobalMinimum')">Calculate Global Min</a>
+                        </li>
+                        <li>
+                            <a type="button" class="btn btn-primary btn-lg"
+                               onclick="AnalyzeButton(fileName,'GlobalMaximum')">Calculate Global Max</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="modal" id="OverwriteModal" tabindex="-1" role="dialog" aria-labelledby="OverwriteModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="OverwriteModalLabel">Overwrite file</h3>
+        </div>
+        <div class="modal-body">
+            <p>File already exist.Overwrite?</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            <button class="btn btn-primary" onclick="Overwrite()">Go</button>
+        </div>
+    </div>
     <!-- /.container -->
 
 </div>
@@ -220,18 +221,16 @@
     function dropUpload(event) {
         noop(event);
         var files = event.dataTransfer.files;
-
-
         for (var i = 0; i < files.length; i++) {
             uploadFile(files[i]);
         }
+
         PopUpHide();
 
     }
     //Uploads file
     function uploadFile(file) {
-
-        $('#FileAlreadyExistModal').on('hide.bs.modal', function () {
+        if (isFileExist(file.name)) {
             //Adding text to status
             document.getElementById("status").innerHTML = "Uploading " + file.name;
             var formData = new FormData();
@@ -239,24 +238,16 @@
             var xhr = new XMLHttpRequest();
             xhr.upload.addEventListener("progress", uploadProgress, false);
             xhr.addEventListener("load", uploadComplete, false);
-            xhr.open("POST", "UploadServlet", true); // If async=false, then you'll miss progress bar support.
+            xhr.open("POST", "OverwriteServlet", true); // If async=false, then you'll miss progress bar support.
             xhr.onreadystatechange = function () {
+                alert("overwrite servlet");
                 fileName = xhr.getResponseHeader("fileName");
-                Data = JSON.parse(xhr.getResponseHeader('Data'));
+                Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
             };
             xhr.send(formData);
 
-        });
-        $('#changeNameModal').on('hide.bs.modal', function () {
-            file.name = document.getElementById("fileNameInput").value;
-            $('#FileAlreadyExistModal').modal('hide');
-        });
-
-        if (file.name == fileList[0]) {
-
-            $('#FileAlreadyExistModal').modal('show');
-
-        } else {
+        }
+        else {
             //Adding text to status
             document.getElementById("status").innerHTML = "Uploading " + file.name;
             var formData = new FormData();
@@ -264,8 +255,9 @@
             var xhr = new XMLHttpRequest();
             xhr.upload.addEventListener("progress", uploadProgress, false);
             xhr.addEventListener("load", uploadComplete, false);
-            xhr.open("POST", "UploadServlet", true); // If async=false, then you'll miss progress bar support.
+            xhr.open("POST", "/upload/demo", true); // If async=false, then you'll miss progress bar support.
             xhr.onreadystatechange = function () {
+                alert("Upload servlet");
                 fileName = xhr.getResponseHeader("fileName");
                 Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
             };
@@ -358,18 +350,12 @@
 
     }
 
-    function ChangeName() {
-        $("#changeNameModal").modal('show');
-    }
+
     function Overwrite() {
-        $('#FileAlreadyExistModal').modal('hide');
+        $('#OverwriteModal').modal('hide');
+        alert("finish overwrite");
     }
-    function DoChangingName() {
-        $('#FileAlreadyExistModal').modal('show');
-    }
-    function CancelChangingName() {
-        $("#FileAlreadyExistModal").modal('show');
-    }
+
 
 </script>
 
@@ -394,7 +380,14 @@
 
     }
 </script>
-
+<script>
+    function isFileExist(fileName) {
+        for (var i = 0; i < size; i++) {
+            if (fileList[i] == fileName) return true;
+        }
+        return false;
+    }
+</script>
 </body>
 
 </html>

@@ -1,22 +1,21 @@
 package com.analyzeme.repository;
 
-import javax.servlet.http.Part;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 
 public interface IFileRepository {
 
 	/**
 	 * adding new file in repository
 	 *
-	 * @param part     - file information
+	 * @param file     - file information
 	 * @param filename - filename given by user
 	 * @return name in repository if succeed, exception if not
 	 */
-	String addNewFile(final Part part, final String filename) throws IOException;
-
-	//TODO: rewrite tests to work with addNewFile
+	String addNewFile(final MultipartFile file, final String filename) throws IOException;
 
 	/**
 	 * same with addNewFile except for Part object
@@ -28,10 +27,32 @@ public interface IFileRepository {
 	 */
 	String addNewFileForTests(final ByteArrayInputStream part, final String filename) throws IOException;
 
+
+	/**
+	 * deletes file with given unique name
+	 *
+	 * @param uniqueName - name of file in repository
+	 * @return true if  succeded
+	 */
+	boolean deleteFileByIdCompletely(final String uniqueName) throws IOException;
+
+	/**
+	 * deactivates file with given unique name
+	 *
+	 * @param uniqueName - name of file in repository
+	 * @return true if  succeded
+	 */
+	boolean deleteFileById(final String uniqueName) throws IOException;
+
+	/**
+	 * cleans up the repository
+	 */
+	boolean deleteAllDeactivatedFiles() throws IOException;
+
 	/**
 	 * @return all names of files in repository
 	 */
-	ArrayList<String> getAllWrittenNames() throws IOException;
+	List<String> getAllWrittenNames() throws IOException;
 
 	/**
 	 * Return file if nameToWrite is given
@@ -41,13 +62,9 @@ public interface IFileRepository {
 	 */
 	ByteArrayInputStream getFileByID(final String nameToWrite) throws IOException;
 
-	// TODO: decide whether to keep this or not
-
 	/**
-	 * Return all files with given name
-	 *
-	 * @param name - name given by user
-	 * @return file handlers array (or null if not found)
+	 * @param uniqueName - name of the file in repository
+	 * @return FileInfo with all information about the file
 	 */
-	ArrayList<ByteArrayInputStream> getFiles(final String name) throws IOException;
+	FileInfo findFileById(final String uniqueName) throws IOException;
 }
