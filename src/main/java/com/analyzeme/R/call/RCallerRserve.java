@@ -13,6 +13,14 @@ import java.util.List;
  * Created by lagroffe on 20.03.2016 0:38
  */
 public class RCallerRserve implements IRCaller {
+	public static RConnection r = null;
+
+	private void Initialize() throws Exception {
+		if (r == null) {
+			r = new RConnection();
+		}
+	}
+
 	//------------------
 	//default for scripts
 	//return - json
@@ -214,18 +222,13 @@ public class RCallerRserve implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
-		//InputStream is = new ByteArrayInputStream(jsonData.getBytes());
-		//JsonParser jsonParser;
-		//jsonParser = new JsonParser(is);
-		//Point[] data = jsonParser.getPointsFromPointJson();
-		Point[] data = new Point[11];
-		for(int m = 0; m < 11; m++) {
-			data[m] = new Point();
-			data[m].SetX(m);
-			data[m].SetY(m);
-		}
+		Initialize();
 
-		RConnection r = new RConnection();
+		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
+		JsonParser jsonParser;
+		jsonParser = new JsonParser(is);
+		Point[] data = jsonParser.getPoints();
+		//Point[] data = jsonParser.getPointsFromPointJson();
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
