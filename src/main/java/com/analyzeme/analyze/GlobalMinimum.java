@@ -11,7 +11,6 @@ public class GlobalMinimum implements AnalyzeFunction {
 	 * @param Y_array array of y-coordinate.
 	 * @return index of Minimum value.
 	 */
-	@Override
 	public int Calc(double[] X_array, double[] Y_array) {
 		int min_index = 0;//index of minimum value
 
@@ -25,7 +24,6 @@ public class GlobalMinimum implements AnalyzeFunction {
 	 * @param Point_array array of Point.
 	 * @return index of minimum value.
 	 */
-	@Override
 	public int Calc(Point[] Point_array) {
 		int min_index = 0;//index of minimum value
 

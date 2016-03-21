@@ -1,5 +1,6 @@
 package com.analyzeme.controllers;
 
+import com.analyzeme.R.call.RCallerRserve;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import com.analyzeme.repository.FileRepository;
@@ -17,63 +18,76 @@ import java.io.IOException;
 @RestController
 public class AnalysisController {
 
-    /**
-     * @param fileName
-     * @return file data in string format
-     * null if file doesn't exist
-     * @throws IOException
-     */
-    @RequestMapping("/file/{file_name}/data")
-    public String getData(@PathVariable("file_name") String fileName)
-            throws IOException {
-        try {
-            ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
-        /*
-        Convert ByteArrayInputStream into String
+	/**
+	 * @param fileName
+	 * @return file data in string format
+	 * null if file doesn't exist
+	 * @throws IOException
+	 */
+	@RequestMapping("/file/{file_name}/data")
+	public String getData(@PathVariable("file_name") String fileName)
+			throws IOException {
+		try {
+			ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
+		/*
+		Convert ByteArrayInputStream into String
          */
-            return StreamToString.ConvertStream(file);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+			return StreamToString.ConvertStream(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 
-    }
+	}
 
-    //todo return HttpEntity<double>
+	/**
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/RserveCommand/{file_name}/{command}")
+	public double RserveCommand(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
+			throws Exception {
+		RCallerRserve call = new RCallerRserve();
+		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
+		String DataString = StreamToString.ConvertStream(file);
+		return call.runCommandToGetNumber(command, DataString);
+	}
 
-    /**
-     * @param fileName
-     * @return minimum in double format
-     * 0 if file doesn't exist
-     * @throws IOException
-     */
-    @RequestMapping("/file/{file_name}/minimum")
-    public double getMinimum(@PathVariable("file_name") String fileName)
-            throws IOException {
-        try {
-            //Analyze Factory
-            AnalyzeFunctionFactory ServletFactory = new AnalyzeFunctionFactory();
-            //Create GlobalMinimum function
-            AnalyzeFunction GlobalMinimum = ServletFactory.getFunction("GlobalMinimum");
-            double minimum;
+	//todo return HttpEntity<double>
 
-            // String fileName = request.getParameter("fileName");
+	/**
+	 * @param fileName
+	 * @return minimum in double format
+	 * 0 if file doesn't exist
+	 * @throws IOException
+	 */
+	@RequestMapping("/file/{file_name}/minimum")
+	public double getMinimum(@PathVariable("file_name") String fileName)
+			throws IOException {
+		try {
+			//Analyze Factory
+			AnalyzeFunctionFactory ServletFactory = new AnalyzeFunctionFactory();
+			//Create GlobalMinimum function
+			AnalyzeFunction GlobalMinimum = ServletFactory.getFunction("GlobalMinimum");
+			double minimum;
 
-            ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
+			// String fileName = request.getParameter("fileName");
+
+			ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 
          /*
-        Convert ByteArrayInputStream into String
+		Convert ByteArrayInputStream into String
          */
-            String Data = StreamToString.ConvertStream(file);
+			String Data = StreamToString.ConvertStream(file);
 
-            //DataArray = new Point[];
-            //minimum=DataArray[GlobalMinimum.Calc(DataArray)].y;
-            minimum = -4;
-            return minimum;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return 0;
-        }
-    }
+			//DataArray = new Point[];
+			//minimum=DataArray[GlobalMinimum.Calc(DataArray)].y;
+			minimum = -4;
+			return minimum;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 0;
+		}
+	}
 }
 

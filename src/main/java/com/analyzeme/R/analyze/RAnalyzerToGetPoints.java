@@ -21,7 +21,7 @@ public class RAnalyzerToGetPoints {
 	 * @return List<Point>
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	List<Point> runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+	public static List<Point> runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		List<Point> result = RFacade.runScriptToGetPoints(rScriptName, rScript, userId, projectId);
 		return result;
 	}
@@ -35,7 +35,7 @@ public class RAnalyzerToGetPoints {
 	 * @return List<Point>
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
-	List<Point> runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+	public static List<Point> runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
 		List<Point> result = RFacade.runScriptToGetPoints(rScriptName, rScript, jsonData);
 		return result;
 	}
@@ -49,7 +49,7 @@ public class RAnalyzerToGetPoints {
 	 * @return List<Point>
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	List<Point> runScript(String rScriptId, int userId, String projectId) throws Exception {
+	public static List<Point> runScript(String rScriptId, int userId, String projectId) throws Exception {
 		List<Point> result = RFacade.runScriptToGetPoints(rScriptId, userId, projectId);
 		return result;
 	}
@@ -62,7 +62,7 @@ public class RAnalyzerToGetPoints {
 	 * @return List<Point>
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
-	List<Point> runScript(String rScriptId, String jsonData) throws Exception {
+	public static List<Point> runScript(String rScriptId, String jsonData) throws Exception {
 		List<Point> result = RFacade.runScriptToGetPoints(rScriptId, jsonData);
 		return result;
 	}
@@ -76,7 +76,7 @@ public class RAnalyzerToGetPoints {
 	 * @return List<Point>
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	List<Point> runCommand(String rCommand, int userId, String projectId) throws Exception {
+	public static List<Point> runCommand(String rCommand, int userId, String projectId) throws Exception {
 		List<Point> result = RFacade.runCommandToGetPoints(rCommand, userId, projectId);
 		return result;
 	}
@@ -89,7 +89,7 @@ public class RAnalyzerToGetPoints {
 	 * @return List<Point>
 	 * @throws Exception if R was impossible to call or there was in error in command
 	 */
-	List<Point> runCommand(String rCommand, String jsonData) throws Exception {
+	public static List<Point> runCommand(String rCommand, String jsonData) throws Exception {
 		List<Point> result = RFacade.runCommandToGetPoints(rCommand, jsonData);
 		return result;
 	}

@@ -1,6 +1,7 @@
 package com.analyzeme.R.facade;
 
 import com.analyzeme.R.call.IRCaller;
+import com.analyzeme.R.call.RCallerRserve;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.repository.FileInfo;
 import com.analyzeme.repository.FileRepository;
@@ -17,12 +18,12 @@ public class RFacade {
 	private static IRCaller caller;
 
 	static {
-		//here default type of RIntegration should be saved in IRCaller
+		caller = new RCallerRserve();
 	}
 
 	public RFacade(String type) throws IllegalArgumentException {
 		if (type.equals("RServe")) {
-
+			caller = new RCallerRserve();
 		} else if (type.equals("JRI")) {
 
 		} else {

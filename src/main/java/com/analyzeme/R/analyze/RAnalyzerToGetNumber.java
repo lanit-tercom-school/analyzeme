@@ -19,7 +19,7 @@ public class RAnalyzerToGetNumber {
 	 * @return double result
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	double runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+	public static double runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		double result = RFacade.runScriptToGetNumber(rScriptName, rScript, userId, projectId);
 		return result;
 	}
@@ -33,7 +33,7 @@ public class RAnalyzerToGetNumber {
 	 * @return double result
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
-	double runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+	public static double runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
 		double result = RFacade.runScriptToGetNumber(rScriptName, rScript, jsonData);
 		return result;
 	}
@@ -47,7 +47,7 @@ public class RAnalyzerToGetNumber {
 	 * @return double result
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	double runScript(String rScriptId, int userId, String projectId) throws Exception {
+	public static double runScript(String rScriptId, int userId, String projectId) throws Exception {
 		double result = RFacade.runScriptToGetNumber(rScriptId, userId, projectId);
 		return result;
 	}
@@ -60,7 +60,7 @@ public class RAnalyzerToGetNumber {
 	 * @return double result
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
-	double runScript(String rScriptId, String jsonData) throws Exception {
+	public static double runScript(String rScriptId, String jsonData) throws Exception {
 		double result = RFacade.runScriptToGetNumber(rScriptId, jsonData);
 		return result;
 	}
@@ -74,7 +74,7 @@ public class RAnalyzerToGetNumber {
 	 * @return double result
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	double runCommand(String rCommand, int userId, String projectId) throws Exception {
+	public static double runCommand(String rCommand, int userId, String projectId) throws Exception {
 		double result = RFacade.runCommandToGetNumber(rCommand, userId, projectId);
 		return result;
 	}
@@ -87,7 +87,7 @@ public class RAnalyzerToGetNumber {
 	 * @return double result
 	 * @throws Exception if R was impossible to call or there was in error in command
 	 */
-	double runCommand(String rCommand, String jsonData) throws Exception {
+	public static double runCommand(String rCommand, String jsonData) throws Exception {
 		double result = RFacade.runCommandToGetNumber(rCommand, jsonData);
 		return result;
 	}

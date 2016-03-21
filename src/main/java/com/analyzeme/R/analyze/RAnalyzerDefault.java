@@ -19,7 +19,7 @@ public class RAnalyzerDefault {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+	public static String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		String result = RFacade.runScript(rScriptName, rScript, userId, projectId);
 		return result;
 	}
@@ -33,7 +33,7 @@ public class RAnalyzerDefault {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	String runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+	public static String runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
 		String result = RFacade.runScript(rScriptName, rScript, jsonData);
 		return result;
 	}
@@ -47,7 +47,7 @@ public class RAnalyzerDefault {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	String runScript(String rScriptId, int userId, String projectId) throws Exception {
+	public static String runScript(String rScriptId, int userId, String projectId) throws Exception {
 		String result = RFacade.runScript(rScriptId, userId, projectId);
 		return result;
 	}
@@ -60,7 +60,7 @@ public class RAnalyzerDefault {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	String runScript(String rScriptId, String jsonData) throws Exception {
+	public static String runScript(String rScriptId, String jsonData) throws Exception {
 		String result = RFacade.runScript(rScriptId, jsonData);
 		return result;
 	}
@@ -74,7 +74,7 @@ public class RAnalyzerDefault {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	String runCommand(String rCommand, int userId, String projectId) throws Exception {
+	public static String runCommand(String rCommand, int userId, String projectId) throws Exception {
 		String result = RFacade.runCommand(rCommand, userId, projectId);
 		return result;
 	}
@@ -87,7 +87,7 @@ public class RAnalyzerDefault {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	String runCommand(String rCommand, String jsonData) throws Exception {
+	public static String runCommand(String rCommand, String jsonData) throws Exception {
 		String result = RFacade.runCommand(rCommand, jsonData);
 		return result;
 	}

@@ -11,7 +11,6 @@ public class GlobalMaximum implements AnalyzeFunction {
 	 * @param Y_array array of y-coordinate.
 	 * @return index of maximum value.
 	 */
-	@Override
 	public int Calc(double[] X_array, double[] Y_array) {
 		int max_index = 0;//index of maximum value
 
@@ -25,7 +24,6 @@ public class GlobalMaximum implements AnalyzeFunction {
 	 * @param Point_array array of Point.
 	 * @return index of maximum value.
 	 */
-	@Override
 	public int Calc(Point[] Point_array) {
 		int max_index = 0;//index of maximum value
 

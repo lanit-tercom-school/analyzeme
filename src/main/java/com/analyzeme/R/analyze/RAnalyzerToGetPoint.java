@@ -20,7 +20,7 @@ public class RAnalyzerToGetPoint {
 	 * @return one point
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	Point runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+	public static Point runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		Point result = RFacade.runScriptToGetPoint(rScriptName, rScript, userId, projectId);
 		return result;
 	}
@@ -34,7 +34,7 @@ public class RAnalyzerToGetPoint {
 	 * @return one point
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
-	Point runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+	public static Point runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
 		Point result = RFacade.runScriptToGetPoint(rScriptName, rScript, jsonData);
 		return result;
 	}
@@ -49,7 +49,7 @@ public class RAnalyzerToGetPoint {
 	 * @return one point
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	Point runScript(String rScriptId, int userId, String projectId) throws Exception {
+	public static Point runScript(String rScriptId, int userId, String projectId) throws Exception {
 		Point result = RFacade.runScriptToGetPoint(rScriptId, userId, projectId);
 		return result;
 	}
@@ -62,7 +62,7 @@ public class RAnalyzerToGetPoint {
 	 * @return one point
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
-	Point runScript(String rScriptId, String jsonData) throws Exception {
+	public static Point runScript(String rScriptId, String jsonData) throws Exception {
 		Point result = RFacade.runScriptToGetPoint(rScriptId, jsonData);
 		return result;
 	}
@@ -76,7 +76,7 @@ public class RAnalyzerToGetPoint {
 	 * @return one point
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	Point runCommand(String rCommand, int userId, String projectId) throws Exception {
+	public static Point runCommand(String rCommand, int userId, String projectId) throws Exception {
 		Point result = RFacade.runCommandToGetPoint(rCommand, userId, projectId);
 		return result;
 	}
@@ -89,7 +89,7 @@ public class RAnalyzerToGetPoint {
 	 * @return one point
 	 * @throws Exception if R was impossible to call or there was in error in command
 	 */
-	Point runCommand(String rCommand, String jsonData) throws Exception {
+	public static Point runCommand(String rCommand, String jsonData) throws Exception {
 		Point result = RFacade.runCommandToGetPoint(rCommand, jsonData);
 		return result;
 	}
