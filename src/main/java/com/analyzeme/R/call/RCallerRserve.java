@@ -227,7 +227,7 @@ public class RCallerRserve implements IRCaller {
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
 		jsonParser = new JsonParser(is);
-		Point[] data = jsonParser.getPoints();
+		Point[] data = jsonParser.getPointsFromPointJson();
 		//Point[] data = jsonParser.getPointsFromPointJson();
 
 		double[] x = new double[data.length];
