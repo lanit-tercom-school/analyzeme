@@ -58,7 +58,7 @@
             <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
             <a href="action" type="button" class="btn btn-success btn-lg">Try now</a>
             <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
-
+            <a href="RScriptPage" type="button" class="btn btn-info btn-lg">Edit R</a>
         </div>
 
         <!-- /.navbar-collapse -->
@@ -80,9 +80,6 @@
                         <p>
                         <h3>File list</h3></p>
                         <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
-
-                        <a href="#OverwriteModal" role="button" class="btn" data-toggle="modal">Launch demo
-                            modal</a>
 
                     </div>
                     <div id="ButtonList"></div>
@@ -126,21 +123,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-    </div>
-
-    <div class="modal" id="OverwriteModal" tabindex="-1" role="dialog" aria-labelledby="OverwriteModalLabel"
-         aria-hidden="true">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="OverwriteModalLabel">Overwrite file</h3>
-        </div>
-        <div class="modal-body">
-            <p>File already exist.Overwrite?</p>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
-            <button class="btn btn-primary" onclick="Overwrite()">Go</button>
         </div>
     </div>
     <!-- /.container -->
@@ -231,38 +213,22 @@
     //Uploads file
     function uploadFile(file) {
         if (isFileExist(file.name)) {
-            //Adding text to status
-            document.getElementById("status").innerHTML = "Uploading " + file.name;
-            var formData = new FormData();
-            formData.append("file", file);
-            var xhr = new XMLHttpRequest();
-            xhr.upload.addEventListener("progress", uploadProgress, false);
-            xhr.addEventListener("load", uploadComplete, false);
-            xhr.open("POST", "OverwriteServlet", true); // If async=false, then you'll miss progress bar support.
-            xhr.onreadystatechange = function () {
-                alert("overwrite servlet");
-                fileName = xhr.getResponseHeader("fileName");
-                Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
-            };
-            xhr.send(formData);
+            alert("file alreary exist");
+        }
+        //Adding text to status
+        document.getElementById("status").innerHTML = "Uploading " + file.name;
+        var formData = new FormData();
+        formData.append("file", file);
+        var xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener("progress", uploadProgress, false);
+        xhr.addEventListener("load", uploadComplete, false);
+        xhr.open("POST", "/upload/demo", true); // If async=false, then you'll miss progress bar support.
+        xhr.onreadystatechange = function () {
+            fileName = xhr.getResponseHeader("fileName");
+            Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
+        };
+        xhr.send(formData);
 
-        }
-        else {
-            //Adding text to status
-            document.getElementById("status").innerHTML = "Uploading " + file.name;
-            var formData = new FormData();
-            formData.append("file", file);
-            var xhr = new XMLHttpRequest();
-            xhr.upload.addEventListener("progress", uploadProgress, false);
-            xhr.addEventListener("load", uploadComplete, false);
-            xhr.open("POST", "/upload/demo", true); // If async=false, then you'll miss progress bar support.
-            xhr.onreadystatechange = function () {
-                alert("Upload servlet");
-                fileName = xhr.getResponseHeader("fileName");
-                Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
-            };
-            xhr.send(formData);
-        }
     }
     //Calculates upload progress
     function uploadProgress(event) {
@@ -291,7 +257,6 @@
 <script>
 
     function DrawGraph(Data) {
-        alert(Data);
         var vis = d3.select("#svgVisualize");
         //clear Graph
         vis.selectAll("*").remove();
@@ -331,14 +296,13 @@
 <script>
     function UpdateData(newFileName) {
 
-
         fileName = newFileName;
-        //AJAX request for updating Data
+
+        //   AJAX request for updating Data
         $.ajax({
-            type: "GET",
+            type: "Post",
             async: true,
-            url: "GetDataServlet",
-            data: {'fileName': fileName},
+            url: "/file/" + fileName + "/data",
             success: function (data, textStatus, request) {
                 Data = JSON.parse(request.getResponseHeader('Data')).Data;
                 DrawGraph(Data);
@@ -351,26 +315,17 @@
     }
 
 
-    function Overwrite() {
-        $('#OverwriteModal').modal('hide');
-        alert("finish overwrite");
-    }
-
-
 </script>
-
 <!-- analyze button script-->
 <script>
     function AnalyzeButton(fileName, functionType) {
         //AJAX request for getting minimum of Data
         $.ajax({
-            type: "GET",
+            type: "Post",
             async: true,
-            url: "AnalyzeServlet",
-            data: {'fileName': fileName, 'functionType': functionType},
+            url: "/file/" + fileName + "/" + functionType,
             success: function (data, textStatus, request) {
-
-                alert(request.getResponseHeader('minimum'));
+                alert(request.getResponseHeader('value'));
             },
             error: function (response, textStatus, errorThrown) {
                 alert(response.statusText);
@@ -380,6 +335,7 @@
 
     }
 </script>
+<!--isFileExist function -->
 <script>
     function isFileExist(fileName) {
         for (var i = 0; i < size; i++) {
