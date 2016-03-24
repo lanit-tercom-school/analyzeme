@@ -22,6 +22,8 @@
 
     <spring:url value="/resources/css/drag-and-drop.css" var="dragAndDropCss"/>
     <link href="${dragAndDropCss}" rel="stylesheet"/>
+    <spring:url value="/resources/css/simple-slidebar.css" var="SimpleSlidebarCss"/>
+    <link href="${SimpleSlidebarCss}" rel="stylesheet"/>
 
     <!-- Custom Fonts -->
     <spring:url value="/resources/font-awesome/css/font-awesome.min.css" var="fontAwesomeCss"/>
@@ -29,7 +31,6 @@
     <spring:url value="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
                 var="fontCss"/>
     <link href="${fontCss}" rel="stylesheet" type="text/css"/>
-
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -40,7 +41,6 @@
     <![endif]-->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-
 
 
 </head>
@@ -58,9 +58,7 @@
             <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
             <a href="action" type="button" class="btn btn-success btn-lg">Try now</a>
             <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
-
-
-
+            <a href="RScriptPage" type="button" class="btn btn-info btn-lg">Edit R</a>
         </div>
 
         <!-- /.navbar-collapse -->
@@ -70,15 +68,29 @@
 
 <!-- Header -->
 <a name="about"></a>
-<div class="intro-header2">
+
+<div class="intro-header">
+
+
     <div class="container">
-
         <div class="row">
-            <div class="col-lg-12">
+            <!-- Sidebar -->
+            <div class="col-md-2">
+                <ul>
+                    <div>
+                        <p>
 
+                        <h3>File list</h3></p>
+                        <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
+
+                    </div>
+                    <div id="ButtonList"></div>
+                </ul>
+            </div>
+            <!-- Page Content -->
+            <div class="col-md-10">
                 <!-- Div for Upload file -->
                 <div>
-                    <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
 
                     <div class="popup" id="popup">
                         <div id="dropbox">
@@ -94,15 +106,26 @@
                     </div>
 
                 </div>
-                <!-- Div for GlobalMin button -->
-                <div>
-                    <a type="button" class="btn btn-primary btn-lg" id="GlobalMinButton" onclick="GlobalMin(fileName)">Calculate Global Min</a>
+
+                <!-- dropdown for Analyze buttons -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        Analyze function list <span class="caret"></span>
+                    </button>
+                    <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                        <li>
+                            <a type="button" class="btn btn-primary btn-lg"
+                               onclick="AnalyzeButton(fileName,'GlobalMinimum')">Calculate Global Min</a>
+                        </li>
+                        <li>
+                            <a type="button" class="btn btn-primary btn-lg"
+                               onclick="AnalyzeButton(fileName,'GlobalMaximum')">Calculate Global Max</a>
+                        </li>
+                    </ul>
                 </div>
-
-
             </div>
         </div>
-
     </div>
     <!-- /.container -->
 
@@ -143,14 +166,15 @@
 <spring:url value="/resources/js/bootstrap.min.js" var="mainJs"/>
 <script src="${mainJs}"></script>
 
-<!-- Script for GlobalMin button -->
-<spring:url value="/resources/js/GlobalMinButton.js" var="GlobalMinButtonJs"/>
-<script src="${GlobalMinButtonJs}"></script>
-
-
 <script>
+    //Data what will display
     var Data;
+    //variable for saving name of file
     var fileName;
+    //Array what save all file name
+    var fileList = [];
+    //Size of fileList
+    var size = 0;
 
 </script>
 <!-- Drag and Drop script -->
@@ -183,12 +207,16 @@
         var files = event.dataTransfer.files;
         for (var i = 0; i < files.length; i++) {
             uploadFile(files[i]);
-
         }
+
         PopUpHide();
+
     }
     //Uploads file
     function uploadFile(file) {
+        if (isFileExist(file.name)) {
+            alert("file alreary exist");
+        }
         //Adding text to status
         document.getElementById("status").innerHTML = "Uploading " + file.name;
         var formData = new FormData();
@@ -199,12 +227,11 @@
         xhr.open("POST", "/upload/demo", true); // If async=false, then you'll miss progress bar support.
         xhr.onreadystatechange = function () {
             fileName = xhr.getResponseHeader("fileName");
-            Data = JSON.parse(xhr.getResponseHeader('Data'));
+            Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
         };
         xhr.send(formData);
+
     }
-
-
     //Calculates upload progress
     function uploadProgress(event) {
         // Note: doesn't work with async=false.
@@ -215,6 +242,15 @@
     function uploadComplete(event) {
         document.getElementById("status").innerHTML = event.target.responseText;
         DrawGraph(Data);
+        //create new element
+        var newLi = document.createElement('li');
+        //add new button
+        newLi.innerHTML = '<button onclick="UpdateData(fileList[' + size + ']) "<span class=\"network-name\">"' + fileName + '"</span></button>';
+        ButtonList.appendChild(newLi);
+        //increase counter of number of file
+        size = +size + 1;
+        //Add fileName into array of fileNames
+        fileList.push(fileName);
 
     }
 
@@ -258,7 +294,58 @@
                 .style("fill", "red");
     }
 </script>
+<!-- script for updating data -->
+<script>
+    function UpdateData(newFileName) {
 
+        fileName = newFileName;
+
+        //   AJAX request for updating Data
+        $.ajax({
+            type: "Post",
+            async: true,
+            url: "/file/" + fileName + "/data",
+            success: function (data, textStatus, request) {
+                Data = JSON.parse(request.getResponseHeader('Data')).Data;
+                DrawGraph(Data);
+            },
+            error: function (response, textStatus, errorThrown) {
+                alert(response.statusText);
+            }
+        });
+
+    }
+
+
+</script>
+<!-- analyze button script-->
+<script>
+    function AnalyzeButton(fileName, functionType) {
+        //AJAX request for getting minimum of Data
+        $.ajax({
+            type: "Post",
+            async: true,
+            url: "/file/" + fileName + "/" + functionType,
+            success: function (data, textStatus, request) {
+                alert(request.getResponseHeader('value'));
+            },
+            error: function (response, textStatus, errorThrown) {
+                alert(response.statusText);
+            }
+        });
+
+
+    }
+</script>
+<!--isFileExist function -->
+<script>
+    function isFileExist(fileName) {
+        for (var i = 0; i < size; i++) {
+            if (fileList[i] == fileName) return true;
+        }
+        return false;
+    }
+</script>
 </body>
 
 </html>

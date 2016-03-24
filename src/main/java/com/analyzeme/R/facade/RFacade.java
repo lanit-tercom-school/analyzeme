@@ -28,7 +28,7 @@ public class RFacade {
 			caller = new Rserve();
 		} else if (type.equals("Renjine")) {
 
-		} else if (type.equals("Face")) {
+		} else if (type.equals("Fake")) {
 			caller = new FakeR();
 		} else {
 			throw new IllegalArgumentException();
