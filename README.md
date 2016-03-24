@@ -1,4 +1,4 @@
-# analyzeme
+# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=master)](https://travis-ci.org/lanit-tercom-school/analyzeme)
 
 ####Сборка проекта
 Сборка с использованием tomcat
