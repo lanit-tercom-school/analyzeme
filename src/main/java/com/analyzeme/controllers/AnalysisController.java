@@ -1,6 +1,6 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.R.call.RCallerRserve;
+import com.analyzeme.R.call.Rserve;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import com.analyzeme.repository.FileRepository;
@@ -47,7 +47,7 @@ public class AnalysisController {
 	@RequestMapping("/RserveCommand/{file_name}/{command}")
 	public double RserveCommand(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
 			throws Exception {
-		RCallerRserve call = new RCallerRserve();
+		Rserve call = new Rserve();
 		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		String DataString = StreamToString.ConvertStream(file);
 		return call.runCommandToGetNumber(command, DataString);

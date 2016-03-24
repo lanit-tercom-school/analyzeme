@@ -1,5 +1,6 @@
 package com.analyzeme.R.analyze;
 
+import com.analyzeme.R.ScriptManager.RScriptManager;
 import com.analyzeme.R.facade.RFacade;
 import com.analyzeme.analyze.Point;
 
@@ -9,7 +10,8 @@ import java.util.List;
 /**
  * Created by lagroffe on 19.03.2016 21:23
  */
-public class RAnalyzerToGetPoints {
+
+public class PointsFromR {
 
 	/**
 	 * calls R using R.facade
@@ -22,7 +24,7 @@ public class RAnalyzerToGetPoints {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		List<Point> result = RFacade.runScriptToGetPoints(rScriptName, rScript, userId, projectId);
+		List<Point> result = RScriptManager.runScriptToGetPoints(rScriptName, rScript, userId, projectId);
 		return result;
 	}
 
@@ -36,7 +38,7 @@ public class RAnalyzerToGetPoints {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		List<Point> result = RFacade.runScriptToGetPoints(rScriptName, rScript, jsonData);
+		List<Point> result = RScriptManager.runScriptToGetPoints(rScriptName, rScript, jsonData);
 		return result;
 	}
 
@@ -50,7 +52,7 @@ public class RAnalyzerToGetPoints {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScript(String rScriptId, int userId, String projectId) throws Exception {
-		List<Point> result = RFacade.runScriptToGetPoints(rScriptId, userId, projectId);
+		List<Point> result = RScriptManager.runScriptToGetPoints(rScriptId, userId, projectId);
 		return result;
 	}
 
@@ -63,7 +65,7 @@ public class RAnalyzerToGetPoints {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScript(String rScriptId, String jsonData) throws Exception {
-		List<Point> result = RFacade.runScriptToGetPoints(rScriptId, jsonData);
+		List<Point> result = RScriptManager.runScriptToGetPoints(rScriptId, jsonData);
 		return result;
 	}
 

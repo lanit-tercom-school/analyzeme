@@ -12,9 +12,11 @@ import java.util.List;
 /**
  * Created by lagroffe on 20.03.2016 0:38
  */
-public class RCallerRserve implements IRCaller {
+
+public class Rserve implements IRCaller {
 	public static RConnection r = null;
 
+	//TODO: in the future should use Settings (for host+port info)
 	private void Initialize() throws Exception {
 		if (r == null) {
 			r = new RConnection();
@@ -166,7 +168,7 @@ public class RCallerRserve implements IRCaller {
 	 */
 	public String runCommand(String rCommand, String jsonData) throws Exception {
 		String result = null;
-		//TODO: implement when parsers are ready
+		//TODO: implement on Sprint 16.3
 		return result;
 	}
 
@@ -228,7 +230,6 @@ public class RCallerRserve implements IRCaller {
 		JsonParser jsonParser;
 		jsonParser = new JsonParser(is);
 		Point[] data = jsonParser.getPointsFromPointJson();
-		//Point[] data = jsonParser.getPointsFromPointJson();
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
@@ -250,7 +251,7 @@ public class RCallerRserve implements IRCaller {
 	 */
 	public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
 		Point result = null;
-		//TODO: implement when parsers are ready
+		//TODO: implement on Sprint 16.3
 		return result;
 	}
 
@@ -262,7 +263,7 @@ public class RCallerRserve implements IRCaller {
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
 		List<Point> result = new ArrayList<Point>();
-		//TODO: implement when parsers are ready
+		//TODO: implement on Sprint 16.3
 		return result;
 	}
 }

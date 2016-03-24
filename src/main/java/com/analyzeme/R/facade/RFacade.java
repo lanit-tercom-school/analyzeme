@@ -1,7 +1,8 @@
 package com.analyzeme.R.facade;
 
+import com.analyzeme.R.call.FakeR;
 import com.analyzeme.R.call.IRCaller;
-import com.analyzeme.R.call.RCallerRserve;
+import com.analyzeme.R.call.Rserve;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.repository.FileInfo;
 import com.analyzeme.repository.FileRepository;
@@ -18,14 +19,17 @@ public class RFacade {
 	private static IRCaller caller;
 
 	static {
-		caller = new RCallerRserve();
+		caller = new Rserve();
 	}
 
+	//TODO: in the future type is defined by the special RSettings entity
 	public RFacade(String type) throws IllegalArgumentException {
 		if (type.equals("RServe")) {
-			caller = new RCallerRserve();
-		} else if (type.equals("JRI")) {
+			caller = new Rserve();
+		} else if (type.equals("Renjine")) {
 
+		} else if (type.equals("Face")) {
+			caller = new FakeR();
 		} else {
 			throw new IllegalArgumentException();
 		}

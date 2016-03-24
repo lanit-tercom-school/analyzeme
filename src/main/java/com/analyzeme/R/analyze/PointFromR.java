@@ -1,5 +1,6 @@
 package com.analyzeme.R.analyze;
 
+import com.analyzeme.R.ScriptManager.RScriptManager;
 import com.analyzeme.R.facade.RFacade;
 import com.analyzeme.analyze.Point;
 
@@ -8,7 +9,8 @@ import java.io.ByteArrayInputStream;
 /**
  * Created by lagroffe on 19.03.2016 21:20
  */
-public class RAnalyzerToGetPoint {
+
+public class PointFromR {
 
 	/**
 	 * calls R using R.facade
@@ -21,7 +23,7 @@ public class RAnalyzerToGetPoint {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static Point runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		Point result = RFacade.runScriptToGetPoint(rScriptName, rScript, userId, projectId);
+		Point result = RScriptManager.runScriptToGetPoint(rScriptName, rScript, userId, projectId);
 		return result;
 	}
 
@@ -35,7 +37,7 @@ public class RAnalyzerToGetPoint {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static Point runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		Point result = RFacade.runScriptToGetPoint(rScriptName, rScript, jsonData);
+		Point result = RScriptManager.runScriptToGetPoint(rScriptName, rScript, jsonData);
 		return result;
 	}
 
@@ -50,7 +52,7 @@ public class RAnalyzerToGetPoint {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static Point runScript(String rScriptId, int userId, String projectId) throws Exception {
-		Point result = RFacade.runScriptToGetPoint(rScriptId, userId, projectId);
+		Point result = RScriptManager.runScriptToGetPoint(rScriptId, userId, projectId);
 		return result;
 	}
 
@@ -63,7 +65,7 @@ public class RAnalyzerToGetPoint {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static Point runScript(String rScriptId, String jsonData) throws Exception {
-		Point result = RFacade.runScriptToGetPoint(rScriptId, jsonData);
+		Point result = RScriptManager.runScriptToGetPoint(rScriptId, jsonData);
 		return result;
 	}
 

@@ -7,6 +7,10 @@ import java.util.ArrayList;
  * Created by lagroffe on 15.03.2016 22:32
  */
 
+/**
+ * TODO: In the future parser should also be able to decide where to use data (from files and other sources) and complete script for execution
+ */
+
 
 class RParser {
 
