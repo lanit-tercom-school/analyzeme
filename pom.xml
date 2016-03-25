@@ -128,6 +128,14 @@
           <stopKey>foo</stopKey>
         </configuration>
       </plugin>
+      <plugin>
+             <groupId>org.eluder.coveralls</groupId>
+             <artifactId>coveralls-maven-plugin</artifactId>
+             <version>4.1.0</version>
+             <configuration>
+                 <repoToken>0jqxnRsOmnSrfHeNu4KFZY1NrF95nCJ3m</repoToken>
+             </configuration>
+      </plugin>
     </plugins>
   </build>
 </project>
