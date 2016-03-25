@@ -1,7 +1,5 @@
 language: java
-before_install:
-  - pip install codecov
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
 notifications:
   slack: analyzeme:2nmw8U7mQ58mlNHlWnsqvYXI
