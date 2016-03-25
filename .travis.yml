@@ -1,3 +1,4 @@
 language: java
+repo_token: 0jqxnRsOmnSrfHeNu4KFZY1NrF95nCJ3m
 notifications:
   slack: analyzeme:2nmw8U7mQ58mlNHlWnsqvYXI
