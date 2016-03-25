@@ -1,4 +1,4 @@
-# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=master)](https://travis-ci.org/lanit-tercom-school/analyzeme) [![codecov.io](https://codecov.io/github/lanit-tercom-school/analyzeme/coverage.svg?branch=master)](https://codecov.io/github/lanit-tercom-school/analyzeme?branch=master)
+# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=master)](https://travis-ci.org/lanit-tercom-school/analyzeme) [![codecov.io](https://codecov.io/github/lanit-tercom-school/analyzeme/coverage.svg?branch=master)](https://codecov.io/github/lanit-tercom-school/analyzeme?branch=master) [![Coverage Status](https://coveralls.io/repos/github/lanit-tercom-school/analyzeme/badge.svg?branch=master)](https://coveralls.io/github/lanit-tercom-school/analyzeme?branch=master)
 
 ####Сборка проекта
 Сборка с использованием tomcat
