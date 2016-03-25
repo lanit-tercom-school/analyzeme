@@ -1,5 +1,5 @@
 language: java
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -t 59bf1662-c4e9-41dc-b583-b636ffeddd92
 notifications:
   slack: analyzeme:2nmw8U7mQ58mlNHlWnsqvYXI
