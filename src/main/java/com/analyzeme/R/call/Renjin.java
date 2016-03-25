@@ -2,27 +2,29 @@ package com.analyzeme.R.call;
 
 import com.analyzeme.analyze.Point;
 import com.analyzeme.parsers.JsonParser;
-import org.rosuda.REngine.Rserve.RConnection;
+import org.renjin.sexp.SEXP;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by lagroffe on 20.03.2016 0:38
+ * Created by lagroffe on 25.03.2016 2:57
  */
 
-public class Rserve implements IRCaller {
-	private static RConnection r = null;
+public class Renjin implements IRCaller {
+	private static ScriptEngineManager manager = null;
+	private static ScriptEngine engine = null;
 
-	//TODO: in the future should use Settings (for host+port info)
-	private void Initialize() throws Exception {
-		if (r == null) {
-			r = new RConnection();
+	private static void Initialize() {
+		if (engine == null) {
+			manager = new ScriptEngineManager();
+			engine = manager.getEngineByName("Renjin");
 		}
 	}
-
 	//------------------
 	//default for scripts
 	//return - json
@@ -237,9 +239,10 @@ public class Rserve implements IRCaller {
 			x[i] = data[i].GetX();
 			y[i] = data[i].GetY();
 		}
-		r.assign("x", x);
-		r.assign("y", y);
-		double result = r.eval(rCommand).asDouble();
+		engine.put("x", x);
+		engine.put("y", y);
+		engine.put("result", 0);
+		double result = ((SEXP) engine.eval("result <-" + rCommand)).asReal();
 		return result;
 	}
 

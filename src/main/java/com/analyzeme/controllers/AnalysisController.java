@@ -1,5 +1,6 @@
 package com.analyzeme.controllers;
 
+import com.analyzeme.R.call.Renjin;
 import com.analyzeme.R.call.Rserve;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
@@ -99,6 +100,21 @@ public class AnalysisController {
 	public double RserveCommand(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
 			throws Exception {
 		Rserve call = new Rserve();
+		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
+		String DataString = StreamToString.ConvertStream(file);
+		return call.runCommandToGetNumber(command, DataString);
+	}
+
+	//this is a temporary test function
+
+	/**
+	 * @return
+	 * @throws IOException
+	 */
+	@RequestMapping("/RenjinCommand/{file_name}/{command}")
+	public double RenjinCommand(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
+			throws Exception {
+		Renjin call = new Renjin();
 		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		String DataString = StreamToString.ConvertStream(file);
 		return call.runCommandToGetNumber(command, DataString);

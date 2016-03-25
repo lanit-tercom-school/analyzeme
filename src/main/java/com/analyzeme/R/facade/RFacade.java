@@ -2,6 +2,7 @@ package com.analyzeme.R.facade;
 
 import com.analyzeme.R.call.FakeR;
 import com.analyzeme.R.call.IRCaller;
+import com.analyzeme.R.call.Renjin;
 import com.analyzeme.R.call.Rserve;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.repository.FileInfo;
@@ -22,12 +23,12 @@ public class RFacade {
 		caller = new Rserve();
 	}
 
-	//TODO: in the future type is defined by the special RSettings entity
+	//TODO: in the future type is defined by the special RSettings entity, use it in static block and deprecate ctor
 	public RFacade(String type) throws IllegalArgumentException {
 		if (type.equals("RServe")) {
 			caller = new Rserve();
-		} else if (type.equals("Renjine")) {
-
+		} else if (type.equals("Renjin")) {
+			caller = new Renjin();
 		} else if (type.equals("Fake")) {
 			caller = new FakeR();
 		} else {

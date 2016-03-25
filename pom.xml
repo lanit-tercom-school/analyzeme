@@ -110,7 +110,21 @@
             <artifactId>Rserve</artifactId>
             <version>1.8.1</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.renjin</groupId>
+            <artifactId>renjin-script-engine</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>bedatadriven</id>
+            <name>bedatadriven public repo</name>
+            <url>https://nexus.bedatadriven.com/content/groups/public/</url>
+        </repository>
+    </repositories>
 
     <build>
         <finalName>analyzeme</finalName>
