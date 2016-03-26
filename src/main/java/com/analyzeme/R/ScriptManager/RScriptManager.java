@@ -49,6 +49,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScript(rScriptName, rScript, userId, projectId);
 	}
 
@@ -62,6 +64,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static String runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScript(rScriptName, rScript, jsonData);
 	}
 
@@ -75,6 +79,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static String runScript(String rScriptId, int userId, String projectId) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScript(rScriptId, userId, projectId);
 	}
 
@@ -87,6 +93,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static String runScript(String rScriptId, String jsonData) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScript(rScriptId, jsonData);
 	}
 
@@ -107,6 +115,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetNumber(rScriptName, rScript, userId, projectId);
 	}
 
@@ -121,6 +131,8 @@ public class RScriptManager {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetNumber(rScriptName, rScript, jsonData);
 	}
 
@@ -135,6 +147,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static double runScriptToGetNumber(String rScriptId, int userId, String projectId) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetNumber(rScriptId, userId, projectId);
 	}
 
@@ -148,6 +162,8 @@ public class RScriptManager {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static double runScriptToGetNumber(String rScriptId, String jsonData) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetNumber(rScriptId, jsonData);
 	}
 
@@ -167,6 +183,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static Point runScriptToGetPoint(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoint(rScriptName, rScript, userId, projectId);
 	}
 
@@ -181,6 +199,8 @@ public class RScriptManager {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static Point runScriptToGetPoint(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoint(rScriptName, rScript, jsonData);
 	}
 
@@ -195,6 +215,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static Point runScriptToGetPoint(String rScriptId, int userId, String projectId) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoint(rScriptId, userId, projectId);
 	}
 
@@ -208,6 +230,8 @@ public class RScriptManager {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static Point runScriptToGetPoint(String rScriptId, String jsonData) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoint(rScriptId, jsonData);
 	}
 
@@ -228,6 +252,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScriptToGetPoints(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoints(rScriptName, rScript, userId, projectId);
 	}
 
@@ -241,6 +267,8 @@ public class RScriptManager {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScriptToGetPoints(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoints(rScriptName, rScript, jsonData);
 	}
 
@@ -255,6 +283,8 @@ public class RScriptManager {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScriptToGetPoints(String rScriptId, int userId, String projectId) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoints(rScriptId, userId, projectId);
 	}
 
@@ -268,6 +298,8 @@ public class RScriptManager {
 	 * @throws Exception if R was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScriptToGetPoints(String rScriptId, String jsonData) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
+			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoints(rScriptId, jsonData);
 	}
 }

@@ -40,6 +40,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
+			throw new IllegalArgumentException();
 		String result = null;
 		//TODO: implement when parsers are ready
 		return result;
@@ -53,6 +55,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public String runScript(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+		if (scriptName.equals("") || scriptName == null || rScript == null || jsonData.equals("") || jsonData == null)
+			throw new IllegalArgumentException();
 		String result = null;
 		//TODO: implement when parsers are ready
 		return result;
@@ -71,6 +75,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
+			throw new IllegalArgumentException();
 		double result = 0;
 		//TODO: implement when parsers are ready
 		return result;
@@ -84,6 +90,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
+			throw new IllegalArgumentException();
 		Point result = null;
 		//TODO: implement when parsers are ready
 		return result;
@@ -97,6 +105,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
+			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
 		//TODO: implement when parsers are ready
 		return result;
@@ -114,6 +124,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+		if (scriptName.equals("") || scriptName == null || rScript == null || jsonData.equals("") || jsonData == null)
+			throw new IllegalArgumentException();
 		double result = 0;
 		//TODO: implement when parsers are ready
 		return result;
@@ -127,6 +139,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+		if (scriptName.equals("") || scriptName == null || rScript == null || jsonData.equals("") || jsonData == null)
+			throw new IllegalArgumentException();
 		Point result = null;
 		//TODO: implement when parsers are ready
 		return result;
@@ -140,6 +154,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
+		if (scriptName.equals("") || scriptName == null || rScript == null || jsonData.equals("") || jsonData == null)
+			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
 		//TODO: implement when parsers are ready
 		return result;
@@ -158,6 +174,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public String runCommand(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+			throw new IllegalArgumentException();
 		String result = null;
 		//TODO: implement when parsers are ready
 		return result;
@@ -170,6 +188,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public String runCommand(String rCommand, String jsonData) throws Exception {
+		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+			throw new IllegalArgumentException();
 		String result = null;
 		//TODO: implement on Sprint 16.3
 		return result;
@@ -187,6 +207,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public double runCommandToGetNumber(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+			throw new IllegalArgumentException();
 		double result = 0;
 		//TODO: implement when parsers are ready
 		return result;
@@ -199,6 +221,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+			throw new IllegalArgumentException();
 		Point result = null;
 		//TODO: implement when parsers are ready
 		return result;
@@ -211,6 +235,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
 		//TODO: implement when parsers are ready
 		return result;
@@ -227,6 +253,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
+		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+			throw new IllegalArgumentException();
 		Initialize();
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
@@ -254,6 +282,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
+		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+			throw new IllegalArgumentException();
 		Initialize();
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
@@ -284,6 +314,8 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
+		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
 		//TODO: implement on Sprint 16.3
 		return result;
