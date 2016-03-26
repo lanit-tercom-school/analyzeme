@@ -25,9 +25,15 @@ public class IndexController {
 	public String moveToActionPage() {
 		return "action";
 	}
+    @RequestMapping(value = "/project")
+    public String moveToProjectPage() {
+        return "project-page";
+    }
 
 	@RequestMapping(value = "/projects")
 	public String moveToProjectPage() { return "projects"; }
 
+	@RequestMapping(value = "/RScriptPage")
+	public String moveToRScriptPage(){return  "RScriptPage";}
 }
 
