@@ -310,7 +310,7 @@
 
         //   AJAX request for updating Data
         $.ajax({
-            type: "Post",
+            type: "Get",
             async: true,
             url: "/file/" + fileName + "/data",
             success: function (data, textStatus, request) {
@@ -331,7 +331,7 @@
     function AnalyzeButton(fileName, functionType) {
         //AJAX request for getting minimum of Data
         $.ajax({
-            type: "Post",
+            type: "get",
             async: true,
             url: "/file/" + fileName + "/" + functionType,
             success: function (data, textStatus, request) {
