@@ -6,6 +6,7 @@ import com.analyzeme.repository.FileRepository;
 import com.analyzeme.streamreader.StreamToString;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.ByteArrayInputStream;
@@ -23,7 +24,7 @@ public class AnalysisController {
      * null if file doesn't exist
      * @throws IOException
      */
-    @RequestMapping("/file/{file_name}/data")
+    @RequestMapping(value = "/file/{file_name}/data", method = RequestMethod.GET)
     public String getData(@PathVariable("file_name") String fileName)
             throws IOException {
         try {
@@ -47,7 +48,7 @@ public class AnalysisController {
      * 0 if file doesn't exist
      * @throws IOException
      */
-    @RequestMapping("/file/{file_name}/minimum")
+    @RequestMapping(value = "/file/{file_name}/minimum", method = RequestMethod.GET)
     public double getMinimum(@PathVariable("file_name") String fileName)
             throws IOException {
         try {

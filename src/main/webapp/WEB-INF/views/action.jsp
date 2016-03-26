@@ -55,9 +55,9 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>-->
-            <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
-            <a href="action" type="button" class="btn btn-success btn-lg">Try now</a>
-            <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
+            <a href="../index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
+            <a href="../demo" type="button" class="btn btn-success btn-lg">Try now</a>
+            <a href="../projects" type="button" class="btn btn-info btn-lg">Projects</a>
 
 
 
@@ -69,7 +69,14 @@
 </nav>
 
 <!-- Header -->
-<a name="about"></a>
+<a id="about">You're working with the project ${project.projectName}</a>
+<script>
+    var name ="${project.projectName}";
+    if(name.length<=0) {
+        var a = document.getElementById("about");
+        document.getElementById("about").style.display = "none";
+    }
+</script>
 <div class="intro-header2">
     <div class="container">
 
@@ -189,6 +196,11 @@
     }
     //Uploads file
     function uploadFile(file) {
+        var projectParams = "guest/"+"${project.uniqueName}";
+        //checks if project object is empty
+        if(projectParams.length<="guest/".length) {
+            projectParams = "demo";
+        }
         //Adding text to status
         document.getElementById("status").innerHTML = "Uploading " + file.name;
         var formData = new FormData();
@@ -196,14 +208,13 @@
         var xhr = new XMLHttpRequest();
         xhr.upload.addEventListener("progress", uploadProgress, false);
         xhr.addEventListener("load", uploadComplete, false);
-        xhr.open("POST", "/upload/demo", true); // If async=false, then you'll miss progress bar support.
+        xhr.open("POST", "/upload/"+projectParams, true); // If async=false, then you'll miss progress bar support.
         xhr.onreadystatechange = function () {
             fileName = xhr.getResponseHeader("fileName");
             Data = JSON.parse(xhr.getResponseHeader('Data'));
         };
         xhr.send(formData);
     }
-
 
     //Calculates upload progress
     function uploadProgress(event) {
