@@ -20,12 +20,11 @@ public class RFacade {
 	private static IRCaller caller;
 
 	static {
-		caller = new Rserve();
+		caller = new Renjin();
 	}
 
-	//TODO: in the future type is defined by the special RSettings entity, use it in static block and deprecate ctor
 	public RFacade(String type) throws IllegalArgumentException {
-		if (type.equals("RServe")) {
+		if (type.equals("Rserve")) {
 			caller = new Rserve();
 		} else if (type.equals("Renjin")) {
 			caller = new Renjin();

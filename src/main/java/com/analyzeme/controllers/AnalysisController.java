@@ -1,12 +1,12 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.R.call.Renjin;
-import com.analyzeme.R.call.Rserve;
+import com.analyzeme.R.facade.RFacade;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.parsers.JsonParserException;
+import com.analyzeme.parsers.PointToJson;
 import com.analyzeme.repository.FileRepository;
 import com.analyzeme.streamreader.StreamToString;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by Ольга on 16.03.2016.
@@ -90,34 +91,53 @@ public class AnalysisController {
 
 	}
 
-	//this is a temporary test function
-
 	/**
-	 * @return
-	 * @throws IOException
+	 * @param fileName - unique name of file with points to use in command
+	 * @param engine   - Rserve, Renjin, or Fake
+	 * @param command  - correct R command (like x[1], mean(y) etc.)
+	 * @return result of command
+	 * @throws Exception
 	 */
-	@RequestMapping("/RserveCommand/{file_name}/{command}")
-	public double RserveCommand(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
+	@RequestMapping("/NumberFromR/{engine}/{file_name}/{command}")
+	public double RCommandToGetNumber(@PathVariable("file_name") String fileName, @PathVariable("engine") String engine, @PathVariable("command") String command)
 			throws Exception {
-		Rserve call = new Rserve();
 		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		String DataString = StreamToString.ConvertStream(file);
-		return call.runCommandToGetNumber(command, DataString);
+		return (new RFacade(engine)).runCommandToGetNumber(command, DataString);
 	}
 
-	//this is a temporary test function
-
 	/**
-	 * @return
-	 * @throws IOException
+	 * @param fileName - unique name of file with points to use in command
+	 * @param engine   - Rserve, Renjin, or Fake
+	 * @param command  - correct R command (like c(x[1], mean(y)) - you'll get Point(x[1], mean(y)))
+	 * @return result of command
+	 * @throws Exception
 	 */
-	@RequestMapping("/RenjinCommand/{file_name}/{command}")
-	public double RenjinCommand(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
+	@RequestMapping("/PointFromR/{engine}/{file_name}/{command}")
+	public String RCommandToGetPoint(@PathVariable("file_name") String fileName, @PathVariable("engine") String engine, @PathVariable("command") String command)
 			throws Exception {
-		Renjin call = new Renjin();
 		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		String DataString = StreamToString.ConvertStream(file);
-		return call.runCommandToGetNumber(command, DataString);
+		Point result = (new RFacade(engine)).runCommandToGetPoint(command, DataString);
+		return PointToJson.convertPoint(result);
+	}
+
+	/**
+	 * not working yet
+	 *
+	 * @param fileName - unique name of file with points to use in command
+	 * @param engine   - Rserve, Renjin, or Fake
+	 * @param command  - correct R command (not designed yet)
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping("/PointsFromR/{engine}/{file_name}/{command}")
+	public String RCommandToGetPoints(@PathVariable("file_name") String fileName, @PathVariable("engine") String engine, @PathVariable("command") String command)
+			throws Exception {
+		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
+		String DataString = StreamToString.ConvertStream(file);
+		List<Point> result = (new RFacade(engine)).runCommandToGetPoints(command, DataString);
+		return PointToJson.convertPoints(result);
 	}
 }
 

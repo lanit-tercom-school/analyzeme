@@ -250,8 +250,25 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
-		Point result = null;
-		//TODO: implement on Sprint 16.3
+		Initialize();
+
+		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
+		JsonParser jsonParser;
+		jsonParser = new JsonParser(is);
+		Point[] data = jsonParser.getPointsFromPointJson();
+
+		double[] x = new double[data.length];
+		double[] y = new double[data.length];
+		for (int i = 0; i < data.length; i++) {
+			x[i] = data[i].GetX();
+			y[i] = data[i].GetY();
+		}
+		r.assign("x", x);
+		r.assign("y", y);
+		double[] res = r.eval(rCommand).asDoubles();
+		Point result = new Point();
+		result.SetX(res[0]);
+		result.SetY(res[1]);
 		return result;
 	}
 

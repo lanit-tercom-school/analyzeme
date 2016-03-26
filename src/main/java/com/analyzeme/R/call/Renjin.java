@@ -3,6 +3,7 @@ package com.analyzeme.R.call;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.parsers.JsonParser;
 import org.renjin.sexp.SEXP;
+import org.renjin.sexp.Vector;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -253,8 +254,26 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
-		Point result = null;
-		//TODO: implement on Sprint 16.3
+		Initialize();
+
+		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
+		JsonParser jsonParser;
+		jsonParser = new JsonParser(is);
+		Point[] data = jsonParser.getPointsFromPointJson();
+
+		double[] x = new double[data.length];
+		double[] y = new double[data.length];
+		for (int i = 0; i < data.length; i++) {
+			x[i] = data[i].GetX();
+			y[i] = data[i].GetY();
+		}
+		engine.put("x", x);
+		engine.put("y", y);
+		engine.put("result", 0);
+		Vector res = ((Vector) engine.eval("result <-" + rCommand));
+		Point result = new Point();
+		result.SetX(res.getElementAsDouble(0));
+		result.SetY(res.getElementAsDouble(1));
 		return result;
 	}
 
