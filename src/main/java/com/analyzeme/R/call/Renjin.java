@@ -261,8 +261,8 @@ public class Renjin implements IRCaller {
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
-		jsonParser = new JsonParser(is);
-		Point[] data = jsonParser.getPointsFromPointJson();
+		jsonParser = new JsonParser();
+		Point[] data = jsonParser.getPointsFromPointJson(is);
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
@@ -290,8 +290,8 @@ public class Renjin implements IRCaller {
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
-		jsonParser = new JsonParser(is);
-		Point[] data = jsonParser.getPointsFromPointJson();
+		jsonParser = new JsonParser();
+		Point[] data = jsonParser.getPointsFromPointJson(is);
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
@@ -323,8 +323,8 @@ public class Renjin implements IRCaller {
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
-		jsonParser = new JsonParser(is);
-		Point[] data = jsonParser.getPointsFromPointJson();
+		jsonParser = new JsonParser();
+		Point[] data = jsonParser.getPointsFromPointJson(is);
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];

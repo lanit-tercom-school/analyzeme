@@ -73,9 +73,9 @@ public class AnalysisController {
 			InputStream is = new ByteArrayInputStream(DataString.getBytes());
 
 			JsonParser jsonParser;
-			jsonParser = new JsonParser(is);
+			jsonParser = new JsonParser();
 
-			Data = jsonParser.getPointsFromPointJson();
+			Data = jsonParser.getPointsFromPointJson(is);
 
 			double value = Data[ServletAnalyzeFunction.Calc(Data)].GetY();
 			response.setHeader("value", String.valueOf(value));
@@ -91,6 +91,8 @@ public class AnalysisController {
 
 	}
 
+	//temporary API
+
 	/**
 	 * @param fileName - unique name of file with points to use in command
 	 * @param engine   - Rserve, Renjin, or Fake
@@ -101,10 +103,14 @@ public class AnalysisController {
 	@RequestMapping("/NumberFromR/{engine}/{file_name}/{command}")
 	public double RCommandToGetNumber(@PathVariable("file_name") String fileName, @PathVariable("engine") String engine, @PathVariable("command") String command)
 			throws Exception {
+		if (command == null || command.equals("") || fileName == null || fileName.equals("") || engine == null || engine.equals(""))
+			throw new IllegalArgumentException();
 		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		String DataString = StreamToString.ConvertStream(file);
 		return (new RFacade(engine)).runCommandToGetNumber(command, DataString);
 	}
+
+	//temporary API
 
 	/**
 	 * @param fileName - unique name of file with points to use in command
@@ -116,15 +122,17 @@ public class AnalysisController {
 	@RequestMapping("/PointFromR/{engine}/{file_name}/{command}")
 	public String RCommandToGetPoint(@PathVariable("file_name") String fileName, @PathVariable("engine") String engine, @PathVariable("command") String command)
 			throws Exception {
+		if (command == null || command.equals("") || fileName == null || fileName.equals("") || engine == null || engine.equals(""))
+			throw new IllegalArgumentException();
 		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		String DataString = StreamToString.ConvertStream(file);
 		Point result = (new RFacade(engine)).runCommandToGetPoint(command, DataString);
 		return PointToJson.convertPoint(result);
 	}
 
+	//temporary API
+
 	/**
-	 * not working yet
-	 *
 	 * @param fileName - unique name of file with points to use in command
 	 * @param engine   - Rserve, Renjin, or Fake
 	 * @param command  - correct R command (not designed yet)
@@ -134,6 +142,8 @@ public class AnalysisController {
 	@RequestMapping("/PointsFromR/{engine}/{file_name}/{command}")
 	public String RCommandToGetPoints(@PathVariable("file_name") String fileName, @PathVariable("engine") String engine, @PathVariable("command") String command)
 			throws Exception {
+		if (command == null || command.equals("") || fileName == null || fileName.equals("") || engine == null || engine.equals(""))
+			throw new IllegalArgumentException();
 		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		String DataString = StreamToString.ConvertStream(file);
 		List<Point> result = (new RFacade(engine)).runCommandToGetPoints(command, DataString);

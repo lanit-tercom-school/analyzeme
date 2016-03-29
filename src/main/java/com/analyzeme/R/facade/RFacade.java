@@ -16,6 +16,8 @@ import java.util.List;
  * Created by lagroffe on 15.03.2016 21:45
  */
 
+//TODO: when IAnalyzers are ready, make all public functions here accessible in the package only
+
 public class RFacade {
 	private static IRCaller caller;
 

@@ -16,12 +16,14 @@ import static junit.framework.Assert.assertTrue;
  */
 
 //for Renjin and FakeR
+//TODO: add new tests when new functions are implemented
 
 public class RCallersTest {
-	static double eps = 0.00001;
-	static IRCaller call;
-	static String testData = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
-	static Point[] points;
+	private static double eps = 0.00001;
+	private static IRCaller call;
+	private static String testData = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
+	private static String testScriptForPoints = "matrix(c(x[1], y[1], x[1], y[1]), nrow = 2, ncol = 2, byrow=TRUE)";
+	private static Point[] points;
 
 	public static boolean doubleEqual(double a, double b) {
 		return Math.abs(a - b) < eps;
@@ -31,8 +33,8 @@ public class RCallersTest {
 	public static void beforeClass() throws Exception {
 		InputStream is = new ByteArrayInputStream(testData.getBytes());
 		JsonParser jsonParser;
-		jsonParser = new JsonParser(is);
-		points = jsonParser.getPointsFromPointJson();
+		jsonParser = new JsonParser();
+		points = jsonParser.getPointsFromPointJson(is);
 	}
 
 	@Test
@@ -67,10 +69,8 @@ public class RCallersTest {
 		try {
 			call = new Renjin();
 			Point res = null;
-			for (int i = 0; i < points.length; i++) {
-				res = call.runCommandToGetPoint("c(x[" + (int) (i + 1) + "], y[" + (int) (i + 1) + "])", testData);
-				assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[i].GetX(), res.GetX()) && doubleEqual(points[i].GetY(), res.GetY()));
-			}
+			res = call.runCommandToGetPoint("c(x[5], y[5])", testData);
+			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[4].GetX(), res.GetX()) && doubleEqual(points[4].GetY(), res.GetY()));
 		} catch (Exception e) {
 			assertTrue("Points doesn't return correctly from Renjin", false);
 		}
@@ -112,11 +112,8 @@ public class RCallersTest {
 	public void testRenjinCommandToGetPoints() {
 		try {
 			call = new Renjin();
-			List<Point> res = null;
-			for (int i = 0; i < points.length; i++) {
-				res = call.runCommandToGetPoints("matrix(c(x[" + (int) (i + 1) + "], y[" + (int) (i + 1) + "], x[" + (int) (i + 1) + "], y[" + (int) (i + 1) + "]), nrow = 2, ncol = 2, byrow=TRUE)", testData);
-				assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[i].GetX(), res.get(0).GetX()) && doubleEqual(points[i].GetY(), res.get(0).GetY()) && doubleEqual(points[i].GetX(), res.get(1).GetX()) && doubleEqual(points[i].GetY(), res.get(1).GetY()));
-			}
+			List<Point> res = call.runCommandToGetPoints(testScriptForPoints, testData);
+			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[0].GetX(), res.get(0).GetX()) && doubleEqual(points[0].GetY(), res.get(0).GetY()) && doubleEqual(points[0].GetX(), res.get(1).GetX()) && doubleEqual(points[0].GetY(), res.get(1).GetY()));
 		} catch (Exception e) {
 			assertTrue("Points doesn't return correctly from Renjin", false);
 		}
