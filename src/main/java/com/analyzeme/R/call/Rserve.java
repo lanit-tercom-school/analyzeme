@@ -311,8 +311,30 @@ public class Rserve implements IRCaller {
 	public List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
 		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
 			throw new IllegalArgumentException();
-		List<Point> result = new ArrayList<Point>();
-		//TODO: implement on Sprint 16.3
+
+		Initialize();
+
+		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
+		JsonParser jsonParser;
+		jsonParser = new JsonParser(is);
+		Point[] data = jsonParser.getPointsFromPointJson();
+
+		double[] x = new double[data.length];
+		double[] y = new double[data.length];
+		for (int i = 0; i < data.length; i++) {
+			x[i] = data[i].GetX();
+			y[i] = data[i].GetY();
+		}
+		r.assign("x", x);
+		r.assign("y", y);
+		double[][] res = r.eval(rCommand).asDoubleMatrix();
+		ArrayList<Point> result = new ArrayList<Point>();
+		for (int i = 0; i < res.length; i++) {
+			Point p = new Point();
+			p.SetX(res[i][0]);
+			p.SetY(res[i][1]);
+			result.add(p);
+		}
 		return result;
 	}
 }

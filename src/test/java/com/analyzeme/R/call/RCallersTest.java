@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -105,5 +106,30 @@ public class RCallersTest {
 		call.runCommandToGetNumber("", (String) null);
 		call.runCommandToGetNumber(null, "");
 
+	}
+
+	@Test
+	public void testRenjinCommandToGetPoints() {
+		try {
+			call = new Renjin();
+			List<Point> res = null;
+			for (int i = 0; i < points.length; i++) {
+				res = call.runCommandToGetPoints("matrix(c(x[" + (int) (i + 1) + "], y[" + (int) (i + 1) + "], x[" + (int) (i + 1) + "], y[" + (int) (i + 1) + "]), nrow = 2, ncol = 2, byrow=TRUE)", testData);
+				assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[i].GetX(), res.get(0).GetX()) && doubleEqual(points[i].GetY(), res.get(0).GetY()) && doubleEqual(points[i].GetX(), res.get(1).GetX()) && doubleEqual(points[i].GetY(), res.get(1).GetY()));
+			}
+		} catch (Exception e) {
+			assertTrue("Points doesn't return correctly from Renjin", false);
+		}
+	}
+
+	@Test
+	public void testFakeRCommandToGetPoints() {
+		try {
+			call = new FakeR();
+			List<Point> res = call.runCommandToGetPoints("---", "---");
+			assertTrue("FakeR to get point doesn't work properly", res.isEmpty());
+		} catch (Exception e) {
+			assertTrue("FakeR to get point doesn't work properly", false);
+		}
 	}
 }
