@@ -2,6 +2,8 @@ package com.analyzeme.R.call;
 
 import com.analyzeme.analyze.Point;
 import com.analyzeme.parsers.JsonParser;
+import org.renjin.primitives.matrix.Matrix;
+import org.renjin.sexp.AttributeMap;
 import org.renjin.sexp.SEXP;
 import org.renjin.sexp.Vector;
 
@@ -316,8 +318,42 @@ public class Renjin implements IRCaller {
 	public List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
 		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
 			throw new IllegalArgumentException();
+
+		Initialize();
+
+		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
+		JsonParser jsonParser;
+		jsonParser = new JsonParser(is);
+		Point[] data = jsonParser.getPointsFromPointJson();
+
+		double[] x = new double[data.length];
+		double[] y = new double[data.length];
+		for (int i = 0; i < data.length; i++) {
+			x[i] = data[i].GetX();
+			y[i] = data[i].GetY();
+		}
+		engine.put("x", x);
+		engine.put("y", y);
+		engine.put("result", 0);
+		Vector res = ((Vector) engine.eval("result <-" + rCommand));
 		List<Point> result = new ArrayList<Point>();
-		//TODO: implement on Sprint 16.3
+		if (res.hasAttributes()) {
+			AttributeMap attributes = res.getAttributes();
+			Vector dim = attributes.getDim();
+			if (dim == null || dim.length() == 1) {
+				throw new IllegalArgumentException("Wrong type of command");
+			} else if (dim.length() == 2) {
+				Matrix m = new Matrix(res);
+				for (int i = 0; i < m.getNumRows(); i++) {
+					Point p = new Point();
+					p.SetX(m.getElementAsDouble(i, 0));
+					p.SetY(m.getElementAsDouble(i, 1));
+					result.add(p);
+				}
+			} else {
+				throw new IllegalArgumentException("Wrong type of command");
+			}
+		}
 		return result;
 	}
 }
