@@ -237,12 +237,12 @@ public class UsersRepository implements IRepository {
 	 * checks if the requirements given in params are met
 	 * if so, returns file by id from FileRepository
 	 *
-	 * @param uniqueName - filename in FileRepository
-	 * @param params     - projectName, username)
+	 * @param filename - filename (given by user)
+	 * @param params   - projectName, username)
 	 * @return
 	 */
-	public synchronized ByteArrayInputStream getFile(final String uniqueName, final String[] params) throws Exception {
-		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
+	public synchronized ByteArrayInputStream getFile(final String filename, final String[] params) throws Exception {
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		for (String str : params) {
 			if (str == null || str.equals("")) throw new IllegalArgumentException();
 		}
@@ -256,30 +256,25 @@ public class UsersRepository implements IRepository {
 		if (projectId == null || projectId.equals("") || project == null) {
 			throw new IllegalArgumentException();
 		}
-		boolean found = false;
 		for (String file : project.getFilenames()) {
-			if (file.equals(uniqueName)) {
-				found = true;
-				break;
+			FileInfo info = FileRepository.getRepo().findFileById(file);
+			if (info.getNameForUser().equals(filename)) {
+				return info.getData();
 			}
 		}
-		if (found == true) {
-			return FileRepository.getRepo().getFileByID(uniqueName);
-		} else {
-			return null;
-		}
+		return null;
 	}
 
 	/**
 	 * checks if the requirements given in params are met
 	 * if so, returns fileinfo from FileRepository
 	 *
-	 * @param uniqueName - filename in FileRepository
-	 * @param params     - projectName, username)
+	 * @param filename - filename given by user
+	 * @param params   - projectName, username)
 	 * @return
 	 */
-	public synchronized FileInfo findFile(final String uniqueName, final String[] params) throws Exception {
-		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
+	public synchronized FileInfo findFile(final String filename, final String[] params) throws Exception {
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		for (String str : params) {
 			if (str == null || str.equals("")) throw new IllegalArgumentException();
 		}
@@ -293,17 +288,12 @@ public class UsersRepository implements IRepository {
 		if (projectId == null || projectId.equals("") || project == null) {
 			throw new IllegalArgumentException();
 		}
-		boolean found = false;
 		for (String file : project.getFilenames()) {
-			if (file.equals(uniqueName)) {
-				found = true;
-				break;
+			FileInfo info = FileRepository.getRepo().findFileById(file);
+			if (info.getNameForUser().equals(filename)) {
+				return info;
 			}
 		}
-		if (found == true) {
-			return FileRepository.getRepo().findFileById(uniqueName);
-		} else {
-			return null;
-		}
+		return null;
 	}
 }

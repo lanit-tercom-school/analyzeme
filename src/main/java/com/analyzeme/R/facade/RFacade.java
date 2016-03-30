@@ -5,6 +5,8 @@ import com.analyzeme.R.call.IRCaller;
 import com.analyzeme.R.call.Renjin;
 import com.analyzeme.R.call.Rserve;
 import com.analyzeme.analyze.Point;
+import com.analyzeme.data.DataSet;
+import com.analyzeme.data.RepositoryDataResolver;
 import com.analyzeme.repository.FileInfo;
 import com.analyzeme.repository.FileRepository;
 
@@ -65,12 +67,10 @@ public class RFacade {
 	public static String runCommand(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		ArrayList<String> files = RParser.parse(rCommand, userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		String result = caller.runCommand(rCommand, filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
+		String result = caller.runCommand(rCommand, files);
 		return result;
 	}
 
@@ -101,12 +101,10 @@ public class RFacade {
 	public static double runCommandToGetNumber(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		ArrayList<String> files = RParser.parse(rCommand, userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		double result = caller.runCommandToGetNumber(rCommand, filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
+		double result = caller.runCommandToGetNumber(rCommand, files);
 		return result;
 	}
 
@@ -137,12 +135,10 @@ public class RFacade {
 	public static Point runCommandToGetPoint(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		ArrayList<String> files = RParser.parse(rCommand, userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		Point result = caller.runCommandToGetPoint(rCommand, filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
+		Point result = caller.runCommandToGetPoint(rCommand, files);
 		return result;
 	}
 
@@ -173,12 +169,10 @@ public class RFacade {
 	public static List<Point> runCommandToGetPoints(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		ArrayList<String> files = RParser.parse(rCommand, userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		List<Point> result = caller.runCommandToGetPoints(rCommand, filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
+		List<Point> result = caller.runCommandToGetPoints(rCommand, files);
 		return result;
 	}
 
@@ -230,12 +224,10 @@ public class RFacade {
 	public static String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		ArrayList<String> files = RParser.parse(rScript, userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		String result = caller.runScript(rScriptName, rScript, filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
+		String result = caller.runScript(rScriptName, rScript, files);
 		return result;
 	}
 
@@ -268,12 +260,10 @@ public class RFacade {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		ArrayList<String> files = RParser.parse(script.getData(), userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		String result = caller.runScript(script.getUniqueName(), script.getData(), filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
+		String result = caller.runScript(script.getUniqueName(), script.getData(), files);
 		return result;
 	}
 
@@ -312,12 +302,10 @@ public class RFacade {
 	public static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		ArrayList<String> files = RParser.parse(rScript, userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		double result = caller.runScriptToGetNumber(rScriptName, rScript, filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
+		double result = caller.runScriptToGetNumber(rScriptName, rScript, files);
 		return result;
 	}
 
@@ -352,12 +340,10 @@ public class RFacade {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		ArrayList<String> files = RParser.parse(script.getData(), userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
+		double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), files);
 		return result;
 	}
 
@@ -396,12 +382,10 @@ public class RFacade {
 	public static Point runScriptToGetPoint(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		ArrayList<String> files = RParser.parse(rScript, userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		Point result = caller.runScriptToGetPoint(rScriptName, rScript, filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
+		Point result = caller.runScriptToGetPoint(rScriptName, rScript, files);
 		return result;
 	}
 
@@ -436,12 +420,10 @@ public class RFacade {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		ArrayList<String> files = RParser.parse(script.getData(), userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
+		Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), files);
 		return result;
 	}
 
@@ -481,12 +463,10 @@ public class RFacade {
 	public static List<Point> runScriptToGetPoints(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		ArrayList<String> files = RParser.parse(rScript, userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		List<Point> result = caller.runScriptToGetPoints(rScriptName, rScript, filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
+		List<Point> result = caller.runScriptToGetPoints(rScriptName, rScript, files);
 		return result;
 	}
 
@@ -520,12 +500,10 @@ public class RFacade {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		ArrayList<String> files = RParser.parse(script.getData(), userId, projectId);
-		ArrayList<ByteArrayInputStream> filesData = new ArrayList<ByteArrayInputStream>();
-		for (String name : files) {
-			filesData.add(FileRepository.getRepo().getFileByID(name));
-		}
-		List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), filesData);
+		RepositoryDataResolver resolver = new RepositoryDataResolver();
+		resolver.setProject(userId, projectId);
+		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
+		List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), files);
 		return result;
 	}
 

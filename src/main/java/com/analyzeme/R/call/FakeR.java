@@ -1,6 +1,7 @@
 package com.analyzeme.R.call;
 
 import com.analyzeme.analyze.Point;
+import com.analyzeme.data.DataSet;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -21,11 +22,11 @@ public class FakeR implements IRCaller {
 	/**
 	 * @param scriptName - name of the script to be called
 	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param dataFiles  - data necessary for the script as streams from files
+	 * @param dataFiles  - data necessary for the script
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call R or script errored
 	 */
-	public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+	public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		String result = "";
@@ -54,11 +55,11 @@ public class FakeR implements IRCaller {
 	/**
 	 * @param scriptName - name of the script to be called
 	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param dataFiles  - data necessary for the script as streams from files
+	 * @param dataFiles  - data necessary for the script
 	 * @return double result
 	 * @throws Exception if failed to call R or script errored
 	 */
-	public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+	public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		double result = 0;
@@ -68,11 +69,11 @@ public class FakeR implements IRCaller {
 	/**
 	 * @param scriptName - name of the script to be called
 	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param dataFiles  - data necessary for the script as streams from files
+	 * @param dataFiles  - data necessary for the script
 	 * @return one point
 	 * @throws Exception if failed to call R or script errored
 	 */
-	public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+	public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		Point result = new Point();
@@ -82,11 +83,11 @@ public class FakeR implements IRCaller {
 	/**
 	 * @param scriptName - name of the script to be called
 	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param dataFiles  - data necessary for the script as streams from files
+	 * @param dataFiles  - data necessary for the script
 	 * @return List<Point>
 	 * @throws Exception if failed to call R or script errored
 	 */
-	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
@@ -147,11 +148,11 @@ public class FakeR implements IRCaller {
 
 	/**
 	 * @param rCommand  - string with a command in R language
-	 * @param dataFiles - data necessary for the script as streams from files
+	 * @param dataFiles - data necessary for the script
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call R or command errored
 	 */
-	public String runCommand(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+	public String runCommand(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		String result = "";
@@ -178,11 +179,11 @@ public class FakeR implements IRCaller {
 
 	/**
 	 * @param rCommand  - string with a command in R language
-	 * @param dataFiles - data necessary for the script as streams from files
+	 * @param dataFiles - data necessary for the script
 	 * @return double result
 	 * @throws Exception if failed to call R or command errored
 	 */
-	public double runCommandToGetNumber(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+	public double runCommandToGetNumber(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		double result = 0;
@@ -191,11 +192,11 @@ public class FakeR implements IRCaller {
 
 	/**
 	 * @param rCommand  - string with a command in R language
-	 * @param dataFiles - data necessary for the script as streams from files
+	 * @param dataFiles - data necessary for the script
 	 * @return one point
 	 * @throws Exception if failed to call R or command errored
 	 */
-	public Point runCommandToGetPoint(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+	public Point runCommandToGetPoint(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		Point result = new Point();
@@ -204,11 +205,11 @@ public class FakeR implements IRCaller {
 
 	/**
 	 * @param rCommand  - string with a command in R language
-	 * @param dataFiles - data necessary for the script as streams from files
+	 * @param dataFiles - data necessary for the script
 	 * @return List<Point>
 	 * @throws Exception if failed to call R or command errored
 	 */
-	public List<Point> runCommandToGetPoints(String rCommand, ArrayList<ByteArrayInputStream> dataFiles) throws Exception {
+	public List<Point> runCommandToGetPoints(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
