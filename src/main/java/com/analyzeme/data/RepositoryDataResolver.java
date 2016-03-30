@@ -20,7 +20,7 @@ public class RepositoryDataResolver implements IDataSetResolver {
 
 	public DataSet getDataSet(String name) throws Exception {
 		FileInfo info = UsersRepository.getRepo().findFile(name, params);
-		ISourceInfo file = new TOCHANGE(info.getUniqueName());
+		ISourceInfo file = new FileInRepositoryInfo(info.getUniqueName());
 		return new DataSet(name, file);
 	}
 }
