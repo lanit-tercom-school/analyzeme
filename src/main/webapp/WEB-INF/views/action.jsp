@@ -68,14 +68,7 @@
 </nav>
 
 <!-- Header -->
-<a id="about">You're working with the project ${project.projectName}</a>
-<script>
-    var name ="${project.projectName}";
-    if(name.length<=0) {
-        var a = document.getElementById("about");
-        document.getElementById("about").style.display = "none";
-    }
-</script>
+<a id="about"></a>
 <div class="intro-header2">
     <div class="container">
         <div class="row">
@@ -84,7 +77,7 @@
                 <ul>
                     <div>
                         <p>
-                        <h3>File list</h3></p>
+                        <h3>${project.projectName}<br/> File list</h3></p>
                         <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
 
                     </div>
