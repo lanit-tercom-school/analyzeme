@@ -46,21 +46,6 @@ public class Rserve implements IRCaller {
 		return result;
 	}
 
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param jsonData   - data necessary for the script
-	 * @return json form of result (may be errors)
-	 * @throws Exception if failed to call R or script errored
-	 */
-	public String runScript(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (scriptName.equals("") || scriptName == null || rScript == null || jsonData.equals("") || jsonData == null)
-			throw new IllegalArgumentException();
-		String result = null;
-		//TODO: implement when parsers are ready
-		return result;
-	}
-
 
 	//------------------
 	//script for files
@@ -105,55 +90,6 @@ public class Rserve implements IRCaller {
 	 */
 	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
-			throw new IllegalArgumentException();
-		List<Point> result = new ArrayList<Point>();
-		//TODO: implement when parsers are ready
-		return result;
-	}
-
-	//------------------
-	//script for data
-	//------------------
-
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param jsonData   - data necessary for the script
-	 * @return double result
-	 * @throws Exception if failed to call R or script errored
-	 */
-	public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (scriptName.equals("") || scriptName == null || rScript == null || jsonData.equals("") || jsonData == null)
-			throw new IllegalArgumentException();
-		double result = 0;
-		//TODO: implement when parsers are ready
-		return result;
-	}
-
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param jsonData   - data necessary for the script
-	 * @return one point
-	 * @throws Exception if failed to call R or script errored
-	 */
-	public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (scriptName.equals("") || scriptName == null || rScript == null || jsonData.equals("") || jsonData == null)
-			throw new IllegalArgumentException();
-		Point result = null;
-		//TODO: implement when parsers are ready
-		return result;
-	}
-
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param jsonData   - data necessary for the script
-	 * @return List<Point>
-	 * @throws Exception if failed to call R or script errored
-	 */
-	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (scriptName.equals("") || scriptName == null || rScript == null || jsonData.equals("") || jsonData == null)
 			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
 		//TODO: implement when parsers are ready
@@ -242,10 +178,34 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		Point result = null;
-		//TODO: implement when parsers are ready
+		Initialize();
+
+		for (DataSet data : dataFiles) {
+			if (data.getFields().contains("x") || data.getFields().contains("y")) {
+				ByteArrayInputStream file = data.getData();
+				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
+				JsonParser jsonParser;
+				jsonParser = new JsonParser();
+				Point[] points = jsonParser.getPointsFromPointJson(is);
+
+				double[] x = new double[points.length];
+				double[] y = new double[points.length];
+				for (int i = 0; i < points.length; i++) {
+					x[i] = points[i].GetX();
+					y[i] = points[i].GetY();
+				}
+				if (data.getFields().contains("x"))
+					r.assign("x_from__repo__" + data.getNameForUser() + "__", x);
+				if (data.getFields().contains("y"))
+					r.assign("y_from__repo__" + data.getNameForUser() + "__", y);
+			}
+		}
+		double[] res = r.eval(rCommand).asDoubles();
+		Point result = new Point();
+		result.SetX(res[0]);
+		result.SetY(res[1]);
 		return result;
 	}
 
@@ -256,10 +216,38 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		List<Point> result = new ArrayList<Point>();
-		//TODO: implement when parsers are ready
+		Initialize();
+
+		for (DataSet data : dataFiles) {
+			if (data.getFields().contains("x") || data.getFields().contains("y")) {
+				ByteArrayInputStream file = data.getData();
+				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
+				JsonParser jsonParser;
+				jsonParser = new JsonParser();
+				Point[] points = jsonParser.getPointsFromPointJson(is);
+
+				double[] x = new double[points.length];
+				double[] y = new double[points.length];
+				for (int i = 0; i < points.length; i++) {
+					x[i] = points[i].GetX();
+					y[i] = points[i].GetY();
+				}
+				if (data.getFields().contains("x"))
+					r.assign("x_from__repo__" + data.getNameForUser() + "__", x);
+				if (data.getFields().contains("y"))
+					r.assign("y_from__repo__" + data.getNameForUser() + "__", y);
+			}
+		}
+		double[][] res = r.eval(rCommand).asDoubleMatrix();
+		ArrayList<Point> result = new ArrayList<Point>();
+		for (int i = 0; i < res.length; i++) {
+			Point p = new Point();
+			p.SetX(res[i][0]);
+			p.SetY(res[i][1]);
+			result.add(p);
+		}
 		return result;
 	}
 

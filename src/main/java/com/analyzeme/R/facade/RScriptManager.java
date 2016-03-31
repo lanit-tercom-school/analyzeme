@@ -56,21 +56,6 @@ public class RScriptManager {
 	/**
 	 * calls R using some logic from RFacade TODO: class should remember about it
 	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
-	 */
-	static String runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		return RFacade.runScript(rScriptName, rScript, jsonData);
-	}
-
-	/**
-	 * calls R using some logic from RFacade TODO: class should remember about it
-	 *
 	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
@@ -81,20 +66,6 @@ public class RScriptManager {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		return RFacade.runScript(rScriptId, userId, projectId);
-	}
-
-	/**
-	 * calls R using some logic from RFacade TODO: class should remember about it
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
-	 */
-	static String runScript(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		return RFacade.runScript(rScriptId, jsonData);
 	}
 
 
@@ -123,22 +94,6 @@ public class RScriptManager {
 	/**
 	 * calls R using some logic from RFacade TODO: class should remember about it
 	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return double result
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		return RFacade.runScriptToGetNumber(rScriptName, rScript, jsonData);
-	}
-
-
-	/**
-	 * calls R using some logic from RFacade TODO: class should remember about it
-	 *
 	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
@@ -149,21 +104,6 @@ public class RScriptManager {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetNumber(rScriptId, userId, projectId);
-	}
-
-
-	/**
-	 * calls R using some logic from RFacade TODO: class should remember about it
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return double result
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	static double runScriptToGetNumber(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		return RFacade.runScriptToGetNumber(rScriptId, jsonData);
 	}
 
 	/*******************************
@@ -187,23 +127,6 @@ public class RScriptManager {
 		return RFacade.runScriptToGetPoint(rScriptName, rScript, userId, projectId);
 	}
 
-
-	/**
-	 * calls R using some logic from RFacade TODO: class should remember about it
-	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return one point
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	static Point runScriptToGetPoint(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		return RFacade.runScriptToGetPoint(rScriptName, rScript, jsonData);
-	}
-
-
 	/**
 	 * calls R using some logic from RFacade TODO: class should remember about it
 	 *
@@ -218,22 +141,6 @@ public class RScriptManager {
 			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoint(rScriptId, userId, projectId);
 	}
-
-
-	/**
-	 * calls R using some logic from RFacade TODO: class should remember about it
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return one point
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	static Point runScriptToGetPoint(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		return RFacade.runScriptToGetPoint(rScriptId, jsonData);
-	}
-
 
 	/*******************************
 	 * To get List<Point>
@@ -259,22 +166,6 @@ public class RScriptManager {
 	/**
 	 * calls R using some logic from RFacade TODO: class should remember about it
 	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return List<Point>
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	static List<Point> runScriptToGetPoints(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		return RFacade.runScriptToGetPoints(rScriptName, rScript, jsonData);
-	}
-
-
-	/**
-	 * calls R using some logic from RFacade TODO: class should remember about it
-	 *
 	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
@@ -285,20 +176,5 @@ public class RScriptManager {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		return RFacade.runScriptToGetPoints(rScriptId, userId, projectId);
-	}
-
-
-	/**
-	 * calls R using some logic from RFacade TODO: class should remember about it
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return List<Point>
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	static List<Point> runScriptToGetPoints(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		return RFacade.runScriptToGetPoints(rScriptId, jsonData);
 	}
 }

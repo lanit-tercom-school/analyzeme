@@ -205,8 +205,7 @@ public class RFacade {
 	* 		a) as a stream
 	* 		b) as file from repository
 	* - way to give data:
-	* 		a) as json string
-	* 		b) as files from repository
+	* 		a)  as files from repository
 	*----------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -234,22 +233,6 @@ public class RFacade {
 	/**
 	 * calls R using some logic from R.call package
 	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
-	 */
-	public static String runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		String result = caller.runScript(rScriptName, rScript, jsonData);
-		return result;
-	}
-
-	/**
-	 * calls R using some logic from R.call package
-	 *
 	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
@@ -264,22 +247,6 @@ public class RFacade {
 		resolver.setProject(userId, projectId);
 		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
 		String result = caller.runScript(script.getUniqueName(), script.getData(), files);
-		return result;
-	}
-
-	/**
-	 * calls R using some logic from R.call package
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
-	 */
-	public static String runScript(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		String result = caller.runScript(script.getUniqueName(), script.getData(), jsonData);
 		return result;
 	}
 
@@ -313,23 +280,6 @@ public class RFacade {
 	/**
 	 * calls R using some logic from R.call package
 	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return double result
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	public static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		double result = caller.runScriptToGetNumber(rScriptName, rScript, jsonData);
-		return result;
-	}
-
-
-	/**
-	 * calls R using some logic from R.call package
-	 *
 	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
@@ -344,23 +294,6 @@ public class RFacade {
 		resolver.setProject(userId, projectId);
 		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
 		double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), files);
-		return result;
-	}
-
-
-	/**
-	 * calls R using some logic from R.call package
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return double result
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	public static double runScriptToGetNumber(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), jsonData);
 		return result;
 	}
 
@@ -393,23 +326,6 @@ public class RFacade {
 	/**
 	 * calls R using some logic from R.call package
 	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return one point
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	public static Point runScriptToGetPoint(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		Point result = caller.runScriptToGetPoint(rScriptName, rScript, jsonData);
-		return result;
-	}
-
-
-	/**
-	 * calls R using some logic from R.call package
-	 *
 	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
@@ -424,23 +340,6 @@ public class RFacade {
 		resolver.setProject(userId, projectId);
 		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
 		Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), files);
-		return result;
-	}
-
-
-	/**
-	 * calls R using some logic from R.call package
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return one point
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	public static Point runScriptToGetPoint(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), jsonData);
 		return result;
 	}
 
@@ -473,23 +372,6 @@ public class RFacade {
 	/**
 	 * calls R using some logic from R.call package
 	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return List<Point>
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	public static List<Point> runScriptToGetPoints(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		List<Point> result = caller.runScriptToGetPoints(rScriptName, rScript, jsonData);
-		return result;
-	}
-
-
-	/**
-	 * calls R using some logic from R.call package
-	 *
 	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
@@ -504,23 +386,6 @@ public class RFacade {
 		resolver.setProject(userId, projectId);
 		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
 		List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), files);
-		return result;
-	}
-
-
-	/**
-	 * calls R using some logic from R.call package
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return List<Point>
-	 * @throws Exception if R was impossible to call or there was in error in script
-	 */
-	public static List<Point> runScriptToGetPoints(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), jsonData);
 		return result;
 	}
 }

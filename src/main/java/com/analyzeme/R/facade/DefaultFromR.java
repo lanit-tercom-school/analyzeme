@@ -1,8 +1,5 @@
 package com.analyzeme.R.facade;
 
-import com.analyzeme.R.facade.RScriptManager;
-import com.analyzeme.R.facade.RFacade;
-
 import java.io.ByteArrayInputStream;
 
 /**
@@ -31,22 +28,6 @@ public class DefaultFromR {
 	/**
 	 * calls R using R.facade
 	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file
-	 * @param jsonData    - some valid data in json format for command to analyze
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
-	 */
-	public static String runScript(String rScriptName, ByteArrayInputStream rScript, String jsonData) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		String result = RScriptManager.runScript(rScriptName, rScript, jsonData);
-		return result;
-	}
-
-	/**
-	 * calls R using R.facade
-	 *
 	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
@@ -60,20 +41,6 @@ public class DefaultFromR {
 		return result;
 	}
 
-	/**
-	 * calls R using R.facade
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file (RScriptName is stored in FileInfo)
-	 * @param jsonData  - some valid data in json format for command to analyze
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
-	 */
-	public static String runScript(String rScriptId, String jsonData) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		String result = RScriptManager.runScript(rScriptId, jsonData);
-		return result;
-	}
 
 	/**
 	 * calls R using R.facade

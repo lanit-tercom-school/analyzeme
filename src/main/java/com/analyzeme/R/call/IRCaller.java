@@ -28,16 +28,6 @@ public interface IRCaller {
 	 */
 	String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception;
 
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param jsonData   - data necessary for the script
-	 * @return json form of result (may be errors)
-	 * @throws Exception if failed to call R or script errored
-	 */
-	String runScript(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception;
-
-
 	//------------------
 	//script for files
 	//------------------
@@ -68,37 +58,6 @@ public interface IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception;
-
-	//------------------
-	//script for data
-	//------------------
-
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param jsonData   - data necessary for the script
-	 * @return double result
-	 * @throws Exception if failed to call R or script errored
-	 */
-	double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception;
-
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param jsonData   - data necessary for the script
-	 * @return one point
-	 * @throws Exception if failed to call R or script errored
-	 */
-	Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception;
-
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param jsonData   - data necessary for the script
-	 * @return List<Point>
-	 * @throws Exception if failed to call R or script errored
-	 */
-	List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, String jsonData) throws Exception;
 
 	//------------------
 	//default for commands
