@@ -71,8 +71,19 @@ public class FileInfo {
 		return uploadingDate;
 	}
 
-	public ByteArrayInputStream getData() {
-		return data;
+	public ByteArrayInputStream getData() throws IOException {
+		data.reset();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		byte[] buffer = new byte[1024];
+		int len;
+		while ((len = data.read(buffer)) > -1) {
+			baos.write(buffer, 0, len);
+		}
+		baos.flush();
+
+		data = new ByteArrayInputStream(baos.toByteArray());
+		return new ByteArrayInputStream(baos.toByteArray());
 	}
 
 	public void setData(ByteArrayInputStream data) throws IOException {

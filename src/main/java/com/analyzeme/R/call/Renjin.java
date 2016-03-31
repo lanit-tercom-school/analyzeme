@@ -30,25 +30,8 @@ public class Renjin implements IRCaller {
 			engine = manager.getEngineByName("Renjin");
 		}
 	}
-	//------------------
-	//default for scripts
-	//return - json
-	//may be errors
-	//------------------
 
-	/**
-	 * @param scriptName - name of the script to be called
-	 * @param rScript    - script to call, correct .R file as a stream
-	 * @param dataFiles  - data necessary for the script
-	 * @return json form of result (may be errors)
-	 * @throws Exception if failed to call R or script errored
-	 */
-	public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
-		//dataFiles can be empty for simple commands
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
-			throw new IllegalArgumentException();
-		Initialize();
-
+	private static void insertData(List<DataSet> dataFiles) throws Exception {
 		for (DataSet data : dataFiles) {
 			if (data.getFields().contains("x") || data.getFields().contains("y")) {
 				ByteArrayInputStream file = data.getData();
@@ -69,6 +52,27 @@ public class Renjin implements IRCaller {
 					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
 			}
 		}
+	}
+
+	//------------------
+	//default for scripts
+	//return - json
+	//may be errors
+	//------------------
+
+	/**
+	 * @param scriptName - name of the script to be called
+	 * @param rScript    - script to call, correct .R file as a stream
+	 * @param dataFiles  - data necessary for the script
+	 * @return json form of result (may be errors)
+	 * @throws Exception if failed to call R or script errored
+	 */
+	public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
+		//dataFiles can be empty for simple commands
+		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
+			throw new IllegalArgumentException();
+		Initialize();
+		insertData(dataFiles);
 		String script = StreamToString.ConvertStream(rScript);
 		String result = ((SEXP) engine.eval(script)).asString();
 		return result;
@@ -90,29 +94,10 @@ public class Renjin implements IRCaller {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
+		insertData(dataFiles);
 		String script = StreamToString.ConvertStream(rScript);
-		double result = ((SEXP) engine.eval(script)).asReal();
+		engine.put("result", 0);
+		double result = ((SEXP) engine.eval("result <- " + script)).asReal();
 		return result;
 	}
 
@@ -128,27 +113,7 @@ public class Renjin implements IRCaller {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
+		insertData(dataFiles);
 		String script = StreamToString.ConvertStream(rScript);
 		Vector res = ((Vector) engine.eval(script));
 		Point result = new Point();
@@ -169,27 +134,7 @@ public class Renjin implements IRCaller {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
+		insertData(dataFiles);
 		String script = StreamToString.ConvertStream(rScript);
 		Vector res = ((Vector) engine.eval(script));
 		List<Point> result = new ArrayList<Point>();
@@ -230,28 +175,7 @@ public class Renjin implements IRCaller {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
-
+		insertData(dataFiles);
 		engine.put("result", 0);
 		String result = ((SEXP) engine.eval("result <-" + rCommand)).asString();
 		return result;
@@ -302,28 +226,7 @@ public class Renjin implements IRCaller {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
-
+		insertData(dataFiles);
 		engine.put("result", 0);
 		double result = ((SEXP) engine.eval("result <-" + rCommand)).asReal();
 		return result;
@@ -340,28 +243,7 @@ public class Renjin implements IRCaller {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
-
+		insertData(dataFiles);
 		engine.put("result", 0);
 		Vector res = ((Vector) engine.eval("result <-" + rCommand));
 		Point result = new Point();
@@ -381,27 +263,7 @@ public class Renjin implements IRCaller {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
+		insertData(dataFiles);
 		engine.put("result", 0);
 		Vector res = ((Vector) engine.eval("result <-" + rCommand));
 		List<Point> result = new ArrayList<Point>();

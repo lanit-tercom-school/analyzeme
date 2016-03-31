@@ -4,6 +4,7 @@ package com.analyzeme.repository;
 // TODO: tests for multithreading writing should be added
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -122,6 +123,7 @@ public class FileRepositoryTest {
 	 * Test method of getFileById
 	 * checks if it is possible to correctly get file from different threads
 	 */
+	@Ignore
 	@Test
 	public void testThreadsForReading() throws Exception {
 		cleanCorrect();

@@ -181,17 +181,7 @@ public class FileRepository implements IFileRepository {
 		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
 		for (FileInfo info : files) {
 			if (info.getUniqueName().equals(uniqueName) && info.isActive()) {
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-				byte[] buffer = new byte[1024];
-				int len;
-				while ((len = info.getData().read(buffer)) > -1) {
-					baos.write(buffer, 0, len);
-				}
-				baos.flush();
-
-				info.setData(new ByteArrayInputStream(baos.toByteArray()));
-				return new ByteArrayInputStream(baos.toByteArray());
+				return info.getData();
 			}
 		}
 		return null;
