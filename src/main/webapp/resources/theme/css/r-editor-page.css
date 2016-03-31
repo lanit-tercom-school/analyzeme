@@ -120,8 +120,8 @@ body {
     line-height: 1.4;
 }
 
-.readonly-highlight {
-    background-color: red;
-    opacity: 0.2;
-    position: absolute;
-}
+    .readonly-highlight {
+        background-color: red;
+        opacity: 0.2;
+        position: absolute;
+    }

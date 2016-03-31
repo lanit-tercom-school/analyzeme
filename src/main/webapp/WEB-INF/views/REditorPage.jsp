@@ -91,10 +91,9 @@
 </footer>
 <!-- scripts for editor aria -->
 <script src="https://cdn.jsdelivr.net/ace/1.2.3/min/ace.js" type="text/javascript" charset="utf-8"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
 <script>
 
-    ace.require("ace/ext/language_tools");
+
 
     //connect editor with div "editor"
     var editor = ace.edit("editor");
