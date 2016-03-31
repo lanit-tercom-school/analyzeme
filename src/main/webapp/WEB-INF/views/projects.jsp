@@ -37,7 +37,7 @@
      <!-- Add all projects from memory to table -->
      <script type="text/javascript">
 
-         function addAllProjectsToTable(id) {
+                 function addAllProjectsToTable(id) {
              rowNumber = 0;
              var request = new XMLHttpRequest();
              request.onreadystatechange = function () {
@@ -51,12 +51,13 @@
 
                                  var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
                                  var row = document.createElement("TR")
+
                                  var td1 = document.createElement("TD")
                                  td1.innerHTML = '<i class = "glyphicon glyphicon-remove" type="button" onclick="killRow(this);">';
+
                                  td1.appendChild(document.createTextNode(""))
                                  var td2 = document.createElement("TD")
                                  td2.appendChild(document.createTextNode(data.Projects[i].projectName))
-                                 td2.onclick = r(this);
                                  var td3 = document.createElement("TD")
                                  td3.appendChild(document.createTextNode(data.Projects[i].creationDate))
                                  var td4 = document.createElement("TD")
@@ -82,6 +83,30 @@
              request.send();
 
          }
+     </script>
+                 <!-- Click row -> project's page -->
+                 <script type="text/javascript">
+                 function clickEvent(event) {
+                     var target;
+                     if (!event) {
+                         var event = window.event;
+                     }
+                     if (event.target) {
+                         target = event.target;
+                     } else if (event.srcElement) {
+                         target = event.srcElement;
+                     }
+                     if (target) {
+                         if (target.nodeType == 3) {
+                             target = target.parentNode;
+                         }
+                         if (target.tagName.toLowerCase() == "td") {
+                             var row = target.parentNode;
+                             var td;
+                             location.href = "/project/" + rowsNumbers[row.rowIndex];
+                             }
+                         }
+                     }
 
      </script>
  </head>
@@ -110,7 +135,7 @@
     <div class="row clearfix">
           <div class="col-md-12 column">
 
-               <table class="table table-bordered table-hover" id="myTable">
+               <table class="table table-bordered table-hover" id="myTable" onclick="clickEvent(event)">
                     <thead>
                          <tr>
                               <th class="text-center">
@@ -184,14 +209,12 @@
                             <!-- Make a new row -->
                             var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
                             var row = document.createElement("TR")
-
                             var td1 = document.createElement("TD")
                             //td1.innerHTML = '<input class="form-control" type="text" name="title0"/>';
                             td1.innerHTML = '<i class = "glyphicon glyphicon-remove" type="button" onclick="killRow(this);">';
                             td1.appendChild(document.createTextNode(""))
                             var td2 = document.createElement("TD")
                             td2.appendChild(document.createTextNode(data.Projects[data.Projects.length-1].projectName))
-                            td2.onclick = r(this);
                             var td3 = document.createElement("TD")
                             td3.appendChild(document.createTextNode(data.Projects[data.Projects.length-1].creationDate))
                             var td4 = document.createElement("TD")
@@ -202,10 +225,10 @@
                             row.appendChild(td4);
                             tbody.appendChild(row);
 
+
                             projectsIds[data.Projects.length-1] = data.Projects[data.Projects.length-1].projectId;
                             rowNumber = rowNumber + 1;
                             rowsNumbers[rowNumber] = projectsIds[data.Projects.length-1];
-                            alert(rowsNumbers[rowNumber]);
 
                         }
                         else alert("Change name");
@@ -227,17 +250,11 @@
  <!-- functions delete project and delete row from the table-->
  <script type="text/javascript">
 
-     function r(t) {
-         var dRow = t.parentElement.parentElement;
-         alert(dRow.rowIndex);
-     }
         function killRow(src) {
             var dRow = src.parentElement.parentElement;
 
             del(rowsNumbers[dRow.rowIndex]);
             var currentRowIndex = dRow.rowIndex;
-            alert(currentRowIndex);
-            alert(rowsNumbers[dRow.rowIndex])
             rowNumber = rowNumber -1;
             document.all("myTable").deleteRow(currentRowIndex);
 
