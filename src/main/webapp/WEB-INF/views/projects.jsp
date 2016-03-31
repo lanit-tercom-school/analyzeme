@@ -145,7 +145,7 @@
                                    Title
                               </th>
                               <th class="text-center">
-                                  Creation data
+                                  Creation date
                               </th>
                               <th class="text-center">
                                    Last modified
