@@ -56,6 +56,7 @@
                                  td1.appendChild(document.createTextNode(""))
                                  var td2 = document.createElement("TD")
                                  td2.appendChild(document.createTextNode(data.Projects[i].projectName))
+                                 td2.onclick = r(this);
                                  var td3 = document.createElement("TD")
                                  td3.appendChild(document.createTextNode(data.Projects[i].creationDate))
                                  var td4 = document.createElement("TD")
@@ -183,12 +184,14 @@
                             <!-- Make a new row -->
                             var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
                             var row = document.createElement("TR")
+
                             var td1 = document.createElement("TD")
                             //td1.innerHTML = '<input class="form-control" type="text" name="title0"/>';
                             td1.innerHTML = '<i class = "glyphicon glyphicon-remove" type="button" onclick="killRow(this);">';
                             td1.appendChild(document.createTextNode(""))
                             var td2 = document.createElement("TD")
                             td2.appendChild(document.createTextNode(data.Projects[data.Projects.length-1].projectName))
+                            td2.onclick = r(this);
                             var td3 = document.createElement("TD")
                             td3.appendChild(document.createTextNode(data.Projects[data.Projects.length-1].creationDate))
                             var td4 = document.createElement("TD")
@@ -202,6 +205,7 @@
                             projectsIds[data.Projects.length-1] = data.Projects[data.Projects.length-1].projectId;
                             rowNumber = rowNumber + 1;
                             rowsNumbers[rowNumber] = projectsIds[data.Projects.length-1];
+                            alert(rowsNumbers[rowNumber]);
 
                         }
                         else alert("Change name");
@@ -223,15 +227,21 @@
  <!-- functions delete project and delete row from the table-->
  <script type="text/javascript">
 
+     function r(t) {
+         var dRow = t.parentElement.parentElement;
+         alert(dRow.rowIndex);
+     }
         function killRow(src) {
             var dRow = src.parentElement.parentElement;
 
             del(rowsNumbers[dRow.rowIndex]);
             var currentRowIndex = dRow.rowIndex;
+            alert(currentRowIndex);
+            alert(rowsNumbers[dRow.rowIndex])
             rowNumber = rowNumber -1;
             document.all("myTable").deleteRow(currentRowIndex);
 
-            for(k = currentRowIndex; k < rowNumber; k++)
+            for(k = currentRowIndex; k <= rowNumber; k++)
             {
                 rowsNumbers[k] = rowsNumbers[k+1];
             }
