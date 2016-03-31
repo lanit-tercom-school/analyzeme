@@ -1,5 +1,6 @@
 package com.analyzeme.controllers;
 
+import com.analyzeme.R.facade.NumberFromR;
 import com.analyzeme.R.facade.RFacade;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
@@ -100,7 +101,7 @@ public class AnalysisController {
 	 * @return result of command
 	 * @throws Exception
 	 */
-	@RequestMapping("/NumberFromR/{engine}/{file_name}/{command}")
+	@RequestMapping(value = "/NumberFromR/{engine}/{file_name}/{command}")
 	public double RCommandToGetNumber(@PathVariable("file_name") String fileName, @PathVariable("engine") String engine, @PathVariable("command") String command)
 			throws Exception {
 		if (command == null || command.equals("") || fileName == null || fileName.equals("") || engine == null || engine.equals(""))
@@ -109,6 +110,23 @@ public class AnalysisController {
 		String DataString = StreamToString.ConvertStream(file);
 		return (new RFacade(engine)).runCommandToGetNumber(command, DataString);
 	}
+
+	//temporary API
+
+	/**
+	 * @param fileName - unique name of file with points to use in command
+	 * @param command  - correct R command (like x[1], mean(y) etc.)
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/NumberFromRFile/{file_name}/{command}")
+	public double RCommandToGetNumberFile(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
+			throws Exception {
+		if (command == null || command.equals("") || fileName == null || fileName.equals(""))
+			throw new IllegalArgumentException();
+		return NumberFromR.runCommand(command, 1, "project");
+	}
+
 
 	//temporary API
 

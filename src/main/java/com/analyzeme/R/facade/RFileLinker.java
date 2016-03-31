@@ -21,8 +21,8 @@ class RFileLinker {
 	//if our special variables look like
 	//y_from__repo__myFile.json__
 	//y_from__webRepo__webToken__
-	//time_from__repo__0-10.json__
-	private static String regexp = "([A-Za-z]+)_from__([A-Za-z]+)__([A-Za-z0-9-,_.]+)__";
+	//time_from__repo__0_10.json__
+	private static String regexp = "([A-Za-z]+)_from__([A-Za-z]+)__([A-Za-z0-9,_.]+)__";
 	private static int fieldGroup = 1;
 	private static int sourceGroup = 2;
 	private static int fileGroup = 3;
