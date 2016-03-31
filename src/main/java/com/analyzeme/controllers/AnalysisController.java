@@ -1,15 +1,13 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.R.facade.NumberFromR;
-import com.analyzeme.R.facade.PointFromR;
-import com.analyzeme.R.facade.PointsFromR;
-import com.analyzeme.R.facade.RFacade;
+import com.analyzeme.R.facade.*;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.parsers.JsonParserException;
 import com.analyzeme.parsers.PointToJson;
+import com.analyzeme.repository.FileInfo;
 import com.analyzeme.repository.FileRepository;
 import com.analyzeme.streamreader.StreamToString;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -201,6 +199,103 @@ public class AnalysisController {
 			throw new IllegalArgumentException();
 		List<Point> result = PointsFromR.runCommand(command, 1, "project");
 		return PointToJson.convertPoints(result);
+	}
+
+	//temporary API
+
+	/**
+	 * @param fileName - unique name of file with points to use in command
+	 * @param command  - correct R command (like x[1], mean(y) etc.)
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/StringFromRFile/{file_name}/{command}")
+	public String RCommandToGetStringFile(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
+			throws Exception {
+		if (command == null || command.equals("") || fileName == null || fileName.equals(""))
+			throw new IllegalArgumentException();
+		String result = DefaultFromR.runCommand(command, 1, "project");
+		return result;
+	}
+
+	//-------------
+	//scripts
+	//-------------
+
+	//temporary API
+
+	/**
+	 * @param fileName - unique name of file with points to use in command
+	 * @param scriptId - id of r file script
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/NumberFromRFileScript/{file_name}/{scriptId}")
+	public double RScriptToGetNumberFile(@PathVariable("file_name") String fileName, @PathVariable("scriptId") String scriptId)
+			throws Exception {
+		if (scriptId == null || scriptId.equals("") || fileName == null || fileName.equals(""))
+			throw new IllegalArgumentException();
+		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
+		if (script == null)
+			throw new IllegalArgumentException();
+		return NumberFromR.runScript(script.getNameForUser(), script.getData(), 1, "project");
+	}
+
+	//temporary API
+
+	/**
+	 * @param fileName - unique name of file with points to use in command
+	 * @param scriptId - id of r file script
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/PointFromRFileScript/{file_name}/{scriptId}")
+	public String RScriptToGetPointFile(@PathVariable("file_name") String fileName, @PathVariable("scriptId") String scriptId)
+			throws Exception {
+		if (scriptId == null || scriptId.equals("") || fileName == null || fileName.equals(""))
+			throw new IllegalArgumentException();
+		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
+		if (script == null)
+			throw new IllegalArgumentException();
+		return PointToJson.convertPoint(PointFromR.runScript(script.getNameForUser(), script.getData(), 1, "project"));
+	}
+
+	//temporary API
+
+	/**
+	 * @param fileName - unique name of file with points to use in command
+	 * @param scriptId - id of r file script
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/PointsFromRFileScript/{file_name}/{scriptId}")
+	public String RScriptToGetPointsFile(@PathVariable("file_name") String fileName, @PathVariable("scriptId") String scriptId)
+			throws Exception {
+		if (scriptId == null || scriptId.equals("") || fileName == null || fileName.equals(""))
+			throw new IllegalArgumentException();
+		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
+		if (script == null)
+			throw new IllegalArgumentException();
+		return PointToJson.convertPoints(PointsFromR.runScript(script.getNameForUser(), script.getData(), 1, "project"));
+	}
+
+	//temporary API
+
+	/**
+	 * @param fileName - unique name of file with points to use in command
+	 * @param scriptId - id of r file script
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/StringFromRFileScript/{file_name}/{scriptId}")
+	public String RScriptToGetStringFile(@PathVariable("file_name") String fileName, @PathVariable("scriptId") String scriptId)
+			throws Exception {
+		if (scriptId == null || scriptId.equals("") || fileName == null || fileName.equals(""))
+			throw new IllegalArgumentException();
+		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
+		if (script == null)
+			throw new IllegalArgumentException();
+		return DefaultFromR.runScript(script.getNameForUser(), script.getData(), 1, "project");
 	}
 }
 
