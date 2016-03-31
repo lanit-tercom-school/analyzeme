@@ -3,6 +3,7 @@ package com.analyzeme.R.call;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.parsers.JsonParser;
+import com.analyzeme.streamreader.StreamToString;
 import org.rosuda.REngine.Rserve.RConnection;
 
 import java.io.ByteArrayInputStream;
@@ -205,10 +206,32 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public double runCommandToGetNumber(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		//dataFiles can be empty for simple commands
+		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		double result = 0;
-		//TODO: implement when parsers are ready
+		Initialize();
+
+		for (DataSet data : dataFiles) {
+			if (data.getFields().contains("x") || data.getFields().contains("y")) {
+				ByteArrayInputStream file = data.getData();
+				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
+				JsonParser jsonParser;
+				jsonParser = new JsonParser();
+				Point[] points = jsonParser.getPointsFromPointJson(is);
+
+				double[] x = new double[points.length];
+				double[] y = new double[points.length];
+				for (int i = 0; i < points.length; i++) {
+					x[i] = points[i].GetX();
+					y[i] = points[i].GetY();
+				}
+				if (data.getFields().contains("x"))
+					r.assign("x_from__repo__" + data.getNameForUser() + "__", x);
+				if (data.getFields().contains("y"))
+					r.assign("y_from__repo__" + data.getNameForUser() + "__", y);
+			}
+		}
+		double result = r.eval("result <-" + rCommand).asDouble();
 		return result;
 	}
 

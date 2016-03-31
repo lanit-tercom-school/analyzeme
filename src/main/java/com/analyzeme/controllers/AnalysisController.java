@@ -1,6 +1,8 @@
 package com.analyzeme.controllers;
 
 import com.analyzeme.R.facade.NumberFromR;
+import com.analyzeme.R.facade.PointFromR;
+import com.analyzeme.R.facade.PointsFromR;
 import com.analyzeme.R.facade.RFacade;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
@@ -152,6 +154,22 @@ public class AnalysisController {
 
 	/**
 	 * @param fileName - unique name of file with points to use in command
+	 * @param command  - correct R command (like x[1], mean(y) etc.)
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/PointFromRFile/{file_name}/{command}")
+	public String RCommandToGetPointFile(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
+			throws Exception {
+		if (command == null || command.equals("") || fileName == null || fileName.equals(""))
+			throw new IllegalArgumentException();
+		return PointToJson.convertPoint(PointFromR.runCommand(command, 1, "project"));
+	}
+
+	//temporary API
+
+	/**
+	 * @param fileName - unique name of file with points to use in command
 	 * @param engine   - Rserve, Renjin, or Fake
 	 * @param command  - correct R command (not designed yet)
 	 * @return result of command
@@ -165,6 +183,23 @@ public class AnalysisController {
 		ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		String DataString = StreamToString.ConvertStream(file);
 		List<Point> result = (new RFacade(engine)).runCommandToGetPoints(command, DataString);
+		return PointToJson.convertPoints(result);
+	}
+
+	//temporary API
+
+	/**
+	 * @param fileName - unique name of file with points to use in command
+	 * @param command  - correct R command (like x[1], mean(y) etc.)
+	 * @return result of command
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/PointsFromRFile/{file_name}/{command}")
+	public String RCommandToGetPointsFile(@PathVariable("file_name") String fileName, @PathVariable("command") String command)
+			throws Exception {
+		if (command == null || command.equals("") || fileName == null || fileName.equals(""))
+			throw new IllegalArgumentException();
+		List<Point> result = PointsFromR.runCommand(command, 1, "project");
 		return PointToJson.convertPoints(result);
 	}
 }

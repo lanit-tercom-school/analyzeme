@@ -231,9 +231,9 @@ public class Renjin implements IRCaller {
 					y[i] = points[i].GetY();
 				}
 				if (data.getFields().contains("x"))
-					engine.put("x" + "_from__repo__" + data.getNameForUser() + "__", x);
+					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
 				if (data.getFields().contains("y"))
-					engine.put("y" + "_from__repo__" + data.getNameForUser() + "__", y);
+					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
 			}
 		}
 
@@ -249,10 +249,37 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		//dataFiles can be empty for simple commands
+		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		Point result = null;
-		//TODO: implement when parsers are ready
+		Initialize();
+
+		for (DataSet data : dataFiles) {
+			if (data.getFields().contains("x") || data.getFields().contains("y")) {
+				ByteArrayInputStream file = data.getData();
+				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
+				JsonParser jsonParser;
+				jsonParser = new JsonParser();
+				Point[] points = jsonParser.getPointsFromPointJson(is);
+
+				double[] x = new double[points.length];
+				double[] y = new double[points.length];
+				for (int i = 0; i < points.length; i++) {
+					x[i] = points[i].GetX();
+					y[i] = points[i].GetY();
+				}
+				if (data.getFields().contains("x"))
+					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
+				if (data.getFields().contains("y"))
+					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
+			}
+		}
+
+		engine.put("result", 0);
+		Vector res = ((Vector) engine.eval("result <-" + rCommand));
+		Point result = new Point();
+		result.SetX(res.getElementAsDouble(0));
+		result.SetY(res.getElementAsDouble(1));
 		return result;
 	}
 
@@ -263,10 +290,51 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		//dataFiles can be empty for simple commands
+		if (rCommand.equals("") || rCommand == null || dataFiles == null)
 			throw new IllegalArgumentException();
+		Initialize();
+
+		for (DataSet data : dataFiles) {
+			if (data.getFields().contains("x") || data.getFields().contains("y")) {
+				ByteArrayInputStream file = data.getData();
+				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
+				JsonParser jsonParser;
+				jsonParser = new JsonParser();
+				Point[] points = jsonParser.getPointsFromPointJson(is);
+
+				double[] x = new double[points.length];
+				double[] y = new double[points.length];
+				for (int i = 0; i < points.length; i++) {
+					x[i] = points[i].GetX();
+					y[i] = points[i].GetY();
+				}
+				if (data.getFields().contains("x"))
+					engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
+				if (data.getFields().contains("y"))
+					engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
+			}
+		}
+		engine.put("result", 0);
+		Vector res = ((Vector) engine.eval("result <-" + rCommand));
 		List<Point> result = new ArrayList<Point>();
-		//TODO: implement when parsers are ready
+		if (res.hasAttributes()) {
+			AttributeMap attributes = res.getAttributes();
+			Vector dim = attributes.getDim();
+			if (dim == null || dim.length() == 1) {
+				throw new IllegalArgumentException("Wrong type of command");
+			} else if (dim.length() == 2) {
+				Matrix m = new Matrix(res);
+				for (int i = 0; i < m.getNumRows(); i++) {
+					Point p = new Point();
+					p.SetX(m.getElementAsDouble(i, 0));
+					p.SetY(m.getElementAsDouble(i, 1));
+					result.add(p);
+				}
+			} else {
+				throw new IllegalArgumentException("Wrong type of command");
+			}
+		}
 		return result;
 	}
 
