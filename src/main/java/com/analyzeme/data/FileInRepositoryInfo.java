@@ -19,4 +19,8 @@ public class FileInRepositoryInfo implements ISourceInfo {
 	public ByteArrayInputStream getFileData() throws Exception {
 		return FileRepository.getRepo().getFileByID(uniqueNameInRepository);
 	}
+
+	public String getToken() throws Exception {
+		return uniqueNameInRepository;
+	}
 }

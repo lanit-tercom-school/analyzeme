@@ -8,4 +8,6 @@ import java.io.ByteArrayInputStream;
 
 public interface ISourceInfo {
 	ByteArrayInputStream getFileData() throws Exception;
+
+	String getToken() throws Exception;
 }
