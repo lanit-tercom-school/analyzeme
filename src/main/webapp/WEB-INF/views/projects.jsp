@@ -34,16 +34,58 @@
      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
      <![endif]-->
 
-     <!-- Delete row -->
+     <!-- Add all projects from memory to table -->
      <script type="text/javascript">
-         function killRow(src) {
-             var dRow = src.parentElement.parentElement;
-             document.all("myTable").deleteRow(dRow.rowIndex);
+
+         function addAllProjectsToTable(id) {
+             rowNumber = 0;
+             var request = new XMLHttpRequest();
+             request.onreadystatechange = function () {
+                 if (request.readyState == 4 && request.status == 200) {
+
+                     try {
+                         var data = JSON.parse(request.responseText);
+
+                         for (i = 0; i < data.Projects.length; i++) {
+                             if(data.Projects[i].isActive) {
+
+                                 var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
+                                 var row = document.createElement("TR")
+                                 var td1 = document.createElement("TD")
+                                 td1.innerHTML = '<i class = "glyphicon glyphicon-remove" type="button" onclick="killRow(this);">';
+                                 td1.appendChild(document.createTextNode(""))
+                                 var td2 = document.createElement("TD")
+                                 td2.appendChild(document.createTextNode(data.Projects[i].projectName))
+                                 var td3 = document.createElement("TD")
+                                 td3.appendChild(document.createTextNode(data.Projects[i].creationDate))
+                                 var td4 = document.createElement("TD")
+                                 td4.appendChild(document.createTextNode(data.Projects[i].lastChangeDate))
+                                 row.appendChild(td1);
+                                 row.appendChild(td2);
+                                 row.appendChild(td3);
+                                 row.appendChild(td4);
+                                 tbody.appendChild(row);
+
+                                 projectsIds[i] = data.Projects[i].projectId; //add projectId to the array
+                                 rowNumber = rowNumber + 1; //increase current number of lines
+                                 rowsNumbers[rowNumber] = projectsIds[i]; //add projectId to the array with active projects
+                             }
+                         }
+                     } catch (err) {
+                         //alert(err.message + " in " + request.responseText);
+                         return;
+                     }
+                 }
+             };
+             request.open("GET", "/projects/info", true);
+             request.send();
+
          }
+
      </script>
  </head>
 
- <body>
+ <body onload="addAllProjectsToTable('myTable'); return false; " onload= "clickLink('myTable'); return false; ">
 
  <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -77,7 +119,7 @@
                                    Title
                               </th>
                               <th class="text-center">
-                                   Owner
+                                  Creation data
                               </th>
                               <th class="text-center">
                                    Last modified
@@ -91,38 +133,120 @@
         </div>
 
          <!-- New project button -->
-            <a class="btn btn-default pull-left" onclick="addRow('myTable');return false;">New Project</a>
+            <a class="btn btn-default pull-left" onclick="addNewProject('myTable');return false;">New Project</a>
+
    </div>
 
     </div>
 
-    <script type="text/javascript">
-        function addRow(id){
+ <!-- Make array with all project's projectId
+      Make array with active project's projectId (index = rowIndex : value = projectId
+      rowNumber is a number of rows in the table
+      functions create project and add row to the table-->
 
+    <script type="text/javascript">
+        var projectsIds = new Array();
+
+        var rowsNumbers = new Array();
+        var rowNumber = 0;
+
+        function addNewProject(id){
 
             <!-- Show a window for Project name -->
             var projectName = prompt('New Project', "Project1");
 
-            <!-- Make a new row -->
-            var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
-            var row = document.createElement("TR")
-            var td1 = document.createElement("TD")
-            //td1.innerHTML = '<input class="form-control" type="text" name="title0"/>';
-            td1.innerHTML = '<i class = "glyphicon glyphicon-remove" type="button" onclick="killRow(this);">';
-            td1.appendChild(document.createTextNode(""))
-            var td2 = document.createElement("TD")
-            td2.appendChild (document.createTextNode(projectName))
-            var td3 = document.createElement("TD")
-            td3.appendChild (document.createTextNode("you"))
-            var td4 = document.createElement("TD")
-            td4.appendChild (document.createTextNode("today"))
-            row.appendChild(td1);
-            row.appendChild(td2);
-            row.appendChild(td3);
-            row.appendChild(td4);
-            tbody.appendChild(row);
+            if (projectName) {
+                createProject(projectName);
+
+                setTimeout(function () {
+                    addRow(projectName, 'myTable');
+                }, 30);
+            }
         }
+
+        function createProject(projectName)
+        {
+            var xhr = new XMLHttpRequest();
+            xhr.open("PUT", "/project/new/create" , true);
+            xhr.setRequestHeader("project_name", projectName.toString())
+            xhr.send(null);
+        }
+
+        function addRow(projectName, id){
+            var request = new XMLHttpRequest();
+            request.onreadystatechange = function() {
+                if (request.readyState == 4 && request.status == 200) {
+                    try {
+                        var data = JSON.parse(request.responseText);
+
+                        if (projectName.toString() != null) {
+                            <!-- Make a new row -->
+                            var tbody = document.getElementById(id).getElementsByTagName("TBODY")[0];
+                            var row = document.createElement("TR")
+                            var td1 = document.createElement("TD")
+                            //td1.innerHTML = '<input class="form-control" type="text" name="title0"/>';
+                            td1.innerHTML = '<i class = "glyphicon glyphicon-remove" type="button" onclick="killRow(this);">';
+                            td1.appendChild(document.createTextNode(""))
+                            var td2 = document.createElement("TD")
+                            td2.appendChild(document.createTextNode(data.Projects[data.Projects.length-1].projectName))
+                            var td3 = document.createElement("TD")
+                            td3.appendChild(document.createTextNode(data.Projects[data.Projects.length-1].creationDate))
+                            var td4 = document.createElement("TD")
+                            td4.appendChild(document.createTextNode(data.Projects[data.Projects.length-1].lastChangeDate))
+                            row.appendChild(td1);
+                            row.appendChild(td2);
+                            row.appendChild(td3);
+                            row.appendChild(td4);
+                            tbody.appendChild(row);
+
+                            projectsIds[data.Projects.length-1] = data.Projects[data.Projects.length-1].projectId;
+                            rowNumber = rowNumber + 1;
+                            rowsNumbers[rowNumber] = projectsIds[data.Projects.length-1];
+
+                        }
+                        else alert("Change name");
+
+                    } catch (err) {
+                        alert(err.message + " in " + request.responseText);
+                        return;
+                    }
+                }
+            };
+
+            request.open("GET", "/projects/info" , true);
+            request.send();
+        }
+
     </script>
+
+
+ <!-- functions delete project and delete row from the table-->
+ <script type="text/javascript">
+
+        function killRow(src) {
+            var dRow = src.parentElement.parentElement;
+
+            del(rowsNumbers[dRow.rowIndex]);
+            var currentRowIndex = dRow.rowIndex;
+            rowNumber = rowNumber -1;
+            document.all("myTable").deleteRow(currentRowIndex);
+
+            for(k = currentRowIndex; k < rowNumber; k++)
+            {
+                rowsNumbers[k] = rowsNumbers[k+1];
+            }
+
+        }
+        function del(Name){
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open("DELETE", "/project/"+ Name +"/delete",  true);
+            xhr.send(null);
+
+        }
+
+ </script>
 
  <!-- jQuery -->
  <spring:url value="/resources/js/jquery.js" var="jqueryJs"/>

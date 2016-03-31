@@ -72,13 +72,13 @@ public class ProjectsController {
 	/**
 	 * deletes project by project name
 	 *
-	 * @param projectName
+	 * @param uniqueName
 	 * @return HttpStatus.NOT_FOUND if userRepository doesn't exist
 	 * HttpStatus.OK if project deleted successfully
 	 * HttpStatus.BAD_REQUEST if sth went wrong
 	 */
-	@RequestMapping(value = "/project/{project_name}/delete", method = RequestMethod.DELETE)
-	public HttpStatus deleteProject(@PathVariable("project_name") String projectName)
+	@RequestMapping(value = "/project/{unique_name}/delete", method = RequestMethod.DELETE)
+	public HttpStatus deleteProjectById(@PathVariable("unique_name") String uniqueName)
 			throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
@@ -88,7 +88,7 @@ public class ProjectsController {
 			//to change to deleting by id use ...projects.deleteProjectById(projectId)
 			//deleteProject or deleteProjectById deactivate project and all files in it
 			//to remove them completely use deleteProjectCompletely or deleteProjectCompletelyById
-			return (UsersRepository.getRepo().findUser("guest").getProjects().deleteProject(projectName) ?
+			return (UsersRepository.getRepo().findUser("guest").getProjects().deleteProjectById(uniqueName) ?
 					HttpStatus.OK : HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();

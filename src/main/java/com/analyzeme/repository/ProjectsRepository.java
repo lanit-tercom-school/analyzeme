@@ -95,9 +95,9 @@ public class ProjectsRepository {
 	 */
 	public String createProject(final String projectName) throws Exception {
 		if (projectName == null || projectName.equals("")) throw new IOException();
-		if (findProject(projectName) != null) {
-			return null;
-		}
+	//	if (findProject(projectName) != null) {
+	//		return null;
+	//	}
 		String uniqueName = createUniqueName();
 		ProjectInfo info = new ProjectInfo(projectName, uniqueName);
 		projects.add(info);
