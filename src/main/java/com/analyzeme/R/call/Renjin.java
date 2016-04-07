@@ -73,7 +73,7 @@ public class Renjin implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		String script = StreamToString.ConvertStream(rScript);
+		String script = StreamToString.ConvertStreamANSI(rScript);
 		String result = ((SEXP) engine.eval(script)).asString();
 		return result;
 	}
@@ -95,9 +95,8 @@ public class Renjin implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		String script = StreamToString.ConvertStream(rScript);
-		engine.put("result", 0);
-		double result = ((SEXP) engine.eval("result <- " + script)).asReal();
+		String script = StreamToString.ConvertStreamANSI(rScript);
+		double result = ((SEXP) engine.eval(script)).asReal();
 		return result;
 	}
 
@@ -114,8 +113,11 @@ public class Renjin implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		String script = StreamToString.ConvertStream(rScript);
+		String script = StreamToString.ConvertStreamANSI(rScript);
 		Vector res = ((Vector) engine.eval(script));
+		if (res == null) {
+			throw new NullPointerException("Impossible to evaluate");
+		}
 		Point result = new Point();
 		result.SetX(res.getElementAsDouble(0));
 		result.SetY(res.getElementAsDouble(1));
@@ -135,8 +137,11 @@ public class Renjin implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		String script = StreamToString.ConvertStream(rScript);
+		String script = StreamToString.ConvertStreamANSI(rScript);
 		Vector res = ((Vector) engine.eval(script));
+		if (res == null) {
+			throw new NullPointerException("Impossible to evaluate");
+		}
 		List<Point> result = new ArrayList<Point>();
 		if (res.hasAttributes()) {
 			AttributeMap attributes = res.getAttributes();
@@ -176,8 +181,7 @@ public class Renjin implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		engine.put("result", 0);
-		String result = ((SEXP) engine.eval("result <-" + rCommand)).asString();
+		String result = ((SEXP) engine.eval(rCommand)).asString();
 		return result;
 	}
 
@@ -205,8 +209,7 @@ public class Renjin implements IRCaller {
 		}
 		engine.put("x", x);
 		engine.put("y", y);
-		engine.put("result", 0);
-		String result = ((SEXP) engine.eval("result <-" + rCommand)).asString();
+		String result = ((SEXP) engine.eval(rCommand)).asString();
 		return result;
 	}
 
@@ -227,8 +230,7 @@ public class Renjin implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		engine.put("result", 0);
-		double result = ((SEXP) engine.eval("result <-" + rCommand)).asReal();
+		double result = ((SEXP) engine.eval(rCommand)).asReal();
 		return result;
 	}
 
@@ -244,8 +246,10 @@ public class Renjin implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		engine.put("result", 0);
-		Vector res = ((Vector) engine.eval("result <-" + rCommand));
+		Vector res = ((Vector) engine.eval(rCommand));
+		if (res == null) {
+			throw new NullPointerException("Impossible to evaluate");
+		}
 		Point result = new Point();
 		result.SetX(res.getElementAsDouble(0));
 		result.SetY(res.getElementAsDouble(1));
@@ -264,8 +268,10 @@ public class Renjin implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		engine.put("result", 0);
-		Vector res = ((Vector) engine.eval("result <-" + rCommand));
+		Vector res = ((Vector) engine.eval(rCommand));
+		if (res == null) {
+			throw new NullPointerException("Impossible to evaluate");
+		}
 		List<Point> result = new ArrayList<Point>();
 		if (res.hasAttributes()) {
 			AttributeMap attributes = res.getAttributes();
@@ -315,8 +321,7 @@ public class Renjin implements IRCaller {
 		}
 		engine.put("x", x);
 		engine.put("y", y);
-		engine.put("result", 0);
-		double result = ((SEXP) engine.eval("result <-" + rCommand)).asReal();
+		double result = ((SEXP) engine.eval(rCommand)).asReal();
 		return result;
 	}
 
@@ -344,8 +349,10 @@ public class Renjin implements IRCaller {
 		}
 		engine.put("x", x);
 		engine.put("y", y);
-		engine.put("result", 0);
-		Vector res = ((Vector) engine.eval("result <-" + rCommand));
+		Vector res = ((Vector) engine.eval(rCommand));
+		if (res == null) {
+			throw new NullPointerException("Impossible to evaluate");
+		}
 		Point result = new Point();
 		result.SetX(res.getElementAsDouble(0));
 		result.SetY(res.getElementAsDouble(1));
@@ -377,9 +384,11 @@ public class Renjin implements IRCaller {
 		}
 		engine.put("x", x);
 		engine.put("y", y);
-		engine.put("result", 0);
-		Vector res = ((Vector) engine.eval("result <-" + rCommand));
+		Vector res = ((Vector) engine.eval(rCommand));
 		List<Point> result = new ArrayList<Point>();
+		if (res == null) {
+			throw new NullPointerException("Impossible to evaluate");
+		}
 		if (res.hasAttributes()) {
 			AttributeMap attributes = res.getAttributes();
 			Vector dim = attributes.getDim();

@@ -225,15 +225,14 @@ public class AnalysisController {
 	//temporary API
 
 	/**
-	 * @param fileName - unique name of file with points to use in command
 	 * @param scriptId - id of r file script
 	 * @return result of command
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/NumberFromRFileScript/{file_name}/{scriptId}")
-	public double RScriptToGetNumberFile(@PathVariable("file_name") String fileName, @PathVariable("scriptId") String scriptId)
+	@RequestMapping(value = "/NumberFromRScript/{scriptId}")
+	public double RScriptToGetNumber(@PathVariable("scriptId") String scriptId)
 			throws Exception {
-		if (scriptId == null || scriptId.equals("") || fileName == null || fileName.equals(""))
+		if (scriptId == null || scriptId.equals(""))
 			throw new IllegalArgumentException();
 		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
 		if (script == null)
@@ -244,15 +243,14 @@ public class AnalysisController {
 	//temporary API
 
 	/**
-	 * @param fileName - unique name of file with points to use in command
 	 * @param scriptId - id of r file script
 	 * @return result of command
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/PointFromRFileScript/{file_name}/{scriptId}")
-	public String RScriptToGetPointFile(@PathVariable("file_name") String fileName, @PathVariable("scriptId") String scriptId)
+	@RequestMapping(value = "/PointFromRScript/{scriptId}")
+	public String RScriptToGetPoint(@PathVariable("scriptId") String scriptId)
 			throws Exception {
-		if (scriptId == null || scriptId.equals("") || fileName == null || fileName.equals(""))
+		if (scriptId == null || scriptId.equals(""))
 			throw new IllegalArgumentException();
 		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
 		if (script == null)
@@ -263,15 +261,14 @@ public class AnalysisController {
 	//temporary API
 
 	/**
-	 * @param fileName - unique name of file with points to use in command
 	 * @param scriptId - id of r file script
 	 * @return result of command
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/PointsFromRFileScript/{file_name}/{scriptId}")
-	public String RScriptToGetPointsFile(@PathVariable("file_name") String fileName, @PathVariable("scriptId") String scriptId)
+	@RequestMapping(value = "/PointsFromRScript/{scriptId}")
+	public String RScriptToGetPoints(@PathVariable("scriptId") String scriptId)
 			throws Exception {
-		if (scriptId == null || scriptId.equals("") || fileName == null || fileName.equals(""))
+		if (scriptId == null || scriptId.equals(""))
 			throw new IllegalArgumentException();
 		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
 		if (script == null)
@@ -282,15 +279,14 @@ public class AnalysisController {
 	//temporary API
 
 	/**
-	 * @param fileName - unique name of file with points to use in command
 	 * @param scriptId - id of r file script
 	 * @return result of command
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/StringFromRFileScript/{file_name}/{scriptId}")
-	public String RScriptToGetStringFile(@PathVariable("file_name") String fileName, @PathVariable("scriptId") String scriptId)
+	@RequestMapping(value = "/StringFromRScript/{scriptId}")
+	public String RScriptToGetString(@PathVariable("scriptId") String scriptId)
 			throws Exception {
-		if (scriptId == null || scriptId.equals("") || fileName == null || fileName.equals(""))
+		if (scriptId == null || scriptId.equals(""))
 			throw new IllegalArgumentException();
 		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
 		if (script == null)

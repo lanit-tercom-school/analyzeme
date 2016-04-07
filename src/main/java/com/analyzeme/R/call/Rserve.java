@@ -42,7 +42,7 @@ public class Rserve implements IRCaller {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		String result = null;
-		//TODO: implement when parsers are ready
+		//TODO: implement
 		return result;
 	}
 
@@ -62,7 +62,7 @@ public class Rserve implements IRCaller {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		double result = 0;
-		//TODO: implement when parsers are ready
+		//TODO: implement
 		return result;
 	}
 
@@ -77,7 +77,7 @@ public class Rserve implements IRCaller {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		Point result = null;
-		//TODO: implement when parsers are ready
+		//TODO: implement
 		return result;
 	}
 
@@ -92,7 +92,7 @@ public class Rserve implements IRCaller {
 		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
-		//TODO: implement when parsers are ready
+		//TODO: implement
 		return result;
 	}
 
@@ -112,7 +112,7 @@ public class Rserve implements IRCaller {
 		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
 			throw new IllegalArgumentException();
 		String result = null;
-		//TODO: implement when parsers are ready
+		//TODO: implement
 		return result;
 	}
 
@@ -126,7 +126,7 @@ public class Rserve implements IRCaller {
 		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
 			throw new IllegalArgumentException();
 		String result = null;
-		//TODO: implement on Sprint 16.3
+		//TODO: implement
 		return result;
 	}
 
