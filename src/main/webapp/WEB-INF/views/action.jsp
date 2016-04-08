@@ -22,8 +22,6 @@
 
     <spring:url value="/resources/css/drag-and-drop.css" var="dragAndDropCss"/>
     <link href="${dragAndDropCss}" rel="stylesheet"/>
-    <spring:url value="/resources/css/simple-slidebar.css" var="SimpleSlidebarCss"/>
-    <link href="${SimpleSlidebarCss}" rel="stylesheet"/>
 
     <!-- Custom Fonts -->
     <spring:url value="/resources/font-awesome/css/font-awesome.min.css" var="fontAwesomeCss"/>
@@ -55,10 +53,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>-->
-            <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
+            <a href="index" type="button" class="btn btn-info btn-lg">AnalyzeMe</a>
             <a href="action" type="button" class="btn btn-success btn-lg">Try now</a>
             <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
-            <a href="RScriptPage" type="button" class="btn btn-info btn-lg">Edit R</a>
+            <a href="REditorPage" type="button" class="btn btn-info btn-lg">Edit R</a>
         </div>
 
         <!-- /.navbar-collapse -->
@@ -67,11 +65,9 @@
 </nav>
 
 <!-- Header -->
-<a name="about"></a>
+<a id="about"></a>
 
-<div class="intro-header">
-
-
+<div class="intro-header2">
     <div class="container">
         <div class="row">
             <!-- Sidebar -->
@@ -80,7 +76,7 @@
                     <div>
                         <p>
 
-                        <h3>File list</h3></p>
+                        <h3>${project.projectName}<br/> File list</h3></p>
                         <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
 
                     </div>
@@ -217,6 +213,11 @@
         if (isFileExist(file.name)) {
             alert("file alreary exist");
         }
+        var projectParams = "guest/" + "${project.uniqueName}";
+        //checks if project object is empty
+        if (projectParams.length <= "guest/".length) {
+            projectParams = "demo";
+        }
         //Adding text to status
         document.getElementById("status").innerHTML = "Uploading " + file.name;
         var formData = new FormData();
@@ -224,7 +225,7 @@
         var xhr = new XMLHttpRequest();
         xhr.upload.addEventListener("progress", uploadProgress, false);
         xhr.addEventListener("load", uploadComplete, false);
-        xhr.open("POST", "/upload/demo", true); // If async=false, then you'll miss progress bar support.
+        xhr.open("POST", "/upload/" + projectParams, true); // If async=false, then you'll miss progress bar support.
         xhr.onreadystatechange = function () {
             fileName = xhr.getResponseHeader("fileName");
             Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
@@ -302,7 +303,7 @@
 
         //   AJAX request for updating Data
         $.ajax({
-            type: "Post",
+            type: "Get",
             async: true,
             url: "/file/" + fileName + "/data",
             success: function (data, textStatus, request) {
@@ -323,7 +324,7 @@
     function AnalyzeButton(fileName, functionType) {
         //AJAX request for getting minimum of Data
         $.ajax({
-            type: "Post",
+            type: "get",
             async: true,
             url: "/file/" + fileName + "/" + functionType,
             success: function (data, textStatus, request) {

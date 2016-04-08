@@ -56,7 +56,7 @@ public class StreamToString {
 		int size = streamCopy.available();
 		byte[] bytes = new byte[size];
 		streamCopy.read(bytes, 0, size);
-		String Data = new String(bytes, "Cp1252"/*StandardCharsets.US_ASCII*/); // Or any encoding.
+		String Data = new String(bytes, "Cp1252");
 		return Data;
 	}
 }

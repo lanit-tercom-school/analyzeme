@@ -1,4 +1,4 @@
-# analyzeme
+# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=dev)](https://travis-ci.org/lanit-tercom-school/analyzeme) [![codecov.io](https://codecov.io/github/lanit-tercom-school/analyzeme/coverage.svg?branch=dev)](https://codecov.io/github/lanit-tercom-school/analyzeme?branch=dev)
 
 ####Сборка проекта под Windows
 

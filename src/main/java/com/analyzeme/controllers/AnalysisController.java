@@ -12,6 +12,7 @@ import com.analyzeme.repository.FileRepository;
 import com.analyzeme.streamreader.StreamToString;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
@@ -32,8 +33,8 @@ public class AnalysisController {
 	 * null if file doesn't exist
 	 * @throws IOException
 	 */
-	@RequestMapping("/file/{file_name}/data")
-	public String doPost(@PathVariable("file_name") String fileName, HttpServletResponse response)
+	@RequestMapping(value = "/file/{file_name}/data", method = RequestMethod.GET)
+	public String getData(@PathVariable("file_name") String fileName, HttpServletResponse response)
 			throws IOException {
 		try {
 			ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
@@ -51,18 +52,21 @@ public class AnalysisController {
 
 	}
 
+	//todo return HttpEntity<double>
+
 	/**
 	 * @param fileName
 	 * @return minimum in double format
 	 * 0 if file doesn't exist
 	 * @throws IOException
 	 */
-	@RequestMapping("/file/{file_name}/{function_Type}")
-	public int doPost(@PathVariable("file_name") String fileName, @PathVariable("function_Type") String functionType, HttpServletResponse response)
+	@RequestMapping(value = "/file/{file_name}/{function_Type}", method = RequestMethod.GET)
+	public double getMinimum(@PathVariable("file_name") String fileName, @PathVariable("function_Type") String functionType, HttpServletResponse response)
 			throws IOException {
 		try {
 			//Analyze Factory
 			AnalyzeFunctionFactory ServletFactory = new AnalyzeFunctionFactory();
+			//Create GlobalMinimum function
 			AnalyzeFunction ServletAnalyzeFunction = ServletFactory.getFunction(functionType);
 
 			Point[] Data;
@@ -294,4 +298,3 @@ public class AnalysisController {
 		return DefaultFromR.runScript(script.getNameForUser(), script.getData(), 1, "project");
 	}
 }
-

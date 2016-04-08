@@ -1,12 +1,9 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.repository.ProjectInfo;
+import com.analyzeme.parsers.ProjectInfoToJson;
 import com.analyzeme.repository.UsersRepository;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -25,7 +22,7 @@ public class ProjectsController {
 	 * null if userRepository doesn't exist or project doesn't exist
 	 * @throws IOException
 	 */
-	@RequestMapping("/project/{project_name}/files")
+	@RequestMapping(value = "/project/{project_name}/files", method = RequestMethod.GET)
 	public List<String> getFiles(@PathVariable("project_name") String projectName)
 			throws IOException {
 		try {
@@ -45,13 +42,13 @@ public class ProjectsController {
 	/**
 	 * creates new project (for "guest" user)
 	 *
-	 * @param projectName
+	 * @param projectName - should be passed as header
 	 * @return project unique name
 	 * null if project wasn't created
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/project/{project_name}/create", method = RequestMethod.PUT)
-	public String createProject(@PathVariable("project_name") String projectName) throws IOException {
+	@RequestMapping(value = "/project/new/create", method = RequestMethod.PUT)
+	public String createProject(@RequestHeader("project_name") String projectName) throws IOException {
 		try {
 			//when other users created, CheckInitializationAndCreate() should be called from user creator only
 			//now it's possible to create a default user here
@@ -75,13 +72,13 @@ public class ProjectsController {
 	/**
 	 * deletes project by project name
 	 *
-	 * @param projectName
+	 * @param uniqueName
 	 * @return HttpStatus.NOT_FOUND if userRepository doesn't exist
 	 * HttpStatus.OK if project deleted successfully
 	 * HttpStatus.BAD_REQUEST if sth went wrong
 	 */
-	@RequestMapping(value = "/project/{project_name}/delete", method = RequestMethod.DELETE)
-	public HttpStatus deleteProject(@PathVariable("project_name") String projectName)
+	@RequestMapping(value = "/project/{unique_name}/delete", method = RequestMethod.DELETE)
+	public HttpStatus deleteProjectById(@PathVariable("unique_name") String uniqueName)
 			throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
@@ -91,7 +88,7 @@ public class ProjectsController {
 			//to change to deleting by id use ...projects.deleteProjectById(projectId)
 			//deleteProject or deleteProjectById deactivate project and all files in it
 			//to remove them completely use deleteProjectCompletely or deleteProjectCompletelyById
-			return (UsersRepository.getRepo().findUser("guest").getProjects().deleteProject(projectName) ?
+			return (UsersRepository.getRepo().findUser("guest").getProjects().deleteProjectById(uniqueName) ?
 					HttpStatus.OK : HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -102,7 +99,7 @@ public class ProjectsController {
 	/**
 	 * gets all projects for "guest" user
 	 */
-	@RequestMapping("/user/projects")
+	@RequestMapping(value = "/user/projects", method = RequestMethod.GET)
 	public List<String> getProjectNames() throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
@@ -122,19 +119,16 @@ public class ProjectsController {
 	 *
 	 * @throws IOException
 	 */
-	@RequestMapping("/projects/info")
-	public List<ProjectInfo> getProjectsInfo() throws IOException {
+	@RequestMapping(value = "/projects/info", method = RequestMethod.GET)
+	public String getProjectsInfo() throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
 				return null;
 			}
-			return UsersRepository.getRepo().findUser("guest").getProjects().getProjects();
+			return ProjectInfoToJson.convert(UsersRepository.getRepo().findUser("guest").getProjects().getProjects());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
 }
-
-
-
