@@ -55,7 +55,7 @@ public class PointsFromR {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
 	public static List<Point> runCommand(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
+		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		List<Point> result = RFacade.runCommandToGetPoints(rCommand, userId, projectId);
 		return result;

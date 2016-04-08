@@ -123,7 +123,6 @@ public class FileRepositoryTest {
 	 * Test method of getFileById
 	 * checks if it is possible to correctly get file from different threads
 	 */
-	@Ignore
 	@Test
 	public void testThreadsForReading() throws Exception {
 		cleanCorrect();

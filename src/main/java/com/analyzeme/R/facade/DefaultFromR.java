@@ -52,7 +52,7 @@ public class DefaultFromR {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
 	public static String runCommand(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
+		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		String result = RFacade.runCommand(rCommand, userId, projectId);
 		return result;

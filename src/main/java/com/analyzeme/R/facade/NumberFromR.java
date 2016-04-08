@@ -52,7 +52,7 @@ public class NumberFromR {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
 	public static double runCommand(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
+		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		double result = RFacade.runCommandToGetNumber(rCommand, userId, projectId);
 		return result;

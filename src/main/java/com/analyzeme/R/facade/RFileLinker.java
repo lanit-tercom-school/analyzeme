@@ -7,7 +7,6 @@ import com.analyzeme.data.RepositoryDataResolver;
 import com.analyzeme.streamreader.StreamToString;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;

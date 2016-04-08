@@ -27,7 +27,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
+		if (scriptName == null || rScript == null || scriptName.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		String result = "";
 		return result;
@@ -46,7 +46,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
+		if (scriptName == null || rScript == null || scriptName.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		double result = 0;
 		return result;
@@ -60,7 +60,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
+		if (scriptName == null || rScript == null || scriptName.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Point result = new Point();
 		return result;
@@ -74,7 +74,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null || dataFiles.isEmpty())
+		if (scriptName == null || rScript == null || scriptName.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
 		return result;
@@ -93,7 +93,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public String runCommand(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		String result = "";
 		return result;
@@ -106,7 +106,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public String runCommand(String rCommand, String jsonData) throws Exception {
-		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		String result = "";
 		return result;
@@ -124,7 +124,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public double runCommandToGetNumber(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		double result = 0;
 		return result;
@@ -137,7 +137,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Point result = new Point();
 		return result;
@@ -150,7 +150,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
-		if (rCommand.equals("") || rCommand == null || dataFiles == null || dataFiles.isEmpty())
+		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
 		return result;
@@ -167,7 +167,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
-		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		double result = 0;
 		return result;
@@ -180,7 +180,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
-		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		Point result = new Point();
 		return result;
@@ -193,7 +193,7 @@ public class FakeR implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
-		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		List<Point> result = new ArrayList<Point>();
 		return result;

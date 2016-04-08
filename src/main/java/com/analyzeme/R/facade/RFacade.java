@@ -65,7 +65,7 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
 	public static String runCommand(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
+		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		RepositoryDataResolver resolver = new RepositoryDataResolver();
 		resolver.setProject(userId, projectId);
@@ -99,7 +99,7 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
 	public static double runCommandToGetNumber(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
+		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		RepositoryDataResolver resolver = new RepositoryDataResolver();
 		resolver.setProject(userId, projectId);
@@ -133,7 +133,7 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
 	public static Point runCommandToGetPoint(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
+		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		RepositoryDataResolver resolver = new RepositoryDataResolver();
 		resolver.setProject(userId, projectId);
@@ -167,7 +167,7 @@ public class RFacade {
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
 	public static List<Point> runCommandToGetPoints(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand.equals("") || rCommand == null || userId == 0 || projectId == null || projectId.equals(""))
+		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		RepositoryDataResolver resolver = new RepositoryDataResolver();
 		resolver.setProject(userId, projectId);

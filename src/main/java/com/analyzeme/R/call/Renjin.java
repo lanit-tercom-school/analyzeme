@@ -69,7 +69,7 @@ public class Renjin implements IRCaller {
 	 */
 	public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
+		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
@@ -91,7 +91,7 @@ public class Renjin implements IRCaller {
 	 */
 	public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
+		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
@@ -109,7 +109,7 @@ public class Renjin implements IRCaller {
 	 */
 	public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
+		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
@@ -133,7 +133,7 @@ public class Renjin implements IRCaller {
 	 */
 	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (scriptName.equals("") || scriptName == null || rScript == null || dataFiles == null)
+		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
@@ -177,7 +177,7 @@ public class Renjin implements IRCaller {
 	 */
 	public String runCommand(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (rCommand.equals("") || rCommand == null || dataFiles == null)
+		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
@@ -192,7 +192,7 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public String runCommand(String rCommand, String jsonData) throws Exception {
-		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		Initialize();
 
@@ -226,7 +226,7 @@ public class Renjin implements IRCaller {
 	 */
 	public double runCommandToGetNumber(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (rCommand.equals("") || rCommand == null || dataFiles == null)
+		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
@@ -242,7 +242,7 @@ public class Renjin implements IRCaller {
 	 */
 	public Point runCommandToGetPoint(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (rCommand.equals("") || rCommand == null || dataFiles == null)
+		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
@@ -264,7 +264,7 @@ public class Renjin implements IRCaller {
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (rCommand.equals("") || rCommand == null || dataFiles == null)
+		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
@@ -304,7 +304,7 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
-		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		Initialize();
 
@@ -332,7 +332,7 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
-		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		Initialize();
 
@@ -366,7 +366,7 @@ public class Renjin implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
-		if (rCommand.equals("") || rCommand == null || jsonData == null || jsonData.isEmpty())
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 
 		Initialize();
