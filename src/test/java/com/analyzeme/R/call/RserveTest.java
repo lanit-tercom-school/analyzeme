@@ -6,6 +6,7 @@ import com.analyzeme.data.FileInRepositoryInfo;
 import com.analyzeme.data.ISourceInfo;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.repository.FileRepository;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -21,8 +22,7 @@ import static junit.framework.Assert.assertTrue;
  * Created by lagroffe on 26.03.2016 18:53
  */
 
-
-//all tests here should usually be ignored because they work only locally with Rserve set up from R
+@Ignore("Should usually be ignored: works only locally with configured R")
 public class RserveTest {
 	private static double eps = 0.00001;
 	private static IRCaller call;
@@ -47,14 +47,14 @@ public class RserveTest {
 	}
 
 	private static ByteArrayInputStream correctFile;
-	private static String correctFilename = "file.json";
+	private static String correctFilename = "fileRserve.json";
 	private static String correctFileId;
 	private static String correctX;
 	private static String correctY;
 	private static ArrayList<DataSet> correct;
 
 	private static ByteArrayInputStream incorrectFile;
-	private static String incorrectFilename = "incorrectFile.json";
+	private static String incorrectFilename = "incorrectFileRserve.json";
 	private static String incorrectFileId;
 	private static String incorrectX;
 	private static String incorrectY;
@@ -116,31 +116,33 @@ public class RserveTest {
 
 	}
 
+	@AfterClass
+	public static void after() throws Exception {
+		FileRepository.getRepo().deleteFileById(correctFileId);
+		FileRepository.getRepo().deleteFileById(incorrectFileId);
+	}
+
 	//-------------------------------
 	//Tests for illegal arguments
 	//-------------------------------
-	@Ignore
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument1() throws Exception {
 		call.runCommandToGetPoints("", (String) null);
 
 	}
 
-	@Ignore
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument2() throws Exception {
 		call.runCommandToGetPoint((String) null, "");
 
 	}
 
-	@Ignore
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument3() throws Exception {
 		call.runCommandToGetNumber("", (String) null);
 
 	}
 
-	@Ignore
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument4() throws Exception {
 		call.runScriptToGetPoint((String) null, (ByteArrayInputStream) null, (ArrayList<DataSet>) null);
@@ -158,7 +160,6 @@ public class RserveTest {
 	//test correct commands for correct data (json)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test
 	public void testCorrectCommandToGetNumberCorrectJsonData() {
 		try {
@@ -173,7 +174,6 @@ public class RserveTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testCorrectCommandToGetPointCorrectJsonData() {
 		try {
@@ -185,8 +185,6 @@ public class RserveTest {
 		}
 	}
 
-
-	@Ignore
 	@Test
 	public void testCorrectCommandToGetPointsCorrectJsonData() {
 		try {
@@ -201,20 +199,17 @@ public class RserveTest {
 	//test incorrect commands for correct data (json)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetNumberCorrectJsonData() throws Exception {
 		call.runCommandToGetNumber("y[5", testData);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetPointCorrectJsonData() throws Exception {
 		call.runCommandToGetPoint("c(x[5], y[5)", testData);
 
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetPointsCorrectJsonData() throws Exception {
 		call.runCommandToGetPoints(testScriptForPoints + "]", testData);
@@ -224,19 +219,16 @@ public class RserveTest {
 	//test correct commands for incorrect data (json)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetNumberIncorrectJsonData() throws Exception {
 		call.runCommandToGetNumber("x[5]", wrongTestData);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetPointIncorrectJsonData() throws Exception {
 		call.runCommandToGetPoint("c(x[5], y[5])", wrongTestData);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetPointsIncorrectJsonData() throws Exception {
 		call.runCommandToGetPoints(testScriptForPoints, wrongTestData);
@@ -253,7 +245,6 @@ public class RserveTest {
 	//test correct commands for correct data (file)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test
 	public void testCorrectCommandToGetNumberCorrectFile() {
 		try {
@@ -268,7 +259,6 @@ public class RserveTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testCorrectCommandToGetPointCorrectFile() {
 		try {
@@ -280,7 +270,6 @@ public class RserveTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testCorrectCommandToGetPointsCorrectFile() {
 		try {
@@ -295,7 +284,6 @@ public class RserveTest {
 	//test correct scripts for correct data (file)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test
 	public void testCorrectScripToGetNumberCorrectFile() {
 		try {
@@ -310,7 +298,6 @@ public class RserveTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testCorrectScriptToGetPointCorrectFile() {
 		try {
@@ -322,7 +309,6 @@ public class RserveTest {
 		}
 	}
 
-	@Ignore
 	@Test
 	public void testCorrectScriptToGetPointsCorrectFile() {
 		try {
@@ -337,19 +323,16 @@ public class RserveTest {
 	//test incorrect commands for correct data (file)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetNumberCorrectFile() throws Exception {
 		call.runCommandToGetNumber(correctX + "]", correct);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetPointCorrectFile() throws Exception {
 		call.runCommandToGetPoint("c" + correctX + "[5," + correctY + "[5)", correct);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetPointsCorrectFile() throws Exception {
 		call.runCommandToGetPoints(incorrectScriptForCorrectFileString, correct);
@@ -359,19 +342,16 @@ public class RserveTest {
 	//test incorrect scripts for correct data (file)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectScriptToGetNumberCorrectFile() throws Exception {
 		call.runScriptToGetNumber(incorrectScriptForCorrectFileName, convertStringToStream(correctX + "]"), correct);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectScriptToGetPointCorrectFile() throws Exception {
 		call.runScriptToGetPoint(incorrectScriptForCorrectFileName, convertStringToStream("c" + correctX + "[5," + correctY + "[5)"), correct);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testIncorrectScriptToGetPointsCorrectFile() throws Exception {
 		call.runScriptToGetPoints(incorrectScriptForCorrectFileName, incorrectScriptForCorrectFile, correct);
@@ -381,19 +361,16 @@ public class RserveTest {
 	//test correct commands for incorrect data (file)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetNumberIncorrectFile() throws Exception {
 		call.runCommandToGetNumber(incorrectX + "[5]", incorrect);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetPointIncorrectFile() throws Exception {
 		call.runCommandToGetPoint("c(" + incorrectX + "[5], " + incorrectY + "[5])", incorrect);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetPointsIncorrectFile() throws Exception {
 		call.runCommandToGetPoints(correctScriptForIncorrectFileString, incorrect);
@@ -403,19 +380,16 @@ public class RserveTest {
 	//test correct scripts for incorrect data (file)
 	//-----------------------------------------------------------
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectScripToGetNumberIncorrectFile() throws Exception {
 		call.runScriptToGetNumber(correctScriptForIncorrectFileName, convertStringToStream(incorrectX + "[5]"), incorrect);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectScriptToGetPointIncorrectFile() throws Exception {
 		call.runScriptToGetPoint(correctScriptForIncorrectFileName, convertStringToStream("c(" + incorrectX + "[5]," + incorrectY + "[5])"), incorrect);
 	}
 
-	@Ignore
 	@Test(expected = Exception.class)
 	public void testCorrectScriptToGetPointsIncorrectFile() throws Exception {
 		call.runScriptToGetPoints(correctScriptForIncorrectFileName, correctScriptForIncorrectFile, incorrect);

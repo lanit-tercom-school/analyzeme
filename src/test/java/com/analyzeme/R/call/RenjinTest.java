@@ -6,6 +6,7 @@ import com.analyzeme.data.FileInRepositoryInfo;
 import com.analyzeme.data.ISourceInfo;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.repository.FileRepository;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -44,14 +45,14 @@ public class RenjinTest {
 	}
 
 	private static ByteArrayInputStream correctFile;
-	private static String correctFilename = "file.json";
+	private static String correctFilename = "fileRenjin.json";
 	private static String correctFileId;
 	private static String correctX;
 	private static String correctY;
 	private static ArrayList<DataSet> correct;
 
 	private static ByteArrayInputStream incorrectFile;
-	private static String incorrectFilename = "incorrectFile.json";
+	private static String incorrectFilename = "incorrectFileRenjin.json";
 	private static String incorrectFileId;
 	private static String incorrectX;
 	private static String incorrectY;
@@ -111,6 +112,12 @@ public class RenjinTest {
 		correctScriptForIncorrectFileString = "matrix(c(" + incorrectX + "[1], " + incorrectY + "[1], " + incorrectX + "[1], " + incorrectY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 		correctScriptForIncorrectFile = convertStringToStream(correctScriptForIncorrectFileString);
 
+	}
+
+	@AfterClass
+	public static void after() throws Exception {
+		FileRepository.getRepo().deleteFileById(correctFileId);
+		FileRepository.getRepo().deleteFileById(incorrectFileId);
 	}
 
 	//-------------------------------

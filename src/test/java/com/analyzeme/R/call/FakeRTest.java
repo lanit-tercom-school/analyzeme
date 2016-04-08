@@ -4,13 +4,12 @@ import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.FileInRepositoryInfo;
 import com.analyzeme.data.ISourceInfo;
-import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.repository.FileRepository;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +22,8 @@ import static junit.framework.Assert.assertTrue;
 public class FakeRTest {
 	private static double eps = 0.00001;
 	private static IRCaller call;
-	private static Point[] points;
 
 	private static String testData = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
-	private static String wrongTestData = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" ,{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\" \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
-
 	private static String testScriptForPoints = "matrix(c(x[1], y[1], x[1], y[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 
 
@@ -50,23 +46,12 @@ public class FakeRTest {
 	private static String correctY;
 	private static ArrayList<DataSet> correct;
 
-	private static ByteArrayInputStream incorrectFile;
-	private static String incorrectFilename = "incorrectFile.json";
-	private static String incorrectFileId;
-	private static String incorrectX;
-	private static String incorrectY;
-	private static ArrayList<DataSet> incorrect;
-
 	private static String correctScriptForCorrectFileName;
 	private static String correctScriptForCorrectFileString;
 	private static ByteArrayInputStream correctScriptForCorrectFile;
 
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		InputStream is = new ByteArrayInputStream(testData.getBytes());
-		JsonParser jsonParser;
-		jsonParser = new JsonParser();
-		points = jsonParser.getPointsFromPointJson(is);
 		call = new FakeR();
 
 		correctFile = convertStringToStream(testData);
@@ -81,19 +66,14 @@ public class FakeRTest {
 		setCorrect.addField("y");
 		correct.add(setCorrect);
 
-		incorrectFile = convertStringToStream(wrongTestData);
-		incorrectFileId = FileRepository.getRepo().addNewFileForTests(incorrectFile, incorrectFilename);
-		incorrectX = "x_from__repo__" + incorrectFileId + "__";
-		incorrectY = "y_from__repo__" + incorrectFileId + "__";
-		incorrect = new ArrayList<DataSet>();
-		ISourceInfo incorrectInfo = new FileInRepositoryInfo(incorrectFileId);
-		DataSet setIncorrect = new DataSet(incorrectFilename, incorrectInfo);
-		setIncorrect.addField("x");
-		setIncorrect.addField("y");
-		incorrect.add(setIncorrect);
 		correctScriptForCorrectFileName = "script.R";
 		correctScriptForCorrectFileString = "matrix(c(" + correctX + "[1], " + correctY + "[1], " + correctX + "[1], " + correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 		correctScriptForCorrectFile = convertStringToStream(correctScriptForCorrectFileString);
+	}
+
+	@AfterClass
+	public static void after() throws Exception {
+		FileRepository.getRepo().deleteFileById(correctFileId);
 	}
 
 	//-------------------------------

@@ -25,6 +25,29 @@ public class Rserve implements IRCaller {
 		}
 	}
 
+	private static void insertData(List<DataSet> dataFiles) throws Exception {
+		for (DataSet data : dataFiles) {
+			if (data.getFields().contains("x") || data.getFields().contains("y")) {
+				ByteArrayInputStream file = data.getData();
+				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
+				JsonParser jsonParser;
+				jsonParser = new JsonParser();
+				Point[] points = jsonParser.getPointsFromPointJson(is);
+
+				double[] x = new double[points.length];
+				double[] y = new double[points.length];
+				for (int i = 0; i < points.length; i++) {
+					x[i] = points[i].GetX();
+					y[i] = points[i].GetY();
+				}
+				if (data.getFields().contains("x"))
+					r.assign("x_from__repo__" + data.getNameForUser() + "__", x);
+				if (data.getFields().contains("y"))
+					r.assign("y_from__repo__" + data.getNameForUser() + "__", y);
+			}
+		}
+	}
+
 	//------------------
 	//default for scripts
 	//return - json
@@ -39,11 +62,15 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
+		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		String result = null;
-		//TODO: implement
+		Initialize();
+		insertData(dataFiles);
+		String script = StreamToString.ConvertStreamANSI(rScript);
+		String result = r.eval(script).asString();
 		return result;
+
 	}
 
 
@@ -59,10 +86,13 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
+		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		double result = 0;
-		//TODO: implement
+		Initialize();
+		insertData(dataFiles);
+		String script = StreamToString.ConvertStreamANSI(rScript);
+		double result = r.eval(script).asDouble();
 		return result;
 	}
 
@@ -74,11 +104,18 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
+		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		Point result = null;
-		//TODO: implement
+		Initialize();
+		insertData(dataFiles);
+		String script = StreamToString.ConvertStreamANSI(rScript);
+		double[] res = r.eval(script).asDoubles();
+		Point result = new Point();
+		result.SetX(res[0]);
+		result.SetY(res[1]);
 		return result;
+
 	}
 
 	/**
@@ -89,10 +126,20 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or script errored
 	 */
 	public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
+		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		List<Point> result = new ArrayList<Point>();
-		//TODO: implement
+		Initialize();
+		insertData(dataFiles);
+		String script = StreamToString.ConvertStreamANSI(rScript);
+		double[][] res = r.eval(script).asDoubleMatrix();
+		ArrayList<Point> result = new ArrayList<Point>();
+		for (int i = 0; i < res.length; i++) {
+			Point p = new Point();
+			p.SetX(res[i][0]);
+			p.SetY(res[i][1]);
+			result.add(p);
+		}
 		return result;
 	}
 
@@ -109,10 +156,12 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public String runCommand(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
+		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
-		String result = null;
-		//TODO: implement
+		Initialize();
+		insertData(dataFiles);
+		String result = r.eval(rCommand).asString();
 		return result;
 	}
 
@@ -125,8 +174,22 @@ public class Rserve implements IRCaller {
 	public String runCommand(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
-		String result = null;
-		//TODO: implement
+		Initialize();
+
+		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
+		JsonParser jsonParser;
+		jsonParser = new JsonParser();
+		Point[] data = jsonParser.getPointsFromPointJson(is);
+
+		double[] x = new double[data.length];
+		double[] y = new double[data.length];
+		for (int i = 0; i < data.length; i++) {
+			x[i] = data[i].GetX();
+			y[i] = data[i].GetY();
+		}
+		r.assign("x", x);
+		r.assign("y", y);
+		String result = r.eval(rCommand).asString();
 		return result;
 	}
 
@@ -146,28 +209,8 @@ public class Rserve implements IRCaller {
 		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					r.assign("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					r.assign("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
-		double result = r.eval("result <-" + rCommand).asDouble();
+		insertData(dataFiles);
+		double result = r.eval(rCommand).asDouble();
 		return result;
 	}
 
@@ -178,30 +221,11 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public Point runCommandToGetPoint(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
+		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					r.assign("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					r.assign("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
+		insertData(dataFiles);
 		double[] res = r.eval(rCommand).asDoubles();
 		Point result = new Point();
 		result.SetX(res[0]);
@@ -216,30 +240,11 @@ public class Rserve implements IRCaller {
 	 * @throws Exception if failed to call R or command errored
 	 */
 	public List<Point> runCommandToGetPoints(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
+		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
 		Initialize();
-
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
-				}
-				if (data.getFields().contains("x"))
-					r.assign("x_from__repo__" + data.getNameForUser() + "__", x);
-				if (data.getFields().contains("y"))
-					r.assign("y_from__repo__" + data.getNameForUser() + "__", y);
-			}
-		}
+		insertData(dataFiles);
 		double[][] res = r.eval(rCommand).asDoubleMatrix();
 		ArrayList<Point> result = new ArrayList<Point>();
 		for (int i = 0; i < res.length; i++) {
