@@ -7,15 +7,15 @@ import static junit.framework.Assert.assertTrue;
 /**
  *
  */
-public class TestRServeConfiguration {
+public class TestRserveConfiguration {
     /**
-     * test for RServeConfiguration
+     * test for RserveConfiguration
      * @throws Exception
      */
     @Test
     public void TestRServeConfiguration() throws Exception{
-        RServeConfiguration C1= new RServeConfiguration();
-        RServeConfiguration C2=new RServeConfiguration(false,"localhost","8080");
+        RserveConfiguration C1= new RserveConfiguration();
+        RserveConfiguration C2=new RserveConfiguration(false,"localhost","8080","example");
         //is field flag=true?
         assertTrue(C1.getFlag());
         //is field host=""?
@@ -28,5 +28,7 @@ public class TestRServeConfiguration {
         assertTrue(C2.getHost().equals("localhost"));
         //is field port="8080"?
         assertTrue(C2.getPort().equals("8080"));
+        //is field name="example"?
+        assertTrue(C2.getName().equals("example"));
     }
 }

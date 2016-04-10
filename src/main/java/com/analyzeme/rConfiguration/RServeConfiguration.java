@@ -3,7 +3,8 @@ package com.analyzeme.rConfiguration;
 /**
  * class saving configuration of RServe
  */
-public class RServeConfiguration implements IRConfiguration{
+public class RserveConfiguration implements IRConfiguration{
+    private  String name;
     /**
      * field what show is processor active
      */
@@ -17,10 +18,19 @@ public class RServeConfiguration implements IRConfiguration{
      */
     private String port;
 
+
+    public String getName(){
+        return name;
+    };
+
+    public void setName(String name){
+        this.name=name;
+    }
     /**
      * default constructor
      */
-    RServeConfiguration(){
+    public RserveConfiguration(){
+        name="newRServe";
         flag=true;
         host="";
         port="";
@@ -32,7 +42,8 @@ public class RServeConfiguration implements IRConfiguration{
      * @param host for setting field host
      * @param port for setting field port
      */
-    RServeConfiguration(boolean flag,String host,String port){
+    public RserveConfiguration(boolean flag, String host, String port, String name){
+        this.name=name;
         this.flag=flag;
         this.host=host;
         this.port=port;

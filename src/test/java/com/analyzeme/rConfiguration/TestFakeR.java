@@ -14,10 +14,12 @@ public class TestFakeR {
      */
     public void TestFakeR() throws Exception{
         FakeRConfiguration C1= new FakeRConfiguration();
-        FakeRConfiguration C2=new FakeRConfiguration(false);
+        FakeRConfiguration C2=new FakeRConfiguration(false,"Example");
         //is field flag=true?
         assertTrue(C1.getFlag());
         //is field flag=false?
         assertTrue(!C2.getFlag());
+        //is field name="Example"?
+        assertTrue(C2.getName().equals("Example"));
     }
 }

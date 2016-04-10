@@ -9,7 +9,7 @@ import java.io.InputStream;
 
 
 /**
- * Created by Андрей Каликин on 07.12.2015.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ on 07.12.2015.
  */
 public class JsonParserTest {
 	JsonParser jsonParser;
