@@ -41,7 +41,7 @@ public class RConfController {
      * @param rConfType null if file doesn't exist
      * @throws IOException
      */
-    @RequestMapping(value = "/RConf/{rConf_type}", method = RequestMethod.GET)
+    @RequestMapping(value = "/RConf/{rConf_type}", method = RequestMethod.POST)
     public void addRConfiguration(@PathVariable("rConf_type") String rConfType, HttpServletResponse response)
             throws IOException {
         try {
