@@ -19,6 +19,7 @@ import java.io.IOException;
 @RestController
 public class FileController {
 
+	//TODO: in fact here userId = username. should be changed to Integer.parseInt(userId) when views are ready
 	/**
 	 * handles files upload
 	 * gets in url user id and project id
@@ -80,7 +81,10 @@ public class FileController {
 				String[] param = {"guest", "guest@mail.sth", "1234"};
 				UsersRepository.getRepo().newItem(param);
 			}
-			UsersRepository.getRepo().newProject("guest", "default");
+			ProjectInfo project = user.getProjects().findProject("default");
+			if (project == null) {
+				UsersRepository.getRepo().newProject("guest", "default");
+			}
 
 			//part, filename, projectName, username (IN THIS ORDER)
 			String[] param = {fileName, "default", "guest"};
