@@ -62,10 +62,15 @@
                                 td3.appendChild(document.createTextNode(data.Projects[i].creationDate))
                                 var td4 = document.createElement("TD")
                                 td4.appendChild(document.createTextNode(data.Projects[i].lastChangeDate))
+                                var td5 = document.createElement("TD");
+                                td5.innerHTML = '<input type="button" value="Open in angular 2 app"' +
+                                        ' onclick="location.href = \'/app/' + data.Projects[i].projectId + '\'">';
+
                                 row.appendChild(td1);
                                 row.appendChild(td2);
                                 row.appendChild(td3);
                                 row.appendChild(td4);
+                                row.appendChild(td5);
                                 tbody.appendChild(row);
 
                                 projectsIds[i] = data.Projects[i].projectId; //add projectId to the array
@@ -150,6 +155,9 @@
                         </th>
                         <th class="text-center">
                             Last modified
+                        </th>
+                        <th class="text-center">
+                            <input type="button" value="Switch to angular 2 app" onclick="location.href = '/app'">
                         </th>
                     </tr>
                     </thead>

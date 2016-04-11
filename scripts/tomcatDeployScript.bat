@@ -1,16 +1,17 @@
-@REM ********************
+@REM *************************
 @REM Deploy script for Tomcat
-@REM ********************
+@REM *************************
 @ECHO OFF
+@REM *************************
+@REM project will deploy in localhost:8080/%projectFolder%
 SET projectFolder="ROOT"
+@REM *************************
 @RD /S /Q "%CATALINA_HOME%\webapps\%projectFolder%"
 @RD /s /Q "%CATALINA_HOME%\work\Catalina\localhost\%projectFolder%"
 del "%CATALINA_HOME%\webapps\%projectFolder%.war"
 @ECHO Tomcat's %projectFolder% cleared
-@REM path to your project:
-SET analyzeme="C:\Repositories\analyzeme\"
 
-CD /D "%analyzeme%"
+cd ..
 @ECHO Wanna start build?
 pause
 @echo Deploying to localhost:8080/%projectFolder%
