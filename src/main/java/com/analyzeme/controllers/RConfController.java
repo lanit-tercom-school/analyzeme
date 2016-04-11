@@ -1,9 +1,8 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.rConfiguration.FakeRConfiguration;
-import com.analyzeme.rConfiguration.IRConfiguration;
-import com.analyzeme.rConfiguration.RConfFactory;
-import com.analyzeme.rConfiguration.RConfigurationRepository;
+import com.analyzeme.rConfiguration.FakeRConf;
+import com.analyzeme.rConfiguration.IRConf;
+import com.analyzeme.rConfiguration.RConfRepository;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,10 +22,10 @@ public class RConfController {
      * @throws IOException
      */
     @RequestMapping(value = "/RConf/{rConf_name}", method = RequestMethod.GET)
-    public IRConfiguration getRConfiguration(@PathVariable("rConf_name") String rConfName, HttpServletResponse response)
+    public IRConf getRConfiguration(@PathVariable("rConf_name") String rConfName, HttpServletResponse response)
             throws IOException {
         try {
-            IRConfiguration RConf = RConfigurationRepository.getRepo().getRConfByName(rConfName);
+            IRConf RConf = RConfRepository.getRepo().getRConfByName(rConfName);
             return RConf;
 
         } catch (Exception e) {
@@ -46,10 +45,8 @@ public class RConfController {
             throws IOException {
         try {
 
-            IRConfiguration RConf = RConfFactory.getFunctionRConf("FakeRConfiguration");
-            RConf.setFlag(true);
-            RConf.setName("example");
-            RConfigurationRepository.getRepo().addRConf(RConf);
+            IRConf RConf = new FakeRConf(true,"example");
+            RConfRepository.getRepo().addRConf(RConf);
 
         } catch (Exception e) {
             e.printStackTrace();

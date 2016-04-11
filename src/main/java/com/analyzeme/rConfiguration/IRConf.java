@@ -3,7 +3,7 @@ package com.analyzeme.rConfiguration;
 /**
  * interface for configuration of R-processor
  */
-public interface IRConfiguration {
+public interface IRConf {
 
     String getName();
     void setName(String name);
@@ -12,12 +12,12 @@ public interface IRConfiguration {
      *set field flag
      * @param flag what will set as field flag
      */
-    void setFlag(boolean flag);
+    void setActiveFlag(boolean flag);
 
     /**
      * get field flag
      * @return value of field flag
      */
-    boolean getFlag();
+    boolean isActive();
 
 }

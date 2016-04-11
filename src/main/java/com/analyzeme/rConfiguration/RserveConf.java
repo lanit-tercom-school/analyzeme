@@ -3,12 +3,12 @@ package com.analyzeme.rConfiguration;
 /**
  * class saving configuration of RServe
  */
-public class RserveConfiguration implements IRConfiguration{
+public class RserveConf implements IRConf {
     private  String name;
     /**
      * field what show is processor active
      */
-    private boolean flag;
+    private boolean activeFlag;
     /**
      * field for saving host
      */
@@ -21,7 +21,7 @@ public class RserveConfiguration implements IRConfiguration{
 
     public String getName(){
         return name;
-    };
+    }
 
     public void setName(String name){
         this.name=name;
@@ -29,40 +29,40 @@ public class RserveConfiguration implements IRConfiguration{
     /**
      * default constructor
      */
-    public RserveConfiguration(){
+    public RserveConf(){
         name="newRServe";
-        flag=true;
+        activeFlag=true;
         host="";
         port="";
     }
 
     /**
      * constructor by param flag,host,port
-     * @param flag for setting field flag
+     * @param activeFlag for setting field activeFlag
      * @param host for setting field host
      * @param port for setting field port
      */
-    public RserveConfiguration(boolean flag, String host, String port, String name){
+    public RserveConf(boolean activeFlag, String host, String port, String name){
         this.name=name;
-        this.flag=flag;
+        this.activeFlag=activeFlag;
         this.host=host;
         this.port=port;
     }
     /**
      *set field flag
-     * @param flag what will set as field flag
+     * @param activeFlag what will set as field flag
      */
     @Override
-    public void setFlag(boolean flag) {
-        this.flag=flag;
+    public void setActiveFlag(boolean activeFlag) {
+        this.activeFlag=activeFlag;
     }
     /**
      * get field flag
      * @return value of field flag
      */
     @Override
-    public boolean getFlag() {
-        return flag;
+    public boolean isActive() {
+        return activeFlag;
     }
     /**
      *set field flag
