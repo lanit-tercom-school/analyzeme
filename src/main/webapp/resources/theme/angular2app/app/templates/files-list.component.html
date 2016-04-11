@@ -1,0 +1,20 @@
+<div style="float: left;
+            background: lightcoral;
+            width: =20%;" (dragenter)="invertDropboxFlag()">
+
+    <dropbox-upload *ngIf="isDropboxExpanded" (dragleave)="invertDropboxFlag()"
+                    (collapsed)="invertDropboxFlag()">
+    </dropbox-upload>
+
+    <div *ngIf="!isDropboxExpanded" style="width: 100%;">
+        <h4>Files</h4>
+        <input (click)="invertDropboxFlag()" type="button" value="Add"
+                style="width: 100%;" />
+        <ul class="heroes">
+            <li *ngFor="#file of files" [class.selected]="isSelectedFile(file)"
+                (click)="onSelect(file)">
+                <span class="badge">*</span> {{file.name}}
+            </li>
+        </ul>
+    </div>
+</div>
