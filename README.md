@@ -21,15 +21,15 @@
     *  установить значение environment variable CATALINA\_HOME, указание на распакованный архив
 
 2.
-    * Запустить из командной строки в **папке, содержащей pom.xml**
-      * scripts\tomcat.bat - результат будет доступен по адресу localhost:8080/analyzeme до принудительного андеплоя
-      * scripts\tomcat.bat contextPath - результат будет доступен по адресу localhost:8080/contextPath (contextPath должна быть аналогична названию файла, конструкции типа sth/sth не поддерживаются)
+    Запустить из командной строки в **папке, содержащей pom.xml**
+    * scripts\tomcat.bat - результат будет доступен по адресу localhost:8080/analyzeme до принудительного андеплоя
+    * scripts\tomcat.bat contextPath - результат будет доступен по адресу localhost:8080/contextPath (contextPath должна быть аналогична названию файла, конструкции типа sth/sth не поддерживаются)
 
-    ИЛИ
-
-    * Задайте значение переменной **projectFolder**(опционально) в скрипте **scripts\tomcatDeployScript.bat** и запустите его из папки **/scripts/**
-      * **projectFolder** - папка, в которую будет деплоиться проект(например, при значении **'analyzeme'** будет деплоить в **localhost:8080/analyzeme/**)
-        * projectFolder изначально имеет значение ROOT, что означает деплой в **localhost:8080/**
+ИЛИ (когда tomcat установлен)
+    
+Задайте значение переменной **projectFolder** (опционально) в скрипте **scripts\tomcatDeployScript.bat** и запустите его из папки **/scripts/**
+   * **projectFolder** - папка, в которую будет деплоиться проект(например, при значении **'analyzeme'** будет деплоить в **localhost:8080/analyzeme/**)
+   * projectFolder изначально имеет значение ROOT, что означает деплой в **localhost:8080/**
 
 
 #####Сборка с использованием jetty
