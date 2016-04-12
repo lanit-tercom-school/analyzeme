@@ -2,8 +2,10 @@ package com.analyzeme.controllers;
 
 import com.analyzeme.R.facade.*;
 import com.analyzeme.analyze.AnalyzeFunction;
+import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import com.analyzeme.analyze.Point;
+import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.parsers.JsonParserException;
 import com.analyzeme.parsers.PointToJson;
@@ -115,6 +117,7 @@ public class AnalysisController {
 		return (new RFacade(engine)).runCommandToGetNumber(command, DataString);
 	}
 
+
 	//temporary API
 
 	/**
@@ -128,7 +131,7 @@ public class AnalysisController {
 			throws Exception {
 		if (command == null || command.equals("") || fileName == null || fileName.equals(""))
 			throw new IllegalArgumentException();
-		return NumberFromR.runCommand(command, 1, "project");
+		return (new RFacade("Renjin")).runCommandToGetNumber(command, 1, "project");
 	}
 
 
@@ -152,6 +155,8 @@ public class AnalysisController {
 		return PointToJson.convertPoint(result);
 	}
 
+
+
 	//temporary API
 
 	/**
@@ -165,7 +170,7 @@ public class AnalysisController {
 			throws Exception {
 		if (command == null || command.equals("") || fileName == null || fileName.equals(""))
 			throw new IllegalArgumentException();
-		return PointToJson.convertPoint(PointFromR.runCommand(command, 1, "project"));
+		return PointToJson.convertPoint((new RFacade("Renjin")).runCommandToGetPoint(command, 1, "project"));
 	}
 
 	//temporary API
@@ -201,7 +206,7 @@ public class AnalysisController {
 			throws Exception {
 		if (command == null || command.equals("") || fileName == null || fileName.equals(""))
 			throw new IllegalArgumentException();
-		List<Point> result = PointsFromR.runCommand(command, 1, "project");
+		List<Point> result = (new RFacade("Renjin")).runCommandToGetPoints(command, 1, "project");
 		return PointToJson.convertPoints(result);
 	}
 
@@ -218,7 +223,7 @@ public class AnalysisController {
 			throws Exception {
 		if (command == null || command.equals("") || fileName == null || fileName.equals(""))
 			throw new IllegalArgumentException();
-		String result = DefaultFromR.runCommand(command, 1, "project");
+		String result = (new RFacade("Renjin")).runCommand(command, 1, "project");
 		return result;
 	}
 
@@ -241,7 +246,7 @@ public class AnalysisController {
 		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
 		if (script == null)
 			throw new IllegalArgumentException();
-		return NumberFromR.runScript(script.getNameForUser(), script.getData(), 1, "project");
+		return (new RFacade("Renjin")).runScriptToGetNumber(script.getNameForUser(), script.getData(), 1, "project");
 	}
 
 	//temporary API
@@ -259,7 +264,7 @@ public class AnalysisController {
 		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
 		if (script == null)
 			throw new IllegalArgumentException();
-		return PointToJson.convertPoint(PointFromR.runScript(script.getNameForUser(), script.getData(), 1, "project"));
+		return PointToJson.convertPoint((new RFacade("Renjin")).runScriptToGetPoint(script.getNameForUser(), script.getData(), 1, "project"));
 	}
 
 	//temporary API
@@ -277,7 +282,7 @@ public class AnalysisController {
 		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
 		if (script == null)
 			throw new IllegalArgumentException();
-		return PointToJson.convertPoints(PointsFromR.runScript(script.getNameForUser(), script.getData(), 1, "project"));
+		return PointToJson.convertPoints((new RFacade("Renjin")).runScriptToGetPoints(script.getNameForUser(), script.getData(), 1, "project"));
 	}
 
 	//temporary API
@@ -295,6 +300,6 @@ public class AnalysisController {
 		FileInfo script = FileRepository.getRepo().findFileById(scriptId);
 		if (script == null)
 			throw new IllegalArgumentException();
-		return DefaultFromR.runScript(script.getNameForUser(), script.getData(), 1, "project");
+		return (new RFacade("Renjin")).runScript(script.getNameForUser(), script.getData(), 1, "project");
 	}
 }

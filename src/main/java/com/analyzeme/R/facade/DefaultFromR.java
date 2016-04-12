@@ -6,7 +6,7 @@ import java.io.ByteArrayInputStream;
  * Created by lagroffe on 19.03.2016 21:03
  */
 
-public class DefaultFromR {
+public class DefaultFromR implements GetFromR<String> {
 
 	/**
 	 * calls R using R.facade
@@ -18,7 +18,7 @@ public class DefaultFromR {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	public static String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+	public String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		String result = RScriptManager.runScript(rScriptName, rScript, userId, projectId);
@@ -34,7 +34,7 @@ public class DefaultFromR {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	public static String runScript(String rScriptId, int userId, String projectId) throws Exception {
+	public String runScript(String rScriptId, int userId, String projectId) throws Exception {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		String result = RScriptManager.runScript(rScriptId, userId, projectId);
@@ -51,7 +51,7 @@ public class DefaultFromR {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	public static String runCommand(String rCommand, int userId, String projectId) throws Exception {
+	public String runCommand(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		String result = RFacade.runCommand(rCommand, userId, projectId);
@@ -66,7 +66,7 @@ public class DefaultFromR {
 	 * @return json result (mistakes are possible)
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	public static String runCommand(String rCommand, String jsonData) throws Exception {
+	public String runCommand(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		String result = RFacade.runCommand(rCommand, jsonData);

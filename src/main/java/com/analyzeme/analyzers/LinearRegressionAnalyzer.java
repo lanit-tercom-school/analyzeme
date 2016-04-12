@@ -1,21 +1,15 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.data.DataSet;
-
 import java.util.List;
 
 /**
  * Created by Ольга on 12.04.2016.
  */
-public class LinearRegressionAnalyzer implements IAnalyzer {
+//TODO: here T should be defined explicitly
+public class LinearRegressionAnalyzer<T> implements IAnalyzer<T> {
 
-    public String analyze(List<DataSet> data) {
-       // List<Point<Double, Double>> points = (List<Point<Double, Double>>) data;
-//        if (points == null) {
-//            throw new IllegalArgumentException("Incorrect data");
-//        }
-
-        //todo analysis here
-        return null;
-    }
+	public T analyze(List<Point[]> data) throws Exception {
+		//todo analysis here
+		return null;
+	}
 }

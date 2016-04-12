@@ -2,7 +2,7 @@ package com.analyzeme.controllers;
 
 import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.analyzers.r.TypeOfCall;
-import com.analyzeme.analyzers.r.TypeOfReturnValue;
+import com.analyzeme.R.facade.TypeOfReturnValue;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +17,7 @@ public class RConsoleController {
 
     /**
      * @param userId
-     * @param projectName
+     * @param projectId
      * @param typeOfCall
      * @param typeOfResult
      * @param scriptName
@@ -27,16 +27,16 @@ public class RConsoleController {
      * HttpStatus.Accepted and result if ran successfully
      */
 
-    @RequestMapping(value = "/{user_id}/{project_name}/run/script", method = RequestMethod.GET)
+    @RequestMapping(value = "/{user_id}/{project_id}/run/script", method = RequestMethod.GET)
     public ResponseEntity<Object> runRForNumber(@PathVariable("user_id") int userId,
-                                                @PathVariable("project_name") String projectName,
+                                                @PathVariable("project_id") String projectId,
                                                 @RequestHeader("type_of_call") TypeOfCall typeOfCall,
                                                 @RequestHeader("type_of_result") TypeOfReturnValue typeOfResult,
                                                 @RequestHeader("name") String scriptName,
                                                 @RequestHeader("script") String scriptText) {
         Object result;
         try {
-            result = rAnalyzer.runScript(userId, projectName, scriptName, scriptText, typeOfResult, typeOfCall);
+            result = rAnalyzer.runScript(userId, projectId, scriptName, scriptText, typeOfResult, typeOfCall);
         } catch (Exception e) {
             return new ResponseEntity<Object>(HttpStatus.CONFLICT);
         }

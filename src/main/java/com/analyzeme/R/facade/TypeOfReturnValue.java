@@ -1,4 +1,4 @@
-package com.analyzeme.analyzers.r;
+package com.analyzeme.R.facade;
 
 public enum TypeOfReturnValue {
     DOUBLE,
