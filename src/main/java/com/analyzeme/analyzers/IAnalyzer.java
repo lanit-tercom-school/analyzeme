@@ -1,14 +1,18 @@
 package com.analyzeme.analyzers;
 
+import com.analyzeme.data.DataSet;
+
+import java.util.List;
+
 /**
  * Created by Ольга on 10.04.2016.
  */
-public interface IAnalyzer<T> {
+public interface IAnalyzer {
+
     /**
-     * @param data - should be List<Point> or
-     *             List<T>(for one-dimensional analysis)
-     *             Set<Lists<Points>> (for future, to analyze more than one set of data)
+     *
+     * @param data
      * @return String with JSON inside(JSON should represent Point or List<Point>)
      */
-    String analyze(T data);
+    String analyze(List<DataSet> data);
 }

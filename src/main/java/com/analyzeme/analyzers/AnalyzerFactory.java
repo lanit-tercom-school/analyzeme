@@ -1,7 +1,5 @@
 package com.analyzeme.analyzers;
 
-import org.renjin.invoke.codegen.ArgumentException;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +10,7 @@ public class AnalyzerFactory {
 
     private Map<String, IAnalyzer> analyzers = new HashMap<String, IAnalyzer>();
 
-    public IAnalyzer getAnalyzer(String analyzerName) throws ArgumentException {
+    public IAnalyzer getAnalyzer(String analyzerName) {
         if (!analyzers.containsKey(analyzerName)) {
             createAnalyzer(analyzerName);
         }
@@ -21,7 +19,7 @@ public class AnalyzerFactory {
 
 
     //todo add all new analyzers here
-    private void createAnalyzer(String name) throws ArgumentException {
+    private void createAnalyzer(String name) {
 //        if(name.equals("GlobalMax")) {
 //            //analyzers.put(name,new Analyzer());
 //            return;
@@ -58,6 +56,6 @@ public class AnalyzerFactory {
 //            //analyzers.put(name,new Analyzer());
 //            return;
 //        }
-        throw new ArgumentException("Incorrect name");
+        throw new IllegalArgumentException("Incorrect name");
     }
 }
