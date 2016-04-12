@@ -7,7 +7,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  *
  */
-public class TestFakeR {
+public class TestFakeRConf {
     @Test
     /**
      * test for FakeR
