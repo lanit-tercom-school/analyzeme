@@ -60,7 +60,7 @@ public class RConfController {
     @RequestMapping(value = "/RConf/{data}", method = RequestMethod.PUT)
     public void addRConfiguration(@PathVariable("data") String data, HttpServletResponse response)
             throws IOException {
-        RConfRepository.getRepo().addRConf(RConfFactory.RConfFactory(data));
+        RConfRepository.getRepo().addRConf(RConfFactory.getRConf(data));
 
     }
     //TODO: закончить
