@@ -4,6 +4,7 @@ package com.analyzeme.rConfiguration;
  * class saving configuration of RServe
  */
 public class RserveConf implements IRConf {
+    // TODO: 14.04.2016  comments
     private  String name;
     /**
      * field what show is processor active
@@ -32,8 +33,8 @@ public class RserveConf implements IRConf {
     public RserveConf(){
         name="newRServe";
         activeFlag=true;
-        host="";
-        port="";
+        host=null;
+        port=null;
     }
 
     /**

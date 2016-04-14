@@ -4,6 +4,7 @@ package com.analyzeme.rConfiguration;
  *
  */
 public class FakeRConf implements IRConf {
+    // TODO: 14.04.2016  comments
     private String name;
     /**
      * field what show is processor active

@@ -2,6 +2,7 @@ package com.analyzeme.rConfiguration;
 
 import org.junit.Test;
 
+import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertTrue;
 
 /**
@@ -18,10 +19,10 @@ public class TestRserveConf {
         RserveConf C2=new RserveConf(false,"localhost","8080","example");
         //is field flag=true?
         assertTrue(C1.isActive());
-        //is field host=""?
-        assertTrue(C1.getHost().equals(""));
-        //is field port=""?
-        assertTrue(C1.getPort().equals(""));
+        //is field host= null?
+        assertNull(C1.getHost());
+        //is field port= null?
+        assertNull(C1.getPort());
         //is field flag=false?
         assertTrue(!C2.isActive());
         //is field host="localhost"?

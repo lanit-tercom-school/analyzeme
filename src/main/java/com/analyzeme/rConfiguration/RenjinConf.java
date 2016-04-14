@@ -4,7 +4,7 @@ package com.analyzeme.rConfiguration;
  * Created by asus on 11.04.2016.
  */
 public class RenjinConf implements IRConf {
-
+    // TODO: 14.04.2016  comments
     private String name;
     /**
      * field what show is processor active

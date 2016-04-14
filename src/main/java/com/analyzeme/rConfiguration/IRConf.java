@@ -4,7 +4,7 @@ package com.analyzeme.rConfiguration;
  * interface for configuration of R-processor
  */
 public interface IRConf {
-
+    // TODO: 14.04.2016 more comments
     String getName();
     void setName(String name);
 
