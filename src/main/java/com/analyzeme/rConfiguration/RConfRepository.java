@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * repository of RConfiguration
  * Created by asus on 03.04.2016.
  */
+// TODO: 15.04.2016  tests
 // TODO: 14.04.2016  comments
 public class RConfRepository {
     private static RConfRepository repo = new RConfRepository();
@@ -59,7 +61,7 @@ public class RConfRepository {
 
     //TODO: закончить
     public void updateRConfByName(String name, String data) throws IOException {
-    IRConf RConf= getRConfByName(name);
+        IRConf RConf = getRConfByName(name);
         RConf.setName("newName");
         RConf.setActiveFlag(true);
 

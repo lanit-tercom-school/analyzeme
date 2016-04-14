@@ -5,22 +5,23 @@ import org.junit.Test;
 import static junit.framework.Assert.assertTrue;
 
 /**
+ * test for constructor of RenjinConf
  * Created by asus on 12.04.2016.
  */
-public class TestRenjinConf{
+public class TestRenjinConf {
 
-        @Test
-        /**
-         * test for Renjin
-         */
-        public void TestRenjin() throws Exception{
-            RenjinConf C1= new RenjinConf();
-            RenjinConf C2=new RenjinConf(false,"Example");
-            //is field flag=true?
-            assertTrue(C1.isActive());
-            //is field flag=false?
-            assertTrue(!C2.isActive());
-            //is field name="Example"?
-            assertTrue(C2.getName().equals("Example"));
-        }
+    @Test
+    /**
+     * test for Renjin
+     */
+    public void TestRenjin() throws Exception {
+        RenjinConf C1 = new RenjinConf();
+        RenjinConf C2 = new RenjinConf(false, "Example");
+        //is field flag=true?
+        assertTrue(C1.isActive());
+        //is field flag=false?
+        assertTrue(!C2.isActive());
+        //is field name="Example"?
+        assertTrue(C2.getName().equals("Example"));
+    }
 }

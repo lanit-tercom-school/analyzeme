@@ -4,8 +4,10 @@ package com.analyzeme.rConfiguration;
  * class saving configuration of RServe
  */
 public class RserveConf implements IRConf {
-    // TODO: 14.04.2016  comments
-    private  String name;
+    /**
+     * field for saving name of RConfigurations
+     */
+    private String name;
     /**
      * field what show is processor active
      */
@@ -19,75 +21,100 @@ public class RserveConf implements IRConf {
      */
     private String port;
 
-
-    public String getName(){
+    /**
+     * get field name
+     *
+     * @return field name
+     */
+    public String getName() {
         return name;
     }
 
-    public void setName(String name){
-        this.name=name;
+    /**
+     * set field name
+     *
+     * @param name what will set as field name
+     */
+    public void setName(String name) {
+        this.name = name;
     }
+
     /**
      * default constructor
+     * <p>
+     * field host and port become null
      */
-    public RserveConf(){
-        name="newRServe";
-        activeFlag=true;
-        host=null;
-        port=null;
+    public RserveConf() {
+        name = "newRServe";
+        activeFlag = true;
+        host = null;
+        port = null;
     }
 
     /**
      * constructor by param flag,host,port
+     *
      * @param activeFlag for setting field activeFlag
-     * @param host for setting field host
-     * @param port for setting field port
+     * @param host       for setting field host
+     * @param port       for setting field port
      */
-    public RserveConf(boolean activeFlag, String host, String port, String name){
-        this.name=name;
-        this.activeFlag=activeFlag;
-        this.host=host;
-        this.port=port;
+    public RserveConf(boolean activeFlag, String host, String port, String name) {
+        this.name = name;
+        this.activeFlag = activeFlag;
+        this.host = host;
+        this.port = port;
     }
+
     /**
-     *set field flag
+     * set field flag
+     *
      * @param activeFlag what will set as field flag
      */
     @Override
     public void setActiveFlag(boolean activeFlag) {
-        this.activeFlag=activeFlag;
+        this.activeFlag = activeFlag;
     }
+
     /**
      * get field flag
+     *
      * @return value of field flag
      */
     @Override
     public boolean isActive() {
         return activeFlag;
     }
+
     /**
-     *set field flag
+     * set field flag
+     *
      * @param port what will set as field port
      */
     public void setPort(String port) {
-        this.port=port;
+        this.port = port;
     }
+
     /**
      * get field flag
+     *
      * @return value of field port
      */
     public String getPort() {
         return port;
     }
+
     /**
-     *set field flag
+     * set field flag
+     *
      * @param host what will set as field host
      */
     public void setHost(String host) {
-        this.host=host;
+        this.host = host;
     }
+
     /**
      * get field flag
+     *
      * @return value of field host
      */
     public String getHost() {

@@ -48,7 +48,8 @@ public class AnalysisController {
 
     }
 
-    //todo return HttpEntity<double>
+    //
+    // todo return HttpEntity<double>
 
     /**
      * @param fileName
@@ -60,10 +61,9 @@ public class AnalysisController {
     public double getMinimum(@PathVariable("file_name") String fileName,@PathVariable("function_Type") String functionType,HttpServletResponse response)
             throws IOException {
         try {
-            //Analyze Factory
-            AnalyzeFunctionFactory ServletFactory = new AnalyzeFunctionFactory();
-            //Create GlobalMinimum function
-            AnalyzeFunction ServletAnalyzeFunction = ServletFactory.getFunction(functionType);
+
+            //Create  function
+            AnalyzeFunction ServletAnalyzeFunction = AnalyzeFunctionFactory.getFunction(functionType);
 
             Point[] Data;
 

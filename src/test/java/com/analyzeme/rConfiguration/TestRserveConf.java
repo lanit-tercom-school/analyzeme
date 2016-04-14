@@ -11,12 +11,13 @@ import static junit.framework.Assert.assertTrue;
 public class TestRserveConf {
     /**
      * test for RserveConf
+     *
      * @throws Exception
      */
     @Test
-    public void TestRServeConfiguration() throws Exception{
-        RserveConf C1= new RserveConf();
-        RserveConf C2=new RserveConf(false,"localhost","8080","example");
+    public void TestRServeConfiguration() throws Exception {
+        RserveConf C1 = new RserveConf();
+        RserveConf C2 = new RserveConf(false, "localhost", "8080", "example");
         //is field flag=true?
         assertTrue(C1.isActive());
         //is field host= null?

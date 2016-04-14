@@ -4,18 +4,30 @@ package com.analyzeme.rConfiguration;
  * interface for configuration of R-processor
  */
 public interface IRConf {
-    // TODO: 14.04.2016 more comments
+    /**
+     * get field name
+     *
+     * @return name of RConfiguration
+     */
     String getName();
+
+    /**
+     * set field name
+     *
+     * @param name what will set as field name
+     */
     void setName(String name);
 
     /**
-     *set field flag
-     * @param flag what will set as field flag
+     * set field activeFlag
+     *
+     * @param activeFlag what will set as field activeFlag
      */
-    void setActiveFlag(boolean flag);
+    void setActiveFlag(boolean activeFlag);
 
     /**
      * get field flag
+     *
      * @return value of field flag
      */
     boolean isActive();
