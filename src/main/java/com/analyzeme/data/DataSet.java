@@ -1,7 +1,13 @@
 package com.analyzeme.data;
 
+import com.analyzeme.analyze.Point;
+import com.analyzeme.parsers.JsonParser;
+import com.analyzeme.streamreader.StreamToString;
+
 import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -23,6 +29,21 @@ public class DataSet {
 
 	public ByteArrayInputStream getData() throws Exception {
 		return file.getFileData();
+	}
+
+
+	//TODO: implement for Point from analyzers
+	public Point[] getPoints() throws Exception {
+		ByteArrayInputStream data = getData();
+		String DataString = StreamToString.ConvertStream(data);
+
+		InputStream is = new ByteArrayInputStream(DataString.getBytes());
+
+		JsonParser jsonParser;
+		jsonParser = new JsonParser();
+
+		Point[] Data = jsonParser.getPointsFromPointJson(is);
+		return Data;
 	}
 
 	public String getNameForUser() {
