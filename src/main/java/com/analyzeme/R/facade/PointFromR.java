@@ -8,7 +8,7 @@ import java.io.ByteArrayInputStream;
  * Created by lagroffe on 19.03.2016 21:20
  */
 
-public class PointFromR {
+public class PointFromR implements GetFromR<Point> {
 
 	/**
 	 * calls R using R.facade
@@ -20,7 +20,7 @@ public class PointFromR {
 	 * @return one point
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	public static Point runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+	public Point runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		Point result = RScriptManager.runScriptToGetPoint(rScriptName, rScript, userId, projectId);
@@ -37,7 +37,7 @@ public class PointFromR {
 	 * @return one point
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	public static Point runScript(String rScriptId, int userId, String projectId) throws Exception {
+	public Point runScript(String rScriptId, int userId, String projectId) throws Exception {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		Point result = RScriptManager.runScriptToGetPoint(rScriptId, userId, projectId);
@@ -54,7 +54,7 @@ public class PointFromR {
 	 * @return one point
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	public static Point runCommand(String rCommand, int userId, String projectId) throws Exception {
+	public Point runCommand(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		Point result = RFacade.runCommandToGetPoint(rCommand, userId, projectId);
@@ -69,7 +69,7 @@ public class PointFromR {
 	 * @return one point
 	 * @throws Exception if R was impossible to call or there was in error in command
 	 */
-	public static Point runCommand(String rCommand, String jsonData) throws Exception {
+	public Point runCommand(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		Point result = RFacade.runCommandToGetPoint(rCommand, jsonData);

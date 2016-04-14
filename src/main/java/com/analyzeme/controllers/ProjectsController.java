@@ -15,22 +15,23 @@ import java.util.List;
 public class ProjectsController {
 
 	/**
-	 * gets files from project by project id (for "guest" user)
+	 * gets files from project by project id
 	 *
 	 * @param projectName
 	 * @return list of fileNames
 	 * null if userRepository doesn't exist or project doesn't exist
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/project/{project_name}/files", method = RequestMethod.GET)
-	public List<String> getFiles(@PathVariable("project_name") String projectName)
+	@RequestMapping(value = "{user_id}/project/{project_id}/files", method = RequestMethod.GET)
+	public List<String> getFiles(@PathVariable("user_id") int userId,
+			@PathVariable("project_id") String projectName)
 			throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
 				return null;
 			}
 			//this line will return all filenames in project, including temporary deleted files
-			return UsersRepository.getRepo().findUser("guest").getProjects().findProject(projectName).getFilenames();
+			return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getFilenames();
 			//to get only active files use:
 			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNames();
 		} catch (Exception e) {
@@ -40,15 +41,16 @@ public class ProjectsController {
 	}
 
 	/**
-	 * creates new project (for "guest" user)
+	 * creates new project
 	 *
 	 * @param projectName - should be passed as header
 	 * @return project unique name
 	 * null if project wasn't created
 	 * @throws IOException
 	 */
-	@RequestMapping(value = "/project/new/create", method = RequestMethod.PUT)
-	public String createProject(@RequestHeader("project_name") String projectName) throws IOException {
+	@RequestMapping(value = "{user_id}/project/new/create", method = RequestMethod.PUT)
+	public String createProject(@PathVariable("user_id") int userId,
+								@RequestHeader("project_name") String projectName) throws IOException {
 		try {
 			//when other users created, CheckInitializationAndCreate() should be called from user creator only
 			//now it's possible to create a default user here
@@ -60,7 +62,7 @@ public class ProjectsController {
 			}
 			//now username is used here
 			//to use userId just change "guest" to int with it
-			String project = UsersRepository.getRepo().newProject("guest", projectName);
+			String project = UsersRepository.getRepo().newProject(userId, projectName);
 			if (project == null) return null;
 			else return project;
 		} catch (Exception e) {
@@ -77,8 +79,8 @@ public class ProjectsController {
 	 * HttpStatus.OK if project deleted successfully
 	 * HttpStatus.BAD_REQUEST if sth went wrong
 	 */
-	@RequestMapping(value = "/project/{unique_name}/delete", method = RequestMethod.DELETE)
-	public HttpStatus deleteProjectById(@PathVariable("unique_name") String uniqueName)
+	@RequestMapping(value = "{user_id}/project/{unique_name}/delete", method = RequestMethod.DELETE)
+	public HttpStatus deleteProjectById(@PathVariable("user_id") int userId ,@PathVariable("unique_name") String uniqueName)
 			throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
@@ -88,7 +90,7 @@ public class ProjectsController {
 			//to change to deleting by id use ...projects.deleteProjectById(projectId)
 			//deleteProject or deleteProjectById deactivate project and all files in it
 			//to remove them completely use deleteProjectCompletely or deleteProjectCompletelyById
-			return (UsersRepository.getRepo().findUser("guest").getProjects().deleteProjectById(uniqueName) ?
+			return (UsersRepository.getRepo().findUser(userId).getProjects().deleteProjectById(uniqueName) ?
 					HttpStatus.OK : HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();

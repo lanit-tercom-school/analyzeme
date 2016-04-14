@@ -6,7 +6,7 @@ import java.io.ByteArrayInputStream;
  * Created by lagroffe on 19.03.2016 21:19
  */
 
-public class NumberFromR {
+public class NumberFromR implements GetFromR<Double> {
 
 	/**
 	 * calls R using R.facade
@@ -18,7 +18,7 @@ public class NumberFromR {
 	 * @return double result
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	public static double runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+	public Double runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		double result = RScriptManager.runScriptToGetNumber(rScriptName, rScript, userId, projectId);
@@ -35,7 +35,7 @@ public class NumberFromR {
 	 * @return double result
 	 * @throws Exception if files not found, R was impossible to call or there was in error in script
 	 */
-	public static double runScript(String rScriptId, int userId, String projectId) throws Exception {
+	public Double runScript(String rScriptId, int userId, String projectId) throws Exception {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		double result = RScriptManager.runScriptToGetNumber(rScriptId, userId, projectId);
@@ -51,7 +51,7 @@ public class NumberFromR {
 	 * @return double result
 	 * @throws Exception if files not found, R was impossible to call or there was in error in command
 	 */
-	public static double runCommand(String rCommand, int userId, String projectId) throws Exception {
+	public Double runCommand(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
 		double result = RFacade.runCommandToGetNumber(rCommand, userId, projectId);
@@ -66,7 +66,7 @@ public class NumberFromR {
 	 * @return double result
 	 * @throws Exception if R was impossible to call or there was in error in command
 	 */
-	public static double runCommand(String rCommand, String jsonData) throws Exception {
+	public Double runCommand(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 		double result = RFacade.runCommandToGetNumber(rCommand, jsonData);
