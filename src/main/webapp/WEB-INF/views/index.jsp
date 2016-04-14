@@ -43,7 +43,7 @@
     <div class="container topnav">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
-            <a href="index" type="button" class="btn btn-success btn-lg" href="index">AnalyzeMe</a>
+            <a href="index" type="button" class="btn btn-success btn-lg">AnalyzeMe</a>
             <a href="demo" type="button" class="btn btn-info btn-lg">Try now</a>
             <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
 

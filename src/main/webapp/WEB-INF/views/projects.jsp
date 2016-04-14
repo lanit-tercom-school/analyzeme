@@ -193,7 +193,7 @@
 
     function createProject(projectName) {
         var xhr = new XMLHttpRequest();
-        xhr.open("PUT", "/project/new/create", true);
+        xhr.open("PUT", "1/project/new/create", true);
         xhr.setRequestHeader("project_name", projectName.toString())
         xhr.send(null);
     }
@@ -267,7 +267,7 @@
 
         var xhr = new XMLHttpRequest();
 
-        xhr.open("DELETE", "/project/" + Name + "/delete", true);
+        xhr.open("DELETE", "1/project/" + Name + "/delete", true);
         xhr.send(null);
 
     }

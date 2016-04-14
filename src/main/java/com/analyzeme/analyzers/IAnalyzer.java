@@ -1,7 +1,5 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.data.DataSet;
-
 import java.util.List;
 
 /**
@@ -9,10 +7,5 @@ import java.util.List;
  */
 public interface IAnalyzer {
 
-    /**
-     *
-     * @param data
-     * @return String with JSON inside(JSON should represent Point or List<Point>)
-     */
-    String analyze(List<DataSet> data);
+    IResult analyze(List<List<Point>> data);
 }

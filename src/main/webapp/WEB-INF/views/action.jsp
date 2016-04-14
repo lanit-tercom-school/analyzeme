@@ -213,9 +213,9 @@
         if (isFileExist(file.name)) {
             alert("file alreary exist");
         }
-        var projectParams = "guest/" + "${project.uniqueName}";
+        var projectParams = "1/" + "${project.uniqueName}";
         //checks if project object is empty
-        if (projectParams.length <= "guest/".length) {
+        if (projectParams.length <= "1/".length) {
             projectParams = "demo";
         }
         //Adding text to status
@@ -307,7 +307,7 @@
             async: true,
             url: "/file/" + fileName + "/data",
             success: function (data, textStatus, request) {
-                Data = JSON.parse(request.getResponseHeader('Data')).Data;
+                Data = JSON.parse(data).Data;
                 DrawGraph(Data);
             },
             error: function (response, textStatus, errorThrown) {
@@ -328,7 +328,7 @@
             async: true,
             url: "/file/" + fileName + "/" + functionType,
             success: function (data, textStatus, request) {
-                alert(request.getResponseHeader('value'));
+                alert(data);
             },
             error: function (response, textStatus, errorThrown) {
                 alert(response.statusText);

@@ -27,7 +27,7 @@ public class FileController {
 	 **/
 	@RequestMapping(value = "/upload/{user_id}/{project_id}", method = RequestMethod.POST,
 			headers = {"content-type= multipart/form-data"})
-	public void doPost(@PathVariable("user_id") String userId, @PathVariable("project_id") String projectUniqueName,
+	public void doPost(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectUniqueName,
 					   @RequestParam(value = "file") MultipartFile multipartFile,
 					   HttpServletResponse response) throws IOException {
 		try {

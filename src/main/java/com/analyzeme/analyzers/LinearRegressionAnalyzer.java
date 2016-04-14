@@ -9,13 +9,17 @@ import java.util.List;
  */
 public class LinearRegressionAnalyzer implements IAnalyzer {
 
-    public String analyze(List<DataSet> data) {
-       // List<Point<Double, Double>> points = (List<Point<Double, Double>>) data;
-//        if (points == null) {
-//            throw new IllegalArgumentException("Incorrect data");
-//        }
+//    public String analyze(List<DataSet> data) {
+//       // List<Point<Double, Double>> points = (List<Point<Double, Double>>) data;
+////        if (points == null) {
+////            throw new IllegalArgumentException("Incorrect data");
+////        }
+//
+//        //todo analysis here
+//        return null;
+//    }
 
-        //todo analysis here
+    public IResult analyze(List<List<Point>> data) {
         return null;
     }
 }
