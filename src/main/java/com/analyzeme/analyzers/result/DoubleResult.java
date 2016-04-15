@@ -1,4 +1,4 @@
-package com.analyzeme.analyzers;
+package com.analyzeme.analyzers.result;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -16,7 +16,7 @@ public class DoubleResult implements IResult {
         this.result = result;
     }
 
-    public Object getValue() {
+    public Double getValue() {
         return result;
     }
 

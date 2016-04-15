@@ -1,5 +1,7 @@
 package com.analyzeme.analyzers;
 
+import com.analyzeme.analyzers.result.IResult;
+
 import java.util.List;
 
 /**

@@ -44,9 +44,8 @@ public class AnalysisController {
 		Convert ByteArrayInputStream into String
          */
 			String Data = StreamToString.ConvertStream(file);
-			response.setHeader("Data", Data);
 
-			return StreamToString.ConvertStream(file);
+			return Data;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -85,8 +84,7 @@ public class AnalysisController {
 			Data = jsonParser.getPointsFromPointJson(is);
 
 			double value = Data[ServletAnalyzeFunction.Calc(Data)].GetY();
-			response.setHeader("value", String.valueOf(value));
-			return 1;
+			return value;
 
 		} catch (JsonParserException ex) {
 			ex.printStackTrace();

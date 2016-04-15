@@ -1,6 +1,7 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.data.DataSet;
+import com.analyzeme.analyzers.result.IResult;
+import com.analyzeme.analyzers.result.PointResult;
 
 import java.util.List;
 

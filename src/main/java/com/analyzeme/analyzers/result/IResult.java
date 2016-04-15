@@ -1,13 +1,13 @@
-package com.analyzeme.analyzers;
+package com.analyzeme.analyzers.result;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 /**
  * Created by Ольга on 14.04.2016.
  */
-public interface IResult {
+public interface IResult<T> {
 
-    Object getValue();
+    T getValue();
 
     String toJson() throws JsonProcessingException;
 }
