@@ -126,6 +126,7 @@
             <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
             <a href="demo" type="button" class="btn btn-info btn-lg">Try now</a>
             <a href="projects" type="button" class="btn btn-success btn-lg">Projects</a>
+            <a href="preview" type="button" class="btn btn-info btn-lg">Preview</a>
         </div>
 
         <!-- /.navbar-collapse -->

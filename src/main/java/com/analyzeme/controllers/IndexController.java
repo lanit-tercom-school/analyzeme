@@ -32,4 +32,7 @@ public class IndexController {
 	@RequestMapping(value = "/REditorPage")
 	public String moveToRScriptPage(){return  "REditorPage";}
 
+	@RequestMapping(value = "/preview")
+	public String moveToPreviewPage() {return  "preview";}
+
 }

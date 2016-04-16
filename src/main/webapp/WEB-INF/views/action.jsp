@@ -56,6 +56,7 @@
             <a href="/index" type="button" class="btn btn-info btn-lg">AnalyzeMe</a>
             <a href="/action" type="button" class="btn btn-success btn-lg">Try now</a>
             <a href="/projects" type="button" class="btn btn-info btn-lg">Projects</a>
+            <a href="preview" type="button" class="btn btn-info btn-lg">Preview</a>
             <a href="/REditorPage" type="button" class="btn btn-info btn-lg">Edit R</a>
         </div>
 

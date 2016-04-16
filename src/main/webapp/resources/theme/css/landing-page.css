@@ -46,6 +46,14 @@ h6 {
     background-color: #879B77;
     background-size: cover;
 }
+.intro-header3 {
+    padding-top: 100px; /* If you're making other pages, make sure there is 50px of padding to make sure the navbar doesn't overlap content! */
+    padding-bottom: 100px;
+    text-align: center;
+    background-color: #9B9B9B;
+    background-size: cover;
+    -webkit-background-size: cover
+}
 
 .intro-message {
     position: relative;
