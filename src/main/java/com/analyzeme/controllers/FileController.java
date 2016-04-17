@@ -46,7 +46,7 @@ public class FileController {
 			}
 
 			//filename, projectId, userId
-			String[] param = {fileName, project.getUniqueName, userId};
+			String[] param = {fileName, project.getUniqueName, Integer.toString(userId)};
 			responseToJS = UsersRepository.getRepo().persistByIds(multipartFile, param);
 
 			//Set responseHeaders "Data" and "fileName";
