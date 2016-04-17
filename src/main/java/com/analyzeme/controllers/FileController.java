@@ -45,11 +45,9 @@ public class FileController {
 				throw new Exception();
 			}
 
-			//part, filename, projectName, username (IN THIS ORDER)
-			String[] param = {fileName, project.getProjectName(), user.getLogin()};
-
-			//String[] param = {fileName, "default", "guest"};
-			responseToJS = UsersRepository.getRepo().persist(multipartFile, param);
+			//filename, projectId, userId
+			String[] param = {fileName, project.getUniqueName, userId};
+			responseToJS = UsersRepository.getRepo().persistByIds(multipartFile, param);
 
 			//Set responseHeaders "Data" and "fileName";
 			response.setHeader("fileName", responseToJS);
