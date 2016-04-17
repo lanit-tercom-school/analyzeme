@@ -1,6 +1,7 @@
 package com.analyzeme.rConfiguration;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -81,5 +82,20 @@ public class TestRConfRepository {
         assertTrue(RConf5.getPort().equals("1099"));
 
 
+    }
+
+    // TODO: 17.04.2016  doesn't work 
+    @Ignore
+    @Test
+    public void testAllConfigurationsToJsonString() {
+        FakeRConf RConf1 = new FakeRConf(true, "FakeR");
+        RenjinConf RConf2 = new RenjinConf(true, "Renjin");
+        RserveConf RConf3 = new RserveConf(false, "localhost", "8080", "Rserve1");
+
+        RConfRepository.getRepo().addRConf(RConf3);
+        RConfRepository.getRepo().addRConf(RConf2);
+        RConfRepository.getRepo().addRConf(RConf1);
+
+        assertTrue(RConfRepository.getRepo().allConfigurationsToJsonString().equals("[{\"port\":\"8080\",\"rConfType\":\"RserveConf\",\"name\":\"RServe1\",\"host\":\"localhost\",\"activeFlag\":false},{\"rConfType\":\"RenjinConf\",\"name\":\"Renjin\",\"activeFlag\":true},{\"rConfType\":\"FakeRConf\",\"name\":\"FakeR\",\"activeFlag\":true}]"));
     }
 }

@@ -4,6 +4,8 @@ import com.analyzeme.rConfiguration.FakeRConf;
 import com.analyzeme.rConfiguration.IRConf;
 import com.analyzeme.rConfiguration.RConfFactory;
 import com.analyzeme.rConfiguration.RConfRepository;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,31 +26,19 @@ public class RConfController {
      * @param rConfName null if file doesn't exist
      * @throws IOException
      */
-    //TODO: возвращать JSON
     @RequestMapping(value = "/RConf/GetRConf/{rConf_name}", method = RequestMethod.GET)
-    public IRConf getRConfiguration(@PathVariable("rConf_name") String rConfName, HttpServletResponse response)
+    public String getRConfiguration(@PathVariable("rConf_name") String rConfName)
             throws IOException {
-        try {
+
             IRConf RConf = RConfRepository.getRepo().getRConfByName(rConfName);
-            return RConf;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
+            return RConf.toJSONObject().toString();
     }
-    //TODO: возвращать JSON
-    @RequestMapping(value = "/RConf/GetRConf", method = RequestMethod.GET)
-    public List<IRConf> getRConfiguration(HttpServletResponse response)
-            throws IOException {
-        try {
-            return RConfRepository.getRepo().getAllRConfigurations();
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    // TODO: 17.04.2016 comments 
+    @RequestMapping(value = "/RConf/GetRConf", method = RequestMethod.GET)
+    public String getRConfiguration()
+            throws IOException {
+        return  RConfRepository.getRepo().allConfigurationsToJsonString();
 
     }
 
@@ -58,7 +48,7 @@ public class RConfController {
      */
     // TODO: 17.04.2016 comments
     @RequestMapping(value = "/RConf/{data}", method = RequestMethod.PUT)
-    public void addRConfiguration(@PathVariable("data") String data, HttpServletResponse response)
+    public void addRConfiguration(@PathVariable("data") String data)
             throws IOException {
         RConfRepository.getRepo().addRConf(RConfFactory.getRConf(data));
 
@@ -72,9 +62,9 @@ public class RConfController {
 
     }
 
-    // TODO: 14.04.2016 commments
+    // TODO: 14.04.2016 comments
     @RequestMapping(value = "/RConf/{RConf_Name}/Delete", method = RequestMethod.DELETE)
-    public void updateRConf(@PathVariable("RConf_Name") String name, HttpServletResponse response)
+    public void updateRConf(@PathVariable("RConf_Name") String name)
             throws IOException {
         RConfRepository.getRepo().deleteRConfByName(name);
 

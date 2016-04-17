@@ -1,5 +1,8 @@
 package com.analyzeme.rConfiguration;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,6 +78,16 @@ public class RConfRepository {
         IRConf RConf = getRConfByName(name);
         RConf.assignment(RConfFactory.getRConf(data));
 
+    }
+    // TODO: 14.04.2016  comments
+    public String allConfigurationsToJsonString(){
+        JSONArray ar = new JSONArray();
+        for (IRConf rConf : RConfigurations) {
+            JSONObject obj = rConf.toJSONObject();
+            ar.add(obj);
+        }
+
+        return ar.toString();
     }
 
 

@@ -1,5 +1,7 @@
 package com.analyzeme.rConfiguration;
 
+import org.json.simple.JSONObject;
+
 /**
  *
  */
@@ -82,6 +84,16 @@ public class FakeRConf implements IRConf {
     public void assignment(IRConf RConf) {
         setName(RConf.getName());
         setActiveFlag(RConf.isActive());
+    }
+    // TODO: 17.04.2016 comment + UML
+    @Override
+    public  JSONObject toJSONObject(){
+
+        JSONObject obj = new JSONObject();
+        obj.put("rConfType","FakeRConf");
+        obj.put("name",name);
+        obj.put("activeFlag",activeFlag);
+        return obj;
     }
 
 }

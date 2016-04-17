@@ -32,11 +32,16 @@ public class TestRserveConf {
         assertTrue(C2.getPort().equals("8080"));
         //is field name="example"?
         assertTrue(C2.getName().equals("example"));
+
+        //test ToJsonString
+        assertTrue(C1.toJSONObject().toString().equals("{\"port\":null,\"rConfType\":\"RserveConf\",\"name\":\"newRServe\",\"host\":null,\"activeFlag\":true}"));
+        assertTrue(C2.toJSONObject().toString().equals("{\"port\":\"8080\",\"rConfType\":\"RserveConf\",\"name\":\"example\",\"host\":\"localhost\",\"activeFlag\":false}"));
         // test of method assignment;
         C1.assignment(C2);
         assertTrue(!C1.isActive());
         assertTrue(C1.getName().equals("example"));
         assertTrue(C1.getHost().equals("localhost"));
         assertTrue(C1.getPort().equals("8080"));
+
     }
 }

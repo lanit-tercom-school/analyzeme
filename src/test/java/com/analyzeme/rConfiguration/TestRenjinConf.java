@@ -23,9 +23,13 @@ public class TestRenjinConf {
         assertTrue(!C2.isActive());
         //is field name="Example"?
         assertTrue(C2.getName().equals("Example"));
+        //test ToJsonString
+        assertTrue(C1.toJSONObject().toString().equals("{\"rConfType\":\"RenjinConf\",\"name\":\"newRenjin\",\"activeFlag\":true}"));
+        assertTrue(C2.toJSONObject().toString().equals("{\"rConfType\":\"RenjinConf\",\"name\":\"Example\",\"activeFlag\":false}"));
         // test of method assignment;
         C1.assignment(C2);
         assertTrue(!C1.isActive());
         assertTrue(C1.getName().equals("Example"));
+
     }
 }

@@ -1,5 +1,7 @@
 package com.analyzeme.rConfiguration;
 
+import org.json.simple.JSONObject;
+
 /**
  * class saving configuration of RServe
  */
@@ -135,5 +137,17 @@ public class RserveConf implements IRConf {
         setActiveFlag(RConf1.isActive());
         setPort(RConf1.getPort());
         setHost(RConf1.getHost());
+    }
+
+    // TODO: 17.04.2016 comment + UML
+    @Override
+    public  JSONObject toJSONObject(){
+        JSONObject obj = new JSONObject();
+        obj.put("rConfType","RserveConf");
+        obj.put("name",name);
+        obj.put("activeFlag",activeFlag);
+        obj.put("host",host);
+        obj.put("port",port);
+        return obj;
     }
 }

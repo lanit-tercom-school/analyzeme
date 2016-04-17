@@ -42,6 +42,10 @@
             </td>
         </tr>
         <tr>
+            <td>Host:</td>
+            <td><input type="text" id="host"></td>
+        </tr>
+        <tr>
             <td>Port:</td>
             <td><input type="text" id="port"></td>
         </tr>
@@ -66,6 +70,7 @@
             <td>&nbsp;</td>
             <td><b>Name</b></td>
             <td><b>Type</b></td>
+            <td><b>Using Host</b></td>
             <td><b>Using Port</b></td>
             <td><b>Turned on</b></td>
         </tr>

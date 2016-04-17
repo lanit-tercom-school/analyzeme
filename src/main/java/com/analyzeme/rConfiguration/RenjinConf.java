@@ -1,5 +1,7 @@
 package com.analyzeme.rConfiguration;
 
+import org.json.simple.JSONObject;
+
 /**
  * Class for saving setting of Renjin processor
  */
@@ -81,4 +83,15 @@ public class RenjinConf implements IRConf {
         setName(RConf.getName());
         setActiveFlag(RConf.isActive());
     }
+
+    // TODO: 17.04.2016 comment + UML
+    @Override
+    public  JSONObject toJSONObject(){
+        JSONObject obj = new JSONObject();
+        obj.put("rConfType","RenjinConf");
+        obj.put("name",name);
+        obj.put("activeFlag",activeFlag);
+        return obj;
+    }
+
 }

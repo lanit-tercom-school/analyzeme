@@ -1,5 +1,7 @@
 package com.analyzeme.rConfiguration;
 
+import org.json.simple.JSONObject;
+
 /**
  * interface for configuration of R-processor
  */
@@ -41,4 +43,8 @@ public interface IRConf {
      * @param RConf will be assignmented to this IRConf
      */
     void assignment(IRConf RConf);
+
+    // TODO: 17.04.2016 comment + UML 
+    JSONObject toJSONObject();
+    
 }
