@@ -51,7 +51,8 @@
                         this.project = {
                             projectName : "Failed to load\n"
                             + "Can not load project \""
-                            + id + "\"(" + reject + "). Check name plz"
+                            + id + "\"(" + reject + ")."
+                            + "All files will be uploaded in default project"
                             }
                 );
             l.log("loadContent ends");
@@ -65,7 +66,7 @@
             xhr.then(
               (xhr) => {
                 resultOutput.value =
-                    xhr.getResponseHeader("value");
+                    xhr.responseText;
               },
               (err) => {
                 resultOutput.value = "Can't evaluate: " + err;

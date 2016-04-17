@@ -93,7 +93,7 @@
                 }
                 xhr.open("POST",
                   app.AppUtils.resolveUrl(
-                    "upload/" + sp.login + "/" + sp.projectId
+                    "upload/" + (sp.login == "guest" ? 1 : sp.login) + "/" + sp.projectId
                   ), true);
                 xhr.send(formData);
             }

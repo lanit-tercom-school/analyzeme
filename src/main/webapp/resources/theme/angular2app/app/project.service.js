@@ -93,10 +93,10 @@
                 });
             },
             addItem: function(projectName) {
-                return app.AppUtils.API.createProject(projectName);
+                return app.AppUtils.API.createProject(1, projectName);
             },
             deleteProject: function(projectId) {
-                return app.AppUtils.API.deleteProject(projectId);
+                return app.AppUtils.API.deleteProject(1, projectId);
             }
         });
 

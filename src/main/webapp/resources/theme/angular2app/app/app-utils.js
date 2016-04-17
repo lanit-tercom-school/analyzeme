@@ -82,44 +82,72 @@
     app.AppUtils.API = {};
     app.AppUtils.API.logger = app.AppUtils.logger("AppUtils::API");
 
-    app.AppUtils.API.createProject = function(projectName) {
+    app.AppUtils.makeRequest = function(method, path, headers, callbackSuccess, callbackError) {
+      return new Promise((resolve, reject) => {
+          var xhr = new XMLHttpRequest();
+          xhr.onload = xhr.onerror = function(event) {
+            if (xhr.status == 200) {
+                callbackSuccess(xhr);
+                resolve(xhr);
+            } else {
+                callbackError(xhr);
+                reject("error " + xhr.status);
+            }
+          };
+          xhr.open(method, app.AppUtils.resolveUrl(path), true);
+          if (headers) {
+            for (header of headers) {
+                xhr.setRequestHeader(header.name, header.data);
+            }
+          }
+          xhr.send();
+      });
+    };
+
+    app.AppUtils.testRequest = (method, path) =>
+        app.AppUtils.makeRequest(method, path, [],
+          (xhr) => window.console.dir(xhr),
+          (xhr) => window.console.dir(xhr)
+        );
+
+    app.AppUtils.API.createProject = function(userId, projectName) {
         return new Promise((resolve, reject) => {
             var xhr = new XMLHttpRequest();
             xhr.onload = xhr.onerror = function(event) {
               if (xhr.status == 200) {
-                  app.AppUtils.API.logger.log("created project " + projectName);
+                  app.AppUtils.API.logger.log(userId + " created project " + projectName);
                   resolve(xhr);
               } else {
                   app.AppUtils.API.logger.log(
-                      "failed create project " + projectName
+                      userId + " failed create project " + projectName
                       + ": error " + xhr.status
                   );
                   reject("error " + xhr.status);
               }
             };
-            xhr.open("PUT", app.AppUtils.resolveUrl("/project/new/create"), true);
+            xhr.open("PUT", app.AppUtils.resolveUrl(userId + "/project/new/create"), true);
             xhr.setRequestHeader("project_name", projectName);
             xhr.send();
-        })
+        });
     };
 
-    app.AppUtils.API.deleteProject = function(projectId) {
+    app.AppUtils.API.deleteProject = function(userId, projectId) {
         return new Promise((resolve, reject) => {
             var xhr = new XMLHttpRequest();
             xhr.onload = xhr.onerror = function(event) {
               if (xhr.status == 200) {
-                  app.AppUtils.API.logger.log("deleted project " + projectId);
+                  app.AppUtils.API.logger.log(userId + " deleted project " + projectId);
                   resolve(xhr);
               } else {
                   app.AppUtils.API.logger.log(
-                      "failed delete project " + projectId
+                      userId + " failed delete project " + projectId
                       + ": error " + xhr.status
                   );
                   reject("error " + xhr.status);
               }
             };
             xhr.open("DELETE",
-                app.AppUtils.resolveUrl("/project/" + projectId + "/delete"),
+                app.AppUtils.resolveUrl(userId + "/project/" + projectId + "/delete"),
                 true
             );
             xhr.send();
@@ -128,24 +156,24 @@
 
     // returns array of fileames
     // extract: JSON.parse(xhr.responseText)
-    app.AppUtils.API.getProjectFiles = function(projectName) {
+    app.AppUtils.API.getProjectFiles = function(userId, projectId) {
         return new Promise((resolve, reject) => {
             var xhr = new XMLHttpRequest();
             xhr.onload = xhr.onerror = function(event) {
               if (xhr.status == 200) {
                   app.AppUtils.API
-                    .logger.log("got files of project " + projectName);
+                    .logger.log(userId + " got files of project " + projectId);
                   resolve(xhr);
               } else {
                   app.AppUtils.API.logger.log(
-                      "failed to get files of project " + projectName
+                      userId + " failed to get files of project " + projectId
                       + ": error " + xhr.status
                   );
                   reject("error " + xhr.status);
               }
             };
             xhr.open("GET",
-                app.AppUtils.resolveUrl("project/" + projectName + "/files"),
+                app.AppUtils.resolveUrl(userId + "/project/" + projectId + "/files"),
                 true
             );
             xhr.send();
@@ -191,7 +219,7 @@
                     app.AppUtils.API.logger.dir(this);
                     app.AppUtils.API.logger.log(
                         functionType + "(" + fileName + ") = " +
-                        xhr.getResponseHeader("value")
+                        xhr.responseText
                     );
                     resolve(xhr);
                 } else {
