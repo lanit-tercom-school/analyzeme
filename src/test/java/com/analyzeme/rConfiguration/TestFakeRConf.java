@@ -8,6 +8,7 @@ import static junit.framework.Assert.assertTrue;
 /**
  *
  */
+// TODO: 17.04.2016 comment 
 public class TestFakeRConf {
     @Test
     /**
@@ -22,5 +23,9 @@ public class TestFakeRConf {
         assertTrue(!C2.isActive());
         //is field name="Example"?
         assertTrue(C2.getName().equals("Example"));
+        // test of method assignment;
+        C1.assignment(C2);
+        assertTrue(!C1.isActive());
+        assertTrue(C1.getName().equals("Example"));
     }
 }

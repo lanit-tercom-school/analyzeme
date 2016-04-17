@@ -8,47 +8,57 @@ import java.util.List;
  * repository of RConfiguration
  * Created by asus on 03.04.2016.
  */
-// TODO: 15.04.2016  tests
+
 // TODO: 14.04.2016  comments
 public class RConfRepository {
+    // TODO: 14.04.2016  comments
+    // TODO: 17.04.2016  test 
     private static RConfRepository repo = new RConfRepository();
+    // TODO: 14.04.2016  comments
+    // TODO: 17.04.2016  test 
     private static List<IRConf> RConfigurations;
 
+    // TODO: 14.04.2016  comments
+    // TODO: 17.04.2016  complete default initialization
     private RConfRepository() {
         RConfigurations = new ArrayList<IRConf>();
-        FakeRConf RConf1 = new FakeRConf(true, "FakeR");
-        RenjinConf RConf2 = new RenjinConf(true, "Renjin");
-        RserveConf RConf3 = new RserveConf();
-        repo.addRConf(RConf3);
-        repo.addRConf(RConf2);
-        repo.addRConf(RConf1);
+//        RenjinConf RConf2 = new RenjinConf(true, "Renjin");
+        //    RserveConf RConf3 = new RserveConf();
+        //    RConf3.setName("RServe1");
+//       RConfRepository.getRepo().addRConf(RConf3);
+        // RConfRepository.getRepo().addRConf(RConf2);
+        // RConfRepository.getRepo().addRConf(RConf1);
 
     }
 
+    // TODO: 14.04.2016  comments
     public static RConfRepository getRepo() {
         return repo;
     }
 
+    // TODO: 14.04.2016  comments
     public static List<IRConf> getAllRConfigurations() {
         return RConfigurations;
     }
 
-
+    // TODO: 14.04.2016  comments
     public synchronized void addRConf(IRConf newConfiguration) {
         RConfigurations.add(newConfiguration);
     }
 
+    // TODO: 14.04.2016  comments
     public IRConf getRConfByName(String name) throws IOException {
         if (name == null || name.equals("")) throw new IOException();
         for (IRConf rConf : RConfigurations) {
             if (rConf.getName().equals(name)) {
+
                 return rConf;
             }
         }
         return null;
     }
 
-
+    // TODO: 14.04.2016  comments
     public void deleteRConfByName(String name) throws IOException {
         if (name == null || name.equals("")) throw new IOException();
         for (int i = 0; i < RConfigurations.size(); i++) {
@@ -59,12 +69,11 @@ public class RConfRepository {
 
     }
 
-    //TODO: закончить
-    public void updateRConfByName(String name, String data) throws IOException {
-        IRConf RConf = getRConfByName(name);
-        RConf.setName("newName");
-        RConf.setActiveFlag(true);
+    // TODO: 14.04.2016  comments
+    public void updateRConfByName(String name, String data) throws IOException, IllegalArgumentException {
 
+        IRConf RConf = getRConfByName(name);
+        RConf.assignment(RConfFactory.getRConf(data));
 
     }
 

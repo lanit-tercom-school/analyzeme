@@ -69,5 +69,19 @@ public class FakeRConf implements IRConf {
     public boolean isActive() {
         return activeFlag;
     }
+// TODO: 17.04.2016 add to UML diagram
+// TODO: 17.04.2016  проверять RConf на валидность
+
+    /**
+     * assignment value of param to this object
+     * this object will become equal to RConf
+     *
+     * @param RConf will be assignmented to this FakeRConf
+     */
+    @Override
+    public void assignment(IRConf RConf) {
+        setName(RConf.getName());
+        setActiveFlag(RConf.isActive());
+    }
 
 }

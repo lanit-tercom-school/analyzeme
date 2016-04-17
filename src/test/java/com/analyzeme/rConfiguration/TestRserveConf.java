@@ -32,5 +32,11 @@ public class TestRserveConf {
         assertTrue(C2.getPort().equals("8080"));
         //is field name="example"?
         assertTrue(C2.getName().equals("example"));
+        // test of method assignment;
+        C1.assignment(C2);
+        assertTrue(!C1.isActive());
+        assertTrue(C1.getName().equals("example"));
+        assertTrue(C1.getHost().equals("localhost"));
+        assertTrue(C1.getPort().equals("8080"));
     }
 }

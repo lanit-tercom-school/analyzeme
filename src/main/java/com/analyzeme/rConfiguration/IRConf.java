@@ -32,4 +32,13 @@ public interface IRConf {
      */
     boolean isActive();
 
+// TODO: 17.04.2016 add to UML diagram
+
+    /**
+     * assignment value of param to this object
+     * this object will become equal to RConf
+     *
+     * @param RConf will be assignmented to this IRConf
+     */
+    void assignment(IRConf RConf);
 }

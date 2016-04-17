@@ -8,10 +8,10 @@ import static junit.framework.Assert.assertTrue;
  * test for RConfFactory
  * Created by asus on 14.04.2016.
  */
-
+// TODO: 17.04.2016 Comments 
 public class TestRConfFactory {
     @Test
-    public void run() {
+    public void testRConfFactory() {
         final String st1 = "{\"rConfType\":\"FakeRConf\",\"name\":\"Example1\",\"activeFlag\":\"true\"}";
         final String st2 = "{\"rConfType\":\"RenjinConf\",\"name\":\"Example2\",\"activeFlag\":\"true\"}";
         final String st3 = "{\"rConfType\":\"RserveConf\",\"name\":\"Example3\",\"activeFlag\":\"true\",\"host\":\"localhost\",\"port\":\"1099\"}";

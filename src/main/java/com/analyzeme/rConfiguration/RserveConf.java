@@ -41,7 +41,6 @@ public class RserveConf implements IRConf {
 
     /**
      * default constructor
-     * <p>
      * field host and port become null
      */
     public RserveConf() {
@@ -119,5 +118,22 @@ public class RserveConf implements IRConf {
      */
     public String getHost() {
         return host;
+    }
+
+    // TODO: 17.04.2016 add to UML diagram
+    // TODO: 17.04.2016  проверять RConf на валидность
+    /**
+     *
+     * assignment value of param to this object
+     * this object will become equal to RConf
+     * @param RConf will be assignmented to this RserveConf
+     */
+    @Override
+    public void assignment(IRConf RConf){
+        RserveConf RConf1=(RserveConf) RConf;
+        setName(RConf1.getName());
+        setActiveFlag(RConf1.isActive());
+        setPort(RConf1.getPort());
+        setHost(RConf1.getHost());
     }
 }

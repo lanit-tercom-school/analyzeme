@@ -56,14 +56,15 @@ public class RConfController {
     /**
       * @throws IOException
      */
-    //TODO: написать комментарии
+    // TODO: 17.04.2016 comments
     @RequestMapping(value = "/RConf/{data}", method = RequestMethod.PUT)
     public void addRConfiguration(@PathVariable("data") String data, HttpServletResponse response)
             throws IOException {
         RConfRepository.getRepo().addRConf(RConfFactory.getRConf(data));
 
     }
-    //TODO: закончить
+
+    // TODO: 17.04.2016  comments
     @RequestMapping(value = "/RConf/{RConf_Name}/{data}", method = RequestMethod.POST)
     public void updateRConf(@PathVariable("data") String data, @PathVariable("RConf_Name") String name, HttpServletResponse response)
             throws IOException {
@@ -71,7 +72,7 @@ public class RConfController {
 
     }
 
-    // TODO: 14.04.2016 комментарии
+    // TODO: 14.04.2016 commments
     @RequestMapping(value = "/RConf/{RConf_Name}/Delete", method = RequestMethod.DELETE)
     public void updateRConf(@PathVariable("RConf_Name") String name, HttpServletResponse response)
             throws IOException {

@@ -6,31 +6,40 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IndexController {
-	@RequestMapping(value = "/")
-	public ModelAndView index() {
-		ModelAndView mav = new ModelAndView("index");
+    @RequestMapping(value = "/")
+    public ModelAndView index() {
+        ModelAndView mav = new ModelAndView("index");
 
-		String msg = "Running IndexController.index() method";
+        String msg = "Running IndexController.index() method";
 
-		mav.addObject("msg", msg);
-		return mav;
-	}
+        mav.addObject("msg", msg);
+        return mav;
+    }
 
-	@RequestMapping(value = "/index")
-	public String moveToIndexPage() {
-		return "index";
-	}
+    @RequestMapping(value = "/index")
+    public String moveToIndexPage() {
+        return "index";
+    }
 
-	@RequestMapping(value = "/action")
-	public String moveToActionPage() {
-		return "action";
-	}
+    @RequestMapping(value = "/action")
+    public String moveToActionPage() {
+        return "action";
+    }
 
-	@RequestMapping(value = "/projects")
-	public String moveToProjectPage() { return "projects"; }
+    @RequestMapping(value = "/projects")
+    public String moveToProjectPage() {
+        return "projects";
+    }
 
-	@RequestMapping(value = "/REditorPage")
-	public String moveToRScriptPage(){return  "REditorPage";}
+    @RequestMapping(value = "/REditorPage")
+    public String moveToRScriptPage() {
+        return "REditorPage";
+    }
+
+    @RequestMapping(value = "/rConf")
+    public String moveToRConfPage() {
+        return "rConf";
+    }
 
 }
 
