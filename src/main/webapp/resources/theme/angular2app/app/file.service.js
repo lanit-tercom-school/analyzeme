@@ -58,7 +58,10 @@
                 l.log("updateFiles");
                 var sp = this._projectService.selectedProject;
                 var filesList = null;
-                app.AppUtils.API.getProjectFiles(sp.projectName)
+                app.AppUtils.API.getProjectFiles(
+                    1,
+                    sp.projectId === undefined ? "default" : sp.projectId
+                )
                 .then(
                     xhr => {
                       return JSON.parse(xhr.responseText);
@@ -76,7 +79,10 @@
                           app.AppUtils.API.getFileData(fileName)
                             .then(
                                 xhr => {
-                                  var downloadedFile = app.AppUtils.extractFileFromXHR(xhr);
+                                  var downloadedFile = {
+                                    "date": xhr.getResponseHeader("Date"),
+                                    "content": xhr.responseText
+                                  };//app.AppUtils.extractFileFromXHR(xhr);// don't suitable here after controllers change
                                   downloadedFile.serverName = fileName;
                                   downloadedFile.name = fileName;
                                   this.data.push(downloadedFile);
