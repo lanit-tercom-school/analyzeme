@@ -1,10 +1,26 @@
 @rem *****************************************
-@rem Jetty Build Script - first version
+@rem Jetty Build Script - second version
+@rem *****************************************
+@rem works for calling from analyzeme (project name) directory with pom.xml
 @rem *****************************************
 
-@echo This batch file
-@call src\before_deploy.bat
+@echo Jetty Build Script
+@if "%~1"=="" (Goto :default)
+@if not "%~1"=="" (Goto :yourPort)
+
+:default
+@call scripts\src\before_deploy.bat
 @mvn jetty:run
+@echo Deployed to 
+@Goto :finish
+
+:yourPort
+@set port=%~1
+@echo Deploying to localhost:%port%/analyzeme
+@call scripts\src\before_deploy.bat
+@mvn -Djetty.port=%port% jetty:run
+
+:finish
 
 @rem *****************************************
 @rem Comments for pom.xml

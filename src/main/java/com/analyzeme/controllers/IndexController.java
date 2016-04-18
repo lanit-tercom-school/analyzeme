@@ -16,8 +16,29 @@ public class IndexController {
 		return mav;
 	}
 
+	@RequestMapping(value = "/index")
+	public String moveToIndexPage() {
+		return "index";
+	}
+
 	@RequestMapping(value = "/action")
 	public String moveToActionPage() {
 		return "action";
 	}
+
+	@RequestMapping(value = "/projects")
+	public String moveToProjectPage() {
+		return "projects";
+	}
+
+	@RequestMapping(value = "/REditorPage")
+	public String moveToRScriptPage() {
+		return "REditorPage";
+	}
+
+	@RequestMapping(value = "/preview")
+	public String moveToPreviewPage() {
+		return "preview";
+	}
+
 }

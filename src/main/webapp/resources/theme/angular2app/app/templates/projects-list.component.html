@@ -1,0 +1,15 @@
+<div style="float: left; background: lightcoral;">
+    <input (click)="addProject()" type="button" value="Add" style="width: 100%;"/>
+    <ul class="heroes">
+        <li *ngFor='#project of projects | checkProperty'
+            [class.selected]="isSelectedProject(project)">
+            <td style="width: 100%;" (click)="onSelect(project)">
+              <span class="badge">{{project.projectId}}</span>
+              {{project.projectName}}
+            </td>
+            <td style="width: 100%;">
+              <span class="close" (click)="deleteProject(project)">X</span>
+            </td>
+        </li>
+    </ul>
+</div>

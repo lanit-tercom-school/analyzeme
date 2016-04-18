@@ -2,7 +2,6 @@
 @rem Build scripts : mvn packaging
 @rem *****************************************
 
-@rem cd .. works for calling from Scripts dir, change if necessary
-@cd ..
+@rem works for calling from analyzeme (project name) dir with pom.xml, change here if necessary
 @rem compiling and packaging (ignoring previous versions)
 @mvn clean install -U
