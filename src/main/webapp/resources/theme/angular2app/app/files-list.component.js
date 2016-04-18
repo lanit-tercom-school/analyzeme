@@ -47,6 +47,12 @@
                 app.d3Utils.DrawGraph(JSON.parse(file.content).Data);
                 this._fileService.getSelectedFile()
                     .then(data => l.dir(data));
+            },
+            deleteFile: function(file) {
+                //TODO: deleteFile: make work
+                l.log("deleteFile");
+                l.dir(file);
+                alert("deleteFile cap");
             }
         });
 })(window.app || (window.app = {}));

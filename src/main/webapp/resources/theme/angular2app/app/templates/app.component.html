@@ -1,5 +1,16 @@
-<div style="background: plum;">
-<navigation></navigation>
-<router-outlet></router-outlet>
-<footer></footer>
+<div class="mdl-layout mdl-js-layout">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title">Angular 2 app with material-design-lite</span><br/>
+    </div>
+  </header>
+  <div class="mdl-layout__drawer">
+    <navigation></navigation>
+  </div>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+      <router-outlet></router-outlet>
+      <app-footer></app-footer>
+    </div>
+  </main>
 </div>

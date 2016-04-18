@@ -5,7 +5,7 @@
     ng.core.Component({
       "selector" : 'my-app',
       "templateUrl" : app.AppUtils.templateUrl("app"),
-      "styleUrls" : [app.AppUtils.cssUrls("app")],
+      //"styleUrls" : [app.AppUtils.cssUrls("app")],
       "directives" : [ng.router.ROUTER_DIRECTIVES, app.NavigationComponent, app.FooterComponent],
       "providers" : [ng.router.ROUTER_PROVIDERS, app.ProjectService]
     })

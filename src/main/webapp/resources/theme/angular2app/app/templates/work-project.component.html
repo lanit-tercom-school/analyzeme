@@ -1,18 +1,30 @@
-<div *ngIf="project">
-    <h3>"{{project.projectName}}" Project</h3>
-    <files-list></files-list>
-    <div>
-        <svg id="svgVisualize" [style.width]="svgSize" [style.height]="svgSize" style="border:1px solid Red;">
-        </svg>
-        <div>
-            <select id="functionSelect">
-                <option *ngFor="#function of availableFunctions" [value]="function.func">
-                    {{function.name}}
-                </option>
-            </select>
-            <input (click)="applyFunction()" type="button" value="Apply">
-            <br />
-            <input type="text" size="21" readonly id="functionResult" value="">
-        </div>
+<div *ngIf="project" class="mdl-grid">
+    <files-list class="mdl-cell mdl-cell--3-col"></files-list>
+    <div class="mdl-cell mdl-cell--9-col">
+      <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+            <header class="mdl-layout__header">
+              <div class="mdl-layout__header-row">
+                  <!-- Title -->
+                  <span class="mdl-layout-title">Project workspace</span>
+              </div>
+            </header>
+            <main class="mdl-layout__content">
+
+                <div class="page-content">
+                  <svg id="svgVisualize" [style.width]="svgSize" [style.height]="svgSize" style="border:1px solid Red;"></svg>
+                  <div>
+                      <select id="functionSelect">
+                          <option *ngFor="#function of availableFunctions" [value]="function.func">
+                              {{function.name}}
+                          </option>
+                      </select>
+                      <input (click)="applyFunction()" type="button" value="Apply">
+                      <br />
+                      <input type="text" size="21" readonly id="functionResult" value="">
+                  </div>
+                </div>
+
+            </main>
+         </div>
     </div>
 </div>

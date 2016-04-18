@@ -1,20 +1,25 @@
-<div style="display: inline-block; width: 70%; background: lightblue;">
-    <h3>Project info</h3>
-     <div *ngIf="!isEmpty()">
-      <h2>
-        Name: {{selectedProject.projectName | uppercase}} <br/>
-        Id: {{selectedProject.projectId}}
-      </h2>
-     <button (click)="gotoProject(selectedProject)">Open project</button>
-     <!--<a [routerLink]="['WorkProject', { 'id' : selectedProject.id }]">to project</a>-->
-     <ul>
-        <h2>Properties</h2>
-        <li *ngFor="#prop of getProps(selectedProject)">
-            {{prop}} = {{selectedProject[prop]}}
-        </li>
-     </ul>
-    </div>
-    <div *ngIf="isEmpty()">
-        <h1>Project not selected</h1>
-    </div>
+<div  class="mdl-card mdl-shadow--2dp">
+  <div class="mdl-card__title">
+     <h2 class="mdl-card__title-text">Project info</h2>
+  </div>
+  <div *ngIf="!isEmpty()" class="mdl-card__supporting-text">
+    Name: {{selectedProject.projectName | uppercase}} <br/>
+    Id: {{selectedProject.projectId}}
+    <ul>
+       <h3>Properties</h3>
+       <li *ngFor="#prop of getProps(selectedProject)">
+           {{prop}} = {{selectedProject[prop]}}
+       </li>
+    </ul>
+  </div>
+  <div *ngIf="isEmpty()" class="mdl-card__supporting-text">
+      Project not selected
+  </div>
+  <div class="mdl-card__actions mdl-card--border">
+    <button (click)="gotoProject(selectedProject)"
+            class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect"
+            [disabled]="isEmpty()">
+      Open project
+    </button>
+  </div>
 </div>
