@@ -5,8 +5,7 @@ import org.junit.Test;
 import static junit.framework.Assert.assertTrue;
 
 /**
- * test for constructor of RenjinConf
- * Created by asus on 12.04.2016.
+ * test for  RenjinConf
  */
 public class TestRenjinConf {
 

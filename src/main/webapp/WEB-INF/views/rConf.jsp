@@ -13,14 +13,13 @@
     <title>RConfiguration</title>
 
     <spring:url value="/resources/js/rConf.js" var="rConfJs"/>
-    <script src="${rConfJs}"></script>
+    <script type="text/javascript" src="${rConfJs}"></script>
     <!-- jQuery -->
     <spring:url value="/resources/js/jquery.js" var="jqueryJs"/>
-    <script src="${jqueryJs}"></script>
+    <script type="text/javascript" src="${jqueryJs}"></script>
     <!-- Bootstrap Core JavaScript -->
     <spring:url value="/resources/js/bootstrap.min.js" var="mainJs"/>
-    <script src="${mainJs}"></script>
-
+    <script type="text/javascript" src="${mainJs}"></script>
 
 </head>
 
@@ -35,9 +34,9 @@
             <td>Select type:</td>
             <td>
                 <select id="Rtype">
-                    <option value="FakeR">FakeR</option>
-                    <option value="RServ">RServ</option>
-                    <option value="Rinjin">Rinjin</option>
+                    <option value="FakeRConf">FakeR</option>
+                    <option value="RServConf">RServ</option>
+                    <option value="RenjinConf">Renjin</option>
                 </select>
             </td>
         </tr>
@@ -55,12 +54,9 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><input type="button" id="add" value="Add instance" onclick="Javascript:addRow()"></td>
-        </tr>
-        <tr>
-            <td>&nbsp;</td>
         </tr>
     </table>
+    <button id="add" onclick="addRow()">Add instance</button>
 </div>
 
 
@@ -83,6 +79,7 @@
 <input type="button" id="create" value="Click here" onclick="Javascript:addTable()">
 to create a Table and add some data using JavaScript
 </div>-->
+
 </body>
 
 </html>

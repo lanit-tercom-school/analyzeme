@@ -11,8 +11,6 @@ import static junit.framework.Assert.assertTrue;
 public class TestRserveConf {
     /**
      * test for RserveConf
-     *
-     * @throws Exception
      */
     @Test
     public void TestRServeConfiguration() throws Exception {

@@ -71,8 +71,7 @@ public class FakeRConf implements IRConf {
     public boolean isActive() {
         return activeFlag;
     }
-// TODO: 17.04.2016 add to UML diagram
-// TODO: 17.04.2016  проверять RConf на валидность
+
 
     /**
      * assignment value of param to this object
@@ -81,18 +80,22 @@ public class FakeRConf implements IRConf {
      * @param RConf will be assignmented to this FakeRConf
      */
     @Override
-    public void assignment(IRConf RConf) {
+    public void assignment(IRConf RConf) throws IllegalArgumentException {
+        if (!(RConf instanceof FakeRConf)) throw new IllegalArgumentException();
         setName(RConf.getName());
         setActiveFlag(RConf.isActive());
     }
-    // TODO: 17.04.2016 comment + UML
+
+    /**
+     * @return this this object as JSONObject
+     */
     @Override
-    public  JSONObject toJSONObject(){
+    public JSONObject toJSONObject() {
 
         JSONObject obj = new JSONObject();
-        obj.put("rConfType","FakeRConf");
-        obj.put("name",name);
-        obj.put("activeFlag",activeFlag);
+        obj.put("rConfType", "FakeRConf");
+        obj.put("name", name);
+        obj.put("activeFlag", activeFlag);
         return obj;
     }
 

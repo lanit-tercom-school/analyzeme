@@ -40,14 +40,14 @@ public class RConfFactory {
                 //get param name from Json String
                 String name = (String) jsonObject.get("name");
                 //get param activeFlag from Json String
-                Boolean activeFlag = StringToBoll((String) jsonObject.get("activeFlag"));
+                Boolean activeFlag = (Boolean) jsonObject.get("activeFlag");
                 return new RenjinConf(activeFlag, name);
 
             } else if (rConfType.equals("RserveConf")) {
                 //get param name from Json String
                 String name = (String) jsonObject.get("name");
                 //get param activeFlag from Json String
-                Boolean activeFlag = StringToBoll((String) jsonObject.get("activeFlag"));
+                Boolean activeFlag = (Boolean) jsonObject.get("activeFlag");
                 //get param host from Json String
                 String host = (String) jsonObject.get("host");
                 //get param port from Json String
@@ -59,7 +59,7 @@ public class RConfFactory {
                 //get param name from Json String
                 String name = (String) jsonObject.get("name");
                 //get param activeFlag from Json String
-                Boolean activeFlag = StringToBoll((String) jsonObject.get("activeFlag"));
+                Boolean activeFlag = (Boolean) jsonObject.get("activeFlag");
 
                 return new FakeRConf(activeFlag, name);
 

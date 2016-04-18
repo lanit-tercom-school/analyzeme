@@ -12,9 +12,9 @@ import static junit.framework.Assert.assertTrue;
 public class TestRConfFactory {
     @Test
     public void testRConfFactory() {
-        final String st1 = "{\"rConfType\":\"FakeRConf\",\"name\":\"Example1\",\"activeFlag\":\"true\"}";
-        final String st2 = "{\"rConfType\":\"RenjinConf\",\"name\":\"Example2\",\"activeFlag\":\"true\"}";
-        final String st3 = "{\"rConfType\":\"RserveConf\",\"name\":\"Example3\",\"activeFlag\":\"true\",\"host\":\"localhost\",\"port\":\"1099\"}";
+        final String st1 = "{\"rConfType\":\"FakeRConf\",\"name\":\"Example1\",\"activeFlag\":true}";
+        final String st2 = "{\"rConfType\":\"RenjinConf\",\"name\":\"Example2\",\"activeFlag\":true}";
+        final String st3 = "{\"rConfType\":\"RserveConf\",\"name\":\"Example3\",\"activeFlag\":true,\"host\":\"localhost\",\"port\":\"1099\"}";
         IRConf RConf1 = RConfFactory.getRConf(st1);
         //test for FakeRConf object
         assertTrue(RConf1 instanceof FakeRConf);

@@ -6,9 +6,8 @@ import org.junit.Test;
 import static junit.framework.Assert.assertTrue;
 
 /**
- *
+ * Test class for FakeRConf
  */
-// TODO: 17.04.2016 comment 
 public class TestFakeRConf {
     @Test
     /**
@@ -32,8 +31,6 @@ public class TestFakeRConf {
         C1.assignment(C2);
         assertTrue(!C1.isActive());
         assertTrue(C1.getName().equals("Example"));
-
-
 
 
     }

@@ -69,8 +69,6 @@ public class RenjinConf implements IRConf {
     public boolean isActive() {
         return activeFlag;
     }
-// TODO: 17.04.2016 add to UML diagram
-// TODO: 17.04.2016  проверять RConf на валидность
 
     /**
      * assignment value of param to this object
@@ -80,17 +78,20 @@ public class RenjinConf implements IRConf {
      */
     @Override
     public void assignment(IRConf RConf) {
+        if (!(RConf instanceof RenjinConf)) throw new IllegalArgumentException();
         setName(RConf.getName());
         setActiveFlag(RConf.isActive());
     }
 
-    // TODO: 17.04.2016 comment + UML
+    /**
+     * @return this this object as JSONObject
+     */
     @Override
-    public  JSONObject toJSONObject(){
+    public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
-        obj.put("rConfType","RenjinConf");
-        obj.put("name",name);
-        obj.put("activeFlag",activeFlag);
+        obj.put("rConfType", "RenjinConf");
+        obj.put("name", name);
+        obj.put("activeFlag", activeFlag);
         return obj;
     }
 

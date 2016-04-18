@@ -79,8 +79,9 @@ public class RConfRepository {
         RConf.assignment(RConfFactory.getRConf(data));
 
     }
+
     // TODO: 14.04.2016  comments
-    public String allConfigurationsToJsonString(){
+    public String allConfigurationsToJsonString() {
         JSONArray ar = new JSONArray();
         for (IRConf rConf : RConfigurations) {
             JSONObject obj = rConf.toJSONObject();
@@ -90,5 +91,27 @@ public class RConfRepository {
         return ar.toString();
     }
 
+    // TODO: 14.04.2016  comments
+    // TODO: 19.04.2016 test
+    public IRConf GetDefaultConfiguration() {
+        for (IRConf rConf : RConfigurations) {
+            if (!(rConf instanceof FakeRConf)) {
+                return rConf;
+            }
 
+        }
+        return null;
+    }
+
+    // TODO: 14.04.2016  comments
+    // TODO: 19.04.2016 test
+    public IRConf GetDefaultTestConfiguration() {
+        for (IRConf rConf : RConfigurations) {
+            if ((rConf instanceof FakeRConf)) {
+                return rConf;
+            }
+
+        }
+        return null;
+    }
 }

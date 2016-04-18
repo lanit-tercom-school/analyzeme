@@ -122,32 +122,34 @@ public class RserveConf implements IRConf {
         return host;
     }
 
-    // TODO: 17.04.2016 add to UML diagram
-    // TODO: 17.04.2016  проверять RConf на валидность
+
     /**
-     *
      * assignment value of param to this object
      * this object will become equal to RConf
+     *
      * @param RConf will be assignmented to this RserveConf
      */
     @Override
-    public void assignment(IRConf RConf){
-        RserveConf RConf1=(RserveConf) RConf;
+    public void assignment(IRConf RConf) {
+        if (!(RConf instanceof RserveConf)) throw new IllegalArgumentException();
+        RserveConf RConf1 = (RserveConf) RConf;
         setName(RConf1.getName());
         setActiveFlag(RConf1.isActive());
         setPort(RConf1.getPort());
         setHost(RConf1.getHost());
     }
 
-    // TODO: 17.04.2016 comment + UML
+    /**
+     * @return this this object as JSONObject
+     */
     @Override
-    public  JSONObject toJSONObject(){
+    public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
-        obj.put("rConfType","RserveConf");
-        obj.put("name",name);
-        obj.put("activeFlag",activeFlag);
-        obj.put("host",host);
-        obj.put("port",port);
+        obj.put("rConfType", "RserveConf");
+        obj.put("name", name);
+        obj.put("activeFlag", activeFlag);
+        obj.put("host", host);
+        obj.put("port", port);
         return obj;
     }
 }

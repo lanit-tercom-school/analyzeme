@@ -34,8 +34,6 @@ public interface IRConf {
      */
     boolean isActive();
 
-// TODO: 17.04.2016 add to UML diagram
-
     /**
      * assignment value of param to this object
      * this object will become equal to RConf
@@ -44,7 +42,10 @@ public interface IRConf {
      */
     void assignment(IRConf RConf);
 
-    // TODO: 17.04.2016 comment + UML 
+    /**
+     *
+     * @return this this object as JSONObject
+     */
     JSONObject toJSONObject();
     
 }

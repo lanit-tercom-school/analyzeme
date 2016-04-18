@@ -24,46 +24,58 @@ public class RConfController {
 
     /**
      * @param rConfName null if file doesn't exist
+     * @return IRConf as Json String
      * @throws IOException
      */
-    @RequestMapping(value = "/RConf/GetRConf/{rConf_name}", method = RequestMethod.GET)
+    @RequestMapping(value = "/rConf/GetRConf/{rConf_name}", method = RequestMethod.GET)
     public String getRConfiguration(@PathVariable("rConf_name") String rConfName)
             throws IOException {
 
-            IRConf RConf = RConfRepository.getRepo().getRConfByName(rConfName);
-            return RConf.toJSONObject().toString();
+        IRConf RConf = RConfRepository.getRepo().getRConfByName(rConfName);
+        return RConf.toJSONObject().toString();
     }
 
-    // TODO: 17.04.2016 comments 
-    @RequestMapping(value = "/RConf/GetRConf", method = RequestMethod.GET)
+    /**
+     * @return List<IRConf> as Json String
+     * @throws IOException
+     */
+    @RequestMapping(value = "/rConf/GetRConf", method = RequestMethod.GET)
     public String getRConfiguration()
             throws IOException {
-        return  RConfRepository.getRepo().allConfigurationsToJsonString();
+        return RConfRepository.getRepo().allConfigurationsToJsonString();
 
     }
 
 
     /**
-      * @throws IOException
+     * put new configurations to repository
+     *
+     * @throws IOException
      */
-    // TODO: 17.04.2016 comments
-    @RequestMapping(value = "/RConf/{data}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/rConf/{data}", method = RequestMethod.PUT)
     public void addRConfiguration(@PathVariable("data") String data)
             throws IOException {
         RConfRepository.getRepo().addRConf(RConfFactory.getRConf(data));
 
     }
 
-    // TODO: 17.04.2016  comments
-    @RequestMapping(value = "/RConf/{RConf_Name}/{data}", method = RequestMethod.POST)
-    public void updateRConf(@PathVariable("data") String data, @PathVariable("RConf_Name") String name, HttpServletResponse response)
+    /**
+     * @param data to update file
+     * @param name of RConf to update
+     * @throws IOException
+     */
+    @RequestMapping(value = "/rConf/{RConf_Name}/{data}", method = RequestMethod.POST)
+    public void updateRConf(@PathVariable("data") String data, @PathVariable("RConf_Name") String name)
             throws IOException {
         RConfRepository.getRepo().updateRConfByName(name, data);
 
     }
 
-    // TODO: 14.04.2016 comments
-    @RequestMapping(value = "/RConf/{RConf_Name}/Delete", method = RequestMethod.DELETE)
+    /**
+     * @param name of file to delete
+     * @throws IOException
+     */
+    @RequestMapping(value = "/rConf/{RConf_Name}", method = RequestMethod.DELETE)
     public void updateRConf(@PathVariable("RConf_Name") String name)
             throws IOException {
         RConfRepository.getRepo().deleteRConfByName(name);
