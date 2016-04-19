@@ -4,7 +4,6 @@ package com.analyzeme.repository;
 // TODO: tests for multithreading writing should be added
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -48,7 +47,7 @@ public class FileRepositoryTest {
 	}
 
 	/**
-	 * test method for addNewFile - check for exceptions and return value
+	 * test method for persist - check for exceptions and return value
 	 */
 	@Test
 	public void testAddNewFile() throws Exception {
@@ -57,7 +56,7 @@ public class FileRepositoryTest {
 		String nameToWrite = "";
 		try {
 			for (int j = 0; j < 10; j++) {
-				nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt");
+				nameToWrite = FileRepositoryTest.repo.persist(file, "filename.txt");
 			}
 		} catch (Exception e) {
 			assertTrue("Exceptions in adding new file", false);
@@ -86,13 +85,13 @@ public class FileRepositoryTest {
 	}
 
 	/**
-	 * Test method of addNewFile and getFileById
+	 * Test method of persist and getFileById
 	 * checks if the recently added file will be returned correctly
 	 */
 	@Test
 	public void testRecentlyAdded() throws Exception {
 		FileRepositoryTest.repo = new FileRepository();
-		String nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt");
+		String nameToWrite = FileRepositoryTest.repo.persist(file, "filename.txt");
 		for (int i = 0; i < 10; i++) {
 			ByteArrayInputStream file2 = FileRepositoryTest.repo.getFileByID(nameToWrite);
 			byte[] b2 = new byte[4];
@@ -127,7 +126,7 @@ public class FileRepositoryTest {
 	public void testThreadsForReading() throws Exception {
 		cleanCorrect();
 		FileRepositoryTest.repo = new FileRepository();
-		String nameToWrite = FileRepositoryTest.repo.addNewFileForTests(file, "filename.txt");
+		String nameToWrite = FileRepositoryTest.repo.persist(file, "filename.txt");
 
 		for (int i = 0; i < 200; i++) {
 			testReaderThread testReader = new testReaderThread(nameToWrite, i);

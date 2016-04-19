@@ -216,7 +216,7 @@ public class ProjectsRepository {
 	}
 
 	/**
-	 * just the same with addNewFile except for Part object (cannot be create as Part is an abstract class)
+	 * just the same with persist except for Part object (cannot be create as Part is an abstract class)
 	 * adding new file in repository
 	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
@@ -224,7 +224,7 @@ public class ProjectsRepository {
 	 * @param filename - filename given by user
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename, String projectName) throws Exception {
+	public synchronized String persist(ByteArrayInputStream part, final String filename, String projectName) throws Exception {
 		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
 		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		if (part == null) throw new IllegalArgumentException();
@@ -236,7 +236,7 @@ public class ProjectsRepository {
 
 
 	/**
-	 * just the same with addNewFile except for Part object (cannot be create as Part is an abstract class)
+	 * just the same with persist except for Part object (cannot be create as Part is an abstract class)
 	 * adding new file in repository
 	 * if you don't know user, just give defaultUser ("guest") as login
 	 *
@@ -244,7 +244,7 @@ public class ProjectsRepository {
 	 * @param filename - filename given by user
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public synchronized String addNewFileForTestsById(ByteArrayInputStream part, final String filename, final String projectId) throws Exception {
+	public synchronized String persistById(ByteArrayInputStream part, final String filename, final String projectId) throws Exception {
 		if (projectId == null || projectId.equals("")) throw new IllegalArgumentException();
 		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		if (part == null) throw new IllegalArgumentException();

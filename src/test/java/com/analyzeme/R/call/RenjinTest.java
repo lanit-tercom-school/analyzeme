@@ -2,7 +2,7 @@ package com.analyzeme.R.call;
 
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
-import com.analyzeme.data.FileInRepositoryInfo;
+import com.analyzeme.data.JsonPointFileInRepositoryInfo;
 import com.analyzeme.data.ISourceInfo;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.repository.FileRepository;
@@ -79,23 +79,23 @@ public class RenjinTest {
 		call = new Renjin();
 
 		correctFile = convertStringToStream(testData);
-		correctFileId = FileRepository.getRepo().addNewFileForTests(correctFile, correctFilename);
+		correctFileId = FileRepository.getRepo().persist(correctFile, correctFilename);
 		if (correctFileId == null) throw new IllegalArgumentException("Repository doesn't work");
 		correctX = "x_from__repo__" + correctFileId + "__";
 		correctY = "y_from__repo__" + correctFileId + "__";
 		correct = new ArrayList<DataSet>();
-		ISourceInfo correctInfo = new FileInRepositoryInfo(correctFileId);
+		ISourceInfo correctInfo = new JsonPointFileInRepositoryInfo(correctFileId);
 		DataSet setCorrect = new DataSet(correctFilename, correctInfo);
 		setCorrect.addField("x");
 		setCorrect.addField("y");
 		correct.add(setCorrect);
 
 		incorrectFile = convertStringToStream(wrongTestData);
-		incorrectFileId = FileRepository.getRepo().addNewFileForTests(incorrectFile, incorrectFilename);
+		incorrectFileId = FileRepository.getRepo().persist(incorrectFile, incorrectFilename);
 		incorrectX = "x_from__repo__" + incorrectFileId + "__";
 		incorrectY = "y_from__repo__" + incorrectFileId + "__";
 		incorrect = new ArrayList<DataSet>();
-		ISourceInfo incorrectInfo = new FileInRepositoryInfo(incorrectFileId);
+		ISourceInfo incorrectInfo = new JsonPointFileInRepositoryInfo(incorrectFileId);
 		DataSet setIncorrect = new DataSet(incorrectFilename, incorrectInfo);
 		setIncorrect.addField("x");
 		setIncorrect.addField("y");

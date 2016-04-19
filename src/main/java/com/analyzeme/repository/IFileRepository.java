@@ -15,18 +15,27 @@ public interface IFileRepository {
 	 * @param filename - filename given by user
 	 * @return name in repository if succeed, exception if not
 	 */
-	String addNewFile(final MultipartFile file, final String filename) throws IOException;
+	String persist(final MultipartFile file, final String filename) throws IOException;
 
 	/**
-	 * same with addNewFile except for Part object
+	 * same with persist except for Part object
 	 * adding new file in repository
 	 *
 	 * @param part     - file information
 	 * @param filename - filename given by user
 	 * @return name in repository if succeed, exception if not
 	 */
-	String addNewFileForTests(final ByteArrayInputStream part, final String filename) throws IOException;
+	String persist(final ByteArrayInputStream part, final String filename) throws IOException;
 
+	/**
+	 * same with persist except for Part object
+	 * adding new file in repository
+	 *
+	 * @param part     - file information
+	 * @param filename - filename given by user
+	 * @return name in repository if succeed, exception if not
+	 */
+	String persist(String part, final String filename) throws IOException;
 
 	/**
 	 * deletes file with given unique name

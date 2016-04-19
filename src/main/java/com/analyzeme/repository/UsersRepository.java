@@ -192,6 +192,42 @@ public class UsersRepository implements IRepository {
 	}
 
 	/**
+	 * add new file, that is connected to this repository
+	 * should use all necessary information about file for future usage, then
+	 * give it to other class that guarantees that file data will be saved correctly
+	 *
+	 * @param file - contains all the information about the file
+	 * @param data - filename, projectId, userId
+	 * @return unique filename in repository or throws Exception
+	 * @throws Exception
+	 */
+	public synchronized String persistByIds(final ByteArrayInputStream file, final String[] data) throws Exception {
+		if (file == null) throw new IllegalArgumentException();
+		for (String str : data) {
+			if (str == null || str.equals("")) throw new IllegalArgumentException();
+		}
+		return findUser(Integer.parseInt(data[2])).getProjects().persist(file, data[0], data[1]);
+	}
+
+	/**
+	 * add new file, that is connected to this repository
+	 * should use all necessary information about file for future usage, then
+	 * give it to other class that guarantees that file data will be saved correctly
+	 *
+	 * @param file - contains all the information about the file
+	 * @param data - filename, projectId, userId
+	 * @return unique filename in repository or throws Exception
+	 * @throws Exception
+	 */
+	public synchronized String persistByIds(final String file, final String[] data) throws Exception {
+		if (file == null) throw new IllegalArgumentException();
+		for (String str : data) {
+			if (str == null || str.equals("")) throw new IllegalArgumentException();
+		}
+		return findUser(Integer.parseInt(data[2])).getProjects().persist(new ByteArrayInputStream(file.getBytes()), data[0], data[1]);
+	}
+
+	/**
 	 * return all names of users in repository
 	 *
 	 * @return list of names or null if repository is empty

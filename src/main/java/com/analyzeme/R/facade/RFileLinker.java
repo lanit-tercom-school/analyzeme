@@ -3,7 +3,7 @@ package com.analyzeme.R.facade;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.DataSetResolversFactory;
 import com.analyzeme.data.IDataSetResolver;
-import com.analyzeme.data.RepositoryDataResolver;
+import com.analyzeme.data.JsonPointRepositoryDataResolver;
 import com.analyzeme.streamreader.StreamToString;
 
 import java.io.ByteArrayInputStream;
@@ -54,7 +54,7 @@ class RFileLinker {
 	 * @return DataSets of necessary files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
-	public static ArrayList<DataSet> parse(ByteArrayInputStream rScript, RepositoryDataResolver resolver) throws Exception {
+	public static ArrayList<DataSet> parse(ByteArrayInputStream rScript, JsonPointRepositoryDataResolver resolver) throws Exception {
 		if (rScript == null || resolver == null)
 			throw new IllegalArgumentException();
 		ArrayList<DataSet> result = new ArrayList<DataSet>();
@@ -108,7 +108,7 @@ class RFileLinker {
 	 * @return DataSets of necessary files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
-	public static ArrayList<DataSet> parse(String rCommand, RepositoryDataResolver resolver) throws Exception {
+	public static ArrayList<DataSet> parse(String rCommand, JsonPointRepositoryDataResolver resolver) throws Exception {
 		if (rCommand == null || rCommand.equals("") || resolver == null)
 			throw new IllegalArgumentException();
 		ArrayList<DataSet> result = new ArrayList<DataSet>();

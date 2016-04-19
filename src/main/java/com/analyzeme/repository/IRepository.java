@@ -60,6 +60,31 @@ public interface IRepository {
 	 */
 	String persist(final MultipartFile file, final String[] data) throws Exception;
 
+	/**
+	 * add new file, that is connected to this repository
+	 * should use all necessary information about file for future usage, then
+	 * give it to other class that guarantees that file data will be saved correctly
+	 *
+	 * @param file - contains all the information about the file
+	 * @param data - parameters that are useful for this repository
+	 *             specification for parameters in data should be specified in javadoc for specific repositories
+	 * @return unique filename in repository or throws Exception
+	 * @throws Exception
+	 */
+	String persistByIds(final ByteArrayInputStream file, final String[] data) throws Exception;
+
+	/**
+	 * add new file, that is connected to this repository
+	 * should use all necessary information about file for future usage, then
+	 * give it to other class that guarantees that file data will be saved correctly
+	 *
+	 * @param file - contains all the information about the file
+	 * @param data - parameters that are useful for this repository
+	 *             specification for parameters in data should be specified in javadoc for specific repositories
+	 * @return unique filename in repository or throws Exception
+	 * @throws Exception
+	 */
+	String persistByIds(final String file, final String[] data) throws Exception;
 
 	/**
 	 * return all names of items in repository

@@ -9,7 +9,7 @@ public class DataSetResolversFactory {
 		if (type == null || type.equals(""))
 			throw new IllegalArgumentException("Impossible type of data source");
 		if (type.equalsIgnoreCase("repo")) {
-			return new RepositoryDataResolver();
+			return new JsonPointRepositoryDataResolver();
 		} else {
 			throw new IllegalArgumentException("This data source doesn't exist");
 		}

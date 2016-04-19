@@ -6,7 +6,6 @@ package com.analyzeme.repository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -38,7 +37,7 @@ public class FileRepository implements IFileRepository {
 	 * @param filename - filename given by user
 	 * @return nameToWrite - if succeed, exception if not
 	 */
-	public synchronized String addNewFile(final MultipartFile file, final String filename) throws IOException {
+	public synchronized String persist(final MultipartFile file, final String filename) throws IOException {
 		if (file == null) throw new IllegalArgumentException();
 		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		String uniqueName = filename;
@@ -52,14 +51,14 @@ public class FileRepository implements IFileRepository {
 	}
 
 	/**
-	 * just the same with addNewFile except for Part object (cannot be create as Part is an abstract class)
+	 * just the same with persist except for Part object (cannot be create as Part is an abstract class)
 	 * adding new file in repository
 	 *
 	 * @param part     - file data (stream)
 	 * @param filename - filename given by user
 	 * @return uniqueName - if succeed, exception if not
 	 */
-	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename) throws IOException {
+	public synchronized String persist(ByteArrayInputStream part, final String filename) throws IOException {
 		if (part == null) throw new IllegalArgumentException();
 		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		String uniqueName = filename;
@@ -67,6 +66,26 @@ public class FileRepository implements IFileRepository {
 			uniqueName = createCorrectName(filename);
 		}
 		FileInfo newFile = new FileInfo(filename, uniqueName, part);
+		files.add(newFile);
+		return uniqueName;
+	}
+
+	/**
+	 * just the same with persist except for Part object (cannot be create as Part is an abstract class)
+	 * adding new file in repository
+	 *
+	 * @param part     - file data (stream)
+	 * @param filename - filename given by user
+	 * @return uniqueName - if succeed, exception if not
+	 */
+	public synchronized String persist(String part, final String filename) throws IOException {
+		if (part == null) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
+		String uniqueName = filename;
+		if (!isNameCorrect(uniqueName)) {
+			uniqueName = createCorrectName(filename);
+		}
+		FileInfo newFile = new FileInfo(filename, uniqueName, new ByteArrayInputStream(part.getBytes()));
 		files.add(newFile);
 		return uniqueName;
 	}

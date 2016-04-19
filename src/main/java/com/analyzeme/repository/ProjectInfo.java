@@ -56,7 +56,7 @@ public class ProjectInfo {
 		if (filename == null || filename.equals("") || file == null) {
 			throw new IllegalArgumentException();
 		}
-		String nameInRepo = FileRepository.getRepo().addNewFile(file, filename);
+		String nameInRepo = FileRepository.getRepo().persist(file, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}
@@ -69,7 +69,7 @@ public class ProjectInfo {
 		if (filename == null || filename.equals("") || part == null) {
 			throw new IllegalArgumentException();
 		}
-		String nameInRepo = FileRepository.getRepo().addNewFileForTests(part, filename);
+		String nameInRepo = FileRepository.getRepo().persist(part, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
 			throw new FileSystemException(filename);
 		}

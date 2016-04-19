@@ -111,7 +111,7 @@ public class ProjectsRepositoryTest {
 
 			}
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
-			String name = repo.addNewFileForTests(file, "name.txt", "default");
+			String name = repo.persist(file, "name.txt", "default");
 			assertTrue("Persist does not work correctly", !name.equals("") && name != null);
 			boolean a = FileRepository.getRepo().deleteFileById(name);
 		} catch (Exception e) {
@@ -131,7 +131,7 @@ public class ProjectsRepositoryTest {
 
 			}
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
-			String name = repo.addNewFileForTestsById(file, "name.txt", projectId);
+			String name = repo.persistById(file, "name.txt", projectId);
 			assertTrue("Persist does not work correctly", (!(name.equals("")) && (name != null)));
 			boolean a = FileRepository.getRepo().deleteFileById(name);
 		} catch (Exception e) {
@@ -165,7 +165,7 @@ public class ProjectsRepositoryTest {
 
 			}
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
-			String name = repo.addNewFileForTestsById(file, "name.txt", projectId);
+			String name = repo.persistById(file, "name.txt", projectId);
 			List<ByteArrayInputStream> result = repo.getFilesFromProject("default");
 			byte[] res = new byte[4];
 			result.get(0).read(res);
@@ -188,7 +188,7 @@ public class ProjectsRepositoryTest {
 
 			}
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
-			String name = repo.addNewFileForTestsById(file, "name.txt", projectId);
+			String name = repo.persistById(file, "name.txt", projectId);
 			List<ByteArrayInputStream> result = repo.getFilesFromProjectById(projectId);
 			byte[] res = new byte[4];
 			result.get(0).read(res);
@@ -225,7 +225,7 @@ public class ProjectsRepositoryTest {
 
 			}
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
-			String name = repo.addNewFileForTestsById(file, "name.txt", projectId);
+			String name = repo.persistById(file, "name.txt", projectId);
 			ByteArrayInputStream result = repo.getFileFromProject(name, "default");
 			byte[] res = new byte[4];
 			result.read(res);
@@ -248,7 +248,7 @@ public class ProjectsRepositoryTest {
 
 			}
 			ByteArrayInputStream file = new ByteArrayInputStream(b);
-			String name = repo.addNewFileForTestsById(file, "new_name.txt", projectId);
+			String name = repo.persistById(file, "new_name.txt", projectId);
 			ByteArrayInputStream result = repo.getFileFromProjectById(name, projectId);
 			byte[] res = new byte[4];
 			result.read(res);
