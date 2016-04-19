@@ -6,8 +6,8 @@ import com.analyzeme.streamreader.StreamToString;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.HashSet;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -16,7 +16,8 @@ import java.util.Set;
 
 public class DataSet {
 	private String nameForUser;
-	private Set<String> fields;
+	//first String is field alias (use this in script), second - field name: example <"t", "Время">
+	private Map<String, String> fields;
 	private ISourceInfo file;
 
 	public DataSet(final String nameForUser, final ISourceInfo file) throws Exception {
@@ -24,7 +25,7 @@ public class DataSet {
 			throw new IllegalArgumentException();
 		this.nameForUser = nameForUser;
 		this.file = file;
-		fields = new HashSet<String>();
+		fields = new HashMap<String, String>();
 	}
 
 	public ByteArrayInputStream getData() throws Exception {
@@ -53,11 +54,21 @@ public class DataSet {
 	public void addField(final String field) throws Exception {
 		if (field == null || field.equals(""))
 			throw new IllegalArgumentException();
-		fields.add(field);
+		fields.put(field, field);
+	}
+
+	public void addField(final String field, final String fieldName) throws Exception {
+		if (field == null || field.equals("") || fieldName == null || fieldName.equals(""))
+			throw new IllegalArgumentException();
+		fields.put(field, fieldName);
+	}
+
+	public Map<String, String> getFieldsWithNames() {
+		return fields;
 	}
 
 	public Set<String> getFields() {
-		return fields;
+		return fields.keySet();
 	}
 
 	public ISourceInfo getFile() {
@@ -68,7 +79,7 @@ public class DataSet {
 	public boolean equals(Object other) {
 		if (other == null) return false;
 		if (other == this) return true;
-		if (!(other instanceof DataSet))return false;
+		if (!(other instanceof DataSet)) return false;
 		try {
 			DataSet o = (DataSet) other;
 			if ((o.getNameForUser().equals(nameForUser)) && (o.getFile().getClass().equals(file.getClass())) && (o.getFile().getToken().equals(file.getToken())))
