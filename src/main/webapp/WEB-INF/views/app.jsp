@@ -6,7 +6,7 @@
         <script>document.write('<base href="/app/" />');</script><!--' + document.location + '-->
         <title>AnalyzeMe</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <!--<link rel="stylesheet" href="${angularPath}app/css/styles.css">-->
+        <link rel="stylesheet" href="${angularPath}app/css/styles.css">
 
         <!-- 1. Load libraries -->
         <script src="${angularPath}lib/es6-shim.min.js"></script>
@@ -28,11 +28,17 @@
 
         <script src='${angularPath}app/project.service.js'></script>
         <script src='${angularPath}app/file.service.js'></script>
+        <script src='${angularPath}app/workspace.service.js'></script>
 
         <script src='${angularPath}app/new-project.component.js'></script>
 
         <script src='${angularPath}app/dropbox-upload.component.js'></script>
         <script src='${angularPath}app/files-list.component.js'></script>
+
+        <script src='${angularPath}app/plot.component.js'></script>
+        <script src='${angularPath}app/r-editor.component.js'></script>
+        <script src='${angularPath}app/work-area.component.js'></script>
+
         <script src='${angularPath}app/work-project.component.js'></script>
         <script src='${angularPath}app/projects-list.component.js'></script>
         <script src='${angularPath}app/project-page.component.js'></script>
@@ -46,7 +52,7 @@
     </head>
 
     <!-- 3. Display the application -->
-    <body onload="">
+    <body>
         <my-app>Loading...</my-app>
     </body>
 </html>

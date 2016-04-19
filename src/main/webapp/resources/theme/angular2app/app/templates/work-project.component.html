@@ -1,10 +1,13 @@
 <div *ngIf="project" class="mdl-grid">
-    <files-list class="mdl-cell mdl-cell--3-col"></files-list>
+    <files-list class="mdl-cell mdl-cell--3-col mdl-cell--4-col-phone"></files-list>
+    <div  class="mdl-cell mdl-cell--9-col">
+      <router-outlet></router-outlet>
+    </div>
+    <!--// old plot
     <div class="mdl-cell mdl-cell--9-col">
       <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header class="mdl-layout__header">
               <div class="mdl-layout__header-row">
-                  <!-- Title -->
                   <span class="mdl-layout-title">Project workspace</span>
               </div>
             </header>
@@ -26,5 +29,5 @@
 
             </main>
          </div>
-    </div>
+    </div>-->
 </div>

@@ -29,7 +29,7 @@
       useAsDefault : true
     },
     {
-      path : '/:id',
+      path : '/:id/...',
       name : 'WorkProject',
       component : app.WorkProjectComponent,
       useAsDefault : false
