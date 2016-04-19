@@ -48,14 +48,5 @@
     <!-- 3. Display the application -->
     <body onload="">
         <my-app>Loading...</my-app>
-        <script>
-          function applyMDL() {
-            setTimeout(function() {
-              window.console.log("start");
-              componentHandler.upgradeAllRegistered();
-              window.console.log("end");
-            }, 300);
-          };
-        </script>
     </body>
 </html>

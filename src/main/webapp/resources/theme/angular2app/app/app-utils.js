@@ -7,7 +7,7 @@
         "http://192.168.1.126:8080/"
     ];
     app.AppUtils.resolveUrl = function(relativePath) {
-        return app.AppUtils.domens[2] + relativePath;
+        return app.AppUtils.domens[1] + relativePath;
     };
 
     app.AppUtils.pathToApp = app.AppUtils.resolveUrl("resources/angular2app/");
