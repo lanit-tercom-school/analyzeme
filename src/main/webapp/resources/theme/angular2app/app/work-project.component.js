@@ -7,7 +7,7 @@
     ng.core.Component({
       "selector" : 'work-project',
       "templateUrl" : app.AppUtils.templateUrl("work-project"),
-      "directives" : [app.FilesListComponent],
+      "directives" : [ng.router.ROUTER_DIRECTIVES, app.FilesListComponent, app.WorkAreaComponent],
       "providers" : [app.FileService]
       /*"templateUrl" : "app/templates/work-project.component.html",
       "styleUrls" : ["app/css/work-project.component.css"]*/
@@ -22,17 +22,6 @@
                 this._fileService = fileService;
                 this._routeParams = routeParams;
                 this.project = null;
-                this.svgSize = 500;
-                this.availableFunctions = [
-                   {
-                      func: "GlobalMinimum",
-                      name: "Global minimum"
-                   },
-                   {
-                       func: "GlobalMaximum",
-                       name: "Global maximum"
-                   }
-                ];
             }
         ],
         ngOnInit: function() {
@@ -56,31 +45,15 @@
                             }
                 );
             l.log("loadContent ends");
-        },
-        applyFunction: function() {
-            var fileName = this._fileService.getServerName();
-            var functionType = document.getElementById("functionSelect").value;
-            var resultOutput = document.getElementById("functionResult");
-            resultOutput.value = "Analyzing...";
-            var xhr = app.AppUtils.API.analyzeFile(fileName, functionType);
-            xhr.then(
-              (xhr) => {
-                resultOutput.value =
-                    xhr.responseText;
-              },
-              (err) => {
-                resultOutput.value = "Can't evaluate: " + err;
-              }
-            );
         }
     });
-        /*
+
     ng.router.RouteConfig([
     {
-      path : '/list',
-      name : 'ProjectPage',
-      component : app.ProjectPage,
-      useAsDefault : false
+      path : '/...',
+      name : 'WorkArea',
+      component : app.WorkAreaComponent,
+      useAsDefault : true
     }
-  ])(app.WorkProjectComponent);*/
+  ])(app.WorkProjectComponent);
 })(window.app || (window.app = {}));

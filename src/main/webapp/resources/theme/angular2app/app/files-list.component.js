@@ -28,6 +28,9 @@
                 this.getSelectedFile();
                 l.dir(this.selectedProject); /**/
             },
+            ngAfterViewInit: function() {
+                app.AppUtils.MDL.upgradeClasses(["mdl-js-button"]);
+            },
             invertDropboxFlag: function() {
                 this.isDropboxExpanded = !this.isDropboxExpanded;
             },
