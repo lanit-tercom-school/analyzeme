@@ -25,12 +25,13 @@ public class RConfRepository {
     // TODO: 17.04.2016  complete default initialization
     private RConfRepository() {
         RConfigurations = new ArrayList<IRConf>();
+//        FakeRConf RConf1 = new FakeRConf(true, "FakeR");
 //        RenjinConf RConf2 = new RenjinConf(true, "Renjin");
-        //    RserveConf RConf3 = new RserveConf();
-        //    RConf3.setName("RServe1");
-//       RConfRepository.getRepo().addRConf(RConf3);
-        // RConfRepository.getRepo().addRConf(RConf2);
-        // RConfRepository.getRepo().addRConf(RConf1);
+//        RserveConf RConf3 = new RserveConf();
+//        RConf3.setName("RServe1");
+//        RConfigurations.add(RConf3);
+//        RConfigurations.add(RConf2);
+//        RConfigurations.add(RConf1);
 
     }
 
@@ -95,7 +96,7 @@ public class RConfRepository {
     // TODO: 19.04.2016 test
     public IRConf GetDefaultConfiguration() {
         for (IRConf rConf : RConfigurations) {
-            if (!(rConf instanceof FakeRConf)) {
+            if (!(rConf instanceof FakeRConf) && rConf.isActive()) {
                 return rConf;
             }
 
@@ -107,7 +108,7 @@ public class RConfRepository {
     // TODO: 19.04.2016 test
     public IRConf GetDefaultTestConfiguration() {
         for (IRConf rConf : RConfigurations) {
-            if ((rConf instanceof FakeRConf)) {
+            if ((rConf instanceof FakeRConf) && rConf.isActive()) {
                 return rConf;
             }
 
