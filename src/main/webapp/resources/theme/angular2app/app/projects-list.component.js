@@ -6,7 +6,7 @@
   app.CheckPropertyPipe =
     ng.core.Pipe({
         name: "checkProperty",
-        pure: true// | checkProperty : 'isActive' : true
+        pure: true
     })
     .Class({
         constructor : function() {},
@@ -35,6 +35,9 @@
         l.log("(ngOnInit)");
         l.dir(this.selectedProject);
       },
+      ngAfterViewInit: function() {
+          app.AppUtils.MDL.upgradeClasses(["mdl-js-button"]);
+      },
       getProjects : function() {
         this._projectService.getProjects()
           .then(projects => this.projects = projects);
@@ -54,6 +57,7 @@
       },
       addProject: function() {
           var name = prompt("Enter name of new project:", "new project");
+          if (name == null) return;
           var self = this;
           //var name = "newProject" + new Date().getSeconds();
           this._projectService.addItem(name)

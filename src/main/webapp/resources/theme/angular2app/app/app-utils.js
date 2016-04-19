@@ -23,6 +23,16 @@
              componentName + ".component.css";
     };
 
+    app.AppUtils.MDL = {};
+
+    app.AppUtils.MDL.upgradeClasses = function(classes) {
+      var els = [];
+      classes.forEach(
+        (c) => [].forEach.call(document.getElementsByClassName(c), (e) => els.push(e))
+      );
+      componentHandler.upgradeElements(els);
+    };
+
     app.AppUtils.logger = function(name) {
         return {
             _name: name,

@@ -1,0 +1,21 @@
+<div>
+      <div class="mdl-textfield">
+        <input type="text" size="21" class="mdl-textfield__input" readonly id="functionResult" value="">
+      </div>
+      <button (click)="applyFunction()"
+      class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+        <i class="material-icons">replay</i>
+      </button>
+        <button *ngFor="#function of _workspaceService.availableFunctions"
+                [style.display]="(isSelectExpanded || (function.func == functionType)) ? 'list-item' : 'none'"
+                (click)="selectFunction(function.func)"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                style="width: 18em; z-index: 5;">
+            {{function.name}}
+        </button>
+
+    <br />
+
+    <br />
+    <svg id="svgVisualize" [style.width]="svgSize" [style.height]="svgSize" style="border:1px solid Red;"></svg>
+</div>
