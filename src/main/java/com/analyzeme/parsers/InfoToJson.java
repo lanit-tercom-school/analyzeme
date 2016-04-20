@@ -3,12 +3,9 @@ package com.analyzeme.parsers;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.repository.FileInfo;
 import com.analyzeme.repository.ProjectInfo;
-import javafx.util.Pair;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.File;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -38,7 +35,7 @@ public class InfoToJson {
 	}
 
 	public static String convert(ProjectInfo[] infos) {
-		if(infos.length == 0)
+		if (infos.length == 0)
 			return "{ \"Projects\" : []}";
 
 		JSONArray result = new JSONArray();
@@ -50,7 +47,7 @@ public class InfoToJson {
 	}
 
 	public static String convert(List<ProjectInfo> infos) {
-		if(infos.isEmpty())
+		if (infos.isEmpty())
 			return "{ \"Projects\" : []}";
 
 		JSONArray result = new JSONArray();
@@ -80,7 +77,7 @@ public class InfoToJson {
 	}
 
 	public static String convertFileInfo(FileInfo[] infos) {
-		if(infos.length == 0)
+		if (infos.length == 0)
 			return "{ \"Files\" : []}";
 
 		JSONArray result = new JSONArray();
@@ -92,7 +89,7 @@ public class InfoToJson {
 	}
 
 	public static String convertFileInfo(List<FileInfo> infos) {
-		if(infos.isEmpty())
+		if (infos.isEmpty())
 			return "{ \"Files\" : []}";
 
 		JSONArray result = new JSONArray();
@@ -103,7 +100,7 @@ public class InfoToJson {
 	}
 
 	public static JSONObject convertDataSetToJsonObject(DataSet info) throws IllegalArgumentException {
-		if(info == null)
+		if (info == null)
 			throw new IllegalArgumentException("DataSet cannot be null");
 
 		JSONObject obj = new JSONObject();
@@ -111,7 +108,7 @@ public class InfoToJson {
 		obj.put("dataname", info.getNameForUser());
 		JSONArray fields = new JSONArray();
 		Map<String, String> f = info.getFieldsWithNames();
-		for(Map.Entry<String, String> entry : f.entrySet()) {
+		for (Map.Entry<String, String> entry : f.entrySet()) {
 			JSONObject field = new JSONObject();
 			field.put("fieldId", entry.getKey());
 			field.put("fieldName", entry.getValue());
@@ -122,7 +119,7 @@ public class InfoToJson {
 	}
 
 	public static String convertDataSet(DataSet info) throws IllegalArgumentException {
-		if(info == null)
+		if (info == null)
 			throw new IllegalArgumentException("DataSet cannot be null");
 
 		return convertDataSetToJsonObject(info).toString();
@@ -130,7 +127,7 @@ public class InfoToJson {
 
 
 	public static String convertDataSet(DataSet[] infos) {
-		if(infos.length == 0)
+		if (infos.length == 0)
 			return "{ \"Files\" : []}";
 
 		JSONArray result = new JSONArray();
@@ -142,7 +139,7 @@ public class InfoToJson {
 	}
 
 	public static String convertDataSet(List<DataSet> infos) {
-		if(infos.isEmpty())
+		if (infos.isEmpty())
 			return "{ \"Files\" : []}";
 
 		JSONArray result = new JSONArray();
@@ -163,7 +160,7 @@ public class InfoToJson {
 		result.put("isActive", Boolean.toString(info.isActive()));
 		JSONArray fields = new JSONArray();
 		Map<String, String> f = data.getFieldsWithNames();
-		for(Map.Entry<String, String> entry : f.entrySet()) {
+		for (Map.Entry<String, String> entry : f.entrySet()) {
 			JSONObject field = new JSONObject();
 			field.put("fieldId", entry.getKey());
 			field.put("fieldName", entry.getValue());
@@ -181,14 +178,16 @@ public class InfoToJson {
 		return convertInfoAboutFileToJsonObject(info, data).toString();
 	}
 
-	public static String convertInfoAboutFile(List<Pair<FileInfo, DataSet>> infos) {
-		if(infos.isEmpty())
+	public static String convertInfoAboutFile(List<FileInfo> infos, List<DataSet> datas) throws IllegalArgumentException {
+		if (infos.size() != datas.size())
+			throw new IllegalArgumentException("FileInfo should have its DataSet");
+		if (infos.isEmpty())
 			return "{ \"Files Infos\" : []}";
 
 		JSONArray result = new JSONArray();
-		for (Pair<FileInfo, DataSet> info : infos) {
+		for (int i = 0; i < infos.size(); i++) {
 
-			result.add(convertInfoAboutFileToJsonObject(info.getKey(), info.getValue()));
+			result.add(convertInfoAboutFileToJsonObject(infos.get(i), datas.get(i)));
 		}
 		return "{ \"Files Infos\" : " + result.toString() + "}";
 	}
