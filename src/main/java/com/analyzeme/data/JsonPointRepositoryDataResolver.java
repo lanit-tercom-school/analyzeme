@@ -21,6 +21,9 @@ public class JsonPointRepositoryDataResolver implements IDataSetResolver {
 	public DataSet getDataSet(String name) throws Exception {
 		FileInfo info = UsersRepository.getRepo().findFile(name, params);
 		ISourceInfo file = new JsonPointFileInRepositoryInfo(info.getUniqueName());
-		return new DataSet(name, file);
+		DataSet set = new DataSet(name, file);
+		set.addField("x");
+		set.addField("y");
+		return set;
 	}
 }

@@ -1,9 +1,9 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.repository.FileRepository;
-import com.analyzeme.repository.ProjectInfo;
-import com.analyzeme.repository.UserInfo;
-import com.analyzeme.repository.UsersRepository;
+import com.analyzeme.data.DataSet;
+import com.analyzeme.data.JsonPointRepositoryDataResolver;
+import com.analyzeme.parsers.InfoToJson;
+import com.analyzeme.repository.*;
 import com.analyzeme.streamreader.StreamToString;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +20,7 @@ import java.io.IOException;
 public class FileController {
 
 	//TODO: in fact here userId = username. should be changed to Integer.parseInt(userId) when views are ready
+
 	/**
 	 * handles files upload
 	 * gets in url user id and project id
@@ -122,5 +123,55 @@ public class FileController {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+	/**
+	 * returns info about file
+	 * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
+	 */
+	@RequestMapping(value = "/file/{unique_name}/getInfo", method = RequestMethod.GET)
+	public String getFileInfo(@PathVariable("unique_name") String uniqueName) throws Exception {
+		if (uniqueName == null || uniqueName.equals(""))
+			throw new IllegalArgumentException();
+		FileInfo info = FileRepository.getRepo().findFileById(uniqueName);
+		if (info == null)
+			throw new NullPointerException("File not found");
+		return InfoToJson.convertFileInfo(info);
+	}
+
+	/**
+	 * returns info about fields
+	 * example : {"dataname":"0_10.json","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}]}
+	 */
+	@RequestMapping(value = "/file/{user_id}/{project_id}/{nameForUser}/getFields", method = RequestMethod.GET)
+	public String getFileFields(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("nameForUser") String filename) throws Exception {
+		if (filename == null || filename.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
+		JsonPointRepositoryDataResolver res = new JsonPointRepositoryDataResolver();
+		res.setProject(userId, projectId);
+		DataSet data = res.getDataSet(filename);
+		if (data == null)
+			throw new NullPointerException("File not found");
+		return InfoToJson.convertDataSet(data);
+	}
+
+	/**
+	 *  returns full info about file
+	 *  example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
+	 */
+	@RequestMapping(value = "/file/{user_id}/{project_id}/{nameForUser}/getFullInfo", method = RequestMethod.GET)
+	public String getFullFileInfo(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("nameForUser") String filename) throws Exception {
+		if (filename == null || filename.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
+			throw new IllegalArgumentException();
+		JsonPointRepositoryDataResolver res = new JsonPointRepositoryDataResolver();
+		res.setProject(userId, projectId);
+		DataSet data = res.getDataSet(filename);
+		if (data == null)
+			throw new NullPointerException("File not found");
+		FileInfo info = FileRepository.getRepo().findFileById(data.getFile().getToken());
+		if (info == null)
+			throw new NullPointerException("getInfo does not work correctly");
+
+		return InfoToJson.convertInfoAboutFile(info, data);
 	}
 }

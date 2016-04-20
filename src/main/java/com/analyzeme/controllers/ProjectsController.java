@@ -1,6 +1,6 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.parsers.ProjectInfoToJson;
+import com.analyzeme.parsers.InfoToJson;
 import com.analyzeme.repository.UsersRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -127,7 +127,7 @@ public class ProjectsController {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
 				return null;
 			}
-			return ProjectInfoToJson.convert(UsersRepository.getRepo().findUser("guest").getProjects().getProjects());
+			return InfoToJson.convert(UsersRepository.getRepo().findUser("guest").getProjects().getProjects());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
