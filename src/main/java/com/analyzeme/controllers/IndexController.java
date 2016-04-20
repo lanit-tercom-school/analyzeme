@@ -35,4 +35,7 @@ public class IndexController {
 	@RequestMapping(value = "/preview")
 	public String moveToPreviewPage() {return  "preview";}
 
+	@RequestMapping(value = "/fileInfo")
+	public String moveToFileInfo() {return  "fileInfo";}
+
 }

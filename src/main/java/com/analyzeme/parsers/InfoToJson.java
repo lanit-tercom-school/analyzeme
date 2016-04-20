@@ -20,10 +20,10 @@ public class InfoToJson {
 		JSONObject project = new JSONObject();
 		project.put("projectName", info.getProjectName());
 		project.put("login", "guest");
-		project.put("creationDate", info.getCreationDate());
-		project.put("lastChangeDate", info.getLastChangeDate());
+		project.put("creationDate", info.getCreationDate().toString());
+		project.put("lastChangeDate", info.getLastChangeDate().toString());
 		project.put("projectId", info.getUniqueName());
-		project.put("isActive", info.isActive());
+		project.put("isActive", Boolean.toString(info.isActive()));
 		return project;
 	}
 
