@@ -23,7 +23,7 @@ public class InfoToJson {
 		project.put("creationDate", info.getCreationDate().toString());
 		project.put("lastChangeDate", info.getLastChangeDate().toString());
 		project.put("projectId", info.getUniqueName());
-		project.put("isActive", Boolean.toString(info.isActive()));
+		project.put("isActive", info.isActive());
 		return project;
 	}
 
@@ -65,7 +65,7 @@ public class InfoToJson {
 		obj.put("nameForUser", info.getNameForUser());
 		obj.put("uniqueName", info.getUniqueName());
 		obj.put("uploadingDate", info.getUploadingDate().toString());
-		obj.put("isActive", Boolean.toString(info.isActive()));
+		obj.put("isActive", info.isActive());
 		return obj;
 	}
 
@@ -157,7 +157,7 @@ public class InfoToJson {
 		result.put("nameForUser", info.getNameForUser());
 		result.put("uniqueName", info.getUniqueName());
 		result.put("uploadingDate", info.getUploadingDate().toString());
-		result.put("isActive", Boolean.toString(info.isActive()));
+		result.put("isActive", info.isActive());
 		JSONArray fields = new JSONArray();
 		Map<String, String> f = data.getFieldsWithNames();
 		for (Map.Entry<String, String> entry : f.entrySet()) {
