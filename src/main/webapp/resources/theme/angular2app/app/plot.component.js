@@ -32,13 +32,7 @@
                 }
                 if (this._workspaceService.session.autorun) {
                   l.log("autorun script");
-                  if (this.file.content != null) {
-                    l.log("run script");
-                    this.applyFunction();
-                  } else {
-                    l.log("Can't run script: File not choosen");
-                    alert("Can't run script: File not choosen");
-                  }
+                  this.applyFunction();
                   this._workspaceService.session.autorun = false;
                 }
               });
@@ -53,15 +47,31 @@
               this.functionType = funcType;
             },
             applyFunction: function() {
-                var fileName = this._workspaceService._fileService.getServerName();
+                var wss = this._workspaceService;
+                var fileName = wss._fileService.getServerName();
                 //var functionType = document.getElementById("functionSelect").value;
                 var resultOutput = document.getElementById("functionResult");
+                resultOutput.value = "Analyzing...";
                 if (this.functionType == "UserScript") {
-                  resultOutput.value = "User's script";
-                  alert(this._workspaceService.session.script);
+                  app.AppUtils.API.runScript(
+                    1,
+                    wss._projectService.selectedProject.projectId,
+                    wss.session.returnType,
+                    1 + "_" + wss._projectService.selectedProject.projectId +"_script",
+                    wss.session.script
+                  )
+                  .then(
+                    (xhr) => {
+                      resultOutput.value =
+                          xhr.responseText;
+                    },
+                    (err) => {
+                      resultOutput.value = "Can't evaluate: " + err;
+                    }
+                  );
                   return;
                 }
-                resultOutput.value = "Analyzing...";
+
                 var xhr = app.AppUtils.API.analyzeFile(fileName, this.functionType);
                 xhr.then(
                   (xhr) => {

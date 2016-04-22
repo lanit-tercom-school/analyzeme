@@ -8,6 +8,7 @@
             constructor: [app.ProjectService, app.FileService, function WorkspaceService(projectService, fileService) {
                 this.session = {
                   autorun: false,
+                  returnType: "DOUBLE",
                   script: `# template R-script(just for test)
 install.packages("caTools")  # install external package
 library(caTools)         # external package providing write.gif function
