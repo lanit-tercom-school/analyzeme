@@ -30,6 +30,17 @@
                   app.d3Utils.DrawGraph(JSON.parse(this.file.content).Data);
                   l.log("drawEnd");
                 }
+                if (this._workspaceService.session.autorun) {
+                  l.log("autorun script");
+                  if (this.file.content != null) {
+                    l.log("run script");
+                    this.applyFunction();
+                  } else {
+                    l.log("Can't run script: File not choosen");
+                    alert("Can't run script: File not choosen");
+                  }
+                  this._workspaceService.session.autorun = false;
+                }
               });
             },
             ngAfterViewInit: function() {

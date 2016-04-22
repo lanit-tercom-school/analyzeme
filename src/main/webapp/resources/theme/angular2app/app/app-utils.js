@@ -4,10 +4,11 @@
     app.AppUtils.domens = [
         "http://localhost:8080/",
         "http://analyzeme-dev.herokuapp.com/",
-        "http://192.168.1.126:8080/"
+        "http://192.168.1.126:8080/",
+        "/"
     ];
     app.AppUtils.resolveUrl = function(relativePath) {
-        return app.AppUtils.domens[1] + relativePath;
+        return app.AppUtils.domens[3] + relativePath;
     };
 
     app.AppUtils.pathToApp = app.AppUtils.resolveUrl("resources/angular2app/");
