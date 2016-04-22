@@ -49,6 +49,9 @@
         <script src='${angularPath}app/main.js'></script>
         <!--d3-->
         <script src="${angularPath}lib/d3.v3.min.js" charset="utf-8"></script>
+        <!--ace editor-->
+        <script src="${angularPath}lib/ace/ace.js" charset="utf-8"></script>
+        <script src="${angularPath}lib/ace/mode-r.js" charset="utf-8"></script>
     </head>
 
     <!-- 3. Display the application -->
