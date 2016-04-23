@@ -28,15 +28,27 @@
             onSubmit: function(event) {
                 l.log("SUBMIT");
                 var input = document.forms.upload.elements.myfile;
-                var file = input.files[0];
-                if (file) {
-                    this._uploadFile(file);
+                if (input.files) {
+                  for (var i = 0; i < input.files.length; i++) {
+                    if (input.files[i]) {
+                      this._uploadFile(input.files[i]);
+                    }
+                    l.dir(input.files[i]);
+                  }
                 }
-                l.dir(file);
                 return false;
             },
             updateFileNameField: function() {
-                  document.getElementById("fileNameField").innerText = document.forms.upload.elements.myfile.files[0].name;
+                var input = document.forms.upload.elements.myfile;
+                var fileNameField = document.getElementById("fileNameField");
+                fileNameField.innerText = "";
+                if (input.files) {
+                  for (var i = 0; i < input.files.length; i++) {
+                    if (input.files[i]) {
+                      fileNameField.innerText += "\n" + input.files[i].name;
+                    }
+                  }
+                }
             },
             noon: function(event) {
                 event.stopPropagation();

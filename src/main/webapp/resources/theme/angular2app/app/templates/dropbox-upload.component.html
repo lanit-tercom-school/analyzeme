@@ -4,7 +4,8 @@
             class="mdl-color--primary">
         <div style="overflow:hidden;" class="mdl-button mdl-button--raised">
             <span>CHOOSE FILE</span>
-            <input type="file"
+            <input multiple
+                   type="file"
                    (change)="updateFileNameField()"
                    name="myfile"
                    style=" cursor:pointer;position: absolute; top:0; width:100%; height: 100%; opacity:0; filter:alpha(opacity:0); font-size:199px; cursor:pointer; padding:0px; margin:0px; border:none; margin-left:-450px;">
