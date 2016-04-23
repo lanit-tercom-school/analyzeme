@@ -94,7 +94,7 @@
     app.AppUtils.API = {};
     app.AppUtils.API.logger = app.AppUtils.logger("AppUtils::API");
 
-    app.AppUtils.makeRequest = function(method, path, headers, successChecker, callbackSuccess, callbackError) {
+    app.AppUtils.makeRequest = function(method, path, body, headers, successChecker, callbackSuccess, callbackError) {
       return new Promise((resolve, reject) => {
           var xhr = new XMLHttpRequest();
           xhr.onload = xhr.onerror = function(event) {
@@ -112,12 +112,12 @@
                 xhr.setRequestHeader(header.name, header.data);
             }
           }
-          xhr.send();
+          xhr.send(body);
       });
     };
 
     app.AppUtils.testRequest = (method, path) =>
-        app.AppUtils.makeRequest(method, path, [],
+        app.AppUtils.makeRequest(method, path, null, [],
           (xhr) => xhr.status == 200,
           (xhr) => window.console.dir(xhr),
           (xhr) => window.console.dir(xhr)
@@ -246,8 +246,9 @@
 
     app.AppUtils.API.runScript = function(userId, projectId, typeOfResult, name, script) {
       return app.AppUtils.makeRequest(
-        "GET",
+        "POST",
         userId + "/" + projectId + "/run/script",
+        script,
         [
           {
             name: "type_of_call",
@@ -260,10 +261,6 @@
           {
             name: "name",
             data: name
-          },
-          {
-            name: "script",
-            data: script
           }
         ],
         (xhr) => xhr.status == 202,

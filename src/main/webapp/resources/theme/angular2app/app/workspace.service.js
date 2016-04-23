@@ -28,6 +28,13 @@ write.gif(X, "Mandelbrot.gif", col=jet.colors, delay=900)
 `
                 };
 
+                this.returnTypes = [
+                  "DOUBLE",
+                  "STRING",
+                  "POINT",
+                  "POINTS"
+                ];
+
                 this.availableFunctions = [
                    {
                       func: "GlobalMinimum",
