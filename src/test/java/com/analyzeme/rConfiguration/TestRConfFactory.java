@@ -8,7 +8,6 @@ import static junit.framework.Assert.assertTrue;
  * test for RConfFactory
  * Created by asus on 14.04.2016.
  */
-// TODO: 17.04.2016 Comments 
 public class TestRConfFactory {
     @Test
     public void testRConfFactory() {

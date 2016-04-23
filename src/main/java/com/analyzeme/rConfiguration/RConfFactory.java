@@ -21,9 +21,9 @@ public class RConfFactory {
 
     /**
      * Example of json string
-     * {"rConfType":"FakeRConf","name":"Example1","activeFlag":"true"}
-     * {"rConfType":"RenjinConf","name":"Example2","activeFlag":"true"}
-     * {"rConfType":"RserveConf","name":"Example3","activeFlag":"true","host":"localhost","port":"1099"}
+     * {"rConfType":"FakeRConf","name":"Example1","activeFlag":true}
+     * {"rConfType":"RenjinConf","name":"Example2","activeFlag":true}
+     * {"rConfType":"RserveConf","name":"Example3","activeFlag":true,"host":"localhost","port":"1099"}
      *
      * @param data json string what will be used get param for RConfigurations
      * @return RConf

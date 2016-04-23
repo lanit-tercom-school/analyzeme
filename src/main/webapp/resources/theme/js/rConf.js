@@ -29,7 +29,7 @@ function addRow() {
     var str = JSON.stringify(RConf);
     alert("/rConf/" + str);
     var xhr = new XMLHttpRequest();
-    xhr.open("PUT","/rConf/"+str, true); // If async=false, then you'll miss progress bar support.
+    xhr.open("PUT", "/rConf/" + str, true); // If async=false, then you'll miss progress bar support.
     xhr.send();
 }
 function deleteRow(obj) {
@@ -38,12 +38,12 @@ function deleteRow(obj) {
     var table = document.getElementById("listOfInstances");
     var cell = table.rows[index].cells[1];
     var name = cell.innerHTML;
-    alert("/rConf/"+name);
+    alert("/rConf/" + name);
 
     table.deleteRow(index);
 
     var xhr = new XMLHttpRequest();
-    xhr.open("DELETE","/rConf/"+name, true); // If async=false, then you'll miss progress bar support.
+    xhr.open("DELETE", "/rConf/" + name, true); // If async=false, then you'll miss progress bar support.
     xhr.send();
 
 
@@ -75,8 +75,3 @@ function addTable() {
 
 }
 
-function load() {
-
-    console.log("Page load finished");
-
-}

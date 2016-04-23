@@ -11,46 +11,62 @@ import java.util.List;
  * repository of RConfiguration
  * Created by asus on 03.04.2016.
  */
-
-// TODO: 14.04.2016  comments
 public class RConfRepository {
-    // TODO: 14.04.2016  comments
-    // TODO: 17.04.2016  test 
+
     private static RConfRepository repo = new RConfRepository();
-    // TODO: 14.04.2016  comments
-    // TODO: 17.04.2016  test 
     private static List<IRConf> RConfigurations;
 
-    // TODO: 14.04.2016  comments
-    // TODO: 17.04.2016  complete default initialization
+    /**
+     * private default constructor
+     * initialize repository with active FakeRConf,RenjinConf and RserveConf configuration
+     * name of  RserveConf if RServe1
+     * Rserve1 port and host is null
+     * name of FakeRConf is FakeR
+     * name of RenjinConf is Renjin
+     */
     private RConfRepository() {
         RConfigurations = new ArrayList<IRConf>();
-//        FakeRConf RConf1 = new FakeRConf(true, "FakeR");
-//        RenjinConf RConf2 = new RenjinConf(true, "Renjin");
-//        RserveConf RConf3 = new RserveConf();
-//        RConf3.setName("RServe1");
-//        RConfigurations.add(RConf3);
-//        RConfigurations.add(RConf2);
-//        RConfigurations.add(RConf1);
-
+        //init new RConf
+        FakeRConf RConf1 = new FakeRConf(true, "FakeR");
+        RenjinConf RConf2 = new RenjinConf(true, "Renjin");
+        RserveConf RConf3 = new RserveConf();
+        RConf3.setName("Rserve1");
+        //add new RConf
+        RConfigurations.add(RConf1);
+        RConfigurations.add(RConf2);
+        RConfigurations.add(RConf3);
     }
 
-    // TODO: 14.04.2016  comments
+    /**
+     * get repository
+     * @return field repo
+     */
     public static RConfRepository getRepo() {
         return repo;
     }
 
-    // TODO: 14.04.2016  comments
+    /**
+     * get list of all RConf
+     * @return field RConfigurations
+     */
     public static List<IRConf> getAllRConfigurations() {
         return RConfigurations;
     }
 
-    // TODO: 14.04.2016  comments
+    /**
+     * add new IRConf
+     * @param newConfiguration will be added to repository
+     */
     public synchronized void addRConf(IRConf newConfiguration) {
         RConfigurations.add(newConfiguration);
     }
 
-    // TODO: 14.04.2016  comments
+    /**
+     * get RConf by name
+     * @param name of RConf
+     * @return IRConf with name @param name
+     * @throws IOException
+     */
     public IRConf getRConfByName(String name) throws IOException {
         if (name == null || name.equals("")) throw new IOException();
         for (IRConf rConf : RConfigurations) {
@@ -62,7 +78,11 @@ public class RConfRepository {
         return null;
     }
 
-    // TODO: 14.04.2016  comments
+    /**
+     * delete RConf by name
+     * @param name of RConf to delete
+     * @throws IOException
+     */
     public void deleteRConfByName(String name) throws IOException {
         if (name == null || name.equals("")) throw new IOException();
         for (int i = 0; i < RConfigurations.size(); i++) {
@@ -73,15 +93,24 @@ public class RConfRepository {
 
     }
 
-    // TODO: 14.04.2016  comments
+    /**
+     * update RConf by name
+     * @param name of updating RConf
+     * @param data JsonString with data to update
+     * @throws IOException
+     * @throws IllegalArgumentException
+     */
     public void updateRConfByName(String name, String data) throws IOException, IllegalArgumentException {
 
-        IRConf RConf = getRConfByName(name);
+        IRConf RConf = repo.getRConfByName(name);
         RConf.assignment(RConfFactory.getRConf(data));
 
     }
 
-    // TODO: 14.04.2016  comments
+    /**
+     * get all RConf as json String
+     * @return all RConf as jsonString
+     */
     public String allConfigurationsToJsonString() {
         JSONArray ar = new JSONArray();
         for (IRConf rConf : RConfigurations) {
@@ -92,8 +121,10 @@ public class RConfRepository {
         return ar.toString();
     }
 
-    // TODO: 14.04.2016  comments
-    // TODO: 19.04.2016 test
+    /**
+     * get first active non Fake RConf
+     * @return active Rseve or Renjin RConf
+     */
     public IRConf GetDefaultConfiguration() {
         for (IRConf rConf : RConfigurations) {
             if (!(rConf instanceof FakeRConf) && rConf.isActive()) {
@@ -104,8 +135,10 @@ public class RConfRepository {
         return null;
     }
 
-    // TODO: 14.04.2016  comments
-    // TODO: 19.04.2016 test
+    /**
+     * get first active FakeRConf
+     * @return first active FakeRConf
+     */
     public IRConf GetDefaultTestConfiguration() {
         for (IRConf rConf : RConfigurations) {
             if ((rConf instanceof FakeRConf) && rConf.isActive()) {
