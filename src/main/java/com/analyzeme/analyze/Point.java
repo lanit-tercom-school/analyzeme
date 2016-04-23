@@ -1,11 +1,17 @@
 package com.analyzeme.analyze;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 /**
  * Class what describe point
  * Created by Sergey on 07.12.2015.
  */
+@JsonAutoDetect
 public class Point {
+	@JsonProperty("x")
 	private double x;
+	@JsonProperty("y")
 	private double y;
 
 	/**
