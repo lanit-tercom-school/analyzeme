@@ -27,13 +27,13 @@ public class RConsoleController {
      * HttpStatus.Accepted and result if ran successfully
      */
 
-    @RequestMapping(value = "/{user_id}/{project_id}/run/script", method = RequestMethod.GET)
+    @RequestMapping(value = "/{user_id}/{project_id}/run/script", method = RequestMethod.POST)
     public ResponseEntity<Object> runRForNumber(@PathVariable("user_id") int userId,
                                                 @PathVariable("project_id") String projectId,
                                                 @RequestHeader("type_of_call") TypeOfCall typeOfCall,
                                                 @RequestHeader("type_of_result") TypeOfReturnValue typeOfResult,
                                                 @RequestHeader("name") String scriptName,
-                                                @RequestHeader("script") String scriptText) {
+                                                @RequestBody String scriptText) {
         Object result;
         try {
             result = rAnalyzer.runScript(userId, projectId, scriptName, scriptText, typeOfResult, typeOfCall);
