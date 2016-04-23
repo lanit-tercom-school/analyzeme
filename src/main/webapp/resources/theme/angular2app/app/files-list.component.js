@@ -52,10 +52,8 @@
                     .then(data => l.dir(data));
             },
             deleteFile: function(file) {
-                //TODO: deleteFile: make work
                 l.log("deleteFile");
-                l.dir(file);
-                alert("deleteFile cap");
+                app.AppUtils.API.deleteFile(file.serverName);
             }
         });
 })(window.app || (window.app = {}));

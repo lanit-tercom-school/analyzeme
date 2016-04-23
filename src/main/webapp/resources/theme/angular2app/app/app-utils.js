@@ -124,124 +124,105 @@
         );
 
     app.AppUtils.API.createProject = function(userId, projectName) {
-        return new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = xhr.onerror = function(event) {
-              if (xhr.status == 200) {
-                  app.AppUtils.API.logger.log(userId + " created project " + projectName);
-                  resolve(xhr);
-              } else {
-                  app.AppUtils.API.logger.log(
-                      userId + " failed create project " + projectName
-                      + ": error " + xhr.status
-                  );
-                  reject("error " + xhr.status);
-              }
-            };
-            xhr.open("PUT", app.AppUtils.resolveUrl(userId + "/project/new/create"), true);
-            xhr.setRequestHeader("project_name", projectName);
-            xhr.send();
-        });
+        return app.AppUtils.makeRequest(
+          "PUT",
+          userId + "/project/new/create",
+          null,
+          [
+            {
+              name: "project_name",
+              data: projectName
+            }
+          ],
+          (xhr) => xhr.status == 200,
+          (xhr) => app.AppUtils.API.logger.log(userId + " created project " + projectName),
+          (xhr) => app.AppUtils.API.logger.log(
+              userId + " failed create project " + projectName
+              + ": error " + xhr.status
+          )
+        );
     };
 
     app.AppUtils.API.deleteProject = function(userId, projectId) {
-        return new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = xhr.onerror = function(event) {
-              if (xhr.status == 200) {
-                  app.AppUtils.API.logger.log(userId + " deleted project " + projectId);
-                  resolve(xhr);
-              } else {
-                  app.AppUtils.API.logger.log(
-                      userId + " failed delete project " + projectId
-                      + ": error " + xhr.status
-                  );
-                  reject("error " + xhr.status);
-              }
-            };
-            xhr.open("DELETE",
-                app.AppUtils.resolveUrl(userId + "/project/" + projectId + "/delete"),
-                true
-            );
-            xhr.send();
-        });
+        return app.AppUtils.makeRequest(
+          "DELETE",
+          userId + "/project/" + projectId + "/delete",
+          null,
+          [],
+          (xhr) => xhr.status == 200,
+          (xhr) => app.AppUtils.API.logger.log(userId + " deleted project " + projectId),
+          (xhr) => app.AppUtils.API.logger.log(
+              userId + " failed delete project " + projectId
+              + ": error " + xhr.status
+          )
+        );
     };
 
     // returns array of fileames
     // extract: JSON.parse(xhr.responseText)
     app.AppUtils.API.getProjectFiles = function(userId, projectId) {
-        return new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = xhr.onerror = function(event) {
-              if (xhr.status == 200) {
-                  app.AppUtils.API
-                    .logger.log(userId + " got files of project " + projectId);
-                  resolve(xhr);
-              } else {
-                  app.AppUtils.API.logger.log(
-                      userId + " failed to get files of project " + projectId
-                      + ": error " + xhr.status
-                  );
-                  reject("error " + xhr.status);
-              }
-            };
-            xhr.open("GET",
-                app.AppUtils.resolveUrl(userId + "/project/" + projectId + "/files"),
-                true
-            );
-            xhr.send();
-        });
+        return app.AppUtils.makeRequest(
+          "GET",
+          userId + "/project/" + projectId + "/files",
+          null,
+          [],
+          (xhr) => xhr.status == 200,
+          (xhr) => app.AppUtils.API.logger.log(userId + " got files of project " + projectId),
+          (xhr) => app.AppUtils.API.logger.log(
+              userId + " failed to get files of project " + projectId
+              + ": error " + xhr.status
+          )
+        );
     };
 
     // returns file data
     // extract: JSON.parse(xhr.responseText).Data
     app.AppUtils.API.getFileData = function(fileName) {
-        return new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
-            xhr.onload = xhr.onerror = function(event) {
-              if (xhr.status == 200) {
-                  app.AppUtils.API
-                    .logger.log("got file's data: " + fileName);
-                  resolve(xhr);
-              } else {
-                  app.AppUtils.API.logger.log(
-                      "failed to get file's data: " + fileName
-                      + ": error " + xhr.status
-                  );
-                  reject("error " + xhr.status);
-              }
-            };
-            xhr.open("GET",
-                app.AppUtils.resolveUrl("file/" + fileName + "/data"),
-                true
-            );
-            xhr.send();
-        });
+        return app.AppUtils.makeRequest(
+          "GET",
+          "file/" + fileName + "/data",
+          null,
+          [],
+          (xhr) => xhr.status == 200,
+          (xhr) => app.AppUtils.API.logger.log("got file's data: " + fileName),
+          (xhr) => app.AppUtils.API.logger.log(
+              "failed to get file's data: " + fileName
+              + ": error " + xhr.status
+          )
+        );
+    };
+
+    app.AppUtils.API.deleteFile = function(fileName) {
+        return app.AppUtils.makeRequest(
+          "DELETE",
+          "file/" + fileName + "/delete",
+          null,
+          [],
+          (xhr) => xhr.status == 200,
+          (xhr) => app.AppUtils.API.logger.log("deleted file: " + fileName),
+          (xhr) => app.AppUtils.API.logger.log(
+              "failed to delete file: " + fileName
+              + ": error " + xhr.status
+          )
+        );
     };
 
     app.AppUtils.API.analyzeFile = function(fileName, functionType) {
-        return new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
-            xhr.open("GET",
-                app.AppUtils.resolveUrl(
-                    "file/" + fileName + "/" + functionType
-                ),
-                true);
-            xhr.onload = xhr.onerror = function(event) {
-                if (this.status == 200) {
-                    app.AppUtils.API.logger.dir(this);
-                    app.AppUtils.API.logger.log(
-                        functionType + "(" + fileName + ") = " +
-                        xhr.responseText
-                    );
-                    resolve(xhr);
-                } else {
-                    app.AppUtils.API.logger.log("error " + xhr.status);
-                    reject("error " + xhr.status);
-                }
-            };
-            xhr.send();
-        });
+        return app.AppUtils.makeRequest(
+          "GET",
+          "file/" + fileName + "/" + functionType,
+          null,
+          [],
+          (xhr) => xhr.status == 200,
+          (xhr) => {
+            app.AppUtils.API.logger.dir(xhr);
+            app.AppUtils.API.logger.log(
+                functionType + "(" + fileName + ") = " +
+                xhr.responseText
+            );
+          },
+          (xhr) => app.AppUtils.API.logger.log("Error: " + xhr.status)
+        );
     };
 
     app.AppUtils.API.runScript = function(userId, projectId, typeOfResult, name, script) {
@@ -268,14 +249,37 @@
         (xhr) => app.AppUtils.API.logger.log("Error: " + xhr.status)
       );
     };
-    /*
-    //TODO
-    app.AppUtils.API.uploadFile = function(file) {
-        return new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
 
-            xhr.send();
-        });
+    app.AppUtils.API.uploadFile = function(self, file, sp, l) {
+      var formData = new FormData();
+      formData.append("file", file);
+
+      return app.AppUtils.makeRequest(
+        "POST",
+        "upload/" + (sp.login == "guest" ? 1 : sp.login) + "/" + sp.projectId,
+        formData,
+        [],
+        (xhr) => xhr.status == 200,
+        (xhr) => {
+          self._fileService.setSelectedFile(
+              app.AppUtils.extractFileFromXHR(xhr)
+          );
+          self._fileService.getSelectedFile()
+              .then(sFile => self.selectedFile = sFile);
+          if (self.selectedFile.content) {
+              self.Data = JSON.parse(self.selectedFile.content).Data;
+          }
+          l.dir(self.selectedFile);
+          //
+          l.log("success");
+          self._fileService.addFile(self.selectedFile);
+          try {
+              app.d3Utils.DrawGraph(self.Data);
+          } catch (e) {
+              l.error("can't draw graphic [possibly, wrong data]", e);
+          } finally {};
+        },
+        (xhr) => l.log("error " + xhr.status)
+      );
     };
-    */
 })(window.app || (window.app = {}));
