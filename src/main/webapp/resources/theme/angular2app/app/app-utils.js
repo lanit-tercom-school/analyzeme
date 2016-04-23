@@ -94,11 +94,11 @@
     app.AppUtils.API = {};
     app.AppUtils.API.logger = app.AppUtils.logger("AppUtils::API");
 
-    app.AppUtils.makeRequest = function(method, path, headers, callbackSuccess, callbackError) {
+    app.AppUtils.makeRequest = function(method, path, body, headers, successChecker, callbackSuccess, callbackError) {
       return new Promise((resolve, reject) => {
           var xhr = new XMLHttpRequest();
           xhr.onload = xhr.onerror = function(event) {
-            if (xhr.status == 200) {
+            if (successChecker(xhr)) {
                 callbackSuccess(xhr);
                 resolve(xhr);
             } else {
@@ -112,12 +112,13 @@
                 xhr.setRequestHeader(header.name, header.data);
             }
           }
-          xhr.send();
+          xhr.send(body);
       });
     };
 
     app.AppUtils.testRequest = (method, path) =>
-        app.AppUtils.makeRequest(method, path, [],
+        app.AppUtils.makeRequest(method, path, null, [],
+          (xhr) => xhr.status == 200,
           (xhr) => window.console.dir(xhr),
           (xhr) => window.console.dir(xhr)
         );
@@ -241,6 +242,31 @@
             };
             xhr.send();
         });
+    };
+
+    app.AppUtils.API.runScript = function(userId, projectId, typeOfResult, name, script) {
+      return app.AppUtils.makeRequest(
+        "POST",
+        userId + "/" + projectId + "/run/script",
+        script,
+        [
+          {
+            name: "type_of_call",
+            data: "RUN"
+          },
+          {
+            name: "type_of_result",
+            data: typeOfResult
+          },
+          {
+            name: "name",
+            data: name
+          }
+        ],
+        (xhr) => xhr.status == 202,
+        (xhr) => app.AppUtils.API.logger.log("Success: " + xhr.responseText),
+        (xhr) => app.AppUtils.API.logger.log("Error: " + xhr.status)
+      );
     };
     /*
     //TODO

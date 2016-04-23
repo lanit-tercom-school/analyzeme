@@ -1,3 +1,15 @@
+<label *ngFor="#returnType of _workspaceService.returnTypes"
+  (click)="setReturnType(returnType)"
+  class="mdl-radio mdl-js-radio mdl-js-ripple-effect"
+  style="margin-left: 14px;"
+  attr.for="returnType{{returnType}}">
+  <input type="radio"
+          id="returnType{{returnType}}"
+          class="mdl-radio__button"
+          name="options"
+          value="{{returnType}}">
+  <span class="mdl-radio__label">{{returnType}}</span>
+</label>
 <button (click)="saveScript()"
         class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
         style="width: 18em;">
