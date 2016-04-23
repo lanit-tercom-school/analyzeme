@@ -1,11 +1,26 @@
-<div class="dropbox-upload" style="width:100%;"
+<div class="dropbox-upload" style="width:100%;" class="mdl-layout mdl-color--primary"
 (dragenter)="noon($event)" (dragover)="noon($event)" (drop)="onDrop($event)">
-    <form (submit)="onSubmit($event)" name="upload"
-            style="height: 100%; background: brown;">
-        <input type="file" name="myfile">
+    <form (ngSubmit)="onSubmit($event)" name="upload"
+            class="mdl-color--primary">
+        <div style="overflow:hidden;" class="mdl-button mdl-button--raised">
+            <span>CHOOSE FILE</span>
+            <input type="file"
+                   (change)="updateFileNameField()"
+                   name="myfile"
+                   style=" cursor:pointer;position: absolute; top:0; width:100%; height: 100%; opacity:0; filter:alpha(opacity:0); font-size:199px; cursor:pointer; padding:0px; margin:0px; border:none; margin-left:-450px;">
+        </div>
+        <span id="fileNameField"></span>
         <br />
-        <input type="submit" value="Загрузить">
+        <button type="submit"
+                class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                style="width: 100%;">
+          Upload
+        </button>
         <br />
-        <input type="button" value="collapse" (click)="collapsed.next(false);">
+        <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                (click)="collapsed.next(false);"
+                style="width: 100%;">
+          Collapse
+        </button>
     </form>
 </div>

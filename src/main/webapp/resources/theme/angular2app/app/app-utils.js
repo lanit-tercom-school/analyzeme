@@ -234,14 +234,37 @@
         (xhr) => app.AppUtils.API.logger.log("Error: " + xhr.status)
       );
     };
-    /*
-    //TODO
-    app.AppUtils.API.uploadFile = function(file) {
-        return new Promise((resolve, reject) => {
-            var xhr = new XMLHttpRequest();
 
-            xhr.send();
-        });
+    app.AppUtils.API.uploadFile = function(self, file, sp, l) {
+      var formData = new FormData();
+      formData.append("file", file);
+
+      return app.AppUtils.makeRequest(
+        "POST",
+        "upload/" + (sp.login == "guest" ? 1 : sp.login) + "/" + sp.projectId,
+        formData,
+        [],
+        (xhr) => xhr.status == 200,
+        (xhr) => {
+          self._fileService.setSelectedFile(
+              app.AppUtils.extractFileFromXHR(xhr)
+          );
+          self._fileService.getSelectedFile()
+              .then(sFile => self.selectedFile = sFile);
+          if (self.selectedFile.content) {
+              self.Data = JSON.parse(self.selectedFile.content).Data;
+          }
+          l.dir(self.selectedFile);
+          //
+          l.log("success");
+          self._fileService.addFile(self.selectedFile);
+          try {
+              app.d3Utils.DrawGraph(self.Data);
+          } catch (e) {
+              l.error("can't draw graphic [possibly, wrong data]", e);
+          } finally {};
+        },
+        (xhr) => l.log("error " + xhr.status)
+      );
     };
-    */
 })(window.app || (window.app = {}));
