@@ -72,21 +72,24 @@ public class RConsoleController {
         return project.addNewFile(scriptName, scriptText);
     }
 
-    /**
+    /**(has problems with repeating names)
      * doesn't distinguish script and not-script files yet
+     *
      * gets file by its unique name
      *
      * @param scriptName unique script name
      * @return file data in String
      * @throws Exception
      */
-    @RequestMapping(value = "/get/script", method = RequestMethod.GET)
-    public String getScript(@RequestHeader("name") String scriptName) throws Exception {
+    @RequestMapping(value = "/{user_id}/{project_id}/get/script", method = RequestMethod.GET)
+    public String getScript(@PathVariable("user_id") int userId,
+                            @PathVariable("project_id") String projectId,
+                            @RequestHeader("name") String scriptName) throws Exception {
 
         if (UsersRepository.getRepo().checkInitialization() == null) {
             return null;
         }
-        FileInfo file = UsersRepository.getRepo().findFile(scriptName, new String[]{});
+        FileInfo file = UsersRepository.getRepo().findFile(scriptName, new String[]{String.valueOf(userId), projectId});
         if (file == null) {
             return null;
         }
