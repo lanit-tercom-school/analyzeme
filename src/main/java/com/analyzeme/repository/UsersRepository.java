@@ -292,14 +292,16 @@ public class UsersRepository implements IRepository {
 		if (projectId == null || projectId.equals("") || project == null) {
 			throw new IllegalArgumentException();
 		}
-		for (String file : project.getFilenames()) {
-			FileInfo info = FileRepository.getRepo().findFileById(file);
-			if (info.getNameForUser().equals(filename)) {
+		//for (String file : project.getFilenames()) {
+			FileInfo info = FileRepository.getRepo().findFileById(filename);
+			//if (info.getNameForUser().equals(filename)) {
 				return info.getData();
-			}
-		}
-		return null;
+			//}
+		//}
+		//return null;
 	}
+
+	//commented some code here which i think is needn't here
 
 	/**
 	 * checks if the requirements given in params are met
@@ -311,25 +313,25 @@ public class UsersRepository implements IRepository {
 	 */
 	public synchronized FileInfo findFile(final String filename, final String[] params) throws Exception {
 		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
-		for (String str : params) {
-			if (str == null || str.equals("")) throw new IllegalArgumentException();
-		}
-		int userId = Integer.parseInt(params[0]);
-		UserInfo user = findUser(userId);
-		if (userId == 0 || user == null) {
-			throw new IllegalArgumentException();
-		}
-		String projectId = params[1];
-		ProjectInfo project = user.getProjects().findProjectById(projectId);
-		if (projectId == null || projectId.equals("") || project == null) {
-			throw new IllegalArgumentException();
-		}
-		for (String file : project.getFilenames()) {
-			FileInfo info = FileRepository.getRepo().findFileById(file);
-			if (info.getNameForUser().equals(filename)) {
+//		for (String str : params) {
+//			if (str == null || str.equals("")) throw new IllegalArgumentException();
+//		}
+//		int userId = Integer.parseInt(params[0]);
+//		UserInfo user = findUser(userId);
+//		if (userId == 0 || user == null) {
+//			throw new IllegalArgumentException();
+//		}
+//		String projectId = params[1];
+//		ProjectInfo project = user.getProjects().findProjectById(projectId);
+//		if (projectId == null || projectId.equals("") || project == null) {
+//			throw new IllegalArgumentException();
+//		}
+		//for (String file : project.getFilenames()) {
+			FileInfo info = FileRepository.getRepo().findFileById(filename);
+			//if (info.getNameForUser().equals(filename)) {
 				return info;
-			}
-		}
-		return null;
+			//}
+		//}
+		//return null;
 	}
 }

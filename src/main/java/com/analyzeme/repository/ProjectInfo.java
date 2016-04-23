@@ -65,6 +65,27 @@ public class ProjectInfo {
 		return nameInRepo;
 	}
 
+	/**
+	 *
+	 *
+	 * @param filename
+	 * @param file
+	 * @return
+     * @throws Exception
+     */
+	public String addNewFile(String filename,String file) throws Exception {
+		if (filename == null || filename.equals("") || file == null) {
+			throw new IllegalArgumentException();
+		}
+		String nameInRepo = FileRepository.getRepo().persist(file, filename);
+		if (nameInRepo == null || nameInRepo.equals("")) {
+			throw new FileSystemException(filename);
+		}
+		filenames.add(nameInRepo);
+		setLastChangeDate(new Date());
+		return nameInRepo;
+	}
+
 	public String addNewFileForTests(ByteArrayInputStream part, String filename) throws Exception {
 		if (filename == null || filename.equals("") || part == null) {
 			throw new IllegalArgumentException();
