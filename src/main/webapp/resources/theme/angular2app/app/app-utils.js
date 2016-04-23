@@ -192,6 +192,21 @@
         );
     };
 
+    app.AppUtils.API.deleteFile = function(fileName) {
+        return app.AppUtils.makeRequest(
+          "DELETE",
+          "file/" + fileName + "/delete",
+          null,
+          [],
+          (xhr) => xhr.status == 200,
+          (xhr) => app.AppUtils.API.logger.log("deleted file: " + fileName),
+          (xhr) => app.AppUtils.API.logger.log(
+              "failed to delete file: " + fileName
+              + ": error " + xhr.status
+          )
+        );
+    };
+
     app.AppUtils.API.analyzeFile = function(fileName, functionType) {
         return app.AppUtils.makeRequest(
           "GET",
