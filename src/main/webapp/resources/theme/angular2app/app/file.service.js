@@ -10,6 +10,7 @@
 
                 this.data = [];
                 this._projectService = pS;
+                this.fileInfo = {};
 
             }],
             getSelectedFile: function () {
@@ -17,6 +18,9 @@
             },
             getServerName: function () {
                 return this.selectedFile.serverName;
+            },
+            getNameForUser: function () {
+                return this.selectedFile.name;
             },
             setSelectedFile: function (file) {
                 app.AppUtils.copyObj(file, this.selectedFile);
@@ -34,6 +38,10 @@
             getFiles: function () {
                 this.updateFiles();
                 return Promise.resolve(this.data);
+            },
+            getFileInfo: function () {
+                this.updateFileInfo();
+                return Promise.resolve(this.fileInfo);
             },
             getFile: function (name) {
                 return new Promise((resolve, reject) => {
@@ -98,6 +106,32 @@
                             }
                         });
             },
+            updateFileInfo: function () {
+                l.log("getFileInfo for" + this.getServerName());
+                var sp = this._projectService.selectedProject;
+                var fileI = null;
+                app.AppUtils.API.getFullFileInfo(
+                    1,
+                    sp.projectId === undefined ? "project" : sp.projectId,
+                    this.getNameForUser()
+                    )
+                    .then(
+                        xhr => {
+                            return JSON.parse(xhr.responseText);
+                        },
+                        err => {
+                            l.log("Failed load FileInfo: " + err);
+                        }
+                    )
+                    .then(
+                        fileI => {
+                            l.log("fileInfo");
+                            l.dir(fileI);
+                            if (fileI) {
+                                this.fileInfo = fileI;
+                            }
+                        })
+            },
             addFile: function (file) {
                 let fileCopy = {};
                 app.AppUtils.copyObj(file, fileCopy);
@@ -105,4 +139,5 @@
             }
         });
 
-})(window.app || (window.app = {}));
+})
+(window.app || (window.app = {}));

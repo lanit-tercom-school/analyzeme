@@ -175,6 +175,24 @@
         );
     };
 
+    // returns {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
+    // extract: JSON.parse(xhr.responseText)
+    //file/{user_id}/{project_id}/{nameForUser}/getFullInfo
+    app.AppUtils.API.getFullFileInfo = function (userId, projectId, filenameForUser) {
+        return app.AppUtils.makeRequest(
+            "GET",
+            "file/" + userId + "/" + projectId + '/' + filenameForUser + "/getFullInfo/",
+            null,
+            [],
+            (xhr) => xhr.status == 200,
+            (xhr) => app.AppUtils.API.logger.log(userId + " got files of project " + projectId),
+            (xhr) => app.AppUtils.API.logger.log(
+                userId + " failed to get FileInfo for file " + filenameForUser + " in project " + projectId
+                + ": error " + xhr.status
+            )
+        );
+    };
+
     // returns file data
     // extract: JSON.parse(xhr.responseText).Data
     app.AppUtils.API.getFileData = function (fileName) {

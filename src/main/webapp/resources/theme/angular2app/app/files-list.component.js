@@ -22,6 +22,7 @@
                         this.isDropboxExpanded = false;
                         this.selectedFile = null;
                         this.files = null;
+                        this.fileInfo = null;
                     }],
                 ngOnInit: function () {
                     this.getFiles();
@@ -39,6 +40,10 @@
                     this._fileService.getFiles()
                         .then(files => this.files = files);
                 },
+                getFileInfo: function () {
+                    this._fileService.getFileInfo()
+                        .then(fileInfo => this.fileInfo = fileInfo);
+                },
                 getSelectedFile: function () {
                     this._fileService.getSelectedFile()
                         .then(file => this.selectedFile = file);
@@ -48,6 +53,7 @@
                 },
                 onSelect: function (file) {
                     this._fileService.setSelectedFile(file);
+                    this.getFileInfo();
                     app.d3Utils.DrawGraph(JSON.parse(file.content).Data);
                     this._fileService.getSelectedFile()
                         .then(data => l.dir(data));
