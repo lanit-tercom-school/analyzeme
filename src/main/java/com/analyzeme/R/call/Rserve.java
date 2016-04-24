@@ -4,6 +4,7 @@ import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.streamreader.StreamToString;
+import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 
 import java.io.ByteArrayInputStream;
@@ -68,8 +69,8 @@ public class Rserve implements IRCaller {
 		Initialize();
 		insertData(dataFiles);
 		String script = StreamToString.ConvertStreamANSI(rScript);
-		String result = r.eval(script).asString();
-		return result;
+		REXP result = r.eval(script);
+		return result.toString();
 
 	}
 
@@ -161,8 +162,8 @@ public class Rserve implements IRCaller {
 			throw new IllegalArgumentException();
 		Initialize();
 		insertData(dataFiles);
-		String result = r.eval(rCommand).asString();
-		return result;
+		REXP result = r.eval(rCommand);
+		return result.toString();
 	}
 
 	/**
@@ -189,8 +190,8 @@ public class Rserve implements IRCaller {
 		}
 		r.assign("x", x);
 		r.assign("y", y);
-		String result = r.eval(rCommand).asString();
-		return result;
+		REXP result = r.eval(rCommand);
+		return result.toString();
 	}
 
 

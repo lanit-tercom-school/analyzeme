@@ -9,8 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
  */
 @Controller
 public class AppController {
-    @RequestMapping(value = "/app/**")
-    public ModelAndView moveToAppPage() {
-        return new ModelAndView("app");
-    }
+	@RequestMapping(value = "/app/**")
+	public ModelAndView moveToAppPage() {
+		return new ModelAndView("app");
+	}
 }

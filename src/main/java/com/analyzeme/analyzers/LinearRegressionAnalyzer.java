@@ -1,7 +1,6 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.IResult;
-import com.analyzeme.analyzers.result.PointResult;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class LinearRegressionAnalyzer implements IAnalyzer {
 //        return null;
 //    }
 
-    public IResult analyze(List<List<Point>> data) {
-        return null;
-    }
+	public IResult analyze(List<List<Point>> data) {
+		return null;
+	}
 }

@@ -9,18 +9,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class DoubleResult implements IResult {
 
-    private ObjectMapper mapper = new ObjectMapper();
-    private Double result;
+	private ObjectMapper mapper = new ObjectMapper();
+	private Double result;
 
-    public DoubleResult(Double result) {
-        this.result = result;
-    }
+	public DoubleResult(Double result) {
+		this.result = result;
+	}
 
-    public Double getValue() {
-        return result;
-    }
+	public Double getValue() {
+		return result;
+	}
 
-    public String toJson() throws JsonProcessingException {
-        return mapper.writeValueAsString(result);
-    }
+	public String toJson() throws JsonProcessingException {
+		return mapper.writeValueAsString(result);
+	}
 }

@@ -1,11 +1,9 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.R.facade.*;
+import com.analyzeme.R.facade.RFacade;
 import com.analyzeme.analyze.AnalyzeFunction;
-import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import com.analyzeme.analyze.Point;
-import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.parsers.JsonParserException;
 import com.analyzeme.parsers.PointToJson;
@@ -152,7 +150,6 @@ public class AnalysisController {
 		Point result = (new RFacade(engine)).runCommandToGetPoint(command, DataString);
 		return PointToJson.convertPoint(result);
 	}
-
 
 
 	//temporary API

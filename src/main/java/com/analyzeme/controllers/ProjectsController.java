@@ -24,7 +24,7 @@ public class ProjectsController {
 	 */
 	@RequestMapping(value = "{user_id}/project/{project_id}/files", method = RequestMethod.GET)
 	public List<String> getFiles(@PathVariable("user_id") int userId,
-			@PathVariable("project_id") String projectName)
+								 @PathVariable("project_id") String projectName)
 			throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
@@ -49,9 +49,9 @@ public class ProjectsController {
 	 */
 	@RequestMapping(value = "{user_id}/project/{project_id}/filesForList", method = RequestMethod.GET)
 	public String getFilesForList(@PathVariable("user_id") int userId,
-								 @PathVariable("project_id") String projectId)
+								  @PathVariable("project_id") String projectId)
 			throws IOException {
-		if(userId == 0 || projectId == null || projectId.equals("")) {
+		if (userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException("Incorrect userId or/and projectId");
 		}
 		try {
@@ -109,7 +109,7 @@ public class ProjectsController {
 	 * HttpStatus.BAD_REQUEST if sth went wrong
 	 */
 	@RequestMapping(value = "{user_id}/project/{unique_name}/delete", method = RequestMethod.DELETE)
-	public HttpStatus deleteProjectById(@PathVariable("user_id") int userId ,@PathVariable("unique_name") String uniqueName)
+	public HttpStatus deleteProjectById(@PathVariable("user_id") int userId, @PathVariable("unique_name") String uniqueName)
 			throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {

@@ -153,8 +153,8 @@ public class FileController {
 	}
 
 	/**
-	 *  returns full info about file
-	 *  example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
+	 * returns full info about file
+	 * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
 	 */
 	@RequestMapping(value = "/file/{user_id}/{project_id}/{nameForUser}/getFullInfo", method = RequestMethod.GET)
 	public String getFullFileInfo(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("nameForUser") String filename) throws Exception {

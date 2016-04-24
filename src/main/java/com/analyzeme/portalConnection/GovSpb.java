@@ -1,58 +1,50 @@
 package com.analyzeme.portalConnection;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.InputStreamReader;
-import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
-import java.util.zip.GZIPInputStream;
-
-import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by Helen on 16.04.16.
  */
 public class GovSpb {
 
-    private final String USER_AGENT = "Mozilla/5.0";
+	private final String USER_AGENT = "Mozilla/5.0";
 
-    public static String main() throws Exception {
+	public static String main() throws Exception {
 
-        GovSpb http = new GovSpb();
+		GovSpb http = new GovSpb();
 
-        return http.sendGet();
-    }
+		return http.sendGet();
+	}
 
-    private String sendGet() throws Exception {
+	private String sendGet() throws Exception {
 
 
-        String url = "http://data.gov.spb.ru/api/v1/datasets/78/versions/latest/data/";
+		String url = "http://data.gov.spb.ru/api/v1/datasets/78/versions/latest/data/";
 
-        URL obj = new URL(url);
-        HttpURLConnection con = (HttpURLConnection) obj.openConnection();
+		URL obj = new URL(url);
+		HttpURLConnection con = (HttpURLConnection) obj.openConnection();
 
-        // optional default is GET
-        con.setRequestMethod("GET");
+		// optional default is GET
+		con.setRequestMethod("GET");
 
-        //add request header
-        con.setRequestProperty("User-Agent", USER_AGENT);
-        con.setRequestProperty("Authorization", "Token 6e5335b81c002d33a52b4de5972fe23283400fb8");
+		//add request header
+		con.setRequestProperty("User-Agent", USER_AGENT);
+		con.setRequestProperty("Authorization", "Token 6e5335b81c002d33a52b4de5972fe23283400fb8");
 
-        BufferedReader in = new BufferedReader(
-                new InputStreamReader(con.getInputStream()));
-        String inputLine;
-        StringBuffer response = new StringBuffer();
+		BufferedReader in = new BufferedReader(
+				new InputStreamReader(con.getInputStream()));
+		String inputLine;
+		StringBuffer response = new StringBuffer();
 
-        while ((inputLine = in.readLine()) != null) {
-            response.append(inputLine);
-        }
-        in.close();
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+		in.close();
 
-        return (response.toString());
+		return (response.toString());
 
-    }
+	}
 }

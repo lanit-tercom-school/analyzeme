@@ -27,15 +27,23 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = "/projects")
-	public String moveToProjectPage() { return "projects"; }
+	public String moveToProjectPage() {
+		return "projects";
+	}
 
 	@RequestMapping(value = "/REditorPage")
-	public String moveToRScriptPage(){return  "REditorPage";}
+	public String moveToRScriptPage() {
+		return "REditorPage";
+	}
 
 	@RequestMapping(value = "/preview")
-	public String moveToPreviewPage() {return  "preview";}
+	public String moveToPreviewPage() {
+		return "preview";
+	}
 
 	@RequestMapping(value = "/fileInfo")
-	public String moveToFileInfo() {return  "fileInfo";}
+	public String moveToFileInfo() {
+		return "fileInfo";
+	}
 
 }
