@@ -58,7 +58,7 @@ public class ProjectsController {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
 				throw new IllegalArgumentException("User does not exist");
 			}
-			return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).returnFilesForList();
+			return "{ \"Files\" : " + UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).returnFilesForList() + "}";
 			//to get only active files use:
 			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNames();
 		} catch (Exception e) {
