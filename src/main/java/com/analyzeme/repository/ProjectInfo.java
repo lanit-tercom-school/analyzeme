@@ -1,5 +1,7 @@
 package com.analyzeme.repository;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
@@ -37,6 +39,24 @@ public class ProjectInfo {
 	}
 
 	/**
+	 * @return json like [{"uniqueName": ..., "nameForUser": ..., "isActive": ...}, {"uniqueName": ..., "nameForUser": ..., "isActive": ...}, {"uniqueName": ..., "isActive": ...}]
+	 * @throws IOException
+	 */
+	public String returnFilesForList() throws IOException {
+		if (getFilenames().isEmpty()) return "[]";
+		JSONArray result = new JSONArray();
+		for (String name : getFilenames()) {
+			FileInfo info = FileRepository.getRepo().findFileById(name);
+			JSONObject file = new JSONObject();
+			file.put("uniqueName", info.getUniqueName());
+			file.put("nameForUser", info.getNameForUser());
+			file.put("isActive", info.isActive());
+			result.add(file);
+		}
+		return result.toString();
+	}
+
+	/**
 	 * @param name       - name of a project (should be unique for user)
 	 * @param uniqueName - name in repo for future usage
 	 * @throws IOException
@@ -66,14 +86,12 @@ public class ProjectInfo {
 	}
 
 	/**
-	 *
-	 *
 	 * @param filename
 	 * @param file
 	 * @return
-     * @throws Exception
-     */
-	public String addNewFile(String filename,String file) throws Exception {
+	 * @throws Exception
+	 */
+	public String addNewFile(String filename, String file) throws Exception {
 		if (filename == null || filename.equals("") || file == null) {
 			throw new IllegalArgumentException();
 		}

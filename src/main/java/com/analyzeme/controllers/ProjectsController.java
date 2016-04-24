@@ -41,6 +41,33 @@ public class ProjectsController {
 	}
 
 	/**
+	 * gets files from project by project id
+	 *
+	 * @param projectId
+	 * @return json like [{"uniqueName": ..., "nameForUser": ..., "isActive": ...}, {"uniqueName": ..., "nameForUser": ..., "isActive": ...}, {"uniqueName": ..., "isActive": ...}]
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "{user_id}/project/{project_id}/filesForList", method = RequestMethod.GET)
+	public String getFilesForList(@PathVariable("user_id") int userId,
+								 @PathVariable("project_id") String projectId)
+			throws IOException {
+		if(userId == 0 || projectId == null || projectId.equals("")) {
+			throw new IllegalArgumentException("Incorrect userId or/and projectId");
+		}
+		try {
+			if (UsersRepository.getRepo().checkInitialization() == null) {
+				throw new IllegalArgumentException("User does not exist");
+			}
+			return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).returnFilesForList();
+			//to get only active files use:
+			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNames();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
 	 * creates new project
 	 *
 	 * @param projectName - should be passed as header
@@ -55,7 +82,9 @@ public class ProjectsController {
 			//when other users created, CheckInitializationAndCreate() should be called from user creator only
 			//now it's possible to create a default user here
 			UsersRepository.getRepo().checkInitializationAndCreate();
-			if (UsersRepository.getRepo().findUser("guest") == null) {
+			try {
+				UsersRepository.getRepo().findUser("guest");
+			} catch (IllegalArgumentException e) {
 				//login, email, password
 				String[] param = {"guest", "guest@mail.sth", "1234"};
 				UsersRepository.getRepo().newItem(param);
