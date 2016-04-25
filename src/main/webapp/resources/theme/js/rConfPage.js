@@ -16,7 +16,7 @@ function addRow() {
     row.insertCell(3).innerHTML = host.value;
     row.insertCell(4).innerHTML = port.value;
     row.insertCell(5).innerHTML = enabled.checked;
-
+    row.insertCell(6).innerHTML = '<input type="button" value = "Update" onClick="CallUpdateForm(this)">';
     var RConf = {
         rConfType: RType.value,
         name: name.value,
@@ -39,17 +39,33 @@ function deleteRow(obj) {
     var cell = table.rows[index].cells[1];
     var name = cell.innerHTML;
     alert("/rConf/" + name);
-
     table.deleteRow(index);
 
     var xhr = new XMLHttpRequest();
     xhr.open("DELETE", "/rConf/" + name, true); // If async=false, then you'll miss progress bar support.
     xhr.send();
 
+}
+function CallUpdateForm(obj) {
+    var index = obj.parentNode.parentNode.rowIndex;
+    var table = document.getElementById("listOfInstances");
+    var cell = table.rows[index].cells[2];
+    var type = cell.innerHTML;
+    if (type == 'RservConf') {
+        $('#UpdateRserveModal').modal();
+    }
+    if (type == 'FakeRConf') {
+        $('#UpdateFakeRModal').modal();
+    }
+    if (type == 'RenjinConf') {
+        $('#UpdateRenjinModal').modal();
+    }
+
 
 }
-
-
+function UpdateRow(obj) {
+    alert("update");
+}
 function addTable() {
 
     var myTableDiv = document.getElementById("myDynamicTable");

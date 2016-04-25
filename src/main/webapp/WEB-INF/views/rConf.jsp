@@ -12,7 +12,7 @@
 <head>
     <title>RConfiguration</title>
 
-    <spring:url value="/resources/js/rConf.js" var="rConfJs"/>
+    <spring:url value="/resources/js/rConfPage.js" var="rConfJs"/>
     <script type="text/javascript" src="${rConfJs}"></script>
     <!-- jQuery -->
     <spring:url value="/resources/js/jquery.js" var="jqueryJs"/>
@@ -66,52 +66,177 @@
 <div class="intro-header2">
     <div class="container">
         <div class="row">
+            <a href="#AddModal" role="button" data-toggle="modal" class="btn btn-primary btn-lg"><span
+                    class="network-name">Add row</span></a>
+            <div class="modal" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Форма добавления</h3>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" id="name"></td>
+                        </tr>
+                        <tr>
+                            <td>Select type:</td>
+                            <td>
+                                <select id="Rtype">
+                                    <option value="FakeRConf">FakeR</option>
+                                    <option value="RservConf">Rserv</option>
+                                    <option value="RenjinConf">Renjin</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Host:</td>
+                            <td><input type="text" id="host"></td>
+                        </tr>
+                        <tr>
+                            <td>Port:</td>
+                            <td><input type="text" id="port"></td>
+                        </tr>
+                        <tr>
+                            <td>Turned on:</td>
+                            <td><input type="checkbox" id="enabledField" checked></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
 
-            <div id="AddingForm">
-                <table>
-                    <tr>
-                        <td>Name:</td>
-                        <td><input type="text" id="name"></td>
-                    </tr>
-                    <tr>
-                        <td>Select type:</td>
-                        <td>
-                            <select id="Rtype">
-                                <option value="FakeRConf">FakeR</option>
-                                <option value="RServConf">RServ</option>
-                                <option value="RenjinConf">Renjin</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Host:</td>
-                        <td><input type="text" id="host"></td>
-                    </tr>
-                    <tr>
-                        <td>Port:</td>
-                        <td><input type="text" id="port"></td>
-                    </tr>
-                    <tr>
-                        <td>Turned on:</td>
-                        <td><input type="checkbox" id="enabledField"></td>
-                    </tr>
-                    <tr>
-                        <td>&nbsp;</td>
-                    </tr>
-                </table>
-                <button id="add" onclick="addRow()">Add instance</button>
+                </div>
+                <div class="modal-footer">
+                    <button id="add" onclick="addRow()" class="btn" data-dismiss="modal" aria-hidden="true">Add
+                        instance
+                    </button>
+
+                </div>
             </div>
+            <div class="modal" id="UpdateRserveModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+                 aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3>Форма обновления Rserve</h3>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" id="UpRserveName"></td>
+                        </tr>
+                        <tr>
+                            <td>Type:</td>
+                            <td>
+                                <button id="UpRserveRtype" value="RServConf"><span
+                                        class="network-name"><b>Rserve</b></span></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Host:</td>
+                            <td><input type="text" id="UpRserveHost"></td>
+                        </tr>
+                        <tr>
+                            <td>Port:</td>
+                            <td><input type="text" id="UpRservePort"></td>
+                        </tr>
+                        <tr>
+                            <td>Turned on:</td>
+                            <td><input type="checkbox " id="UpRserveEnabledField" checked></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
 
+                </div>
+                <div class="modal-footer">
+                    <button id="closeRserve" class="btn" data-dismiss="modal" aria-hidden="true">Ok</button>
+
+                </div>
+            </div>
+            <div class="modal" id="UpdateFakeRModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+                 aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="updateFakeRModalLabel">Форма обновления FakeR</h3>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" id="UpFakeRName"></td>
+                        </tr>
+                        <tr>
+                            <td>Type:</td>
+                            <td>
+                                <button id="UpFakeRRtype" value="FakeRConf"><span
+                                        class="network-name"><b>FakeR</b></span></button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>Turned on:</td>
+                            <td><input type="checkbox" id="UpFakeREnabledField" checked></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="closeFakeR" class="btn" data-dismiss="modal" aria-hidden="true">Ok</button>
+
+                </div>
+            </div>
+            <div class="modal" id="UpdateRenjinModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
+                 aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="updateModalLabel">Форма обновления Renjin</h3>
+                </div>
+                <div class="modal-body">
+                    <table>
+                        <tr>
+                            <td>Name:</td>
+                            <td><input type="text" id="UpRenjinName"></td>
+                        </tr>
+                        <tr>
+                            <td>Type:</td>
+                            <td>
+                                <button id="UpRtype" value="RenjinConf"><span class="network-name"><b>Renjin</b></span>
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Turned on:</td>
+                            <td><input type="checkbox" id="UpRenjinEnabledField" checked></td>
+                        </tr>
+                        <tr>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+
+                </div>
+                <div class="modal-footer">
+                    <button id="closeRenjin" class="btn" data-dismiss="modal" aria-hidden="true">Ok</button>
+
+                </div>
+            </div>
 
             <div id="instancesData">
                 <table id="listOfInstances" border="1">
                     <tr>
                         <td>&nbsp;</td>
-                        <td><b>Name</b></td>
-                        <td><b>Type</b></td>
-                        <td><b>Using Host</b></td>
-                        <td><b>Using Port</b></td>
-                        <td><b>Turned on</b></td>
+                        <td><span class="network-name"><b>Name</b></span></td>
+                        <td><span class="network-name"><b>Type</b></span></td>
+                        <td><span class="network-name"><b>Using Host</b></span></td>
+                        <td><span class="network-name"><b>Using Port</b></span></td>
+                        <td><span class="network-name"><b>Turned on</b></span></td>
+                        <td>&nbsp;</td>
                     </tr>
                 </table>
                 &nbsp;<br/>
