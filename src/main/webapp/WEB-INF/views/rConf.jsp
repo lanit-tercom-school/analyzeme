@@ -12,7 +12,7 @@
 <head>
     <title>RConfiguration</title>
 
-    <spring:url value="/resources/js/rConfPage.js" var="rConfJs"/>
+    <spring:url value="/resources/js/rConfScript.js" var="rConfJs"/>
     <script type="text/javascript" src="${rConfJs}"></script>
     <!-- jQuery -->
     <spring:url value="/resources/js/jquery.js" var="jqueryJs"/>
@@ -44,7 +44,7 @@
     <![endif]-->
 </head>
 
-<body>
+<body onload="load()">
 
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
@@ -66,8 +66,11 @@
 <div class="intro-header2">
     <div class="container">
         <div class="row">
+            <div id="getdata" style="display: none;"> ${RConfList}</div>
+
             <a href="#AddModal" role="button" data-toggle="modal" class="btn btn-primary btn-lg"><span
                     class="network-name">Add row</span></a>
+
             <div class="modal" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-header">
@@ -85,7 +88,7 @@
                             <td>
                                 <select id="Rtype">
                                     <option value="FakeRConf">FakeR</option>
-                                    <option value="RservConf">Rserv</option>
+                                    <option value="RserveConf">Rserve</option>
                                     <option value="RenjinConf">Renjin</option>
                                 </select>
                             </td>
@@ -144,7 +147,7 @@
                         </tr>
                         <tr>
                             <td>Turned on:</td>
-                            <td><input type="checkbox " id="UpRserveEnabledField" checked></td>
+                            <td><input type="checkbox" id="UpRserveEnabledField" checked></td>
                         </tr>
                         <tr>
                             <td>&nbsp;</td>

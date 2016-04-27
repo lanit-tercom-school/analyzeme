@@ -1,5 +1,6 @@
 package com.analyzeme.controllers;
 
+import com.analyzeme.rConfiguration.RConfRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -37,8 +38,11 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/rConf")
-    public String moveToRConfPage() {
-        return "rConf";
+    public ModelAndView moveToRConfPage() {
+
+        String RConfList = RConfRepository.getRepo().allConfigurationsToJsonString();
+        return new ModelAndView("rConf", "RConfList", RConfList);
+
     }
 
 }
