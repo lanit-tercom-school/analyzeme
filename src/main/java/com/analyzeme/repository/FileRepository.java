@@ -39,8 +39,8 @@ public class FileRepository implements IFileRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String addNewFile(final MultipartFile file, final String filename) throws IOException {
-		if (file == null) throw new IOException();
-		if (filename == null || filename.equals("")) throw new IOException();
+		if (file == null) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		String uniqueName = filename;
 		if (!isNameCorrect(uniqueName)) {
 			uniqueName = createCorrectName(filename);
@@ -60,8 +60,8 @@ public class FileRepository implements IFileRepository {
 	 * @return uniqueName - if succeed, exception if not
 	 */
 	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename) throws IOException {
-		if (part == null) throw new IOException();
-		if (filename == null || filename.equals("")) throw new IOException();
+		if (part == null) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		String uniqueName = filename;
 		if (!isNameCorrect(uniqueName)) {
 			uniqueName = createCorrectName(filename);
@@ -78,7 +78,7 @@ public class FileRepository implements IFileRepository {
 	 * @return created name
 	 */
 	private synchronized String createCorrectName(final String fileName) throws IOException {
-		if (fileName == null || fileName.equals("")) throw new IOException();
+		if (fileName == null || fileName.equals("")) throw new IllegalArgumentException();
 		final char point = '.';
 		String extension = fileName.substring(fileName.indexOf(point) + 1);
 		String name = fileName.substring(0, fileName.indexOf(point)) + "_";
@@ -103,7 +103,7 @@ public class FileRepository implements IFileRepository {
 	 * @return true if free
 	 */
 	private synchronized boolean isNameCorrect(final String fileName) throws IOException {
-		if (fileName == null || fileName.equals("")) throw new IOException();
+		if (fileName == null || fileName.equals("")) throw new IllegalArgumentException();
 		for (String file : getAllWrittenNames()) {
 			if (file.equals(fileName)) {
 				return false;
@@ -119,7 +119,7 @@ public class FileRepository implements IFileRepository {
 	 * @return true if  succeded
 	 */
 	public synchronized boolean deleteFileByIdCompletely(final String uniqueName) throws IOException {
-		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
 		for (int i = 0; i < files.size(); i++) {
 			if (files.get(i).getUniqueName().equals(uniqueName)) {
 				files.remove(i);
@@ -136,7 +136,7 @@ public class FileRepository implements IFileRepository {
 	 * @return true if  succeded
 	 */
 	public synchronized boolean deleteFileById(final String uniqueName) throws IOException {
-		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
 		for (int i = 0; i < files.size(); i++) {
 			if (files.get(i).getUniqueName().equals(uniqueName)) {
 				files.get(i).setIsActive(false);
@@ -178,20 +178,10 @@ public class FileRepository implements IFileRepository {
 	 * @return stream (or null if not found)
 	 */
 	public synchronized ByteArrayInputStream getFileByID(final String uniqueName) throws IOException {
-		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
 		for (FileInfo info : files) {
 			if (info.getUniqueName().equals(uniqueName) && info.isActive()) {
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-				byte[] buffer = new byte[1024];
-				int len;
-				while ((len = info.getData().read(buffer)) > -1) {
-					baos.write(buffer, 0, len);
-				}
-				baos.flush();
-
-				info.setData(new ByteArrayInputStream(baos.toByteArray()));
-				return new ByteArrayInputStream(baos.toByteArray());
+				return info.getData();
 			}
 		}
 		return null;
@@ -209,7 +199,7 @@ public class FileRepository implements IFileRepository {
 	 * @return FileInfo with all information about the file
 	 */
 	public synchronized FileInfo findFileById(final String uniqueName) throws IOException {
-		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
 		for (FileInfo info : files) {
 			if (info.getUniqueName().equals(uniqueName)) {
 				return info;

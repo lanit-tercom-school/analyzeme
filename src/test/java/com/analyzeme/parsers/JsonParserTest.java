@@ -17,7 +17,8 @@ public class JsonParserTest {
 
 	@Test(expected = NullPointerException.class)
 	public void testNullArgumentInConstructor() throws Exception {
-		jsonParser = new JsonParser((InputStream) null);
+		jsonParser = new JsonParser();
+		jsonParser.getPoints((InputStream) null);
 	}
 
 	@Test
@@ -28,9 +29,9 @@ public class JsonParserTest {
 		});
 
 		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser(is);
+		jsonParser = new JsonParser();
 		try {
-			points = jsonParser.getPoints();
+			points = jsonParser.getPoints(is);
 			Assert.fail();
 		} catch (JsonParserException ex) {
 			Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
@@ -53,9 +54,9 @@ public class JsonParserTest {
 		});
 
 		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser(is);
+		jsonParser = new JsonParser();
 		try {
-			points = jsonParser.getPoints();
+			points = jsonParser.getPoints(is);
 			Assert.fail();
 		} catch (JsonParserException ex) {
 			Assert.assertEquals(JsonParserException.ExceptionType.DIFFERENT_LENGTH,
@@ -77,9 +78,9 @@ public class JsonParserTest {
 		});
 
 		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser(is);
+		jsonParser = new JsonParser();
 		try {
-			points = jsonParser.getPoints();
+			points = jsonParser.getPoints(is);
 			Assert.fail();
 		} catch (JsonParserException ex) {
 			Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
@@ -101,8 +102,8 @@ public class JsonParserTest {
 		});
 
 		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser(is);
-		points = jsonParser.getPoints();
+		jsonParser = new JsonParser();
+		points = jsonParser.getPoints(is);
 	}
 
 	@Test
@@ -123,8 +124,8 @@ public class JsonParserTest {
 		});
 
 		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser(is);
-		points = jsonParser.getPoints();
+		jsonParser = new JsonParser();
+		points = jsonParser.getPoints(is);
 		Assert.assertArrayEquals(new Point[]{new Point(1.0, 5.0), new Point(2.5, 6.5),
 				new Point(4.7, 7.7)}, points);
 	}

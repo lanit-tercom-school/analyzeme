@@ -4,6 +4,7 @@ package com.analyzeme.repository;
 // TODO: tests for multithreading writing should be added
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;

@@ -30,7 +30,7 @@ public class ProjectsRepository {
 	 * @return
 	 */
 	public ProjectInfo findProject(final String projectName) throws IOException {
-		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
 		for (ProjectInfo project : projects) {
 			if (project.getProjectName().equals(projectName)) {
 				return project;
@@ -47,7 +47,7 @@ public class ProjectsRepository {
 	 * @return
 	 */
 	public ProjectInfo findProjectById(final String projectId) throws IOException {
-		if (projectId == null || projectId.equals("")) throw new IOException();
+		if (projectId == null || projectId.equals("")) throw new IllegalArgumentException();
 		for (ProjectInfo project : projects) {
 			if (project.getUniqueName().equals(projectId)) {
 				return project;
@@ -94,7 +94,8 @@ public class ProjectsRepository {
 	 * creates empty project
 	 */
 	public String createProject(final String projectName) throws Exception {
-		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
+
 	//	if (findProject(projectName) != null) {
 	//		return null;
 	//	}
@@ -113,7 +114,7 @@ public class ProjectsRepository {
 	 */
 	private boolean deleteFilesInProjectCompletely(final List<String> filenames) throws Exception {
 		for (String filename : filenames) {
-			if (filename == null || filename.equals("")) throw new IOException();
+			if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 			if (!FileRepository.getRepo().deleteFileByIdCompletely(filename)) {
 				return false;
 			}
@@ -128,7 +129,7 @@ public class ProjectsRepository {
 	 * @return true if succeed
 	 */
 	public synchronized boolean deleteProjectCompletely(final String projectName) throws Exception {
-		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
 		for (int i = 0; i < projects.size(); i++) {
 			if (projects.get(i).getProjectName().equals(projectName)) {
 				if (!deleteFilesInProjectCompletely(projects.get(i).getFilenames())) return false;
@@ -147,7 +148,7 @@ public class ProjectsRepository {
 	 */
 	private boolean deactivateFiles(final List<String> filenames) throws IOException {
 		for (String filename : filenames) {
-			if (filename == null || filename.equals("")) throw new IOException();
+			if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 			for (FileInfo info : FileRepository.getFiles()) {
 				if (info.getUniqueName().equals(filename)) {
 					info.setIsActive(false);
@@ -164,7 +165,7 @@ public class ProjectsRepository {
 	 * @return true if succeed
 	 */
 	public synchronized boolean deleteProject(final String projectName) throws Exception {
-		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
 		for (ProjectInfo info : projects) {
 			if (info.getProjectName().equals(projectName)) {
 				deactivateFiles(info.getFilenames());
@@ -185,9 +186,9 @@ public class ProjectsRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String persist(final MultipartFile file, final String filename, String projectName) throws Exception {
-		if (projectName == null || projectName.equals("")) throw new IOException();
-		if (filename == null || filename.equals("")) throw new IOException();
-		if (file == null) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
+		if (file == null) throw new IllegalArgumentException();
 		ProjectInfo info = findProject(projectName);
 		if (info == null) {
 			projectName = createProject(projectName);
@@ -205,9 +206,9 @@ public class ProjectsRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String persistById(final MultipartFile file, final String filename, final String projectId) throws Exception {
-		if (projectId == null || projectId.equals("")) throw new IOException();
-		if (filename == null || filename.equals("")) throw new IOException();
-		if (file == null) throw new IOException();
+		if (projectId == null || projectId.equals("")) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
+		if (file == null) throw new IllegalArgumentException();
 		ProjectInfo info = findProjectById(projectId);
 		if (info == null) return null;
 		String nameToWrite = info.addNewFile(file, filename);
@@ -224,9 +225,9 @@ public class ProjectsRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String addNewFileForTests(ByteArrayInputStream part, final String filename, String projectName) throws Exception {
-		if (projectName == null || projectName.equals("")) throw new IOException();
-		if (filename == null || filename.equals("")) throw new IOException();
-		if (part == null) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
+		if (part == null) throw new IllegalArgumentException();
 		ProjectInfo info = findProject(projectName);
 		if (info == null) throw new IllegalArgumentException();
 		String nameToWrite = info.addNewFileForTests(part, filename);
@@ -244,9 +245,9 @@ public class ProjectsRepository {
 	 * @return nameToWrite - if succeed, exception if not
 	 */
 	public synchronized String addNewFileForTestsById(ByteArrayInputStream part, final String filename, final String projectId) throws Exception {
-		if (projectId == null || projectId.equals("")) throw new IOException();
-		if (filename == null || filename.equals("")) throw new IOException();
-		if (part == null) throw new IOException();
+		if (projectId == null || projectId.equals("")) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
+		if (part == null) throw new IllegalArgumentException();
 		ProjectInfo info = findProjectById(projectId);
 		if (info == null) throw new IllegalArgumentException();
 		String nameToWrite = info.addNewFileForTests(part, filename);
@@ -260,7 +261,7 @@ public class ProjectsRepository {
 	 * @return stream (or null if not found)
 	 */
 	public synchronized ByteArrayInputStream getFileByID(final String nameToWrite) throws IOException {
-		if (nameToWrite == null || nameToWrite.equals("")) throw new IOException();
+		if (nameToWrite == null || nameToWrite.equals("")) throw new IllegalArgumentException();
 		return FileRepository.getRepo().getFileByID(nameToWrite);
 	}
 
@@ -268,7 +269,7 @@ public class ProjectsRepository {
 	 * Returns all files from the project
 	 */
 	public synchronized List<ByteArrayInputStream> getFilesFromProject(final String projectName) throws Exception {
-		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
 		ProjectInfo project = findProject(projectName);
 		if (!project.isActive()) return null;
 		if (project == null || project.getFilenames().isEmpty()) {
@@ -288,8 +289,8 @@ public class ProjectsRepository {
 	 * Return a file from the project
 	 */
 	public synchronized ByteArrayInputStream getFileFromProject(final String filename, final String projectName) throws Exception {
-		if (projectName == null || projectName.equals("")) throw new IOException();
-		if (filename == null || filename.equals("")) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		ProjectInfo project = findProject(projectName);
 		if (!project.isActive()) return null;
 		if (project == null || project.getFilenames().isEmpty()) {
@@ -310,7 +311,7 @@ public class ProjectsRepository {
 	 * @return true if succeed
 	 */
 	public synchronized boolean deleteProjectCompletelyById(final String projectId) throws Exception {
-		if (projectId == null || projectId.equals("")) throw new IOException();
+		if (projectId == null || projectId.equals("")) throw new IllegalArgumentException();
 		for (int i = 0; i < projects.size(); i++) {
 			if (projects.get(i).getUniqueName().equals(projectId)) {
 				if (!deleteFilesInProjectCompletely(projects.get(i).getFilenames())) return false;
@@ -328,7 +329,7 @@ public class ProjectsRepository {
 	 * @return true if succeed
 	 */
 	public synchronized boolean deleteProjectById(final String projectId) throws Exception {
-		if (projectId == null || projectId.equals("")) throw new IOException();
+		if (projectId == null || projectId.equals("")) throw new IllegalArgumentException();
 		for (ProjectInfo info : projects) {
 			if (info.getUniqueName().equals(projectId)) {
 				deactivateFiles(info.getFilenames());
@@ -344,7 +345,7 @@ public class ProjectsRepository {
 	 * Returns all files from the project
 	 */
 	public synchronized List<ByteArrayInputStream> getFilesFromProjectById(final String projectId) throws Exception {
-		if (projectId == null || projectId.equals("")) throw new IOException();
+		if (projectId == null || projectId.equals("")) throw new IllegalArgumentException();
 		ProjectInfo project = findProjectById(projectId);
 		if (!project.isActive()) return null;
 		if (project == null || project.getFilenames().isEmpty()) {
@@ -364,8 +365,8 @@ public class ProjectsRepository {
 	 * Return a file from the project
 	 */
 	public synchronized ByteArrayInputStream getFileFromProjectById(final String filename, final String projectId) throws Exception {
-		if (projectId == null || projectId.equals("")) throw new IOException();
-		if (filename == null || filename.equals("")) throw new IOException();
+		if (projectId == null || projectId.equals("")) throw new IllegalArgumentException();
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		ProjectInfo project = findProjectById(projectId);
 		if (!project.isActive()) return null;
 		if (project == null || project.getFilenames().isEmpty()) {

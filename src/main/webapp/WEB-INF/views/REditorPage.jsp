@@ -34,7 +34,6 @@
     <![endif]-->
 
 
-
 </head>
 <body>
 
@@ -60,7 +59,7 @@
 
 <div class="intro-RPageHeader">
 
-            <div id="editor"></div>
+    <div id="editor"></div>
 
 </div>
 <footer>
@@ -91,9 +90,11 @@
 </footer>
 <!-- scripts for editor aria -->
 <script src="https://cdn.jsdelivr.net/ace/1.2.3/min/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.1.3/ext-language_tools.js" type="text/javascript"
+        charset="utf-8"></script>
 <script>
 
-
+    ace.require("ace/ext/language_tools");
 
     //connect editor with div "editor"
     var editor = ace.edit("editor");
@@ -104,24 +105,23 @@
     //set initial data into window of editor
     editor.insert("#some r code for example: \n a <- c(4,3,3,3,3,4,4,3,5,4,5,5) \n \n \n");
     //select some part of editor window and set it as read-only segment
-    var session  = editor.getSession()
-            //now me can use class "Range"
-            , Range    = ace.require("ace/range").Range
-            //initialize  variable of class "Range"
-            //(startRow,startColumn,endRow,endColumn)
-            , range    = new Range(0, 0, 2,0)
-            // set css style for this range
+    var session = editor.getSession()
+    //now me can use class "Range"
+            , Range = ace.require("ace/range").Range
+    //initialize  variable of class "Range"
+    //(startRow,startColumn,endRow,endColumn)
+            , range = new Range(0, 0, 2, 0)
+    // set css style for this range
             , markerId = session.addMarker(range, "readonly-highlight");
 
 
-
     editor.keyBinding.addKeyboardHandler({
-        handleKeyboard : function(data, hash, keyString, keyCode, event) {
+        handleKeyboard: function (data, hash, keyString, keyCode, event) {
             if (hash === -1 || (keyCode <= 40 && keyCode >= 37)) return false;
 
             if (intersects(range)) {
 
-                return {command:"null", passEvent:false};
+                return {command: "null", passEvent: false};
             }
         }
     });

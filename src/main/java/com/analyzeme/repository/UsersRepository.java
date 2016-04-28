@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +74,7 @@ public class UsersRepository implements IRepository {
 	 */
 	public synchronized String newItem(final String[] data) throws Exception {
 		for (String str : data) {
-			if (str == null || str.equals("")) throw new IOException();
+			if (str == null || str.equals("")) throw new IllegalArgumentException();
 		}
 		int id = users.size() + 1;
 		UserInfo newUser = new UserInfo(data[0], id, data[1], data[2]);
@@ -102,7 +101,7 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized UserInfo findUser(final String login) throws Exception {
-		if (login == null || login.equals("")) throw new IOException();
+		if (login == null || login.equals("")) throw new IllegalArgumentException();
 		for (UserInfo info : users) {
 			if (info.getLogin().equals(login)) {
 				return info;
@@ -120,7 +119,8 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String newProject(final String login, final String projectName) throws Exception {
-		if (login == null || login.equals("") || projectName == null || projectName.equals("")) throw new IOException();
+		if (login == null || login.equals("") || projectName == null || projectName.equals(""))
+			throw new IllegalArgumentException();
 		return findUser(login).getProjects().createProject(projectName);
 	}
 
@@ -133,7 +133,7 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String newProject(final int userId, final String projectName) throws Exception {
-		if (userId <= 0 || projectName == null || projectName.equals("")) throw new IOException();
+		if (userId <= 0 || projectName == null || projectName.equals("")) throw new IllegalArgumentException();
 		return findUser(userId).getProjects().createProject(projectName);
 	}
 
@@ -148,9 +148,9 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String persist(final MultipartFile file, final String[] data) throws Exception {
-		if (file == null) throw new IOException();
+		if (file == null) throw new IllegalArgumentException();
 		for (String str : data) {
-			if (str == null || str.equals("")) throw new IOException();
+			if (str == null || str.equals("")) throw new IllegalArgumentException();
 		}
 		return findUser(data[2]).getProjects().persist(file, data[0], data[1]);
 	}
@@ -166,9 +166,9 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String persistByProjectId(final MultipartFile file, final String[] data) throws Exception {
-		if (file == null) throw new IOException();
+		if (file == null) throw new IllegalArgumentException();
 		for (String str : data) {
-			if (str == null || str.equals("")) throw new IOException();
+			if (str == null || str.equals("")) throw new IllegalArgumentException();
 		}
 		return findUser(data[2]).getProjects().persistById(file, data[0], data[1]);
 	}
@@ -184,9 +184,9 @@ public class UsersRepository implements IRepository {
 	 * @throws Exception
 	 */
 	public synchronized String persistByIds(final MultipartFile file, final String[] data) throws Exception {
-		if (file == null) throw new IOException();
+		if (file == null) throw new IllegalArgumentException();
 		for (String str : data) {
-			if (str == null || str.equals("")) throw new IOException();
+			if (str == null || str.equals("")) throw new IllegalArgumentException();
 		}
 		return findUser(Integer.parseInt(data[2])).getProjects().persistById(file, data[0], data[1]);
 	}
@@ -225,7 +225,7 @@ public class UsersRepository implements IRepository {
 	 * @return json string with an object
 	 */
 	public synchronized String getItem(final String id) throws Exception {
-		if (id == null || id.equals("")) throw new IOException();
+		if (id == null || id.equals("")) throw new IllegalArgumentException();
 		int num = Integer.parseInt(id);
 		UserInfo info = findUser(num);
 		ObjectMapper mapper = new ObjectMapper();
@@ -237,19 +237,63 @@ public class UsersRepository implements IRepository {
 	 * checks if the requirements given in params are met
 	 * if so, returns file by id from FileRepository
 	 *
-	 * @param uniqueName - filename in FileRepository
-	 * @param params     - projectName, username)
+	 * @param filename - filename (given by user)
+	 * @param params   - projectName, username)
 	 * @return
 	 */
-	public synchronized ByteArrayInputStream getFile(final String uniqueName, final String[] params) throws Exception {
-		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+	public synchronized ByteArrayInputStream getFile(final String filename, final String[] params) throws Exception {
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
 		for (String str : params) {
-			if (str == null || str.equals("")) throw new IOException();
+			if (str == null || str.equals("")) throw new IllegalArgumentException();
 		}
-		/**
-		 * some checking logic
-		 * if requirements are met ->
-		 */
-		return FileRepository.getRepo().getFileByID(uniqueName);
+		int userId = Integer.parseInt(params[0]);
+		UserInfo user = findUser(userId);
+		if (userId == 0 || user == null) {
+			throw new IllegalArgumentException();
+		}
+		String projectId = params[1];
+		ProjectInfo project = user.getProjects().findProjectById(projectId);
+		if (projectId == null || projectId.equals("") || project == null) {
+			throw new IllegalArgumentException();
+		}
+		for (String file : project.getFilenames()) {
+			FileInfo info = FileRepository.getRepo().findFileById(file);
+			if (info.getNameForUser().equals(filename)) {
+				return info.getData();
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * checks if the requirements given in params are met
+	 * if so, returns fileinfo from FileRepository
+	 *
+	 * @param filename - filename given by user
+	 * @param params   - projectName, username)
+	 * @return
+	 */
+	public synchronized FileInfo findFile(final String filename, final String[] params) throws Exception {
+		if (filename == null || filename.equals("")) throw new IllegalArgumentException();
+		for (String str : params) {
+			if (str == null || str.equals("")) throw new IllegalArgumentException();
+		}
+		int userId = Integer.parseInt(params[0]);
+		UserInfo user = findUser(userId);
+		if (userId == 0 || user == null) {
+			throw new IllegalArgumentException();
+		}
+		String projectId = params[1];
+		ProjectInfo project = user.getProjects().findProjectById(projectId);
+		if (projectId == null || projectId.equals("") || project == null) {
+			throw new IllegalArgumentException();
+		}
+		for (String file : project.getFilenames()) {
+			FileInfo info = FileRepository.getRepo().findFileById(file);
+			if (info.getNameForUser().equals(filename)) {
+				return info;
+			}
+		}
+		return null;
 	}
 }

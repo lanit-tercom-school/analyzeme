@@ -18,7 +18,8 @@ public class TestGetPointsFromPointJson {
 
     @Test(expected = NullPointerException.class)
     public void testNullArgumentInConstructor() throws Exception {
-        jsonParser = new JsonParser((InputStream) null);
+        jsonParser = new JsonParser();
+        jsonParser.getPointsFromPointJson((InputStream)null);
     }
 
     @Test
@@ -29,9 +30,9 @@ public class TestGetPointsFromPointJson {
         });
 
         InputStream is = new ByteArrayInputStream(s.getBytes());
-        jsonParser = new JsonParser(is);
+        jsonParser = new JsonParser();
         try {
-            points = jsonParser.getPointsFromPointJson();
+            points = jsonParser.getPointsFromPointJson(is);
             Assert.fail();
         } catch (JsonParserException ex) {
             Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
@@ -49,8 +50,8 @@ public class TestGetPointsFromPointJson {
         });
 
         InputStream is = new ByteArrayInputStream(s.getBytes());
-        jsonParser = new JsonParser(is);
-        points = jsonParser.getPointsFromPointJson();
+        jsonParser = new JsonParser();
+        points = jsonParser.getPointsFromPointJson(is);
         Assert.assertArrayEquals(new Point[]{new Point(1.0, 1.0), new Point(20.0, 20.0)}, points);
     }
 

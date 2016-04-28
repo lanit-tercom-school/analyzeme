@@ -45,9 +45,9 @@ public class FileInfo {
 	 * @param data        - input stream with byte info (to extract from Part use method getInputStream)
 	 */
 	FileInfo(final String nameForUser, final String uniqueName, final InputStream data) throws IOException {
-		if (nameForUser == null || nameForUser.equals("")) throw new IOException();
+		if (nameForUser == null || nameForUser.equals("")) throw new IllegalArgumentException();
 		this.setNameForUser(nameForUser);
-		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
 		this.uniqueName = uniqueName;
 		this.setData(new ByteArrayInputStream(getBytesFromInputStream(data)));
 		//default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
@@ -59,7 +59,7 @@ public class FileInfo {
 	}
 
 	public void setNameForUser(String nameForUser) throws IOException {
-		if (nameForUser == null || nameForUser.equals("")) throw new IOException();
+		if (nameForUser == null || nameForUser.equals("")) throw new IllegalArgumentException();
 		this.nameForUser = nameForUser;
 	}
 
@@ -71,12 +71,23 @@ public class FileInfo {
 		return uploadingDate;
 	}
 
-	public ByteArrayInputStream getData() {
-		return data;
+	public ByteArrayInputStream getData() throws IOException {
+		data.reset();
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+		byte[] buffer = new byte[1024];
+		int len;
+		while ((len = data.read(buffer)) > -1) {
+			baos.write(buffer, 0, len);
+		}
+		baos.flush();
+
+		data = new ByteArrayInputStream(baos.toByteArray());
+		return new ByteArrayInputStream(baos.toByteArray());
 	}
 
 	public void setData(ByteArrayInputStream data) throws IOException {
-		if (data == null) throw new IOException();
+		if (data == null) throw new IllegalArgumentException();
 		this.data = data;
 	}
 

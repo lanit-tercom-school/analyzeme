@@ -8,7 +8,6 @@ import java.nio.file.FileSystemException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.zip.DataFormatException;
 
 /**
  * Created by lagroffe on 17.02.2016 18:40
@@ -43,9 +42,9 @@ public class ProjectInfo {
 	 * @throws IOException
 	 */
 	ProjectInfo(final String name, final String uniqueName) throws IOException {
-		if (name == null || name.equals("")) throw new IOException();
+		if (name == null || name.equals("")) throw new IllegalArgumentException();
 		this.setProjectName(name);
-		if (uniqueName == null || uniqueName.equals("")) throw new IOException();
+		if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
 		this.uniqueName = uniqueName;
 		//default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
 		creationDate = new Date();
@@ -55,7 +54,7 @@ public class ProjectInfo {
 
 	public String addNewFile(MultipartFile file, String filename) throws Exception {
 		if (filename == null || filename.equals("") || file == null) {
-			throw new DataFormatException();
+			throw new IllegalArgumentException();
 		}
 		String nameInRepo = FileRepository.getRepo().addNewFile(file, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
@@ -68,7 +67,7 @@ public class ProjectInfo {
 
 	public String addNewFileForTests(ByteArrayInputStream part, String filename) throws Exception {
 		if (filename == null || filename.equals("") || part == null) {
-			throw new DataFormatException();
+			throw new IllegalArgumentException();
 		}
 		String nameInRepo = FileRepository.getRepo().addNewFileForTests(part, filename);
 		if (nameInRepo == null || nameInRepo.equals("")) {
@@ -84,7 +83,7 @@ public class ProjectInfo {
 	}
 
 	public void setProjectName(String projectName) throws IOException {
-		if (projectName == null || projectName.equals("")) throw new IOException();
+		if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
 		this.projectName = projectName;
 	}
 
@@ -93,7 +92,7 @@ public class ProjectInfo {
 	}
 
 	public void setLastChangeDate(Date lastChangeDate) throws IOException {
-		if (lastChangeDate == null) throw new IOException();
+		if (lastChangeDate == null) throw new IllegalArgumentException();
 		this.lastChangeDate = lastChangeDate;
 	}
 

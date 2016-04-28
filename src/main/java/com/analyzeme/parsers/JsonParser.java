@@ -16,22 +16,21 @@ import java.util.Iterator;
  */
 
 public class JsonParser {
-	private final InputStream inputStream;
 	private final String xName = "x";
 	private final String yName = "y";
 	private final String dataName = "Data";
 
-	public JsonParser(InputStream inputStream) {
+	public JsonParser() {
+	}
+
+	/**
+	 * Method for parsing string type {"x": ["1", "2.5", "4.7"],"y": ["5", "6.5", "7.7"]}
+	 */
+	public Point[] getPoints(InputStream inputStream) throws JsonParserException {
 		if (inputStream == null) {
 			throw new NullPointerException();
 		}
 
-		this.inputStream = inputStream;
-	}
-	/**
-	 * Method for parsing string type {"x": ["1", "2.5", "4.7"],"y": ["5", "6.5", "7.7"]}
-     */
-	public Point[] getPoints() throws JsonParserException {
 		JSONParser parser = new JSONParser();
 
 		try {
@@ -59,10 +58,15 @@ public class JsonParser {
 			throw new JsonParserException(e.getStackTrace().toString());
 		}
 	}
-/**
- * Method for parsing string type {Data:[{"x": "1","y": "15"},{"x": "20","y": "60" }]}
- */
-	public Point[] getPointsFromPointJson() throws JsonParserException {
+
+	/**
+	 * Method for parsing string type {Data:[{"x": "1","y": "15"},{"x": "20","y": "60" }]}
+	 */
+	public Point[] getPointsFromPointJson(InputStream inputStream) throws JsonParserException {
+		if (inputStream == null) {
+			throw new NullPointerException();
+		}
+
 		JSONParser parser = new JSONParser();
 
 		try {
@@ -74,14 +78,14 @@ public class JsonParser {
 			Point[] points = new Point[jsonArray.size()];
 
 			Iterator<JSONObject> iterator = jsonArray.iterator();
-			int i=0;
+			int i = 0;
 			while (iterator.hasNext()) {
 
 				JSONObject jsonPoint = iterator.next();
 
 				double x = Double.parseDouble((String) jsonPoint.get(xName));
 				double y = Double.parseDouble((String) jsonPoint.get(yName));
-				points[i]=new  Point(x,y);
+				points[i] = new Point(x, y);
 				i++;
 			}
 

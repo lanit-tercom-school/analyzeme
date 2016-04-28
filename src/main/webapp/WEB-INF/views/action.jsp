@@ -12,7 +12,6 @@
     <title>AnalyzeMe</title>
 
 
-
     <!-- Bootstrap Core CSS -->
     <spring:url value="/resources/css/bootstrap.min.css" var="mainCss"/>
     <link href="${mainCss}" rel="stylesheet"/>
@@ -32,7 +31,6 @@
     <link href="${fontCss}" rel="stylesheet" type="text/css"/>
 
 
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -41,7 +39,6 @@
     <![endif]-->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
-
 
 
 </head>
@@ -56,10 +53,10 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>-->
-            <a href="index" type="button" class="btn btn-info btn-lg">AnalyzeMe</a>
-            <a href="action" type="button" class="btn btn-success btn-lg">Try now</a>
-            <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
-            <a href="REditorPage" type="button" class="btn btn-info btn-lg">Edit R</a>
+            <a href="/index" type="button" class="btn btn-info btn-lg">AnalyzeMe</a>
+            <a href="/action" type="button" class="btn btn-success btn-lg">Try now</a>
+            <a href="/projects" type="button" class="btn btn-info btn-lg">Projects</a>
+            <a href="/REditorPage" type="button" class="btn btn-info btn-lg">Edit R</a>
         </div>
 
         <!-- /.navbar-collapse -->
@@ -69,6 +66,7 @@
 
 <!-- Header -->
 <a id="about"></a>
+
 <div class="intro-header2">
     <div class="container">
         <div class="row">
@@ -77,6 +75,7 @@
                 <ul>
                     <div>
                         <p>
+
                         <h3>${project.projectName}<br/> File list</h3></p>
                         <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
 
@@ -214,9 +213,9 @@
         if (isFileExist(file.name)) {
             alert("file alreary exist");
         }
-        var projectParams = "guest/"+"${project.uniqueName}";
+        var projectParams = "guest/" + "${project.uniqueName}";
         //checks if project object is empty
-        if(projectParams.length<="guest/".length) {
+        if (projectParams.length <= "guest/".length) {
             projectParams = "demo";
         }
         //Adding text to status
@@ -226,7 +225,7 @@
         var xhr = new XMLHttpRequest();
         xhr.upload.addEventListener("progress", uploadProgress, false);
         xhr.addEventListener("load", uploadComplete, false);
-        xhr.open("POST", "/upload/"+projectParams, true); // If async=false, then you'll miss progress bar support.
+        xhr.open("POST", "/upload/" + projectParams, true); // If async=false, then you'll miss progress bar support.
         xhr.onreadystatechange = function () {
             fileName = xhr.getResponseHeader("fileName");
             Data = JSON.parse(xhr.getResponseHeader('Data')).Data;

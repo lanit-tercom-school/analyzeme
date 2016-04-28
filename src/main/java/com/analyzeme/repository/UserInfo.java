@@ -16,13 +16,13 @@ public class UserInfo {
 	private ProjectsRepository projects;
 
 	UserInfo(final String login, final int id, final String email, final String password) throws IOException {
-		if (login == null || login.equals("")) throw new IOException();
+		if (login == null || login.equals("")) throw new IllegalArgumentException();
 		this.login = login;
 		if (id == 0) throw new IOException();
 		this.id = id;
-		if (email == null || email.equals("")) throw new IOException();
+		if (email == null || email.equals("")) throw new IllegalArgumentException();
 		this.email = email;
-		if (password == null || password.equals("")) throw new IOException();
+		if (password == null || password.equals("")) throw new IllegalArgumentException();
 		this.password = password;
 		this.projects = new ProjectsRepository();
 	}
@@ -32,7 +32,7 @@ public class UserInfo {
 	}
 
 	public void setLogin(String login) throws IOException {
-		if (login == null || login.equals("")) throw new IOException();
+		if (login == null || login.equals("")) throw new IllegalArgumentException();
 		this.login = login;
 	}
 
@@ -41,7 +41,7 @@ public class UserInfo {
 	}
 
 	public void setEmail(String email) throws IOException {
-		if (email == null || email.equals("")) throw new IOException();
+		if (email == null || email.equals("")) throw new IllegalArgumentException();
 		this.email = email;
 	}
 
@@ -50,7 +50,7 @@ public class UserInfo {
 	}
 
 	public void setPassword(String password) throws IOException {
-		if (password == null || password.equals("")) throw new IOException();
+		if (password == null || password.equals("")) throw new IllegalArgumentException();
 		this.password = password;
 	}
 

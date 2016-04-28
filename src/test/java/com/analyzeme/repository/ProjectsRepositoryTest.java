@@ -1,17 +1,16 @@
 package com.analyzeme.repository;
 
-// TODO: rewrite to avoid using *-test functions
-// TODO: tests for multithreading should be added (?)
-
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
+
+// TODO: rewrite to avoid using *-test functions
+// TODO: tests for multithreading should be added (?)
 
 /**
  * Created by lagroffe on 05.03.2016 10:42

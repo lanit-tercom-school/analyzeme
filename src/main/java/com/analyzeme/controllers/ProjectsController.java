@@ -132,6 +132,3 @@ public class ProjectsController {
 		}
 	}
 }
-
-
-
