@@ -6,15 +6,15 @@
     {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
     -->
     <div *ngIf="!isEmpty()" class="mdl-card__supporting-text">
-        Name: {{fileInfo.nameForUser | uppercase}} <br/>
+        Name: {{fileInfo.nameForUser}} <br/>
         Id: {{fileInfo.uniqueName}}
         isActive: {{fileInfo.isActive}}
         uploadingDate: {{fileInfo.uploadingDate}}
         <ul>
             <h3>Fields</h3>
             <li *ngFor="#prop of fileInfo.fields">
-                Field name: {{prop}} = {{fileinfo.fields[prop].fieldName}}
-                field id : {{prop}} = {{fileinfo.fields[prop].fieldId}}
+                Field name: {{fileinfo.fields[prop].fieldName}}
+                field id : {{fileinfo.fields[prop].fieldId}}
             </li>
         </ul>
     </div>

@@ -129,7 +129,8 @@
                             l.dir(fileI);
                             if (fileI) {
                                 this.fileInfo = fileI;
-                            }
+                            }  
+                            l.dir(this.fileInfo);
                         })
             },
             addFile: function (file) {

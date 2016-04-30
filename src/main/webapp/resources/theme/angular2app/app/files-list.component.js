@@ -27,6 +27,7 @@
                 ngOnInit: function () {
                     this.getFiles();
                     this.getSelectedFile();
+                    this.getFileInfo();
                     l.dir(this.selectedProject);
                     /**/
                 },
@@ -54,6 +55,9 @@
                 onSelect: function (file) {
                     this._fileService.setSelectedFile(file);
                     this.getFileInfo();
+                    l.log("Got file info");
+                    //document.getElementById("result").innerHTML = '<file-info [info]="fileInfo"></file-info>';
+                    //l.log("HTML")
                     app.d3Utils.DrawGraph(JSON.parse(file.content).Data);
                     this._fileService.getSelectedFile()
                         .then(data => l.dir(data));
