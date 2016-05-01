@@ -38,4 +38,7 @@ public class IndexController {
 	@RequestMapping(value = "/fileInfo")
 	public String moveToFileInfo() {return  "fileInfo";}
 
+	@RequestMapping(value = "/help")
+	public String moveToHelp() {return  "help";}
+
 }
