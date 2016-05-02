@@ -31,9 +31,9 @@ public class ProjectsController {
 				return null;
 			}
 			//this line will return all filenames in project, including temporary deleted files
-			return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getFilenames();
+			//return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getFilenames();
 			//to get only active files use:
-			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNames();
+			return UsersRepository.getRepo().findUser("guest").getProjects().findProject(projectName).returnAllNames();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -44,7 +44,7 @@ public class ProjectsController {
 	 * gets files from project by project id
 	 *
 	 * @param projectId
-	 * @return json like [{"uniqueName": ..., "nameForUser": ..., "isActive": ...}, {"uniqueName": ..., "nameForUser": ..., "isActive": ...}, {"uniqueName": ..., "isActive": ...}]
+	 * @return json like [{"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ...}]
 	 * @throws IOException
 	 */
 	@RequestMapping(value = "{user_id}/project/{project_id}/filesForList", method = RequestMethod.GET)

@@ -158,7 +158,7 @@
         );
     };
 
-    // returns { "Files" : [{"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":true},{"uniqueName":"check_1.json","nameForUser":"check.json","isActive":true},{"uniqueName":"lineal.json","nameForUser":"lineal.json","isActive":true}]}
+    // returns { "Files" : [{"uniqueName":"0_10.json","nameForUser":"0_10.json"},{"uniqueName":"check_1.json","nameForUser":"check.json"},{"uniqueName":"lineal.json","nameForUser":"lineal.json"}]}
     // extract: JSON.parse(xhr.responseText)
     app.AppUtils.API.getProjectFiles = function (userId, projectId) {
         return app.AppUtils.makeRequest(

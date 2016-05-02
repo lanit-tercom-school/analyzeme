@@ -96,7 +96,7 @@
                                                     };
                                                     downloadedFile.serverName = file.uniqueName;
                                                     downloadedFile.name = file.nameForUser;
-                                                    downloadedFile.isActive = file.isActive;
+                                                   // downloadedFile.isActive = file.isActive;
                                                     this.data.push(downloadedFile);
                                                 },
                                                 err => l.log("Failed to load " + file.nameForUser + " file: " + err)
@@ -137,6 +137,16 @@
                 let fileCopy = {};
                 app.AppUtils.copyObj(file, fileCopy);
                 this.data.push(fileCopy);
+            },
+            deleteFile: function(file) {
+                for(var i = 0; i < data.length; i++) {
+                    if (this.equals(data[i], file)) {
+                        delete data[i];
+                        l.log("File deleted");
+                        return true;
+                    }
+                }
+                return false;
             }
         });
 

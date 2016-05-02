@@ -22,12 +22,11 @@
                         this.isDropboxExpanded = false;
                         this.selectedFile = null;
                         this.files = null;
-                        this.fileInfo = null;
+                        this.fileInfo = {};
                     }],
                 ngOnInit: function () {
                     this.getFiles();
                     this.getSelectedFile();
-                    this.getFileInfo();
                     l.dir(this.selectedProject);
                     /**/
                 },
@@ -42,7 +41,7 @@
                         .then(files => this.files = files);
                 },
                 getFileInfo: function () {
-                    this._fileService.getFileInfo()
+                    return this._fileService.getFileInfo()
                         .then(fileInfo => this.fileInfo = fileInfo);
                 },
                 getSelectedFile: function () {
@@ -55,16 +54,19 @@
                 onSelect: function (file) {
                     this._fileService.setSelectedFile(file);
                     this.getFileInfo();
-                    l.log("Got file info");
-                    //document.getElementById("result").innerHTML = '<file-info [info]="fileInfo"></file-info>';
-                    //l.log("HTML")
+                    //l.log("Got file info");
                     app.d3Utils.DrawGraph(JSON.parse(file.content).Data);
                     this._fileService.getSelectedFile()
                         .then(data => l.dir(data));
                 },
+                //TODO: delete file from list without refresh
                 deleteFile: function (file) {
                     l.log("deleteFile");
                     app.AppUtils.API.deleteFile(file.serverName);
+                    this._fileService.deleteFile(file);
+                },
+                isEmpty() {
+                    return this._fileService.equals(this.fileInfo, {});
                 }
             });
 })(window.app || (window.app = {}));

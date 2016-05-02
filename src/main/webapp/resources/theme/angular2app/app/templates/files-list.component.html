@@ -39,8 +39,31 @@
 
           </li>
       </ul>
-        <file-info [info]="fileInfo"></file-info>
-       <!-- <div id="result"></div>  -->
+      <div  class="mdl-card mdl-shadow--2dp">
+        <div class="mdl-card__title">
+          <h2 class="mdl-card__title-text">File info</h2>
+        </div>
+        <!--
+        {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
+        -->
+        <!-- "-->
+        <div *ngIf="!isEmpty()" class="mdl-card__supporting-text">
+          Name: {{fileInfo.nameForUser}} <br/>
+          Id: {{fileInfo.uniqueName}}  <br/>
+          isActive: {{fileInfo.isActive}}    <br/>
+          uploadingDate: {{fileInfo.uploadingDate}}  <br/>
+          Fields <br/>
+          <ul>
+            <li *ngFor="#elem of fileInfo.fields">
+              Field name: {{elem.fieldName}}
+              field id : {{elem.fieldId}}<br/>
+            </li>
+          </ul>
+        </div>
+        <div *ngIf="isEmpty()" class="mdl-card__supporting-text">
+          File not selected
+        </div>
+    </div>
     </div>
   </main>
 </div>
