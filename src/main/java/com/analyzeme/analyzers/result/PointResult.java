@@ -22,6 +22,9 @@ public class PointResult implements IResult {
     }
 
     public String toJson() throws JsonProcessingException {
+        if(result == null){
+            return null;
+        }
         return mapper.writeValueAsString(result);
     }
 }
