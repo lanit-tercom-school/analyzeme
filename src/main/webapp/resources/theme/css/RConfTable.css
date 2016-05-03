@@ -1,0 +1,43 @@
+
+.tbl-header {
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.tbl-content {
+    height: 300px;
+    overflow-x: auto;
+    margin-top: 0px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+th {
+    padding: 20px 15px;
+    text-align: left;
+    color: black;
+    text-transform: uppercase;
+}
+
+td {
+    padding: 15px;
+    text-align: left;
+    vertical-align: middle;
+    color: black;
+    border-bottom: solid 1px rgba(255, 255, 255, 0.1);
+}
+#UpdateModal{
+    background:  #F0FFF0;
+    margin: 0 auto; /* Выравниваем слой по центру */
+    width: 50%; /* Ширина слоя */
+    height: 80%; /* Высота слоя */
+
+    opacity: 0.7; /* Значение прозрачности */
+    filter: alpha(Opacity=70); /* Прозрачность в IE */
+}
+#AddModal{
+    background:  #F0FFF0;
+    margin: 0 auto; /* Выравниваем слой по центру */
+    width: 50%; /* Ширина слоя */
+    height: 80%; /* Высота слоя */
+    opacity: 0.7; /* Значение прозрачности */
+    filter: alpha(Opacity=70); /* Прозрачность в IE */
+}
