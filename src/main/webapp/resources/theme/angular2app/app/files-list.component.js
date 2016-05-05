@@ -51,6 +51,9 @@
                 this._fileService.getSelectedFile()
                     .then(data => l.dir(data));
             },
+            previewFile: function(file) {
+              alert('preview ' + file.name);
+            },
             deleteFile: function(file) {
                 l.log("deleteFile");
                 app.AppUtils.API.deleteFile(file.serverName);

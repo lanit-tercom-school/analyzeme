@@ -1,5 +1,6 @@
 <div (dragenter)="invertDropboxFlag()"
-      class="mdl-layout--fixed-header mdl-layout mdl-js-layout">
+      class="mdl-layout--fixed-header mdl-layout mdl-js-layout"
+      style="min-width: 20em;">
   <dropbox-upload *ngIf="isDropboxExpanded" (dragleave)="invertDropboxFlag()"
                   (collapsed)="invertDropboxFlag()">
   </dropbox-upload>
@@ -8,7 +9,7 @@
     <!-- Top row, always visible -->
     <div class="mdl-layout__header-row">
       <!-- Title -->
-      <span class="mdl-layout-title">Project files</span>
+      <span class="mdl-layout-title">{{_projectService.selectedProject.projectName}}</span>
       <div class="mdl-layout-spacer"></div>
       <button (click)="invertDropboxFlag()"
           class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--fab mdl-shadow--2dp mdl-button--accent">
@@ -16,7 +17,7 @@
       </button>
     </div>
     <div class="mdl-layout__header-row">
-      {{_projectService.selectedProject.projectName}}
+      Files:
     </div>
   </header>
   <main *ngIf="!isDropboxExpanded" class="mdl-layout__content">
@@ -27,7 +28,9 @@
               [class.selected]="isSelectedFile(file)">
 
               <span (click)="onSelect(file)" class="mdl-list__item-primary-content">
-                <i class="material-icons mdl-list__item-icon">work</i>
+                <button (click)="previewFile(file)" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                  <i class="material-icons">work</i>
+                </button>
                 <span>{{file.name}}</span>
                 <span class="mdl-list__item-sub-title"></span>
               </span>
