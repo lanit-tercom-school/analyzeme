@@ -110,7 +110,7 @@ public interface IRepository {
 	 * @param id - unique name or id of an object
 	 * @return json string with an object
 	 */
-	String getItem(final String id) throws Exception;
+	String getItemById(final String id) throws Exception;
 
 
 	/**

@@ -12,7 +12,7 @@ public class AnalyzeFunctionFactory {
 	 * @param functionType name of  AnalyzeFunction class
 	 * @return object of some AnalyzeFunction class
 	 */
-	public AnalyzeFunction getFunction(String functionType) throws IllegalArgumentException{
+	public AnalyzeFunction getFunction(String functionType) throws IllegalArgumentException {
 
 		if (functionType == null)
 			throw new IllegalArgumentException("param ''functionType'' has illegal value.( Null is illegal value)");

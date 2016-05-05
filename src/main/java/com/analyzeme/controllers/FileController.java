@@ -19,8 +19,6 @@ import java.io.IOException;
 @RestController
 public class FileController {
 
-	//TODO: in fact here userId = username. should be changed to Integer.parseInt(userId) when views are ready
-
 	/**
 	 * handles files upload
 	 * gets in url user id and project id
@@ -38,9 +36,6 @@ public class FileController {
 
 			UsersRepository.getRepo().checkInitializationAndCreate();
 			UserInfo user = UsersRepository.getRepo().findUser(userId);
-			if (user == null) {
-				throw new Exception();
-			}
 			ProjectInfo project = user.getProjects().findProjectById(projectUniqueName);
 			if (project == null) {
 				throw new Exception();
@@ -74,8 +69,10 @@ public class FileController {
 			String fileName = multipartFile.getOriginalFilename();
 
 			UsersRepository.getRepo().checkInitializationAndCreate();
-			UserInfo user = UsersRepository.getRepo().findUser("guest");
-			if (user == null) {
+			UserInfo user = null;
+			try {
+				user = UsersRepository.getRepo().findUser("guest");
+			} catch (IllegalArgumentException e) {
 				//login, email, password  (IN THIS ORDER)
 				String[] param = {"guest", "guest@mail.sth", "1234"};
 				UsersRepository.getRepo().newItem(param);
@@ -156,8 +153,8 @@ public class FileController {
 	}
 
 	/**
-	 *  returns full info about file
-	 *  example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
+	 * returns full info about file
+	 * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
 	 */
 	@RequestMapping(value = "/file/{user_id}/{project_id}/{nameForUser}/getFullInfo", method = RequestMethod.GET)
 	public String getFullFileInfo(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("nameForUser") String filename) throws Exception {

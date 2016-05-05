@@ -26,7 +26,7 @@ public class StreamToString {
 		}
 		baos.flush();
 		stream = new ByteArrayInputStream(baos.toByteArray());
-		ByteArrayInputStream streamCopy =  new ByteArrayInputStream(baos.toByteArray());
+		ByteArrayInputStream streamCopy = new ByteArrayInputStream(baos.toByteArray());
 
 		int size = streamCopy.available();
 		byte[] bytes = new byte[size];
@@ -51,7 +51,7 @@ public class StreamToString {
 		}
 		baos.flush();
 		stream = new ByteArrayInputStream(baos.toByteArray());
-		ByteArrayInputStream streamCopy =  new ByteArrayInputStream(baos.toByteArray());
+		ByteArrayInputStream streamCopy = new ByteArrayInputStream(baos.toByteArray());
 
 		int size = streamCopy.available();
 		byte[] bytes = new byte[size];

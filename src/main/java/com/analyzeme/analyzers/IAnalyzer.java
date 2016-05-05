@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface IAnalyzer {
 
-    IResult analyze(List<List<Point>> data);
+	IResult analyze(List<List<Point>> data);
 }

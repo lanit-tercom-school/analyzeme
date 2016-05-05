@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
  */
 public interface IResult<T> {
 
-    T getValue();
+	T getValue();
 
-    String toJson() throws JsonProcessingException;
+	String toJson() throws JsonProcessingException;
 }

@@ -24,14 +24,41 @@ public class ProjectsController {
 	 */
 	@RequestMapping(value = "{user_id}/project/{project_id}/files", method = RequestMethod.GET)
 	public List<String> getFiles(@PathVariable("user_id") int userId,
-			@PathVariable("project_id") String projectName)
+								 @PathVariable("project_id") String projectName)
 			throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
 				return null;
 			}
 			//this line will return all filenames in project, including temporary deleted files
-			return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getFilenames();
+			//return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getFilenames();
+			//to get only active files use:
+			return UsersRepository.getRepo().findUser("guest").getProjects().findProject(projectName).returnAllNames();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	/**
+	 * gets files from project by project id
+	 *
+	 * @param projectId
+	 * @return json like [{"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ...}]
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "{user_id}/project/{project_id}/filesForList", method = RequestMethod.GET)
+	public String getFilesForList(@PathVariable("user_id") int userId,
+								  @PathVariable("project_id") String projectId)
+			throws IOException {
+		if (userId == 0 || projectId == null || projectId.equals("")) {
+			throw new IllegalArgumentException("Incorrect userId or/and projectId");
+		}
+		try {
+			if (UsersRepository.getRepo().checkInitialization() == null) {
+				throw new IllegalArgumentException("User does not exist");
+			}
+			return "{ \"Files\" : " + UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).returnFilesForList() + "}";
 			//to get only active files use:
 			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNames();
 		} catch (Exception e) {
@@ -55,7 +82,9 @@ public class ProjectsController {
 			//when other users created, CheckInitializationAndCreate() should be called from user creator only
 			//now it's possible to create a default user here
 			UsersRepository.getRepo().checkInitializationAndCreate();
-			if (UsersRepository.getRepo().findUser("guest") == null) {
+			try {
+				UsersRepository.getRepo().findUser("guest");
+			} catch (IllegalArgumentException e) {
 				//login, email, password
 				String[] param = {"guest", "guest@mail.sth", "1234"};
 				UsersRepository.getRepo().newItem(param);
@@ -80,7 +109,7 @@ public class ProjectsController {
 	 * HttpStatus.BAD_REQUEST if sth went wrong
 	 */
 	@RequestMapping(value = "{user_id}/project/{unique_name}/delete", method = RequestMethod.DELETE)
-	public HttpStatus deleteProjectById(@PathVariable("user_id") int userId ,@PathVariable("unique_name") String uniqueName)
+	public HttpStatus deleteProjectById(@PathVariable("user_id") int userId, @PathVariable("unique_name") String uniqueName)
 			throws IOException {
 		try {
 			if (UsersRepository.getRepo().checkInitialization() == null) {

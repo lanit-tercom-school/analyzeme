@@ -16,6 +16,6 @@ public class GetFromRFactory {
 			case POINTS:
 				return new PointsFromR();
 		}
-	   throw new IllegalArgumentException("This type of return value is not supported");
+		throw new IllegalArgumentException("This type of return value is not supported");
 	}
 }

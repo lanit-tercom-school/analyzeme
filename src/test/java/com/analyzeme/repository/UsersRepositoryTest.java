@@ -67,11 +67,10 @@ public class UsersRepositoryTest {
 		}
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void testFindForNotExistingUserByName() throws Exception {
 		try {
-			UserInfo info = repo.findUser("third_user");
-			assertTrue("FindUser does not work correctly for non-existing user (by name)", info == null);
+			repo.findUser("third_user");
 		} catch (ArrayIndexOutOfBoundsException e) {
 			assertTrue("FindUser does not work correctly for non-existing user (by name)", true);
 		}
@@ -123,7 +122,7 @@ public class UsersRepositoryTest {
 	public void testGetItem() throws Exception {
 		String[] param = {"one_more_guest", "guest@sth.sth", "1234"};
 		String id = repo.newItem(param);
-		String json = repo.getItem(id);
+		String json = repo.getItemById(id);
 		UserInfo info = repo.findUser(Integer.parseInt(id));
 		ObjectMapper obj = new ObjectMapper();
 		String json2 = obj.writeValueAsString(info);

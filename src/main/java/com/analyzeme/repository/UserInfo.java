@@ -1,5 +1,8 @@
 package com.analyzeme.repository;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.IOException;
 
 //toString in getters is used for copying
@@ -8,10 +11,15 @@ import java.io.IOException;
  * Created by lagroffe on 22.02.2016 23:12
  */
 
+@JsonAutoDetect
 public class UserInfo {
+	@JsonProperty("username")
 	private String login;
+	@JsonProperty("userId")
 	private int id;
+	@JsonProperty("email")
 	private String email;
+	@JsonProperty("password")
 	private String password;
 	private ProjectsRepository projects;
 
