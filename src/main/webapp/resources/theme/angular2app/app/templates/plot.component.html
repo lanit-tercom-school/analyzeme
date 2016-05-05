@@ -1,20 +1,41 @@
 <div>
-      <div class="mdl-textfield">
-        <input type="text" size="21" class="mdl-textfield__input" readonly id="functionResult" value="">
-      </div>
-      <button (click)="applyFunction()"
-      class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-        <i class="material-icons">replay</i>
-      </button>
+    <table>
+      <tr>
+        <td>
+          <br/>
+          Functions:
+          <div>
         <button *ngFor="#function of _workspaceService.availableFunctions"
                 [style.display]="(isSelectExpanded || (function.func == functionType)) ? 'list-item' : 'none'"
                 (click)="selectFunction(function.func)"
                 class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
                 style="width: 18em; z-index: 5;">
             {{function.name}}
+            <p style="position: relative; right: -1em;"
+               [style.display]="(function.func == functionType) ? 'inline' : 'none'">
+              <i class="material-icons" style="font-size: 2.5em;">
+                 {{!isSelectExpanded ? "expand_more" : "expand_less"}}
+              </i>
+            </p>
         </button>
-
-    <br />
+      </div>
+        <br/>
+      </td>
+      <td rowspan="2">
+        <button (click)="applyFunction()"
+        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+          RUN
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <div class="mdl-textfield">
+          <input type="text" size="21" class="mdl-textfield__input" readonly id="functionResult" value="">
+        </div>
+      </td>
+    </tr>
+  </table>
 
     <br />
     <svg id="svgVisualize" [style.width]="svgSize" [style.height]="svgSize" style="border:1px solid Red;"></svg>

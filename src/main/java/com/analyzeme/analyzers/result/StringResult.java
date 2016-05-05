@@ -1,22 +1,21 @@
 package com.analyzeme.analyzers.result;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
- * Created by Ольга on 14.04.2016.
+ * Created by Ольга on 28.04.2016.
  */
-public class DoubleResult implements IResult {
+public class StringResult implements IResult {
 
     private ObjectMapper mapper = new ObjectMapper();
-    private Double result;
+    private String result;
 
-    public DoubleResult(Double result) {
+    public StringResult(String result) {
         this.result = result;
     }
 
-    public Double getValue() {
+    public String getValue() {
         return result;
     }
 

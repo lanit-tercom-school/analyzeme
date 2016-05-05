@@ -1,49 +1,64 @@
 package com.analyzeme.controllers;
 
+import com.analyzeme.rConfiguration.RConfRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IndexController {
-	@RequestMapping(value = "/")
-	public ModelAndView index() {
-		ModelAndView mav = new ModelAndView("index");
+    @RequestMapping(value = "/")
+    public ModelAndView index() {
+        ModelAndView mav = new ModelAndView("index");
 
-		String msg = "Running IndexController.index() method";
+        String msg = "Running IndexController.index() method";
 
-		mav.addObject("msg", msg);
-		return mav;
-	}
+        mav.addObject("msg", msg);
+        return mav;
+    }
 
-	@RequestMapping(value = "/index")
-	public String moveToIndexPage() {
-		return "index";
-	}
+    @RequestMapping(value = "/index")
+    public String moveToIndexPage() {
+        return "index";
+    }
 
-	@RequestMapping(value = "/action")
-	public String moveToActionPage() {
-		return "action";
-	}
+    @RequestMapping(value = "/action")
+    public String moveToActionPage() {
+        return "action";
+    }
 
-	@RequestMapping(value = "/projects")
-	public String moveToProjectPage() {
-		return "projects";
-	}
+    @RequestMapping(value = "/projects")
+    public String moveToProjectPage() {
+        return "projects";
+    }
 
-	@RequestMapping(value = "/REditorPage")
-	public String moveToRScriptPage() {
-		return "REditorPage";
-	}
+    @RequestMapping(value = "/REditorPage")
+    public String moveToRScriptPage() {
+        return "REditorPage";
+    }
 
-	@RequestMapping(value = "/preview")
-	public String moveToPreviewPage() {
-		return "preview";
-	}
+    @RequestMapping(value = "/preview")
+    public String moveToPreviewPage() {
+        return "preview";
+    }
 
-	@RequestMapping(value = "/fileInfo")
-	public String moveToFileInfo() {
-		return "fileInfo";
-	}
+    @RequestMapping(value = "/fileInfo")
+    public String moveToFileInfo() {
+        return "fileInfo";
+    }
+
+    @RequestMapping(value = "/rConf")
+    public ModelAndView moveToRConfPage() {
+
+        String RConfList = RConfRepository.getRepo().allConfigurationsToJsonString();
+        return new ModelAndView("rConf", "RConfList", RConfList);
+
+    }
+
+
+    @RequestMapping(value = "/help")
+    public String moveToHelp() {
+        return "help";
+    }
 
 }

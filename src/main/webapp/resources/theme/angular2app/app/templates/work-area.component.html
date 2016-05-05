@@ -1,17 +1,11 @@
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header">
+      <header class="mdl-layout__header tab-panel" style="box-shadow: 0 0 0 0;">
         <div class="mdl-layout__header-row">
-        <nav class="mdl-navigation">
-            <a  class="mdl-navigation__link" [routerLink]="['Plot']">Workspace</a>
-            <a  class="mdl-navigation__link" [routerLink]="['REdit']">Edit R script</a>
+        <nav class="mdl-navigation" style="width: 100%;">
+            <a class="mdl-navigation__link workarea-tab" [routerLink]="['Plot']" style="width: 100%;">Workspace</a>
+            <a class="mdl-navigation__link workarea-tab" [routerLink]="['REdit']" style="width: 100%;">Edit R script</a>
         </nav>
-        <div class="mdl-layout-spacer"></div>
-        <button onclick="alert('Help button');"
-            class="mdl-button mdl-js-button mdl-button--raised
-            mdl-js-ripple-effect mdl-button--fab mdl-button--mini-fab mdl-shadow--2dp">
-          <i class="material-icons">help</i>
-        </button>
-        </div>
+      </div>
       </header>
       <main class="mdl-layout__content">
           <div class="page-content">
