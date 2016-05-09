@@ -1,14 +1,14 @@
 .router-link-active {
-  border-bottom: 2px solid cyan;
+  border-bottom: 2px solid white;
 }
 header.tab-panel {
-  border-bottom: 2px solid cyan;
+  /*border-bottom: 2px solid white;*/
 }
 a.workarea-tab.router-link-active {
   color: rgb(0,150,136)!important;
 }
 .router-link-active.workarea-tab {
-  border: 2px solid cyan;
+  border: 2px solid rgb(0,150,136);
   border-bottom: 0px;
   /*border-top-left-radius: 20px;
   border-top-right-radius: 20px;*/
