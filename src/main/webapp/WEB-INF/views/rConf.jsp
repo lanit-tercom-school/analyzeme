@@ -99,13 +99,14 @@
         <div class="row">
             <div id="getdata" style="display: none;"> ${RConfList}</div>
 
-            <a href="#AddModal" role="button" data-toggle="modal" class="btn btn-primary btn-lg"><span
-                    class="network-name">Add RConfigurations</span></a>
-
+            <a id="AddButton" href="#AddModal" role="button" data-toggle="modal" class="btn btn-primary btn-lg"><span
+                    class="network-name">Add</span></a>
+            <%--Add modal--%>
             <div class="modal" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-header">
-                    <h3 class="modal-title">Add new RConfiguration</h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h3 class="modal-title">Add new R Configuration</h3>
                 </div>
 
                 <div class="modal-body">
@@ -136,25 +137,26 @@
                             <td>Port:</td>
                             <td><input type="text" id="port"></td>
                         </tr>
-                        <tr>
-                            <td>
-                                <a onclick="addRow()" data-dismiss="modal" role="button" data-toggle="modal"
-                                   class="btn btn-primary btn-lg"><span
-                                        class="network-name">Add RConfigurations</span></a>
-                                <a data-dismiss="modal" role="button" data-toggle="modal"
-                                   class="btn btn-primary btn-lg"><span
-                                        class="network-name">Cancel</span></a>
-                            </td>
-                        </tr>
+
                     </table>
 
                 </div>
+                <div class="modal-footer">
+                    <a onclick="addRConf()" data-dismiss="modal" role="button" data-toggle="modal"
+                       class="btn btn-primary btn-lg"><span
+                            class="network-name">Add </span></a>
+                    <a data-dismiss="modal" role="button" data-toggle="modal"
+                       class="btn btn-primary btn-lg"><span
+                            class="network-name">Cancel</span></a>
 
+                </div>
             </div>
+            <%--update modal--%>
             <div class="modal" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
                  aria-hidden="true">
                 <div class="modal-header">
-                    <h3 class="modal-title">Update RConfiguration</h3>
+                    <button onclick="closeUpdateForm()" type="button" class="close">&times;</button>
+                    <h3 class="modal-title">Update R Configuration</h3>
                 </div>
                 <div class="modal-body">
                     <table class="form">
@@ -183,43 +185,54 @@
                             <td><input type="text" id="upPort"></td>
                         </tr>
 
-
-                        <tr>
-                            <td>
-                                <a onclick="update(upObj)" class="btn btn-primary btn-lg"><span
-                                        class="network-name" aria-hidden="true">Ok</span></a>
-                            </td>
-                            <td>
-                                <a onclick="closeUpdateForm()" role="button" class="btn btn-primary btn-lg"><span
-                                        class="network-name">Cancel</span></a>
-                            </td>
-                        </tr>
                     </table>
 
                 </div>
+                <div class="modal-footer">
 
+                    <a onclick="update(upObj)" class="btn btn-primary btn-lg"><span
+                            class="network-name" aria-hidden="true">Ok</span></a>
+
+                    <a onclick="closeUpdateForm()" role="button" class="btn btn-primary btn-lg"><span
+                            class="network-name">Cancel</span></a>
+
+                </div>
             </div>
+            <%--delete modal--%>
+            <div id="deleteModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+                <div class="modal-header">
+                    <button onclick="closeDeleteForm()" type="button" class="close">&times;</button>
+                    <h3 class="modal-title" id="myModalLabel">Delete R Configuration?</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-content">
+                        Are you really want delete <span id="delName">R Configuration</span>?
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a onclick="deleteRconf(delObj)" class="btn btn-primary btn-lg"><span
+                            class="network-name" aria-hidden="true">Yes</span></a>
 
+                    <a onclick="closeDeleteForm()" role="button" class="btn btn-primary btn-lg"><span
+                            class="network-name">No</span></a>
+                </div>
+            </div>
+            <%--main table--%>
             <div id="instancesData">
                 <table id="listOfInstances" border="1">
                     <tr>
-                        <td>&nbsp;</td>
                         <td><span class="network-name"><b>Name</b></span></td>
                         <td><span class="network-name"><b>Type</b></span></td>
-                        <td><span class="network-name"><b>Turned on</b></span></td>
+                        <td><span class="network-name"><b>Status</b></span></td>
                         <td><span class="network-name"><b>Using Host</b></span></td>
                         <td><span class="network-name"><b>Using Port</b></span></td>
+                        <td>&nbsp;</td>
                         <td>&nbsp;</td>
                     </tr>
                 </table>
                 &nbsp;<br/>
             </div>
 
-            <!--
-            <div id="myDynamicTable">
-            <input type="button" id="create" value="Click here" onclick="Javascript:addTable()">
-            to create a Table and add some data using JavaScript
-            </div>-->
 
         </div>
     </div>

@@ -47,7 +47,7 @@
             <a href="demo" type="button" class="btn btn-info btn-lg">Try now</a>
             <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
             <a href="preview" type="button" class="btn btn-info btn-lg">Preview</a>
-            <a href="rConf" type="button" class="btn btn-info btn-lg">RConfigurations</a>
+            <a href="rConf" type="button" class="btn btn-info btn-lg">R Configurations</a>
 
         </div>
 
