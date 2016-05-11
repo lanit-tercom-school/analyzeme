@@ -49,6 +49,12 @@ public class Rserve implements IRCaller {
 		}
 	}
 
+	/**
+	 * clean up r memory after script was executed
+	 */
+	private static void deleteData() throws Exception {
+		r.eval("rm(list = ls())");
+	}
 	//------------------
 	//default for scripts
 	//return - json
@@ -70,8 +76,8 @@ public class Rserve implements IRCaller {
 		insertData(dataFiles);
 		String script = StreamToString.ConvertStreamANSI(rScript);
 		REXP result = r.eval(script);
+		deleteData();
 		return result.toString();
-
 	}
 
 
@@ -94,6 +100,7 @@ public class Rserve implements IRCaller {
 		insertData(dataFiles);
 		String script = StreamToString.ConvertStreamANSI(rScript);
 		double result = r.eval(script).asDouble();
+		deleteData();
 		return result;
 	}
 
@@ -115,6 +122,7 @@ public class Rserve implements IRCaller {
 		Point result = new Point();
 		result.SetX(res[0]);
 		result.SetY(res[1]);
+		deleteData();
 		return result;
 
 	}
@@ -141,6 +149,7 @@ public class Rserve implements IRCaller {
 			p.SetY(res[i][1]);
 			result.add(p);
 		}
+		deleteData();
 		return result;
 	}
 
@@ -163,6 +172,7 @@ public class Rserve implements IRCaller {
 		Initialize();
 		insertData(dataFiles);
 		REXP result = r.eval(rCommand);
+		deleteData();
 		return result.toString();
 	}
 
@@ -191,6 +201,7 @@ public class Rserve implements IRCaller {
 		r.assign("x", x);
 		r.assign("y", y);
 		REXP result = r.eval(rCommand);
+		deleteData();
 		return result.toString();
 	}
 
@@ -212,6 +223,7 @@ public class Rserve implements IRCaller {
 		Initialize();
 		insertData(dataFiles);
 		double result = r.eval(rCommand).asDouble();
+		deleteData();
 		return result;
 	}
 
@@ -231,6 +243,7 @@ public class Rserve implements IRCaller {
 		Point result = new Point();
 		result.SetX(res[0]);
 		result.SetY(res[1]);
+		deleteData();
 		return result;
 	}
 
@@ -254,6 +267,7 @@ public class Rserve implements IRCaller {
 			p.SetY(res[i][1]);
 			result.add(p);
 		}
+		deleteData();
 		return result;
 	}
 
@@ -286,6 +300,7 @@ public class Rserve implements IRCaller {
 		r.assign("x", x);
 		r.assign("y", y);
 		double result = r.eval(rCommand).asDouble();
+		deleteData();
 		return result;
 	}
 
@@ -317,6 +332,7 @@ public class Rserve implements IRCaller {
 		Point result = new Point();
 		result.SetX(res[0]);
 		result.SetY(res[1]);
+		deleteData();
 		return result;
 	}
 
@@ -353,6 +369,7 @@ public class Rserve implements IRCaller {
 			p.SetY(res[i][1]);
 			result.add(p);
 		}
+		deleteData();
 		return result;
 	}
 }
