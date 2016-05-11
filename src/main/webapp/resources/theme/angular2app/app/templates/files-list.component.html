@@ -1,7 +1,6 @@
-<div (dragenter)="invertDropboxFlag()"
-      class="mdl-layout--fixed-header mdl-layout mdl-js-layout"
+<div  class="mdl-layout--fixed-header mdl-layout mdl-js-layout"
       style="min-width: 20em;">
-  <dropbox-upload *ngIf="isDropboxExpanded" (dragleave)="invertDropboxFlag()"
+  <dropbox-upload *ngIf="isDropboxExpanded"
                   (collapsed)="invertDropboxFlag()">
   </dropbox-upload>
 
