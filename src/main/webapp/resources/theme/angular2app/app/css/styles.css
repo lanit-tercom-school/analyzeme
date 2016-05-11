@@ -5,10 +5,10 @@ header.tab-panel {
   /*border-bottom: 2px solid white;*/
 }
 a.workarea-tab.router-link-active {
-  color: rgb(0,150,136)!important;
+  color: black !important;
 }
 .router-link-active.workarea-tab {
-  border: 2px solid rgb(0,150,136);
+  border: 2px solid rgb(46,125,50);
   border-bottom: 0px;
   /*border-top-left-radius: 20px;
   border-top-right-radius: 20px;*/
