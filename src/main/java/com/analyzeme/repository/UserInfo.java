@@ -23,7 +23,7 @@ public class UserInfo {
 	private String password;
 	private ProjectsRepository projects;
 
-	UserInfo(final String login, final int id, final String email, final String password) throws IOException {
+	UserInfo(final String login, final int id, final String email, final String password) throws Exception {
 		if (login == null || login.equals("")) throw new IllegalArgumentException();
 		this.login = login;
 		if (id == 0) throw new IOException();

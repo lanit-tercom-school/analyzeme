@@ -62,8 +62,8 @@
              <!-- Navigation -->
              <nav class="mdl-navigation" role="navigation">
                  <a href="/index" class="mdl-navigation__link">AnalyzeMe</a>
-                 <a href="/demo" class="mdl-navigation__link">Try now</a>
-                 <a href="/app" class="mdl-navigation__link">Projects</a>
+                 <a href="/app/demo" class="mdl-navigation__link">Try now</a>
+                 <!--<a href="/app" class="mdl-navigation__link">Projects</a> -->
                  <a href="/data/spb" class="mdl-navigation__link">Preview</a>
                  <a href="/config" class="mdl-navigation__link">R Configurations</a>
              </nav>

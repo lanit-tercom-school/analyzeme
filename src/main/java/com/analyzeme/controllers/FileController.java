@@ -69,21 +69,16 @@ public class FileController {
 			String fileName = multipartFile.getOriginalFilename();
 
 			UsersRepository.getRepo().checkInitializationAndCreate();
-			UserInfo user = null;
 			try {
-				user = UsersRepository.getRepo().findUser("guest");
+				UsersRepository.getRepo().findUser("guest");
 			} catch (IllegalArgumentException e) {
 				//login, email, password  (IN THIS ORDER)
 				String[] param = {"guest", "guest@mail.sth", "1234"};
 				UsersRepository.getRepo().newItem(param);
 			}
-			ProjectInfo project = user.getProjects().findProject("default");
-			if (project == null) {
-				UsersRepository.getRepo().newProject("guest", "default");
-			}
 
 			//part, filename, projectName, username (IN THIS ORDER)
-			String[] param = {fileName, "default", "guest"};
+			String[] param = {fileName, "demo", "guest"};
 			responseToJS = UsersRepository.getRepo().persist(multipartFile, param);
 
 			//Set responseHeaders "Data" and "fileName";

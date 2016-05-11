@@ -1,6 +1,7 @@
 package com.analyzeme.controllers;
 
 import com.analyzeme.rConfiguration.RConfRepository;
+import com.analyzeme.repository.UsersRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -8,11 +9,17 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class IndexController {
     @RequestMapping(value = "/")
-    public ModelAndView index() {
+    public ModelAndView index() throws Exception {
         ModelAndView mav = new ModelAndView("index");
 
         String msg = "Running IndexController.index() method";
-
+        try {
+            UsersRepository.getRepo().findUser("guest");
+        } catch (IllegalArgumentException e) {
+            //login, email, password  (IN THIS ORDER)
+            String[] param = {"guest", "guest@mail.sth", "1234"};
+            UsersRepository.getRepo().newItem(param);
+        }
         mav.addObject("msg", msg);
         return mav;
     }
@@ -23,7 +30,7 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/action")
-    public String moveToActionPage() {
+    public String moveToActionPage() throws Exception {
         return "action";
     }
 
