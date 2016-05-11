@@ -8,7 +8,7 @@
                 "selector": 'files-list',
                 "templateUrl": app.AppUtils.templateUrl("files-list"),
                 "styleUrls": [app.AppUtils.cssUrls("projects-list")],
-                "directives": [app.DropboxUploadComponent]
+                "directives": [app.DropboxUploadComponent, app.FileInfoComponent]
             })
             .Class({
                 constructor: [
@@ -62,7 +62,6 @@
                 //TODO: delete file from list without refresh
                 deleteFile: function (file) {
                     l.log("deleteFile");
-                    app.AppUtils.API.deleteFile(file.serverName);
                     this._fileService.deleteFile(file);
                 },
                 isEmpty() {

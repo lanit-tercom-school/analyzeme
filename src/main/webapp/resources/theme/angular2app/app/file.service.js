@@ -27,6 +27,7 @@
             },
             equals: function (o1, o2) {
                 if (o1 == o2) return true;
+                if (!o1 || !o2) return false;//!!!
                 if (o1.length != o2.length) return false;
                 for (let property in o1) {
                     if (o1[property] != o2[property]) {
@@ -107,13 +108,13 @@
                         });
             },
             updateFileInfo: function () {
-                l.log("getFileInfo for" + this.getServerName());
+                l.log("getFileInfo for " + this.getServerName());
                 var sp = this._projectService.selectedProject;
                 var fileI = null;
                 app.AppUtils.API.getFullFileInfo(
                     1,
                     sp.projectId === undefined ? "project" : sp.projectId,
-                    this.getNameForUser()
+                    this.getServerName()
                     )
                     .then(
                         xhr => {
@@ -128,8 +129,8 @@
                             l.log("fileInfo");
                             l.dir(fileI);
                             if (fileI) {
-                                this.fileInfo = fileI;
-                            }  
+                                app.AppUtils.copyObj(fileI, this.fileInfo);
+                            }
                             l.dir(this.fileInfo);
                         })
             },
@@ -139,9 +140,10 @@
                 this.data.push(fileCopy);
             },
             deleteFile: function(file) {
-                for(var i = 0; i < data.length; i++) {
-                    if (this.equals(data[i], file)) {
-                        delete data[i];
+                app.AppUtils.API.deleteFile(file.serverName);
+                for(var i = 0; i < this.data.length; i++) {
+                    if (this.equals(this.data[i], file)) {
+                        this.data.splice(i, 1);
                         l.log("File deleted");
                         return true;
                     }

@@ -1,71 +1,53 @@
-<div  class="mdl-layout--fixed-header mdl-layout mdl-js-layout"
-      style="min-width: 20em;">
-  <dropbox-upload *ngIf="isDropboxExpanded"
-                  (collapsed)="invertDropboxFlag()">
-  </dropbox-upload>
+<div class="mdl-layout--fixed-header mdl-layout mdl-js-layout" style="min-width: 20em;">
+    <dropbox-upload *ngIf="isDropboxExpanded" (collapsed)="invertDropboxFlag()">
+    </dropbox-upload>
 
-  <header *ngIf="!isDropboxExpanded" class="mdl-layout__header mdl-layout__header--fixed-header">
-    <!-- Top row, always visible -->
-    <div class="mdl-layout__header-row">
-      <!-- Title -->
-      <span class="mdl-layout-title">{{_projectService.selectedProject.projectName}}</span>
-      <div class="mdl-layout-spacer"></div>
-      <button (click)="invertDropboxFlag()"
-          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--fab mdl-shadow--2dp mdl-button--accent">
-        <i class="material-icons">add</i>
-      </button>
-    </div>
-    <div class="mdl-layout__header-row">
-      Files:
-    </div>
-  </header>
-  <main *ngIf="!isDropboxExpanded" class="mdl-layout__content">
-    <div class="page-content">
-      <ul class="mdl-list">
-          <li *ngFor='#file of files'
-              class="mdl-list__item mdl-list__item--two-line"
-              [class.selected]="isSelectedFile(file)">
+    <header *ngIf="!isDropboxExpanded"
+        class="mdl-layout__header mdl-layout__header--fixed-header">
+        <!-- Top row, always visible -->
+        <div class="mdl-layout__header-row">
+            <!-- Title -->
+            <span class="mdl-layout-title">{{_projectService.selectedProject.projectName}}</span>
+            <div class="mdl-layout-spacer"></div>
+            <button (click)="invertDropboxFlag()" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--fab mdl-shadow--2dp mdl-button--accent">
+                <i class="material-icons">add</i>
+            </button>
+        </div>
+        <div class="mdl-layout__header-row">
+            Files:
+        </div>
+    </header>
+    <main *ngIf="!isDropboxExpanded" class="mdl-layout__content">
+        <div class="page-content">
+            <ul class="mdl-list">
+                <span *ngFor='#file of files'>
+                    <li class="mdl-list__item mdl-list__item--two-line"
+                        [class.selected]="isSelectedFile(file)">
 
-              <span (click)="onSelect(file)" class="mdl-list__item-primary-content">
-                <button (click)="previewFile(file)" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-                  <i class="material-icons">work</i>
-                </button>
-                <span>{{file.name}}</span>
-                <span class="mdl-list__item-sub-title"></span>
-              </span>
-              <span class="mdl-list__item-secondary-content">
-                <button (click)="deleteFile(file)" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
-                  <i class="material-icons">delete forever</i>
-                </button>
-              </span>
-
-          </li>
-      </ul>
-      <div  class="mdl-card mdl-shadow--2dp">
-        <div class="mdl-card__title">
-          <h2 class="mdl-card__title-text">File info</h2>
+                        <span (click)="onSelect(file)" class="mdl-list__item-primary-content">
+                            <button (click)="previewFile(file)"
+                                    class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                <i class="material-icons">work</i>
+                            </button>
+                            <span>
+                                {{file.name}}
+                            </span>
+                            <span class="mdl-list__item-sub-title">
+                            </span>
+                        </span>
+                        <span class="mdl-list__item-secondary-content">
+                            <button (click)="deleteFile(file)"
+                                    class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                                <i class="material-icons">delete forever</i>
+                            </button>
+                            <span class="mdl-list__item-secondary-info">
+                                {{file.serverName}}
+                            </span>
+                        </span>
+                    </li>
+                    <file-info *ngIf="isSelectedFile(file)"></file-info>
+                </span>
+            </ul>
         </div>
-        <!--
-        {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
-        -->
-        <!-- "-->
-        <div *ngIf="!isEmpty()" class="mdl-card__supporting-text">
-          Name: {{fileInfo.nameForUser}} <br/>
-          Id: {{fileInfo.uniqueName}}  <br/>
-          isActive: {{fileInfo.isActive}}    <br/>
-          uploadingDate: {{fileInfo.uploadingDate}}  <br/>
-          Fields <br/>
-          <ul>
-            <li *ngFor="#elem of fileInfo.fields">
-              Field name: {{elem.fieldName}}
-              field id : {{elem.fieldId}}<br/>
-            </li>
-          </ul>
-        </div>
-        <div *ngIf="isEmpty()" class="mdl-card__supporting-text">
-          File not selected
-        </div>
-    </div>
-    </div>
-  </main>
+    </main>
 </div>
