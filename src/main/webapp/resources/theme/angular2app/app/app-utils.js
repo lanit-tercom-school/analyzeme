@@ -279,8 +279,10 @@
             [],
             (xhr) => xhr.status == 200,
             (xhr) => {
+                var extractedFile = app.AppUtils.extractFileFromXHR(xhr);
+                extractedFile.name = file.name
                 self._fileService.setSelectedFile(
-                    app.AppUtils.extractFileFromXHR(xhr)
+                    extractedFile
                 );
                 self._fileService.getSelectedFile()
                     .then(sFile => self.selectedFile = sFile);

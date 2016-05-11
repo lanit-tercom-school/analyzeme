@@ -59,6 +59,10 @@
                     this._fileService.getSelectedFile()
                         .then(data => l.dir(data));
                 },
+                previewFile: function (file) {
+                    l.log("previewFile");
+                    l.dir(file);
+                },
                 //TODO: delete file from list without refresh
                 deleteFile: function (file) {
                     l.log("deleteFile");
