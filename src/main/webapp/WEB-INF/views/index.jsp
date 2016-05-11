@@ -53,8 +53,8 @@
             <nav class="mdl-navigation" role="navigation">
                 <a href="/index" class="mdl-navigation__link">AnalyzeMe</a>
                 <!-- next link will point to angular app-->
-                <a href="/demo" class="mdl-navigation__link">Try now</a>
-                <a href="/app" class="mdl-navigation__link">Projects</a>
+                <a href="/app/demo" class="mdl-navigation__link">Try now</a>
+                <!--<a href="/app" class="mdl-navigation__link">Projects</a> -->
                 <a href="/data/spb" class="mdl-navigation__link">Preview</a>
                 <a href="/config" class="mdl-navigation__link">R Configurations</a>
             </nav>
@@ -75,7 +75,7 @@
                                 <hr class="intro-divider" style="margin: 1em auto;">
                                 <ul class="list-inline intro-social-buttons">
                                     <li>
-                                        <a href="demo" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i>
+                                        <a href="/app/demo" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i>
                                             <span class="network-name">   Try now </span></a>
                                     </li>
                                     <li>

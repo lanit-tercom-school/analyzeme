@@ -20,7 +20,7 @@ public class ProjectsRepositoryTest {
 	ProjectsRepository repo;
 
 	@Before
-	public void Before() {
+	public void Before() throws Exception {
 		repo = new ProjectsRepository();
 	}
 

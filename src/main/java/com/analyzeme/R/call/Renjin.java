@@ -54,6 +54,13 @@ public class Renjin implements IRCaller {
         }
     }
 
+    /**
+     * clean up r memory after script was executed
+     */
+    private static void deleteData() throws Exception {
+        engine.eval("rm(list = ls())");
+    }
+
     //------------------
     //default for scripts
     //return - json
@@ -75,6 +82,7 @@ public class Renjin implements IRCaller {
         insertData(dataFiles);
         String script = StreamToString.ConvertStreamANSI(rScript);
         SEXP result = (SEXP) engine.eval(script);
+        deleteData();
         return result.toString();
     }
 
@@ -97,6 +105,7 @@ public class Renjin implements IRCaller {
         insertData(dataFiles);
         String script = StreamToString.ConvertStreamANSI(rScript);
         double result = ((SEXP) engine.eval(script)).asReal();
+        deleteData();
         return result;
     }
 
@@ -121,6 +130,7 @@ public class Renjin implements IRCaller {
         Point result = new Point();
         result.SetX(res.getElementAsDouble(0));
         result.SetY(res.getElementAsDouble(1));
+        deleteData();
         return result;
     }
 
@@ -160,6 +170,7 @@ public class Renjin implements IRCaller {
                 throw new IllegalArgumentException("Wrong type of command");
             }
         }
+        deleteData();
         return result;
     }
 
@@ -182,6 +193,7 @@ public class Renjin implements IRCaller {
         Initialize();
         insertData(dataFiles);
         SEXP result = (SEXP) engine.eval(rCommand);
+        deleteData();
         return result.toString();
     }
 
@@ -210,6 +222,7 @@ public class Renjin implements IRCaller {
         engine.put("x", x);
         engine.put("y", y);
         SEXP result = (SEXP) engine.eval(rCommand);
+        deleteData();
         return result.toString();
     }
 
@@ -231,6 +244,7 @@ public class Renjin implements IRCaller {
         Initialize();
         insertData(dataFiles);
         double result = ((SEXP) engine.eval(rCommand)).asReal();
+        deleteData();
         return result;
     }
 
@@ -253,6 +267,7 @@ public class Renjin implements IRCaller {
         Point result = new Point();
         result.SetX(res.getElementAsDouble(0));
         result.SetY(res.getElementAsDouble(1));
+        deleteData();
         return result;
     }
 
@@ -290,6 +305,7 @@ public class Renjin implements IRCaller {
                 throw new IllegalArgumentException("Wrong type of command");
             }
         }
+        deleteData();
         return result;
     }
 
@@ -322,6 +338,7 @@ public class Renjin implements IRCaller {
         engine.put("x", x);
         engine.put("y", y);
         double result = ((SEXP) engine.eval(rCommand)).asReal();
+        deleteData();
         return result;
     }
 
@@ -356,6 +373,7 @@ public class Renjin implements IRCaller {
         Point result = new Point();
         result.SetX(res.getElementAsDouble(0));
         result.SetY(res.getElementAsDouble(1));
+        deleteData();
         return result;
     }
 
@@ -406,6 +424,7 @@ public class Renjin implements IRCaller {
                 throw new IllegalArgumentException("Wrong type of command");
             }
         }
+        deleteData();
         return result;
     }
 }
