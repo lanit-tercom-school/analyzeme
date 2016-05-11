@@ -37,7 +37,7 @@ public class IndexController {
         return "REditorPage";
     }
 
-    @RequestMapping(value = "/preview")
+    @RequestMapping(value = "/data/spb")
     public String moveToPreviewPage() {
         return "preview";
     }
@@ -47,7 +47,7 @@ public class IndexController {
         return "fileInfo";
     }
 
-    @RequestMapping(value = "/rConf")
+    @RequestMapping(value = "/config")
     public ModelAndView moveToRConfPage() {
 
         String RConfList = RConfRepository.getRepo().allConfigurationsToJsonString();

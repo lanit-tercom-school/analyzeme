@@ -54,10 +54,11 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>-->
             <a href="/index" type="button" class="btn btn-info btn-lg">AnalyzeMe</a>
+            <!-- next link should point to angular app -->
             <a href="/action" type="button" class="btn btn-success btn-lg">Try now</a>
-            <a href="/projects" type="button" class="btn btn-info btn-lg">Projects</a>
-            <a href="preview" type="button" class="btn btn-info btn-lg">Preview</a>
-            <a href="/REditorPage" type="button" class="btn btn-info btn-lg">Edit R</a>
+            <a href="/app" type="button" class="btn btn-info btn-lg">Projects</a>
+            <a href="/data/spb" type="button" class="btn btn-info btn-lg">Preview</a>
+            <!-- <a href="/REditorPage" type="button" class="btn btn-info btn-lg">Edit R</a> -->
         </div>
 
         <!-- /.navbar-collapse -->

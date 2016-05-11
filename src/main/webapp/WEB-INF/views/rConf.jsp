@@ -11,7 +11,7 @@
 <html>
 <head>
     <title>RConfiguration</title>
-
+    <spring:url value="/resources/angular2app/" var="angularPath"/>
     <spring:url value="/resources/js/rConfig.js" var="rConfJs"/>
     <script type="text/javascript" src="${rConfJs}"></script>
     <!-- jQuery -->
@@ -22,6 +22,12 @@
     <!-- Bootstrap Core JavaScript -->
     <spring:url value="/resources/js/bootstrap.min.js" var="mainJs"/>
     <script type="text/javascript" src="${mainJs}"></script>
+
+    <!-- Material-Design Lite -->
+    <spring:url value="/resources/css/output.css" var="schemeCss"/>
+    <link href="${schemeCss}" rel="stylesheet"/>
+    <script src="${angularPath}lib/mdl/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Bootstrap Core CSS -->
     <spring:url value="/resources/css/bootstrap.min.css" var="mainCss"/>
@@ -77,196 +83,206 @@
 
 <body onload="load()">
 
-<!-- Navigation -->
-<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-    <div class="container topnav">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a href="index" type="button" class="btn btn-success btn-lg">AnalyzeMe</a>
-            <a href="demo" type="button" class="btn btn-info btn-lg">Try now</a>
-            <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
-
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title"></span>
+            <!-- Navigation -->
+            <nav class="mdl-navigation" role="navigation">
+                <a href="/index" class="mdl-navigation__link">AnalyzeMe</a>
+                <a href="/demo" class="mdl-navigation__link">Try now</a>
+                <a href="/app" class="mdl-navigation__link">Projects</a>
+                <a href="/data/spb" class="mdl-navigation__link">Preview</a>
+                <a href="/config" class="mdl-navigation__link">R Configurations</a>
+            </nav>
         </div>
+    </header>
+    <main class="mdl-layout__content" style="overflow-y: hidden;">
+        <div class="page-content">
 
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
-<!-- Header -->
-<a id="about"></a>
-<div class="intro-header2">
-    <div class="container">
-        <div class="row">
-            <div id="getdata" style="display: none;"> ${RConfList}</div>
+            <a id="about"></a>
+            <div class="intro-header2">
+                <div class="container">
+                    <div class="row">
+                        <div id="getdata" style="display: none;"> ${RConfList}</div>
 
-            <a id="AddButton" href="#AddModal" role="button" data-toggle="modal" class="btn btn-primary btn-lg"><span
-                    class="network-name">Add</span></a>
-            <%--Add modal--%>
-            <div class="modal" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                 aria-hidden="true">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h3 class="modal-title">Add new R Configuration</h3>
-                </div>
+                        <a id="AddButton" href="#AddModal" role="button" data-toggle="modal"
+                           class="btn btn-primary btn-lg"><span
+                                class="network-name">Add</span></a>
+                        <%--Add modal--%>
+                        <div class="modal" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"
+                                        aria-hidden="true">&times;</button>
+                                <h3 class="modal-title">Add new R Configuration</h3>
+                            </div>
 
-                <div class="modal-body">
-                    <table class="form">
-                        <tr>
-                            <td>Name:</td>
-                            <td><input type="text" id="name"></td>
-                        </tr>
-                        <tr>
-                            <td>Select type:</td>
-                            <td>
-                                <select id="addRType">
-                                    <option value="RserveConf">Rserve</option>
-                                    <option value="FakeRConf">FakeR</option>
-                                    <option value="RenjinConf">Renjin</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Turned on:</td>
-                            <td><input type="checkbox" id="enabledField" checked></td>
-                        </tr>
-                        <tr id="addHost">
-                            <td>Host:</td>
-                            <td><input type="text" id="host"></td>
-                        </tr>
-                        <tr id="addPort">
-                            <td>Port:</td>
-                            <td><input type="text" id="port"></td>
-                        </tr>
+                            <div class="modal-body">
+                                <table class="form">
+                                    <tr>
+                                        <td>Name:</td>
+                                        <td><input type="text" id="name"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Select type:</td>
+                                        <td>
+                                            <select id="addRType">
+                                                <option value="RserveConf">Rserve</option>
+                                                <option value="FakeRConf">FakeR</option>
+                                                <option value="RenjinConf">Renjin</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Turned on:</td>
+                                        <td><input type="checkbox" id="enabledField" checked></td>
+                                    </tr>
+                                    <tr id="addHost">
+                                        <td>Host:</td>
+                                        <td><input type="text" id="host"></td>
+                                    </tr>
+                                    <tr id="addPort">
+                                        <td>Port:</td>
+                                        <td><input type="text" id="port"></td>
+                                    </tr>
 
-                    </table>
+                                </table>
 
-                </div>
-                <div class="modal-footer">
-                    <a onclick="addRConf()" data-dismiss="modal" role="button" data-toggle="modal"
-                       class="btn btn-primary btn-lg"><span
-                            class="network-name">Add </span></a>
-                    <a data-dismiss="modal" role="button" data-toggle="modal"
-                       class="btn btn-primary btn-lg"><span
-                            class="network-name">Cancel</span></a>
+                            </div>
+                            <div class="modal-footer">
+                                <a onclick="addRConf()" data-dismiss="modal" role="button" data-toggle="modal"
+                                   class="btn btn-primary btn-lg"><span
+                                        class="network-name">Add </span></a>
+                                <a data-dismiss="modal" role="button" data-toggle="modal"
+                                   class="btn btn-primary btn-lg"><span
+                                        class="network-name">Cancel</span></a>
 
-                </div>
-            </div>
-            <%--update modal--%>
-            <div class="modal" id="UpdateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel"
-                 aria-hidden="true">
-                <div class="modal-header">
-                    <button onclick="closeUpdateForm()" type="button" class="close">&times;</button>
-                    <h3 class="modal-title">Update R Configuration</h3>
-                </div>
-                <div class="modal-body">
-                    <table class="form">
-                        <tr>
-                            <td>Name:</td>
-                            <td><input type="text" id="upName"></td>
-                        </tr>
-                        <tr>
-                            <td>Type:</td>
-                            <td>
-                                <span id="upType" class="network-name"><b>Rserve1</b></span>
-                            </td>
-                        </tr>
+                            </div>
+                        </div>
+                        <%--update modal--%>
+                        <div class="modal" id="UpdateModal" tabindex="-1" role="dialog"
+                             aria-labelledby="updateModalLabel"
+                             aria-hidden="true">
+                            <div class="modal-header">
+                                <button onclick="closeUpdateForm()" type="button" class="close">&times;</button>
+                                <h3 class="modal-title">Update R Configuration</h3>
+                            </div>
+                            <div class="modal-body">
+                                <table class="form">
+                                    <tr>
+                                        <td>Name:</td>
+                                        <td><input type="text" id="upName"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Type:</td>
+                                        <td>
+                                            <span id="upType" class="network-name"><b>Rserve1</b></span>
+                                        </td>
+                                    </tr>
 
-                        <tr>
-                            <td>Turned on:</td>
-                            <td><input type="checkbox" id="upEnabledField" checked></td>
-                        </tr>
+                                    <tr>
+                                        <td>Turned on:</td>
+                                        <td><input type="checkbox" id="upEnabledField" checked></td>
+                                    </tr>
 
-                        <tr id="hostRow">
-                            <td>Host:</td>
-                            <td><input type="text" id="upHost"></td>
-                        </tr>
-                        <tr id="portRow">
-                            <td>Port:</td>
-                            <td><input type="text" id="upPort"></td>
-                        </tr>
+                                    <tr id="hostRow">
+                                        <td>Host:</td>
+                                        <td><input type="text" id="upHost"></td>
+                                    </tr>
+                                    <tr id="portRow">
+                                        <td>Port:</td>
+                                        <td><input type="text" id="upPort"></td>
+                                    </tr>
 
-                    </table>
+                                </table>
 
-                </div>
-                <div class="modal-footer">
+                            </div>
+                            <div class="modal-footer">
 
-                    <a onclick="update(upObj)" class="btn btn-primary btn-lg"><span
-                            class="network-name" aria-hidden="true">Ok</span></a>
+                                <a onclick="update(upObj)" class="btn btn-primary btn-lg"><span
+                                        class="network-name" aria-hidden="true">Ok</span></a>
 
-                    <a onclick="closeUpdateForm()" role="button" class="btn btn-primary btn-lg"><span
-                            class="network-name">Cancel</span></a>
+                                <a onclick="closeUpdateForm()" role="button" class="btn btn-primary btn-lg"><span
+                                        class="network-name">Cancel</span></a>
 
-                </div>
-            </div>
-            <%--delete modal--%>
-            <div id="deleteModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-                <div class="modal-header">
-                    <button onclick="closeDeleteForm()" type="button" class="close">&times;</button>
-                    <h3 class="modal-title" id="myModalLabel">Delete R Configuration?</h3>
-                </div>
-                <div class="modal-body">
-                    <div class="modal-content">
-                        Are you really want delete <span id="delName">R Configuration</span>?
+                            </div>
+                        </div>
+                        <%--delete modal--%>
+                        <div id="deleteModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+                             aria-labelledby="mySmallModalLabel">
+                            <div class="modal-header">
+                                <button onclick="closeDeleteForm()" type="button" class="close">&times;</button>
+                                <h3 class="modal-title" id="myModalLabel">Delete R Configuration?</h3>
+                            </div>
+                            <div class="modal-body">
+                                <div class="modal-content">
+                                    Are you really want delete <span id="delName">R Configuration</span>?
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <a onclick="deleteRconf(delObj)" class="btn btn-primary btn-lg"><span
+                                        class="network-name" aria-hidden="true">Yes</span></a>
+
+                                <a onclick="closeDeleteForm()" role="button" class="btn btn-primary btn-lg"><span
+                                        class="network-name">No</span></a>
+                            </div>
+                        </div>
+                        <%--main table--%>
+                        <div id="instancesData">
+                            <table id="listOfInstances" border="1">
+                                <tr>
+                                    <td><span class="network-name"><b>Name</b></span></td>
+                                    <td><span class="network-name"><b>Type</b></span></td>
+                                    <td><span class="network-name"><b>Status</b></span></td>
+                                    <td><span class="network-name"><b>Using Host</b></span></td>
+                                    <td><span class="network-name"><b>Using Port</b></span></td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                </tr>
+                            </table>
+                            &nbsp;<br/>
+                        </div>
+
+
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <a onclick="deleteRconf(delObj)" class="btn btn-primary btn-lg"><span
-                            class="network-name" aria-hidden="true">Yes</span></a>
+                <!-- /.container -->
 
-                    <a onclick="closeDeleteForm()" role="button" class="btn btn-primary btn-lg"><span
-                            class="network-name">No</span></a>
+            </div>
+            <!-- /.intro-header -->
+
+            <footer>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <%--<ul class="list-inline">
+                                <li>
+                                    <a href="#">Home</a>
+                                </li>
+                                <li class="footer-menu-divider">&sdot;</li>
+                                <li>
+                                    <a href="#about">About</a>
+                                </li>
+                                <li class="footer-menu-divider">&sdot;</li>
+                                <li>
+                                    <a href="#services">Services</a>
+                                </li>
+                                <li class="footer-menu-divider">&sdot;</li>
+                                <li>
+                                    <a href="#contact">Contact</a>
+                                </li>
+                            </ul>--%>
+                            <p class="copyright text-muted small">Copyright &copy; lanit-tercom.school 2015. All Rights
+                                Reserved</p>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <%--main table--%>
-            <div id="instancesData">
-                <table id="listOfInstances" border="1">
-                    <tr>
-                        <td><span class="network-name"><b>Name</b></span></td>
-                        <td><span class="network-name"><b>Type</b></span></td>
-                        <td><span class="network-name"><b>Status</b></span></td>
-                        <td><span class="network-name"><b>Using Host</b></span></td>
-                        <td><span class="network-name"><b>Using Port</b></span></td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                    </tr>
-                </table>
-                &nbsp;<br/>
-            </div>
-
-
+            </footer>
         </div>
-    </div>
-    <!-- /.container -->
-
+    </main>
 </div>
-<!-- /.intro-header -->
 
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <%--<ul class="list-inline">
-                    <li>
-                        <a href="#">Home</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="#about">About</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="#services">Services</a>
-                    </li>
-                    <li class="footer-menu-divider">&sdot;</li>
-                    <li>
-                        <a href="#contact">Contact</a>
-                    </li>
-                </ul>--%>
-                <p class="copyright text-muted small">Copyright &copy; lanit-tercom.school 2015. All Rights Reserved</p>
-            </div>
-        </div>
-    </div>
-</footer>
 </body>
 
 </html>

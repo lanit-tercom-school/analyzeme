@@ -12,9 +12,17 @@
         <script src="${angularPath}lib/es6-shim.min.js"></script>
         <script src="${angularPath}lib/shims_for_IE.js"></script>
 
+        <!--
         <link rel="stylesheet" href="${angularPath}lib/mdl/material.min.css">
         <script src="${angularPath}lib/mdl/material.min.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        -->
+
+        <spring:url value="/resources/css/output.css" var="schemeCss"/>
+        <link href="${schemeCss}" rel="stylesheet"/>
+        <script src="${angularPath}lib/mdl/material.min.js"></script>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
 
         <script src="${angularPath}lib/angular2-polyfills.js"></script>
         <script src="${angularPath}lib/Rx.umd.js"></script>
