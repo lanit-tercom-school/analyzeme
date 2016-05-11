@@ -41,6 +41,7 @@
         <script src='${angularPath}app/new-project.component.js'></script>
 
         <script src='${angularPath}app/dropbox-upload.component.js'></script>
+        <script src='${angularPath}app/file-info.component.js'></script>
         <script src='${angularPath}app/files-list.component.js'></script>
 
         <script src='${angularPath}app/plot.component.js'></script>

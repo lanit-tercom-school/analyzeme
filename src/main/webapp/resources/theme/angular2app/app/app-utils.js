@@ -284,6 +284,7 @@
                 );
                 self._fileService.getSelectedFile()
                     .then(sFile => self.selectedFile = sFile);
+                self._fileService.updateFileInfo();
                 if (self.selectedFile.content) {
                     self.Data = JSON.parse(self.selectedFile.content).Data;
                 }
