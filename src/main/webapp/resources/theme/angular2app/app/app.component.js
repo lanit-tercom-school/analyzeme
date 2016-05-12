@@ -33,12 +33,12 @@
       name : 'WorkProject',
       component : app.WorkProjectComponent,
       useAsDefault : false
-    }/*,
+    },
     {
-      path : '/*wildcard',
+      path : '/oups',
       name : 'OupsPage',
       component : app.OupsComponent,
       useAsDefault : false
-    }*/
+    }
   ])(app.AppComponent);
 })(window.app || (window.app = {}));

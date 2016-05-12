@@ -74,7 +74,7 @@
                     )
                     .then(
                         xhr => {
-                            return JSON.parse(xhr.responseText);
+                            return xhr.responseText ? JSON.parse(xhr.responseText) : [];
                         },
                         err => {
                             l.log("Failed load files list: " + err);
@@ -118,7 +118,7 @@
                     )
                     .then(
                         xhr => {
-                            return JSON.parse(xhr.responseText);
+                            return xhr.responseText ? JSON.parse(xhr.responseText) : {};
                         },
                         err => {
                             l.log("Failed load FileInfo: " + err);

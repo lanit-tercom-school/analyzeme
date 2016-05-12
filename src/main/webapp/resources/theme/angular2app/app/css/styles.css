@@ -8,7 +8,7 @@ a.workarea-tab.router-link-active {
   color: black !important;
 }
 .router-link-active.workarea-tab {
-  border: 2px solid rgb(46,125,50);
+  border-top: 2px solid rgb(46,125,50);
   border-bottom: 0px;
   /*border-top-left-radius: 20px;
   border-top-right-radius: 20px;*/

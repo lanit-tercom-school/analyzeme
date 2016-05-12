@@ -38,7 +38,7 @@
                     var request = new XMLHttpRequest();
                     request.onload = request.onerror = function(event) {
                       if (request.status == 200) {
-                          var response = JSON.parse(request.responseText);
+                          var response = request.responseText ? JSON.parse(request.responseText) : [];
                           // if (!this.data) this.data = [];
                           // for (var i = 0; i < this.data.length; i++) {
                           //   delete this.data[i];

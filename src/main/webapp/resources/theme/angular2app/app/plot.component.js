@@ -15,6 +15,7 @@
                 this.isSelectExpanded = false;
                 this.functionType = "UserScript";
                 this.file = {};
+                document.title = "AnalyzeMe | Plot";
             }],
             ngOnInit: function() {
               l.log("ngOnInit");

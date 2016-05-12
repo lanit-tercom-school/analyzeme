@@ -17,10 +17,12 @@
             app.ProjectService,
             app.FileService,
             ng.router.RouteParams,
-            function WorkProjectComponent(projectService, fileService, routeParams) {
+            ng.router.Router,
+            function WorkProjectComponent(projectService, fileService, routeParams, router) {
                 this._projectService = projectService;
                 this._fileService = fileService;
                 this._routeParams = routeParams;
+                this._router = router;
                 this.project = null;
             }
         ],
@@ -36,13 +38,13 @@
                       this.project = project;
                       this._projectService.setSelectedProject(project);
                     },
-                    reject =>
-                        this.project = {
+                    reject => this._router.navigate(['OupsPage'])
+                        /*this.project = {
                             projectName : "Failed to load\n"
                             + "Can not load project \""
                             + id + "\"(" + reject + ")."
                             + "All files will be uploaded in default project"
-                            }
+                          }*/
                 );
             l.log("loadContent ends");
         }

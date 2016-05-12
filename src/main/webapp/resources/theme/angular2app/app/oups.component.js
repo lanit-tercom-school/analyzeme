@@ -1,20 +1,34 @@
 (function(app) {
   /* global ng */
-  
+
   app.OupsComponent =
     ng.core.Component({
       "selector" : 'my-oups',
       "template" : `
-         <h2>Something goes wrong</h2><br />
-         We suggest you to go <button (click)="goBack()">BACK</button>
-      `,
-      "styleUrls" : ["app/css/hero-detail.component.css"]
+        <div align="center">
+            <h2>Something goes wrong</h2>
+            <br/>
+            <h4>
+                We suggest you to go
+                <br/>
+                <br/>
+                <button (click)="goBack()"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                    BACK
+                </button>
+            </h4>
+        </div>
+      `
     })
     .Class({
-      constructor : function() {},
+      constructor : function() {
+          document.title = "AnalyzeMe | Oups :c";
+      },
+      ngAfterViewInit: function() {
+          app.AppUtils.MDL.upgradeClasses(["mdl-js-button"]);
+      },
       goBack : function() {
-          window.history.back();
-          window.history.back();
-       }
+          window.history.go(-3);
+      }
     });
 })(window.app || (window.app = {}));
