@@ -23,9 +23,9 @@
     <spring:url value="/resources/js/bootstrap.min.js" var="mainJs"/>
     <script type="text/javascript" src="${mainJs}"></script>
 
-    <!-- Material-Design Lite -->
-    <spring:url value="/resources/css/output.css" var="schemeCss"/>
-    <link href="${schemeCss}" rel="stylesheet"/>
+    <%--<!-- Material-Design Lite -->--%>
+    <%--<spring:url value="/resources/css/output.css" var="schemeCss"/>--%>
+    <%--<link href="${schemeCss}" rel="stylesheet"/>--%>
     <script src="${angularPath}lib/mdl/material.min.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
@@ -33,9 +33,9 @@
     <spring:url value="/resources/css/bootstrap.min.css" var="mainCss"/>
     <link href="${mainCss}" rel="stylesheet"/>
 
-    <!-- Custom CSS -->
-    <spring:url value="/resources/css/landing-page.css" var="landingCss"/>
-    <link href="${landingCss}" rel="stylesheet"/>
+    <%--<!-- Custom CSS -->--%>
+    <%--<spring:url value="/resources/css/landing-page.css" var="landingCss"/>--%>
+    <%--<link href="${landingCss}" rel="stylesheet"/>--%>
 
     <!-- Table CSS -->
     <spring:url value="/resources/css/RConfTable.css" var="TableCss"/>
@@ -106,10 +106,11 @@
                     <div class="row">
                         <div id="getdata" style="display: none;"> ${RConfList}</div>
 
-                        <a id="AddButton" href="#AddModal" role="button" data-toggle="modal"
+                        <a href="#AddModal" role="button" data-toggle="modal"
                            class="btn btn-primary btn-lg"><span
                                 class="network-name">Add</span></a>
-                        <%--Add modal--%>
+
+                    <%--Add modal--%>
                         <div class="modal" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                              aria-hidden="true">
                             <div class="modal-header">
