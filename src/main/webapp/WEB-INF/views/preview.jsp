@@ -69,7 +69,7 @@
              </nav>
          </div>
      </header>
-     <main class="mdl-layout__content" style="overflow-y: hidden;">
+     <main class="mdl-layout__content" style="overflow-x: auto;">
          <div class="page-content">
              <!-- Make a table -->
              <a name="about"></a>
