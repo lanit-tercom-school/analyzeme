@@ -210,7 +210,7 @@
                             </div>
                         </div>
                         <%--delete modal--%>
-                        <div id="deleteModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog"
+                        <div id="deleteModal" class="modal" tabindex="-1" role="dialog"
                              aria-labelledby="mySmallModalLabel">
                             <div class="modal-header">
                                 <button onclick="closeDeleteForm()" type="button" class="close">&times;</button>
@@ -233,16 +233,17 @@
                         <div id="instancesData">
                             <table id="listOfInstances" border="1">
                                 <tr>
-                                    <td><span class="network-name"><b>Name</b></span></td>
-                                    <td><span class="network-name"><b>Type</b></span></td>
-                                    <td><span class="network-name"><b>Status</b></span></td>
-                                    <td><span class="network-name"><b>Using Host</b></span></td>
-                                    <td><span class="network-name"><b>Using Port</b></span></td>
-                                    <td>&nbsp;</td>
-                                    <td>&nbsp;</td>
+                                    <td ><span class="network-name"><b>Name</b></span></td>
+                                    <td ><span class="network-name"><b>Type</b></span></td>
+                                    <td ><span class="network-name"><b>Status</b></span></td>
+                                    <td ><span class="network-name"><b>Settings</b></span></td>
+                                    <%--<td><span class="network-name"><b>Port</b></span></td>--%>
+                                    <td >&nbsp;</td>
+                                    <td >&nbsp;</td>
                                 </tr>
+
                             </table>
-                            &nbsp;<br/>
+
                         </div>
 
 

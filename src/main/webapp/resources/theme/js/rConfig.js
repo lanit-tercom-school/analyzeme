@@ -45,14 +45,12 @@ function addRConf() {
     xhr.open("PUT", "/rConf/" + str, true); // If async=false, then you'll miss progress bar support.
     xhr.send();
 }
-function CallDeleteForm(obj){
-    delObj=obj;
-    $('#deleteModal').on('show.bs.modal', function () {
-        var index = obj.parentNode.parentNode.rowIndex;
-        var table = document.getElementById("listOfInstances");
-        var name = table.rows[index].cells[0].innerHTML;
-        document.getElementById("delName").innerHTML=name;
-    }).modal('show');
+function CallDeleteForm(obj) {
+    delObj = obj;
+    var index = obj.parentNode.parentNode.rowIndex;
+    var table = document.getElementById("listOfInstances");
+    document.getElementById("delName").innerHTML = table.rows[index].cells[0].innerHTML;
+    $('#deleteModal').modal('show');
 
 }
 function deleteRconf(obj) {
@@ -69,7 +67,7 @@ function deleteRconf(obj) {
     xhr.send();
 
 }
-function  closeDeleteForm(){
+function closeDeleteForm() {
     $('#deleteModal').modal('hide');
 }
 function CallUpdateForm(obj) {
@@ -86,20 +84,20 @@ function CallUpdateForm(obj) {
         port: row.cells[4].innerHTML
     };
     upObj = obj;
-    if (oldRConf.rConfType == 'RserveConf') {
+    if (oldRConf.rConfType == 'Rserve') {
         $('#UpdateModal').on('shown.bs.modal', function () {
             fillUpdateForm(oldRConf, 'Rserve', 'visible');
 
         }).modal('show');
     }
-    if (oldRConf.rConfType == 'FakeRConf') {
+    if (oldRConf.rConfType == 'FakeR') {
 
         $('#UpdateModal').on('shown.bs.modal', function () {
             fillUpdateForm(oldRConf, 'FakeR', 'hidden');
 
         }).modal('show');
     }
-    if (oldRConf.rConfType == 'RenjinConf') {
+    if (oldRConf.rConfType == 'Renjin') {
         $('#UpdateModal').on('shown.bs.modal', function () {
             fillUpdateForm(oldRConf, 'Renjin', 'hidden');
         }).modal('show');
@@ -113,19 +111,19 @@ function update(obj) {
     var row = table.rows[index];
     var oldName = row.cells[0].innerHTML;
     var RConf = {
-        rConfType: row.cells[1].innerHTML,
+        rConfType: getFullRConf(row.cells[1].innerHTML),
         name: document.getElementById("upName").value,
         activeFlag: document.getElementById("upEnabledField").checked,
         host: document.getElementById("upHost").value,
         port: document.getElementById("upPort").value
     };
     // alert(newName + ' '+newHost+' '+newPort+' ' + newActiveFlag);
-    updateRow(RConf,row);
+    updateRow(RConf, row);
     var str = JSON.stringify(RConf);
     sendUpdateRequest(oldName, str);
 
 }
-function updateRow(RConf,row) {
+function updateRow(RConf, row) {
     row.cells[0].innerHTML = RConf.name;
     if (RConf.activeFlag) {
         row.cells[2].innerHTML = '<span class="glyphicon glyphicon-ok"></span>';
@@ -159,7 +157,7 @@ function addRow(RConf) {
     var rowCount = table.rows.length;
     var row = table.insertRow(rowCount);
     row.insertCell(0).innerHTML = RConf.name;
-    row.insertCell(1).innerHTML = RConf.rConfType;
+    row.insertCell(1).innerHTML = rConfToTable(RConf.rConfType);
     if (RConf.activeFlag) {
         row.insertCell(2).innerHTML = '<span class="glyphicon glyphicon-ok"></span>';
     } else {
@@ -172,4 +170,25 @@ function addRow(RConf) {
     row.insertCell(6).innerHTML = '<a onClick="CallDeleteForm(this)" role="button" data-toggle="modal" class="btn btn-primary btn-lg">' +
         '<span class="network-name"><span class="glyphicon glyphicon-trash"></span> </span></a>';
 
+}
+
+function getFullRConf(st) {
+    if (st == 'Rserve') {
+        return 'RserveConf';
+    } else if (st == 'FakeR') {
+        return 'FakeRConf'
+    } else if (st == 'Renjin') {
+        return 'RenjinConf';
+    }
+    return null;
+}
+function rConfToTable(st) {
+    if (st == 'RserveConf') {
+        return 'Rserve';
+    } else if (st == 'FakeRConf') {
+        return 'FakeR'
+    } else if (st == 'RenjinConf') {
+        return 'Renjin';
+    }
+    return null;
 }
