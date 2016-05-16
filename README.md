@@ -1,5 +1,4 @@
-# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=master)](https://travis-ci.org/lanit-tercom-school/analyzeme) [![codecov](https://codecov.io/gh/lanit-tercom-school/analyzeme/branch/master/graph/badge.svg)](https://codecov.io/gh/lanit-tercom-school/analyzeme)
- [![Coverage Status](https://coveralls.io/repos/github/lanit-tercom-school/analyzeme/badge.svg?branch=master)](https://coveralls.io/github/lanit-tercom-school/analyzeme?branch=master)
+# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=master)](https://travis-ci.org/lanit-tercom-school/analyzeme)[![codecov](https://codecov.io/gh/lanit-tercom-school/analyzeme/branch/master/graph/badge.svg)](https://codecov.io/gh/lanit-tercom-school/analyzeme)[![Coverage Status](https://coveralls.io/repos/github/lanit-tercom-school/analyzeme/badge.svg?branch=master)](https://coveralls.io/github/lanit-tercom-school/analyzeme?branch=master)
 
 
 ####Сборка проекта под Windows
