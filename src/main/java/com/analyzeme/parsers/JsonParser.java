@@ -1,7 +1,6 @@
 package com.analyzeme.parsers;
 
 import com.analyzeme.analyze.Point;
-import com.analyzeme.analyzers.result.DoubleResult;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -61,7 +60,7 @@ public class JsonParser {
 	}
 
 	/**
-	 * Method for parsing string type {Data:[{"x": 1,"y": 1},{"x": 20,"y": 60}]}
+	 * Method for parsing string type {Data:[{"x": "1","y": "15"},{"x": "20","y": "60" }]}
 	 */
 	public Point[] getPointsFromPointJson(InputStream inputStream) throws JsonParserException {
 		if (inputStream == null) {
@@ -84,8 +83,8 @@ public class JsonParser {
 
 				JSONObject jsonPoint = iterator.next();
 
-				double x = Double.parseDouble((jsonPoint.get(xName)).toString());
-				double y = Double.parseDouble((jsonPoint.get(xName)).toString());
+				double x = Double.parseDouble((String) jsonPoint.get(xName));
+				double y = Double.parseDouble((String) jsonPoint.get(yName));
 				points[i] = new Point(x, y);
 				i++;
 			}

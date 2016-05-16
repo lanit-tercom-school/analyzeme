@@ -12,26 +12,59 @@
     <title>AnalyzeMe</title>
 
 
+    <!-- Bootstrap Core CSS -->
+    <spring:url value="/resources/css/bootstrap.min.css" var="mainCss"/>
+    <link href="${mainCss}" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <spring:url value="/resources/css/landing-page.css" var="landingCss"/>
+    <link href="${landingCss}" rel="stylesheet"/>
+
+    <spring:url value="/resources/css/drag-and-drop.css" var="dragAndDropCss"/>
+    <link href="${dragAndDropCss}" rel="stylesheet"/>
+
+    <!-- Custom Fonts -->
+    <spring:url value="/resources/font-awesome/css/font-awesome.min.css" var="fontAwesomeCss"/>
+    <link href="${fontAwesomeCss}" rel="stylesheet" type="text/css"/>
+    <spring:url value="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic"
+                var="fontCss"/>
+    <link href="${fontCss}" rel="stylesheet" type="text/css"/>
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 
-    <style>
-        .axis path, .axis line {
-            fill: none;
-            stroke: #333;
-        }
-
-        .axis .grid-line {
-            stroke: #000;
-            stroke-opacity: 0.2;
-        }
-
-        .axis text {
-            font: 10px Verdana;
-        }
-    </style>
 </head>
-<body onload="load()">
+<body>
+
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
+    <div class="container topnav">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <!--<span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>-->
+            <a href="/index" type="button" class="btn btn-info btn-lg">AnalyzeMe</a>
+            <!-- next link should point to angular app -->
+            <a href="/action" type="button" class="btn btn-success btn-lg">Try now</a>
+            <a href="/app" type="button" class="btn btn-info btn-lg">Projects</a>
+            <a href="/data/spb" type="button" class="btn btn-info btn-lg">Preview</a>
+            <!-- <a href="/REditorPage" type="button" class="btn btn-info btn-lg">Edit R</a> -->
+        </div>
+
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
 
 <!-- Header -->
 <a id="about"></a>
@@ -39,249 +72,216 @@
 <div class="intro-header2">
     <div class="container">
         <div class="row">
-            <!-- Div for display Graph -->
-            <div>
-                <div id="button-list">Interpolation:
-                    <button onclick="InitLineChart(selectedData)"> lineal</button>
-                    <button onclick="InitBasicChart(selectedData)"> basic</button>
-                    <button onclick="InitPointsChart(selectedData)"> points</button>
-                </div>
-                <svg id="visualisation" width="600" height="600" style="border:1px solid red;"></svg>
+            <!-- Sidebar -->
+            <div class="col-md-2">
+                <ul>
+                    <div>
+                        <p>
 
+                        <h3>${project.projectName}<br/> File list</h3></p>
+                        <a type="button" class="btn btn-primary btn-lg" onclick="PopUpShow()">Upload and display</a>
+
+                    </div>
+                    <div id="ButtonList"></div>
+                </ul>
             </div>
+            <!-- Page Content -->
+            <div class="col-md-10">
+                <!-- Div for Upload file -->
+                <div>
 
+                    <div class="popup" id="popup">
+                        <div id="dropbox">
+                            Drag and drop a file here...
+                        </div>
+                    </div>
+                    <div id="status"></div>
+                </div>
+                <!-- Div for display Graph -->
+                <div>
+                    <div>
+                        <svg id="svgVisualize" width="500" height="500" style="border:1px solid white;"></svg>
+                    </div>
+
+                </div>
+
+                <!-- dropdown for Analyze buttons -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">
+                        Analyze function list <span class="caret"></span>
+                    </button>
+                    <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                        <li>
+                            <a type="button" class="btn btn-primary btn-lg"
+                               onclick="AnalyzeButton(fileName,'GlobalMinimum')">Calculate Global Min</a>
+                        </li>
+                        <li>
+                            <a type="button" class="btn btn-primary btn-lg"
+                               onclick="AnalyzeButton(fileName,'GlobalMaximum')">Calculate Global Max</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
     <!-- /.container -->
 
 </div>
 <!-- /.intro-header -->
-</body>
+
+
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <%--<ul class="list-inline">
+                    <li>
+                        <a href="#">Home</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="#services">Services</a>
+                    </li>
+                    <li class="footer-menu-divider">&sdot;</li>
+                    <li>
+                        <a href="#contact">Contact</a>
+                    </li>
+                </ul>--%>
+                <p class="copyright text-muted small">Copyright &copy; lanit-tercom.school 2015. All Rights Reserved</p>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- jQuery -->
+<spring:url value="/resources/js/jquery.js" var="jqueryJs"/>
+<script src="${jqueryJs}"></script>
+<!-- Bootstrap Core JavaScript -->
+<spring:url value="/resources/js/bootstrap.min.js" var="mainJs"/>
+<script src="${mainJs}"></script>
+
+<script>
+    //Data what will display
+    var Data;
+    //variable for saving name of file
+    var fileName;
+    //Array what save all file name
+    var fileList = [];
+    //Size of fileList
+    var size = 0;
+
+</script>
+<!-- Drag and Drop script -->
+<script>
+    //Function displays PopUp
+    function PopUpShow() {
+        $("#popup").show();
+    }
+    //Function hides PopUp
+    function PopUpHide() {
+        $("#popup").hide();
+    }
+    //Function - event handler: it is invoked when the document is loaded.
+    window.onload = function () {
+        PopUpHide();
+        var dropbox = document.getElementById("dropbox");
+        dropbox.addEventListener("dragenter", noop, false);
+        dropbox.addEventListener("dragexit", noop, false);
+        dropbox.addEventListener("dragover", noop, false);
+        dropbox.addEventListener("drop", dropUpload, false);
+    };
+    //Function cancels the event
+    function noop(event) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+    //Handles drop event
+    function dropUpload(event) {
+        noop(event);
+        var files = event.dataTransfer.files;
+        for (var i = 0; i < files.length; i++) {
+            uploadFile(files[i]);
+        }
+
+        PopUpHide();
+
+    }
+    //Uploads file
+    function uploadFile(file) {
+        if (isFileExist(file.name)) {
+            alert("file alreary exist");
+        }
+        var projectParams = "1/" + "${project.uniqueName}";
+        //checks if project object is empty
+        if (projectParams.length <= "1/".length) {
+            projectParams = "demo";
+        }
+        //Adding text to status
+        document.getElementById("status").innerHTML = "Uploading " + file.name;
+        var formData = new FormData();
+        formData.append("file", file);
+        var xhr = new XMLHttpRequest();
+        xhr.upload.addEventListener("progress", uploadProgress, false);
+        xhr.addEventListener("load", uploadComplete, false);
+        xhr.open("POST", "/upload/" + projectParams, true); // If async=false, then you'll miss progress bar support.
+        xhr.onreadystatechange = function () {
+            fileName = xhr.getResponseHeader("fileName");
+            Data = JSON.parse(xhr.getResponseHeader('Data')).Data;
+        };
+        xhr.send(formData);
+
+    }
+    //Calculates upload progress
+    function uploadProgress(event) {
+        // Note: doesn't work with async=false.
+        var progress = Math.round(event.loaded / event.total * 100);
+        document.getElementById("status").innerHTML = "Progress " + progress + "%";
+    }
+    //Shows result after upload complete
+    function uploadComplete(event) {
+        document.getElementById("status").innerHTML = event.target.responseText;
+        DrawGraph(Data);
+        //create new element
+        var newLi = document.createElement('li');
+        //add new button
+        newLi.innerHTML = '<button onclick="UpdateData(fileList[' + size + ']) "<span class=\"network-name\">"' + fileName + '"</span></button>';
+        ButtonList.appendChild(newLi);
+        //increase counter of number of file
+        size = +size + 1;
+        //Add fileName into array of fileNames
+        fileList.push(fileName);
+
+    }
+
+</script>
 <!-- script for display graph  -->
 <script>
 
-    var st = "{\"Data\":[{ \"x\": 1.0,\"y\": 50.0 }," +
-            "{\"x\": 5.0,\"y\": 56.0}," +
-            "{\"x\": 20.0,\"y\": 130.0}," +
-            "{\"x\": 30.0,\"y\": 56.0}," +
-            "{\"x\": 40.0,\"y\": 56.0}," +
-            "{\"x\": 50.0,\"y\": 10.0}," +
-            "{\"x\": 75.0,\"y\": 100.0}," +
-            "{\"x\": 85.0,\"y\": 256.0}," +
-            "{\"x\": 90.0,\"y\": 156.0}," +
-            "{\"x\": 100.0,\"y\": 120.0}," +
-            "{\"x\": 120.0,\"y\": 100.0}," +
-            "{\"x\": 140.0,\"y\": 23.0}," +
-            "{\"x\": 160.0,\"y\": 136.0}," +
-            "{\"x\": 170.0,\"y\": 6.0}," +
-            "{\"x\": 180.0,\"y\": 36.0}," +
-            "{\"x\": 190.0,\"y\": 56.0}," +
-            "{\"x\": 200.0,\"y\": 56.0}," +
-            "{\"x\": 210.0,\"y\": 23.0}]}";
+    function DrawGraph(Data) {
+        var vis = d3.select("#svgVisualize");
+        //clear Graph
+        vis.selectAll("*").remove();
 
-
-
-
-
-
-
-
-
-    var Data = JSON.parse(st).Data;
-    var lineData = [{
-        "x": 1.0,
-        "y": 50.0
-    }, {
-        "x": 20,
-        "y": 150
-    }, {
-        'x': 40.0,
-        'y': 10.0
-    }, {
-        'x': 60,
-        'y': 100
-    }, {
-        'x': 80,
-        'y': 5
-    }, {
-        'x': 80,
-        'y': 60
-    }];
-    var selectedData = Data;
-    function load() {
-        InitChart(selectedData);
-    }
-    var HEIGHT = 600,
-            WIDTH = 600
-            , MARGINS = {
-                top: 50,
-                right: 50,
-                bottom: 50,
-                left: 50
-
-            };
-
-    function InitChart(Data) {
-        var vis = d3.select("#visualisation"),
-                WIDTH = 600,
-                HEIGHT = 600,
-                MARGINS = {
-                    top: 20,
-                    right: 20,
-                    bottom: 20,
-                    left: 50
-                },
-                xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(Data, function (d) {
-                    return d.x;
-                }),
-                    d3.max(Data, function (d) {
-                        return d.x;
-                    })
-                ]),
-
-                yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(Data, function (d) {
-                    return d.y;
-                }),
-                    d3.max(Data, function (d) {
-                        return d.y;
-                    })
-                ]),
-
-                xAxis = d3.svg.axis()
-                        .scale(xRange)
-                        .tickSize(5)
-                        .tickSubdivide(true),
-
-                yAxis = d3.svg.axis()
-                        .scale(yRange)
-                        .tickSize(5)
-                        .orient("left")
-                        .tickSubdivide(true);
-
-        vis.append("svg:g")
-                .attr("class", "x axis")
-                .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
-                .call(xAxis);
-
-        vis.append("svg:g")
-                .attr("class", "y axis")
-                .attr("transform", "translate(" + (MARGINS.left) + ",0)")
-                .call(yAxis);
-        var xAxisLength = WIDTH - MARGINS.left - MARGINS.right;
-        var yAxisLength = HEIGHT - MARGINS.bottom - MARGINS.top;
-        //создаем набор вертикальных линий для сетки
-        d3.selectAll("g.x-axis, g.tick")
-                .append("line")
-                .classed("grid-line", true) // добавляем класс
-                .attr("x1", 0)
-                .attr("y1", 0)
-                .attr("x2", 0)
-                .attr("y2", -(yAxisLength));
-
-
-        // рисуем горизонтальные линии
-        d3.selectAll("g.y-axis, g.tick")
-                .append("line")
-                .classed("grid-line", true) // добавляем класс
-                .attr("x1", 0)
-                .attr("y1", 0)
-                .attr("x2", xAxisLength)
-                .attr("y2", 0);
-
-    }
-
-    function InitLineChart(Data) {
-        clearChart();
-        var vis = d3.select("#visualisation"),
-                xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(Data, function (d) {
-                    return d.x;
-                }),
-                    d3.max(Data, function (d) {
-                        return d.x;
-                    })
-                ]),
-
-                yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(Data, function (d) {
-                    return d.y;
-                }),
-                    d3.max(Data, function (d) {
-                        return d.y;
-                    })
-                ]);
-        InitChart(Data);
-        var lineFunc = d3.svg.line()
-                .x(function (d) {
-                    return xRange(d.x);
-                })
-                .y(function (d) {
-                    return yRange(d.y);
-                })
-                .interpolate('linear');
-
-        vis.append("svg:path")
-                .attr("d", lineFunc(Data))
-                .attr("stroke", "blue")
-                .attr("stroke-width", 2)
-                .attr("fill", "none");
-
-    }
-
-    function InitBasicChart(Data) {
-        clearChart();
-        var vis = d3.select("#visualisation"),
-                xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(Data, function (d) {
-                    return d.x;
-                }),
-                    d3.max(Data, function (d) {
-                        return d.x;
-                    })
-                ]),
-
-                yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(Data, function (d) {
-                    return d.y;
-                }),
-                    d3.max(Data, function (d) {
-                        return d.y;
-                    })
-                ]);
-        InitChart(Data);
-
-        var lineFunc = d3.svg.line()
-                .x(function (d) {
-                    return xRange(d.x);
-                })
-                .y(function (d) {
-                    return yRange(d.y);
-                })
-                .interpolate('basis');
-
-        vis.append("svg:path")
-                .attr("d", lineFunc(Data))
-                .attr("stroke", "blue")
-                .attr("stroke-width", 2)
-                .attr("fill", "none");
-
-    }
-
-    function InitPointsChart(Data) {
-        clearChart();
-        var vis = d3.select("#visualisation"),
-                xRange = d3.scale.linear().range([MARGINS.left, WIDTH - MARGINS.right]).domain([d3.min(Data, function (d) {
-                    return d.x;
-                }),
-                    d3.max(Data, function (d) {
-                        return d.x;
-                    })
-                ]),
-
-                yRange = d3.scale.linear().range([HEIGHT - MARGINS.top, MARGINS.bottom]).domain([d3.min(Data, function (d) {
-                    return d.y;
-                }),
-                    d3.max(Data, function (d) {
-                        return d.y;
-                    })
-                ]);
-        InitChart(Data);
+        var xRange = d3.scale.linear().range([40, 400]).domain([d3.min(Data, function (d) {
+            return (d.x);
+        }),
+            d3.max(Data, function (d) {
+                return d.x;
+            })]);
+        var yRange = d3.scale.linear().range([400, 40]).domain([d3.min(Data, function (d) {
+            return d.y;
+        }),
+            d3.max(Data, function (d) {
+                return d.y;
+            })]);
+        var xAxis = d3.svg.axis().scale(xRange);
+        var yAxis = d3.svg.axis().scale(yRange).orient("left");
+        vis.append("svg:g").call(xAxis).attr("transform", "translate(0,400)");
+        vis.append("svg:g").call(yAxis).attr("transform", "translate(40,0)");
 
         var circles = vis.selectAll("circle").data(Data);
         circles
@@ -293,16 +293,62 @@
                 .attr("cy", function (d) {
                     return yRange(d.y);
                 })
-                .attr("r", 5)
-                .style("fill", "blue");
+                .attr("r", 10)
+                .style("fill", "red");
+    }
+</script>
+<!-- script for updating data -->
+<script>
+    function UpdateData(newFileName) {
+
+        fileName = newFileName;
+
+        //   AJAX request for updating Data
+        $.ajax({
+            type: "Get",
+            async: true,
+            url: "/file/" + fileName + "/data",
+            success: function (data, textStatus, request) {
+                Data = JSON.parse(data).Data;
+                DrawGraph(Data);
+            },
+            error: function (response, textStatus, errorThrown) {
+                alert(response.statusText);
+            }
+        });
 
     }
-    function clearChart() {
-        var vis = d3.select("#visualisation");
-        vis.selectAll("*").remove();
+
+
+</script>
+<!-- analyze button script-->
+<script>
+    function AnalyzeButton(fileName, functionType) {
+        //AJAX request for getting minimum of Data
+        $.ajax({
+            type: "get",
+            async: true,
+            url: "/file/" + fileName + "/" + functionType,
+            success: function (data, textStatus, request) {
+                alert(data);
+            },
+            error: function (response, textStatus, errorThrown) {
+                alert(response.statusText);
+            }
+        });
 
 
     }
 </script>
+<!--isFileExist function -->
+<script>
+    function isFileExist(fileName) {
+        for (var i = 0; i < size; i++) {
+            if (fileList[i] == fileName) return true;
+        }
+        return false;
+    }
+</script>
+</body>
 
 </html>
