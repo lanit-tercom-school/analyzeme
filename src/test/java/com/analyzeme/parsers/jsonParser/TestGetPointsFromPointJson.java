@@ -45,26 +45,14 @@ public class TestGetPointsFromPointJson {
 
     @Test
     public void testPointsDoubleWithInteger() throws JsonParserException {
+        String s = join("\n", new String[]{
+                "{\"Data\":[{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"20\",\"y\": \"20\"}]}"
+        });
 
-        String st1 = join("\n", new String[]{
-                "{\"Data\":[{ \"x\": 1.0,\"y\": 1.0 },{\"x\": 20.0,\"y\": 20.0}]}"
-        });
-        String st2 = join("\n", new String[]{
-                "{\"Data\":[{ \"x\": 1,\"y\": 1 },{\"x\": 20,\"y\": 20}]}"
-        });
-        String st3 = join("\n", new String[]{
-                "{\"Data\":[{ \"x\": \"1.0\",\"y\": \"1.0\" },{\"x\": \"20.0\",\"y\": \"20.0\"}]}"
-        });
-        InputStream is1 = new ByteArrayInputStream(st1.getBytes());
-        InputStream is2 = new ByteArrayInputStream(st2.getBytes());
-        InputStream is3 = new ByteArrayInputStream(st3.getBytes());
+        InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser();
-        points = jsonParser.getPointsFromPointJson(is1);
-        Point[] points2=jsonParser.getPointsFromPointJson(is2);
-        Point[] points3=jsonParser.getPointsFromPointJson(is3);
-        Assert.assertArrayEquals(new Point[]{new Point(1.0, 1.0), new Point(20.0, 20.0)}, points3);
-        Assert.assertArrayEquals(new Point[]{new Point(1.0, 1.0), new Point(20.0, 20.0)}, points2);
-        Assert.assertArrayEquals(new Point[]{new Point(1, 1), new Point(20, 20)}, points);
+        points = jsonParser.getPointsFromPointJson(is);
+        Assert.assertArrayEquals(new Point[]{new Point(1.0, 1.0), new Point(20.0, 20.0)}, points);
     }
 
     static public String join(String delimiter, String[] list) {
