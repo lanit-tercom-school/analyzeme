@@ -56,7 +56,6 @@ public class FakeRConf implements IRConf {
      *
      * @param activeFlag what will set as field activeFlag
      */
-    @Override
     public void setActiveFlag(boolean activeFlag) {
         this.activeFlag = activeFlag;
 
@@ -67,7 +66,6 @@ public class FakeRConf implements IRConf {
      *
      * @return value of field flag
      */
-    @Override
     public boolean isActive() {
         return activeFlag;
     }
@@ -79,7 +77,6 @@ public class FakeRConf implements IRConf {
      *
      * @param RConf will be assignmented to this FakeRConf
      */
-    @Override
     public void assignment(IRConf RConf) throws IllegalArgumentException {
         if (!(RConf instanceof FakeRConf)) throw new IllegalArgumentException();
         setName(RConf.getName());
@@ -89,7 +86,6 @@ public class FakeRConf implements IRConf {
     /**
      * @return this this object as JSONObject
      */
-    @Override
     public JSONObject toJSONObject() {
 
         JSONObject obj = new JSONObject();

@@ -2,13 +2,11 @@ package com.analyzeme.repository;
 
 //TODO: synchronized - ?
 
+import com.analyzeme.data.DataSet;
 import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.projects.ProjectInfo;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +35,7 @@ public class UsersRepository implements IRepository {
     }
 
 
-    //TODO: when users are added, checkInitializationAndCreate() should be private and called from creation of a new user only (newItem)
+    //TODO: when real users are added, checkInitializationAndCreate() should be private and called from creation of a new user only (newItem)
 
     /**
      * checks if the object of class exists
@@ -78,7 +76,7 @@ public class UsersRepository implements IRepository {
     public synchronized String newItem(final String[] data) throws Exception {
         for (String str : data) {
             if (str == null || str.equals(""))
-                throw new IllegalArgumentException("Incorrect username, email or password");
+                throw new IllegalArgumentException("UsersRepository newItem(): empty argument");
         }
         int id = users.size() + 1;
         UserInfo newUser = new UserInfo(data[0], id, data[1], data[2]);
@@ -93,10 +91,10 @@ public class UsersRepository implements IRepository {
      * @throws Exception
      */
     public synchronized UserInfo findUser(final int id) throws Exception {
-        if (id <= 0 || id > users.size()) throw new ArrayIndexOutOfBoundsException("Incorrect userId");
+        if (id <= 0 || id > users.size())
+            throw new ArrayIndexOutOfBoundsException("UsersRepository findUser(int): incorrect userId");
         return users.get(id - 1);
     }
-
 
     /**
      * return UserInfo if the login is given
@@ -105,13 +103,14 @@ public class UsersRepository implements IRepository {
      * @throws Exception
      */
     public synchronized UserInfo findUser(final String username) throws Exception {
-        if (username == null || username.equals("")) throw new IllegalArgumentException("Incorrect username");
+        if (username == null || username.equals(""))
+            throw new IllegalArgumentException("UsersRepository findUser(String): empty userId");
         for (UserInfo info : users) {
             if (info.getLogin().equals(username)) {
                 return info;
             }
         }
-        throw new IllegalArgumentException("User does not exist");
+        throw new IllegalArgumentException("UsersRepository findUser(String): user does not exist");
     }
 
     /**
@@ -124,7 +123,7 @@ public class UsersRepository implements IRepository {
      */
     public synchronized String newProject(final String username, final String projectName) throws Exception {
         if (username == null || username.equals("") || projectName == null || projectName.equals(""))
-            throw new IllegalArgumentException("Incorrect username or projectName");
+            throw new IllegalArgumentException("UsersRepository newProject(String): incorrect username or projectName");
         return findUser(username).getProjects().createProject(projectName);
     }
 
@@ -138,103 +137,8 @@ public class UsersRepository implements IRepository {
      */
     public synchronized String newProject(final int userId, final String projectName) throws Exception {
         if (userId <= 0 || projectName == null || projectName.equals(""))
-            throw new IllegalArgumentException("Incorrect userId or projectName");
+            throw new IllegalArgumentException("UsersRepository newProject(int): incorrect userId or projectName");
         return findUser(userId).getProjects().createProject(projectName);
-    }
-
-    /**
-     * add new file, that is connected to this repository
-     * should use all necessary information about file for future usage, then
-     * give it to other class that guarantees that file data will be saved correctly
-     *
-     * @param file - contains all the information about the file
-     * @param data - filename, projectName, username
-     * @return unique filename in repository or throws Exception
-     * @throws Exception
-     */
-    public synchronized String persist(final MultipartFile file, final String[] data) throws Exception {
-        if (file == null) throw new IllegalArgumentException("Incorrect file");
-        for (String str : data) {
-            if (str == null || str.equals(""))
-                throw new IllegalArgumentException("Incorrect filename, or username, or projectName");
-        }
-        return findUser(data[2]).getProjects().persist(file, data[0], data[1]);
-    }
-
-    /**
-     * add new file, that is connected to this repository
-     * should use all necessary information about file for future usage, then
-     * give it to other class that guarantees that file data will be saved correctly
-     *
-     * @param file - contains all the information about the file
-     * @param data - filename, projectId, username
-     * @return unique filename in repository or throws Exception
-     * @throws Exception
-     */
-    public synchronized String persistByProjectId(final MultipartFile file, final String[] data) throws Exception {
-        if (file == null) throw new IllegalArgumentException("Incorrect file");
-        for (String str : data) {
-            if (str == null || str.equals(""))
-                throw new IllegalArgumentException("Incorrect filename, or username, or projectId");
-        }
-        return findUser(data[2]).getProjects().persist(file, data[0], data[1]);
-    }
-
-    /**
-     * add new file, that is connected to this repository
-     * should use all necessary information about file for future usage, then
-     * give it to other class that guarantees that file data will be saved correctly
-     *
-     * @param file - part from http request, contains all the information about the file
-     * @param data - filename, projectId, userId
-     * @return unique filename in repository or throws Exception
-     * @throws Exception
-     */
-    public synchronized String persistByIds(final MultipartFile file, final String[] data) throws Exception {
-        if (file == null) throw new IllegalArgumentException("Incorrect file");
-        for (String str : data) {
-            if (str == null || str.equals(""))
-                throw new IllegalArgumentException("Incorrect filename, or userId, or projectId");
-        }
-        return findUser(Integer.parseInt(data[2])).getProjects().persist(file, data[0], data[1]);
-    }
-
-    /**
-     * add new file, that is connected to this repository
-     * should use all necessary information about file for future usage, then
-     * give it to other class that guarantees that file data will be saved correctly
-     *
-     * @param file - contains all the information about the file
-     * @param data - filename, projectId, userId
-     * @return unique filename in repository or throws Exception
-     * @throws Exception
-     */
-    public synchronized String persistByIds(final ByteArrayInputStream file, final String[] data) throws Exception {
-        if (file == null) throw new IllegalArgumentException("Incorrect file");
-        for (String str : data) {
-            if (str == null || str.equals(""))
-                throw new IllegalArgumentException("Incorrect filename, or userId, or projectId");
-        }
-        return findUser(Integer.parseInt(data[2])).getProjects().persist(file, data[0], data[1]);
-    }
-
-    /**
-     * add new file, that is connected to this repository
-     * should use all necessary information about file for future usage, then
-     * give it to other class that guarantees that file data will be saved correctly
-     *
-     * @param file - contains all the information about the file
-     * @param data - filename, projectId, userId
-     * @return unique filename in repository or throws Exception
-     * @throws Exception
-     */
-    public synchronized String persistByIds(final String file, final String[] data) throws Exception {
-        if (file == null) throw new IllegalArgumentException("Incorrect file");
-        for (String str : data) {
-            if (str == null || str.equals(""))
-                throw new IllegalArgumentException("Incorrect filename, or userId, or projectId");
-        }
-        return findUser(Integer.parseInt(data[2])).getProjects().persist(new ByteArrayInputStream(file.getBytes()), data[0], data[1]);
     }
 
     /**
@@ -242,135 +146,55 @@ public class UsersRepository implements IRepository {
      *
      * @return list of names or null if repository is empty
      */
-    public synchronized List<String> getAllNames() {
+    public synchronized List<String> getAllIds() {
         ArrayList<String> names = new ArrayList<String>();
         for (UserInfo info : users) {
-            names.add(info.getLogin());
+            names.add(Integer.toString(info.getId()));
         }
         return names;
     }
 
-    //not tested
-
-    /**
-     * return json with info about all users in repository
-     *
-     * @return json string with array of objects
-     */
-    public synchronized String getAllItems() throws Exception {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(users);
-    }
-
-    //not tested
-
-    /**
-     * return json with info about a user if id or unique name is qiven
-     *
-     * @param id - unique name or id of the user
-     * @return json string with an object
-     */
-    public synchronized String getItemById(final String id) throws Exception {
-        if (id == null || id.equals("")) throw new IllegalArgumentException("Incorrect id");
-        int num = Integer.parseInt(id);
-        UserInfo info = findUser(num);
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.writeValueAsString(info);
-    }
-
-
-    /**
-     * checks if the requirements given in params are met
-     * if so, returns file by id from filerepository
-     *
-     * @param filename - filename (given by user)
-     * @param params   - userId, projectId
-     * @return
-     */
-    public synchronized ByteArrayInputStream getFile(final String filename, final String[] params) throws Exception {
-        if (filename == null || filename.equals("")) throw new IllegalArgumentException("Incorrect fileName");
-        FileInfo info = findFile(filename, params);
-        return info == null ? null : info.getData();
-    }
-
-
     /**
      * checks if the requirements given in params are met
      * if so, returns fileinfo from filerepository
      *
-     * @param filename - filename given by user
-     * @param params   - userId, projectId
+     * @param referenceName - fileId in repository
+     * @param params        - userId, projectId
      * @return
      */
-    public synchronized FileInfo findFile(final String filename, final String[] params) throws Exception {
-        if (filename == null || filename.equals("")) throw new IllegalArgumentException("Incorrect fileName");
-        for (String str : params) {
-            if (str == null || str.equals("")) throw new IllegalArgumentException("Incorrect projectId or userId");
-        }
-        int userId = Integer.parseInt(params[0]);
-        UserInfo user = findUser(userId);
-        if (userId == 0 || user == null) {
-            throw new IllegalArgumentException("User does not exist");
-        }
-        String projectId = params[1];
-        ProjectInfo project = user.getProjects().findProjectById(projectId);
-        if (project == null) {
-            throw new IllegalArgumentException("Project does not exist");
-        }
-        for (String file : project.getReferenceNames()) {
-            FileInfo info = FileRepository.getRepo().findFileById(file);
-            if (info.getNameForUser().equals(filename)) {
-                return FileRepository.getRepo().findFileById(filename);
-            }
-        }
-        return null;
+    public synchronized FileInfo findByReferenceName(final String referenceName, final String[] params) throws Exception {
+        DataSet set = getDataSetByReferenceName(referenceName, params);
+        if (set == null)
+            throw new IllegalArgumentException("UsersRepository findByReferenceName(): impossible to find dataset");
+        return FileRepository.getRepo().findFileById(set.getFile().getToken());
     }
 
     /**
      * checks if the requirements given in params are met
-     * if so, returns file by id from filerepository
+     * if so, returns dataset
      *
-     * @param uniqueFilename - fileId in repository
-     * @param params         -userId, projectId
+     * @param referenceName - fileId in repository
+     * @param params        - userId, projectId
      * @return
      */
-    public synchronized ByteArrayInputStream getFileById(final String uniqueFilename, final String[] params) throws Exception {
-        if (uniqueFilename == null || uniqueFilename.equals(""))
-            throw new IllegalArgumentException("Incorrect fileName");
-        FileInfo info = findFileById(uniqueFilename, params);
-        return info == null ? null : info.getData();
-    }
-
-
-    /**
-     * checks if the requirements given in params are met
-     * if so, returns fileinfo from filerepository
-     *
-     * @param uniqueFilename - fileId in repository
-     * @param params         - userId, projectId
-     * @return
-     */
-    public synchronized FileInfo findFileById(final String uniqueFilename, final String[] params) throws Exception {
-        if (uniqueFilename == null || uniqueFilename.equals(""))
-            throw new IllegalArgumentException("Incorrect fileName");
+    public synchronized DataSet getDataSetByReferenceName(final String referenceName, final String[] params) throws Exception {
+        if (referenceName == null || referenceName.equals(""))
+            throw new IllegalArgumentException("UsersRepository findByReferenceName(): empty referenceName");
         for (String str : params) {
-            if (str == null || str.equals("")) throw new IllegalArgumentException("Incorrect projectId or userId");
+            if (str == null || str.equals(""))
+                throw new IllegalArgumentException("UsersRepository findByReferenceName(): empty projectId or userId");
         }
         int userId = Integer.parseInt(params[0]);
         UserInfo user = findUser(userId);
         if (userId == 0 || user == null) {
-            throw new IllegalArgumentException("User does not exist");
+            throw new IllegalArgumentException("UsersRepository findByReferenceName(): user does not exist");
         }
         String projectId = params[1];
         ProjectInfo project = user.getProjects().findProjectById(projectId);
         if (project == null) {
-            throw new IllegalArgumentException("Project does not exist");
+            throw new IllegalArgumentException("UsersRepository findByReferenceName(): project does not exist");
         }
-        for (String file : project.getReferenceNames()) {
-            if (file.equals(uniqueFilename)) {
-                return FileRepository.getRepo().findFileById(uniqueFilename);
-            }
-        }
-        return null;
+        return project.getDataSetByReferenceName(referenceName);
     }
+
 }

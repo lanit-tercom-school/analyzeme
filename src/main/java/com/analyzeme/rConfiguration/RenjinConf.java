@@ -37,7 +37,6 @@ public class RenjinConf implements IRConf {
     /**
      * @param activeFlag what will set as field activeFlag
      */
-    @Override
     public void setActiveFlag(boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
@@ -45,7 +44,6 @@ public class RenjinConf implements IRConf {
     /**
      * @param name what will set as field name
      */
-    @Override
     public void setName(String name) {
         this.name = name;
     }
@@ -55,7 +53,6 @@ public class RenjinConf implements IRConf {
      *
      * @return field name
      */
-    @Override
     public String getName() {
         return name;
     }
@@ -65,7 +62,6 @@ public class RenjinConf implements IRConf {
      *
      * @return field activeFlag
      */
-    @Override
     public boolean isActive() {
         return activeFlag;
     }
@@ -76,7 +72,6 @@ public class RenjinConf implements IRConf {
      *
      * @param RConf will be assignmented to this RenjinConf
      */
-    @Override
     public void assignment(IRConf RConf) {
         if (!(RConf instanceof RenjinConf)) throw new IllegalArgumentException();
         setName(RConf.getName());
@@ -86,7 +81,6 @@ public class RenjinConf implements IRConf {
     /**
      * @return this this object as JSONObject
      */
-    @Override
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
         obj.put("rConfType", "RenjinConf");

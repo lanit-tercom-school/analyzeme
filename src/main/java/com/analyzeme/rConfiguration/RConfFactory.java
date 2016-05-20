@@ -4,8 +4,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import java.io.IOException;
-
 /**
  * factory of RConfiguration
  * Created by asus on 14.04.2016.

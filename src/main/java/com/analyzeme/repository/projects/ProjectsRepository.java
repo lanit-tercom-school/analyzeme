@@ -1,8 +1,6 @@
 package com.analyzeme.repository.projects;
 
 import com.analyzeme.data.DataSet;
-import com.analyzeme.repository.filerepository.FileInfo;
-import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.FileUploader;
 
 import java.io.ByteArrayInputStream;
@@ -58,7 +56,8 @@ public class ProjectsRepository {
      * creates empty project
      */
     public String createProject(final String projectName) throws Exception {
-        if (projectName == null || projectName.equals("")) throw new IllegalArgumentException("ProjectsRepository createProject(): empty projectName");
+        if (projectName == null || projectName.equals(""))
+            throw new IllegalArgumentException("ProjectsRepository createProject(): empty projectName");
         String uniqueName = createUniqueName();
         ProjectInfo info = new ProjectInfo(projectName, uniqueName);
         projects.add(info);
@@ -73,7 +72,8 @@ public class ProjectsRepository {
      * @return true if succeed
      */
     public synchronized boolean deactivateProjectById(final String projectId) throws Exception {
-        if (projectId == null || projectId.equals("")) throw new IllegalArgumentException("ProjectsRepository deactivateProjectById(): empty projectId");
+        if (projectId == null || projectId.equals(""))
+            throw new IllegalArgumentException("ProjectsRepository deactivateProjectById(): empty projectId");
         for (ProjectInfo info : projects) {
             if (info.getUniqueName().equals(projectId)) {
                 info.deactivateFiles();
@@ -106,7 +106,7 @@ public class ProjectsRepository {
     public synchronized ByteArrayInputStream getByReferenceName(final String projectId, final String referenceName) throws Exception {
         if (referenceName == null || referenceName.equals(""))
             throw new IllegalArgumentException("ProjectsRepository getByReferenceName(): wrong reference name");
-        return findProjectById(projectId).getByReferenceName(referenceName).getData();
+        return findProjectById(projectId).getDataSetByReferenceName(referenceName).getData();
     }
 
     //info about files for demo project

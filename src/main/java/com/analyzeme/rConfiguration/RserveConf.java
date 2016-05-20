@@ -71,7 +71,6 @@ public class RserveConf implements IRConf {
      *
      * @param activeFlag what will set as field flag
      */
-    @Override
     public void setActiveFlag(boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
@@ -81,7 +80,6 @@ public class RserveConf implements IRConf {
      *
      * @return value of field flag
      */
-    @Override
     public boolean isActive() {
         return activeFlag;
     }
@@ -129,7 +127,6 @@ public class RserveConf implements IRConf {
      *
      * @param RConf will be assignmented to this RserveConf
      */
-    @Override
     public void assignment(IRConf RConf) {
         if (!(RConf instanceof RserveConf)) throw new IllegalArgumentException();
         RserveConf RConf1 = (RserveConf) RConf;
@@ -142,7 +139,6 @@ public class RserveConf implements IRConf {
     /**
      * @return this this object as JSONObject
      */
-    @Override
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
         obj.put("rConfType", "RserveConf");

@@ -6,6 +6,7 @@ import com.analyzeme.parsers.InfoToJson;
 import com.analyzeme.repository.*;
 import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
+import com.analyzeme.repository.filerepository.FileUploader;
 import com.analyzeme.repository.projects.ProjectInfo;
 import com.analyzeme.streamreader.StreamToString;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -44,18 +46,19 @@ public class FileController {
 				throw new Exception();
 			}
 
+			//second filename here should be changed to reference name when UI is ready
+			DataSet set = FileUploader.upload(multipartFile, fileName, fileName);
+			project.persist(set);
 			//filename, projectId, userId
-			String[] param = {fileName, projectUniqueName, Integer.toString(userId)};
-			responseToJS = UsersRepository.getRepo().persistByIds(multipartFile, param);
 
 			//Set responseHeaders "Data" and "fileName";
-			response.setHeader("fileName", responseToJS);
-			ByteArrayInputStream file = FileRepository.getRepo().getFileByID(responseToJS);
+			response.setHeader("fileName", set.getReferenceName());
+			ByteArrayInputStream file = FileRepository.getRepo().getFileByID(set.getFile().getToken());
 			String Data = StreamToString.ConvertStream(file);
 			response.setHeader("Data", Data);
 
 			response.setCharacterEncoding("UTF-32");
-			response.getWriter().write("unique name: " + responseToJS);
+			response.getWriter().write("unique name: " + set.getReferenceName());
 		} catch (IOException e) {
 			throw e;
 		} catch (Exception ex) {
@@ -80,18 +83,18 @@ public class FileController {
 				UsersRepository.getRepo().newItem(param);
 			}
 
-			//part, filename, projectName, username (IN THIS ORDER)
-			String[] param = {fileName, "demo", "guest"};
-			responseToJS = UsersRepository.getRepo().persist(multipartFile, param);
+			//second filename here should be changed to reference name when UI is ready
+			DataSet set = FileUploader.upload(multipartFile, fileName, fileName);
+			UsersRepository.getRepo().findUser("guest").getProjects().findProjectById("demo").persist(set);
 
 			//Set responseHeaders "Data" and "fileName";
-			response.setHeader("fileName", responseToJS);
-			ByteArrayInputStream file = FileRepository.getRepo().getFileByID(responseToJS);
+			response.setHeader("fileName", set.getReferenceName());
+			ByteArrayInputStream file = FileRepository.getRepo().getFileByID(set.getFile().getToken());
 			String Data = StreamToString.ConvertStream(file);
 			response.setHeader("Data", Data);
 
 			response.setCharacterEncoding("UTF-32");
-			response.getWriter().write("unique name: " + responseToJS);
+			response.getWriter().write("unique name: " + set.getFile().getToken());
 		} catch (IOException e) {
 			throw e;
 		} catch (Exception ex) {
@@ -124,11 +127,11 @@ public class FileController {
 	 * returns info about file
 	 * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
 	 */
-	@RequestMapping(value = "/file/{unique_name}/getInfo", method = RequestMethod.GET)
-	public String getFileInfo(@PathVariable("unique_name") String uniqueName) throws Exception {
-		if (uniqueName == null || uniqueName.equals(""))
+	@RequestMapping(value = "/file/{reference_name}/getInfo", method = RequestMethod.GET)
+	public String getFileInfo(@PathVariable("reference_name") String referenceName) throws Exception {
+		if (referenceName == null || referenceName.equals(""))
 			throw new IllegalArgumentException();
-		FileInfo info = FileRepository.getRepo().findFileById(uniqueName);
+		FileInfo info = FileRepository.getRepo().findFileById(referenceName);
 		if (info == null)
 			throw new NullPointerException("File not found");
 		return InfoToJson.convertFileInfo(info);
@@ -138,35 +141,28 @@ public class FileController {
 	 * returns info about fields
 	 * example : {"dataname":"0_10.json","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}]}
 	 */
-	@RequestMapping(value = "/file/{user_id}/{project_id}/{nameForUser}/getFields", method = RequestMethod.GET)
-	public String getFileFields(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("nameForUser") String filename) throws Exception {
-		if (filename == null || filename.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
+	@RequestMapping(value = "/file/{user_id}/{project_id}/{reference}/getFields", method = RequestMethod.GET)
+	public String getFileFields(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference") String reference) throws Exception {
+		if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		JsonPointRepositoryDataResolver res = new JsonPointRepositoryDataResolver();
-		res.setProject(userId, projectId);
-		DataSet data = res.createDataSet(filename);
-		if (data == null)
+		DataSet set = UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
+		if (set == null)
 			throw new NullPointerException("File not found");
-		return InfoToJson.convertDataSet(data);
+		return InfoToJson.convertDataSet(set);
 	}
 
 	/**
 	 * returns full info about file
 	 * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
 	 */
-	@RequestMapping(value = "/file/{user_id}/{project_id}/{nameForUser}/getFullInfo", method = RequestMethod.GET)
-	public String getFullFileInfo(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("nameForUser") String filename) throws Exception {
-		if (filename == null || filename.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
+	@RequestMapping(value = "/file/{user_id}/{project_id}/{reference}/getFullInfo", method = RequestMethod.GET)
+	public String getFullFileInfo(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference") String reference) throws Exception {
+		if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		JsonPointRepositoryDataResolver res = new JsonPointRepositoryDataResolver();
-		res.setProject(userId, projectId);
-		DataSet data = res.createDataSet(filename);
-		if (data == null)
+		DataSet set = UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
+		if (set == null)
 			throw new NullPointerException("File not found");
-		FileInfo info = FileRepository.getRepo().findFileById(data.getFile().getToken());
-		if (info == null)
-			throw new NullPointerException("getInfo does not work correctly");
 
-		return InfoToJson.convertInfoAboutFile(info, data);
+		return InfoToJson.convertInfoAboutFile(FileRepository.getRepo().findFileById(set.getFile().getToken()), set);
 	}
 }

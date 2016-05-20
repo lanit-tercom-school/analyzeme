@@ -3,7 +3,10 @@ package com.analyzeme.controllers;
 import com.analyzeme.R.facade.TypeOfReturnValue;
 import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.analyzers.r.TypeOfCall;
+import com.analyzeme.data.DataSet;
 import com.analyzeme.repository.filerepository.FileInfo;
+import com.analyzeme.repository.filerepository.FileRepository;
+import com.analyzeme.repository.filerepository.FileUploader;
 import com.analyzeme.repository.projects.ProjectInfo;
 import com.analyzeme.repository.UsersRepository;
 import org.apache.commons.io.IOUtils;
@@ -65,11 +68,13 @@ public class RConsoleController {
 		if (UsersRepository.getRepo().checkInitialization() == null) {
 			return null;
 		}
+		DataSet file = FileUploader.upload(scriptText, scriptName, scriptName);
 		ProjectInfo project = UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId);
 		if (project == null) {
 			return null;
 		}
-		return project.addNewFile(scriptText, scriptName);
+		project.persist(file);
+		return file.getFile().getToken();
 	}
 
 	/**
@@ -78,19 +83,19 @@ public class RConsoleController {
 	 * <p/>
 	 * gets file by its unique name
 	 *
-	 * @param scriptName unique script name
+	 * @param scriptRefName - unique script name
 	 * @return file data in String
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/{user_id}/{project_id}/get/script", method = RequestMethod.GET)
 	public String getScript(@PathVariable("user_id") int userId,
 							@PathVariable("project_id") String projectId,
-							@RequestHeader("name") String scriptName) throws Exception {
+							@RequestHeader("refName") String scriptRefName) throws Exception {
 
 		if (UsersRepository.getRepo().checkInitialization() == null) {
 			return null;
 		}
-		FileInfo file = UsersRepository.getRepo().findFile(scriptName, new String[]{String.valueOf(userId), projectId});
+		FileInfo file = UsersRepository.getRepo().findByReferenceName(scriptRefName, new String[]{String.valueOf(userId), projectId});
 		if (file == null) {
 			return null;
 		}

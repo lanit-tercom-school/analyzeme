@@ -42,9 +42,9 @@ public class Rserve implements IRCaller {
 					y[i] = points[i].GetY();
 				}
 				if (data.getFields().contains("x"))
-					r.assign("x_from__repo__" + data.getNameForUser() + "__", x);
+					r.assign("x_from__repo__" + data.getReferenceName() + "__", x);
 				if (data.getFields().contains("y"))
-					r.assign("y_from__repo__" + data.getNameForUser() + "__", y);
+					r.assign("y_from__repo__" + data.getReferenceName() + "__", y);
 			}
 		}
 	}

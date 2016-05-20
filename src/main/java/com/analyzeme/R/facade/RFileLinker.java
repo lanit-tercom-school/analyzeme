@@ -66,7 +66,7 @@ class RFileLinker {
 			if (m.group(sourceGroup).equalsIgnoreCase("repo")) {
 				res = resolver;
 			} else {
-				res = DataSetResolversFactory.getDataSetResolver(m.group(sourceGroup));
+				res = DataSetResolversFactory.getDataSetResolver(null);
 			}
 			DataSet data = res.createDataSet(m.group(fileGroup));
 			DataSet found = findInList(result, data);
@@ -120,7 +120,7 @@ class RFileLinker {
 			if (m.group(sourceGroup).equalsIgnoreCase("repo")) {
 				res = resolver;
 			} else {
-				res = DataSetResolversFactory.getDataSetResolver(m.group(sourceGroup));
+				res = DataSetResolversFactory.getDataSetResolver(null);
 			}
 			DataSet data = res.createDataSet(m.group(fileGroup));
 			DataSet found = findInList(result, data);

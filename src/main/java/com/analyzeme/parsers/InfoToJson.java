@@ -105,7 +105,7 @@ public class InfoToJson {
 
 		JSONObject obj = new JSONObject();
 
-		obj.put("dataname", info.getNameForUser());
+		obj.put("dataname", info.getReferenceName());
 		JSONArray fields = new JSONArray();
 		Map<String, String> f = info.getFieldsWithNames();
 		for (Map.Entry<String, String> entry : f.entrySet()) {

@@ -47,9 +47,9 @@ public class Renjin implements IRCaller {
                     y[i] = points[i].GetY();
                 }
                 if (data.getFields().contains("x"))
-                    engine.put("x_from__repo__" + data.getNameForUser() + "__", x);
+                    engine.put("x_from__repo__" + data.getReferenceName() + "__", x);
                 if (data.getFields().contains("y"))
-                    engine.put("y_from__repo__" + data.getNameForUser() + "__", y);
+                    engine.put("y_from__repo__" + data.getReferenceName() + "__", y);
             }
         }
     }

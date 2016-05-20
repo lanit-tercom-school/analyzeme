@@ -61,7 +61,7 @@ public class ProjectInfo {
         if (getReferenceNames().isEmpty()) return "[]";
         JSONArray result = new JSONArray();
         for (DataSet set : datasets) {
-            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class)){
+            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class)) {
                 FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
                 if (info.isActive()) {
                     JSONObject file = new JSONObject();
@@ -128,10 +128,10 @@ public class ProjectInfo {
      * @return - dataset with this reference name
      * @throws Exception
      */
-    public FileInfo getByReferenceName(final String referenceName) throws Exception {
+    public DataSet getDataSetByReferenceName(final String referenceName) throws Exception {
         for (DataSet set : datasets) {
             if (set.getReferenceName().equals(referenceName)) {
-                return FileRepository.getRepo().findFileById(set.getFile().getToken());
+                return set;
             }
         }
         return null;
@@ -142,7 +142,7 @@ public class ProjectInfo {
      */
     public void deactivateFiles() throws Exception {
         for (DataSet set : datasets) {
-            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class)){
+            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class)) {
                 FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
                 info.setIsActive(false);
             }

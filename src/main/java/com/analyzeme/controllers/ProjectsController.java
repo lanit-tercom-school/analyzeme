@@ -17,32 +17,6 @@ public class ProjectsController {
 	/**
 	 * gets files from project by project id
 	 *
-	 * @param projectName
-	 * @return list of fileNames
-	 * null if userRepository doesn't exist or project doesn't exist
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "{user_id}/project/{project_id}/files", method = RequestMethod.GET)
-	public List<String> getFiles(@PathVariable("user_id") int userId,
-								 @PathVariable("project_id") String projectName)
-			throws IOException {
-		try {
-			if (UsersRepository.getRepo().checkInitialization() == null) {
-				return null;
-			}
-			//this line will return all filenames in project, including temporary deleted files
-			//return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getReferenceNames();
-			//to get only active files use:
-			return UsersRepository.getRepo().findUser("guest").getProjects().findProject(projectName).returnAllNamesOfActiveFiles();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
-	 * gets files from project by project id
-	 *
 	 * @param projectId
 	 * @return json like [{"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ...}]
 	 * @throws IOException
