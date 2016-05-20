@@ -7,8 +7,8 @@ import com.analyzeme.R.call.Rserve;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.JsonPointRepositoryDataResolver;
-import com.analyzeme.repository.FileInfo;
-import com.analyzeme.repository.FileRepository;
+import com.analyzeme.repository.filerepository.FileInfo;
+import com.analyzeme.repository.filerepository.FileRepository;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;

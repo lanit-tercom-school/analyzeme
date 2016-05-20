@@ -1,6 +1,6 @@
 package com.analyzeme.data;
 
-import com.analyzeme.repository.FileInfo;
+import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.UsersRepository;
 
 /**
@@ -9,6 +9,8 @@ import com.analyzeme.repository.UsersRepository;
 
 public class JsonPointRepositoryDataResolver implements IDataSetResolver {
 	private String[] params;
+
+	//now unique name is used here until reference name will be implemented
 
 	public void setProject(int userId, String projectId) throws IllegalArgumentException {
 		if (userId == 0 || projectId == null || projectId.equals(""))
@@ -19,7 +21,7 @@ public class JsonPointRepositoryDataResolver implements IDataSetResolver {
 	}
 
 	public DataSet getDataSet(String name) throws Exception {
-		FileInfo info = UsersRepository.getRepo().findFile(name, params);
+		FileInfo info = UsersRepository.getRepo().findFileById(name, params);
 		ISourceInfo file = new JsonPointFileInRepositoryInfo(info.getUniqueName());
 		DataSet set = new DataSet(name, file);
 		set.addField("x");

@@ -1,5 +1,9 @@
-package com.analyzeme.repository;
+package com.analyzeme.repository.projects;
 
+import com.analyzeme.repository.filerepository.FileInfo;
+import com.analyzeme.repository.filerepository.FileRepository;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
@@ -15,12 +19,19 @@ import java.util.List;
  * Created by lagroffe on 17.02.2016 18:40
  */
 
+@JsonAutoDetect
 public class ProjectInfo {
+    @JsonProperty("projectName")
     private String projectName;
+    @JsonProperty("uniqueName")
     private String uniqueName;
+    @JsonProperty("creationDate")
     private Date creationDate;
+    @JsonProperty("lastChangeDate")
     private Date lastChangeDate;
+    //should be refactored to the list of datasets
     private List<String> filenames;
+    @JsonProperty("isActive")
     private boolean isActive = true;
 
 
@@ -29,7 +40,7 @@ public class ProjectInfo {
      *
      * @return
      */
-    public List<String> returnAllNames() throws IOException {
+    public List<String> returnAllNamesOfActiveFiles() throws IOException {
         if (getFilenames().isEmpty()) return null;
         ArrayList<String> names = new ArrayList<String>();
         for (String name : getFilenames()) {
@@ -42,7 +53,7 @@ public class ProjectInfo {
      * @return json like [{"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ..., "nameForUser": ...}]
      * @throws IOException
      */
-    public String returnFilesForList() throws IOException {
+    public String returnActiveFilesForList() throws IOException {
         if (getFilenames().isEmpty()) return "[]";
         JSONArray result = new JSONArray();
         for (String name : getFilenames()) {
@@ -51,7 +62,6 @@ public class ProjectInfo {
                 JSONObject file = new JSONObject();
                 file.put("uniqueName", info.getUniqueName());
                 file.put("nameForUser", info.getNameForUser());
-                //file.put("isActive", info.isActive());
                 result.add(file);
             }
         }
@@ -80,7 +90,7 @@ public class ProjectInfo {
         }
         String nameInRepo = FileRepository.getRepo().persist(file, filename);
         if (nameInRepo == null || nameInRepo.equals("")) {
-            throw new FileSystemException(filename);
+            throw new NullPointerException("Error while loading the file");
         }
         filenames.add(nameInRepo);
         setLastChangeDate(new Date());

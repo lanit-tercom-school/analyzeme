@@ -1,4 +1,4 @@
-package com.analyzeme.repository;
+package com.analyzeme.repository.filerepository;
 
 // TODO: rewrite to avoid using *-test functions
 // TODO: tests for multithreading writing should be added

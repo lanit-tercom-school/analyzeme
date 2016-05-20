@@ -115,9 +115,9 @@ public interface IRepository {
 
 	/**
 	 * checks if the requirements given in params are met
-	 * if so, returns file by id from FileRepository
+	 * if so, returns file by id from filerepository
 	 *
-	 * @param uniqueName - filename in FileRepository
+	 * @param uniqueName - filename in filerepository
 	 * @param params     - some specific requirements (such as usernmame, password, etc.)
 	 * @return
 	 */

@@ -1,5 +1,8 @@
-package com.analyzeme.repository;
+package com.analyzeme.repository.projects;
 
+import com.analyzeme.repository.filerepository.FileRepository;
+import com.analyzeme.repository.projects.ProjectInfo;
+import com.analyzeme.repository.projects.ProjectsRepository;
 import org.junit.Before;
 import org.junit.Test;
 

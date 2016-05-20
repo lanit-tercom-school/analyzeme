@@ -1,6 +1,6 @@
 package com.analyzeme.data;
 
-import com.analyzeme.repository.FileRepository;
+import com.analyzeme.repository.filerepository.FileRepository;
 
 import java.io.ByteArrayInputStream;
 

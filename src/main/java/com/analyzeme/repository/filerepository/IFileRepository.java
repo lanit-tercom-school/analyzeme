@@ -1,4 +1,4 @@
-package com.analyzeme.repository;
+package com.analyzeme.repository.filerepository;
 
 import org.springframework.web.multipart.MultipartFile;
 

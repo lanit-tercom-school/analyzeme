@@ -33,7 +33,7 @@ public class ProjectsController {
 			//this line will return all filenames in project, including temporary deleted files
 			//return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getFilenames();
 			//to get only active files use:
-			return UsersRepository.getRepo().findUser("guest").getProjects().findProject(projectName).returnAllNames();
+			return UsersRepository.getRepo().findUser("guest").getProjects().findProject(projectName).returnAllNamesOfActiveFiles();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -58,9 +58,9 @@ public class ProjectsController {
 			if (UsersRepository.getRepo().checkInitialization() == null) {
 				throw new IllegalArgumentException("User does not exist");
 			}
-			return "{ \"Files\" : " + UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).returnFilesForList() + "}";
+			return "{ \"Files\" : " + UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).returnActiveFilesForList() + "}";
 			//to get only active files use:
-			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNames();
+			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNamesOfActiveFiles();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

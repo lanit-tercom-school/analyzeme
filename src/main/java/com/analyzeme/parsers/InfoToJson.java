@@ -1,8 +1,8 @@
 package com.analyzeme.parsers;
 
 import com.analyzeme.data.DataSet;
-import com.analyzeme.repository.FileInfo;
-import com.analyzeme.repository.ProjectInfo;
+import com.analyzeme.repository.filerepository.FileInfo;
+import com.analyzeme.repository.projects.ProjectInfo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 

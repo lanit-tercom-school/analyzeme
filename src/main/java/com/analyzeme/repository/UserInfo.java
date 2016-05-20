@@ -1,5 +1,6 @@
 package com.analyzeme.repository;
 
+import com.analyzeme.repository.projects.ProjectsRepository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

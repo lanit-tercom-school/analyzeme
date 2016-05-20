@@ -4,7 +4,7 @@ import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.JsonPointFileInRepositoryInfo;
 import com.analyzeme.data.ISourceInfo;
-import com.analyzeme.repository.FileRepository;
+import com.analyzeme.repository.filerepository.FileRepository;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;

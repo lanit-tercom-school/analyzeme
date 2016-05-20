@@ -1,5 +1,7 @@
-package com.analyzeme.repository;
+package com.analyzeme.repository.projects;
 
+import com.analyzeme.repository.filerepository.FileInfo;
+import com.analyzeme.repository.filerepository.FileRepository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
