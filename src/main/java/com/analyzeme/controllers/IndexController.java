@@ -29,19 +29,9 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = "/action")
-    public String moveToActionPage() throws Exception {
-        return "action";
-    }
-
     @RequestMapping(value = "/projects")
     public String moveToProjectPage() {
         return "projects";
-    }
-
-    @RequestMapping(value = "/REditorPage")
-    public String moveToRScriptPage() {
-        return "REditorPage";
     }
 
     @RequestMapping(value = "/data/spb")
@@ -58,7 +48,7 @@ public class IndexController {
     public ModelAndView moveToRConfPage() {
 
         String RConfList = RConfRepository.getRepo().allConfigurationsToJsonString();
-        return new ModelAndView("rConf", "RConfList", RConfList);
+        return new ModelAndView("config", "RConfList", RConfList);
 
     }
 
