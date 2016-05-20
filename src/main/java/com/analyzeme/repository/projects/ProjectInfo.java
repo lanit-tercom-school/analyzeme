@@ -1,16 +1,16 @@
 package com.analyzeme.repository.projects;
 
+import com.analyzeme.data.DataSet;
+import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
 import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.nio.file.FileSystemException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,44 +29,11 @@ public class ProjectInfo {
     private Date creationDate;
     @JsonProperty("lastChangeDate")
     private Date lastChangeDate;
-    //should be refactored to the list of datasets
-    private List<String> filenames;
+    private List<DataSet> datasets;
     @JsonProperty("isActive")
     private boolean isActive = true;
+    private BigInteger counterOfDatasets;
 
-
-    /**
-     * returns all unique names of files
-     *
-     * @return
-     */
-    public List<String> returnAllNamesOfActiveFiles() throws IOException {
-        if (getFilenames().isEmpty()) return null;
-        ArrayList<String> names = new ArrayList<String>();
-        for (String name : getFilenames()) {
-            if (FileRepository.getRepo().findFileById(name).isActive()) names.add(name);
-        }
-        return names;
-    }
-
-    /**
-     * @return json like [{"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ..., "nameForUser": ...}]
-     * @throws IOException
-     */
-    public String returnActiveFilesForList() throws IOException {
-        if (getFilenames().isEmpty()) return "[]";
-        JSONArray result = new JSONArray();
-        for (String name : getFilenames()) {
-            FileInfo info = FileRepository.getRepo().findFileById(name);
-            if(info.isActive()) {
-                JSONObject file = new JSONObject();
-                file.put("uniqueName", info.getUniqueName());
-                file.put("nameForUser", info.getNameForUser());
-                result.add(file);
-            }
-        }
-        return result.toString();
-    }
 
     /**
      * @param name       - name of a project (should be unique for user)
@@ -74,96 +41,176 @@ public class ProjectInfo {
      * @throws IOException
      */
     ProjectInfo(final String name, final String uniqueName) throws IOException {
-        if (name == null || name.equals("")) throw new IllegalArgumentException();
+        if (name == null || name.equals("")) throw new IllegalArgumentException("ProjectInfo ctor: wrong name");
         this.setProjectName(name);
-        if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException();
+        if (uniqueName == null || uniqueName.equals(""))
+            throw new IllegalArgumentException("ProjectInfo ctor: wrong id");
         this.uniqueName = uniqueName;
         //default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
         creationDate = new Date();
-        setLastChangeDate(new Date());
-        filenames = new ArrayList<String>();
-    }
-
-    public String addNewFile(MultipartFile file, String filename) throws Exception {
-        if (filename == null || filename.equals("") || file == null) {
-            throw new IllegalArgumentException();
-        }
-        String nameInRepo = FileRepository.getRepo().persist(file, filename);
-        if (nameInRepo == null || nameInRepo.equals("")) {
-            throw new NullPointerException("Error while loading the file");
-        }
-        filenames.add(nameInRepo);
-        setLastChangeDate(new Date());
-        return nameInRepo;
+        lastChangeDate = new Date();
+        datasets = new ArrayList<DataSet>();
+        counterOfDatasets = (BigInteger.ZERO);
     }
 
     /**
-     * @param filename
-     * @param file
+     * @return json like [{"uniqueName": ..., "nameForUser": ...}, {"uniqueName": ..., "nameForUser": ...}]
+     * @throws IOException
+     */
+    public String returnActiveFilesForList() throws Exception {
+        if (getReferenceNames().isEmpty()) return "[]";
+        JSONArray result = new JSONArray();
+        for (DataSet set : datasets) {
+            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class)){
+                FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
+                if (info.isActive()) {
+                    JSONObject file = new JSONObject();
+                    file.put("uniqueName", info.getUniqueName());
+                    file.put("nameForUser", info.getNameForUser());
+                    result.add(file);
+                }
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * returns all reference names of datasets
+     *
      * @return
+     */
+    public List<String> returnAllNamesOfActiveFiles() throws Exception {
+        if (getReferenceNames().isEmpty()) return null;
+        ArrayList<String> names = new ArrayList<String>();
+        for (String name : getReferenceNames()) {
+            if (FileRepository.getRepo().findFileById(name).isActive()) names.add(name);
+        }
+        return names;
+    }
+
+    /**
+     * increments counter of datasets (never decrement it)
+     */
+    private void changeCounter() {
+        counterOfDatasets.add(BigInteger.ONE);
+    }
+
+    /**
+     * connects DataSet to the project
+     *
+     * @param file - DataSet of source
      * @throws Exception
      */
-    public String addNewFile(String filename, String file) throws Exception {
-        if (filename == null || filename.equals("") || file == null) {
-            throw new IllegalArgumentException();
+    public void persist(DataSet file) throws Exception {
+        if (file == null) {
+            throw new IllegalArgumentException("ProjectInfo persist(): empty entity of DataSet");
         }
-        String nameInRepo = FileRepository.getRepo().persist(file, filename);
-        if (nameInRepo == null || nameInRepo.equals("")) {
-            throw new FileSystemException(filename);
-        }
-        filenames.add(nameInRepo);
-        setLastChangeDate(new Date());
-        return nameInRepo;
+        changeCounter();
+        file.setIdInProject(counterOfDatasets);
+        datasets.add(file);
+        lastChangeDate = new Date();
     }
 
-    public String addNewFileForTests(ByteArrayInputStream part, String filename) throws Exception {
-        if (filename == null || filename.equals("") || part == null) {
-            throw new IllegalArgumentException();
+    /**
+     * @return - referenceNames of datasets
+     * @throws Exception
+     */
+    public List<String> getReferenceNames() throws Exception {
+        List<String> filenames = new ArrayList<String>();
+        for (DataSet set : datasets) {
+            filenames.add(set.getReferenceName());
         }
-        String nameInRepo = FileRepository.getRepo().persist(part, filename);
-        if (nameInRepo == null || nameInRepo.equals("")) {
-            throw new FileSystemException(filename);
-        }
-        filenames.add(nameInRepo);
-        setLastChangeDate(new Date());
-        return nameInRepo;
+        return filenames;
     }
 
+    /**
+     * @param referenceName - special name of data source given by user while uploading
+     * @return - dataset with this reference name
+     * @throws Exception
+     */
+    public FileInfo getByReferenceName(final String referenceName) throws Exception {
+        for (DataSet set : datasets) {
+            if (set.getReferenceName().equals(referenceName)) {
+                return FileRepository.getRepo().findFileById(set.getFile().getToken());
+            }
+        }
+        return null;
+    }
+
+    /**
+     * deactivates all files in filerepository connected to the project
+     */
+    public void deactivateFiles() throws Exception {
+        for (DataSet set : datasets) {
+            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class)){
+                FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
+                info.setIsActive(false);
+            }
+        }
+    }
+
+    //----------------------------------------------------------------------------------------------
+    //STANDARD GETTERS/SETTERS
+    //----------------------------------------------------------------------------------------------
+
+    /**
+     * @return - name of project given by user
+     */
     public String getProjectName() {
         return projectName;
     }
 
+    /**
+     * @param projectName - name of project given by user
+     * @throws IOException
+     */
     public void setProjectName(String projectName) throws IOException {
-        if (projectName == null || projectName.equals("")) throw new IllegalArgumentException();
+        if (projectName == null || projectName.equals(""))
+            throw new IllegalArgumentException("ProjectInfo setProjectName(): projectName should not be empty");
         this.projectName = projectName;
+        lastChangeDate = new Date();
     }
 
+    /**
+     * @return - Date of last update for project
+     */
     public Date getLastChangeDate() {
         return lastChangeDate;
     }
 
-    public void setLastChangeDate(Date lastChangeDate) throws IOException {
-        if (lastChangeDate == null) throw new IllegalArgumentException();
-        this.lastChangeDate = lastChangeDate;
-    }
-
+    /**
+     * @return - if project was deactivated, false, if not, true
+     */
     public boolean isActive() {
         return isActive;
     }
 
+    /**
+     * @param isActive - if project was deactivated, false, if not, true
+     */
     public void setIsActive(boolean isActive) {
         this.isActive = isActive;
+        lastChangeDate = new Date();
     }
 
+    /**
+     * @return - id of project (unique for user)
+     */
     public String getUniqueName() {
         return uniqueName;
     }
 
+    /**
+     * @return - date of creation of the project
+     */
     public Date getCreationDate() {
         return creationDate;
     }
 
-    public List<String> getFilenames() {
-        return filenames;
+    /**
+     * @return - data source connected to the project
+     */
+    public List<DataSet> getDatasets() {
+        return datasets;
     }
 }

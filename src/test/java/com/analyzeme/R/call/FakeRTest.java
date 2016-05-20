@@ -2,8 +2,8 @@ package com.analyzeme.R.call;
 
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
-import com.analyzeme.data.JsonPointFileInRepositoryInfo;
-import com.analyzeme.data.ISourceInfo;
+import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;

@@ -216,7 +216,7 @@ public class FileRepository implements IFileRepository {
      */
     public synchronized ByteArrayInputStream getFileByID(final String uniqueName) throws IOException {
         if (uniqueName == null || uniqueName.equals(""))
-            throw new IllegalArgumentException("FileRepository getFileByID(): wrong fileId");
+            throw new IllegalArgumentException("FileRepository getByReferenceName(): wrong fileId");
         FileInfo info = findFileById(uniqueName);
         return info == null ? null : info.getData();
     }

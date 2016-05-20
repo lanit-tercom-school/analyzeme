@@ -31,7 +31,7 @@ public class ProjectsController {
 				return null;
 			}
 			//this line will return all filenames in project, including temporary deleted files
-			//return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getFilenames();
+			//return UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectName).getReferenceNames();
 			//to get only active files use:
 			return UsersRepository.getRepo().findUser("guest").getProjects().findProject(projectName).returnAllNamesOfActiveFiles();
 		} catch (Exception e) {
@@ -116,10 +116,10 @@ public class ProjectsController {
 				//response.setHeader("Success", "project doesn't exist");
 				return HttpStatus.NOT_FOUND;
 			}
-			//to change to deleting by id use ...projects.deleteProjectById(projectId)
-			//deleteProject or deleteProjectById deactivate project and all files in it
+			//to change to deleting by id use ...projects.deactivateProjectById(projectId)
+			//deleteProject or deactivateProjectById deactivate project and all files in it
 			//to remove them completely use deleteProjectCompletely or deleteProjectCompletelyById
-			return (UsersRepository.getRepo().findUser(userId).getProjects().deleteProjectById(uniqueName) ?
+			return (UsersRepository.getRepo().findUser(userId).getProjects().deactivateProjectById(uniqueName) ?
 					HttpStatus.OK : HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,7 +1,7 @@
 package com.analyzeme.controllers;
 
 import com.analyzeme.data.DataSet;
-import com.analyzeme.data.JsonPointRepositoryDataResolver;
+import com.analyzeme.data.resolvers.JsonPointRepositoryDataResolver;
 import com.analyzeme.parsers.InfoToJson;
 import com.analyzeme.repository.*;
 import com.analyzeme.repository.filerepository.FileInfo;
@@ -144,7 +144,7 @@ public class FileController {
 			throw new IllegalArgumentException();
 		JsonPointRepositoryDataResolver res = new JsonPointRepositoryDataResolver();
 		res.setProject(userId, projectId);
-		DataSet data = res.getDataSet(filename);
+		DataSet data = res.createDataSet(filename);
 		if (data == null)
 			throw new NullPointerException("File not found");
 		return InfoToJson.convertDataSet(data);
@@ -160,7 +160,7 @@ public class FileController {
 			throw new IllegalArgumentException();
 		JsonPointRepositoryDataResolver res = new JsonPointRepositoryDataResolver();
 		res.setProject(userId, projectId);
-		DataSet data = res.getDataSet(filename);
+		DataSet data = res.createDataSet(filename);
 		if (data == null)
 			throw new NullPointerException("File not found");
 		FileInfo info = FileRepository.getRepo().findFileById(data.getFile().getToken());

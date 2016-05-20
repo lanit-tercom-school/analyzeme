@@ -1,9 +1,9 @@
 package com.analyzeme.R.facade;
 
 import com.analyzeme.data.DataSet;
-import com.analyzeme.data.DataSetResolversFactory;
-import com.analyzeme.data.IDataSetResolver;
-import com.analyzeme.data.JsonPointRepositoryDataResolver;
+import com.analyzeme.data.resolvers.DataSetResolversFactory;
+import com.analyzeme.data.resolvers.IDataSetResolver;
+import com.analyzeme.data.resolvers.JsonPointRepositoryDataResolver;
 import com.analyzeme.streamreader.StreamToString;
 
 import java.io.ByteArrayInputStream;
@@ -68,7 +68,7 @@ class RFileLinker {
 			} else {
 				res = DataSetResolversFactory.getDataSetResolver(m.group(sourceGroup));
 			}
-			DataSet data = res.getDataSet(m.group(fileGroup));
+			DataSet data = res.createDataSet(m.group(fileGroup));
 			DataSet found = findInList(result, data);
 			if (found == null) {
 				data.addField(m.group(fieldGroup));
@@ -122,7 +122,7 @@ class RFileLinker {
 			} else {
 				res = DataSetResolversFactory.getDataSetResolver(m.group(sourceGroup));
 			}
-			DataSet data = res.getDataSet(m.group(fileGroup));
+			DataSet data = res.createDataSet(m.group(fileGroup));
 			DataSet found = findInList(result, data);
 			if (found == null) {
 				data.addField(m.group(fieldGroup));

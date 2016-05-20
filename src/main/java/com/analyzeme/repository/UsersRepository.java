@@ -177,7 +177,7 @@ public class UsersRepository implements IRepository {
             if (str == null || str.equals(""))
                 throw new IllegalArgumentException("Incorrect filename, or username, or projectId");
         }
-        return findUser(data[2]).getProjects().persistById(file, data[0], data[1]);
+        return findUser(data[2]).getProjects().persist(file, data[0], data[1]);
     }
 
     /**
@@ -196,7 +196,7 @@ public class UsersRepository implements IRepository {
             if (str == null || str.equals(""))
                 throw new IllegalArgumentException("Incorrect filename, or userId, or projectId");
         }
-        return findUser(Integer.parseInt(data[2])).getProjects().persistById(file, data[0], data[1]);
+        return findUser(Integer.parseInt(data[2])).getProjects().persist(file, data[0], data[1]);
     }
 
     /**
@@ -317,7 +317,7 @@ public class UsersRepository implements IRepository {
         if (project == null) {
             throw new IllegalArgumentException("Project does not exist");
         }
-        for (String file : project.getFilenames()) {
+        for (String file : project.getReferenceNames()) {
             FileInfo info = FileRepository.getRepo().findFileById(file);
             if (info.getNameForUser().equals(filename)) {
                 return FileRepository.getRepo().findFileById(filename);
@@ -366,7 +366,7 @@ public class UsersRepository implements IRepository {
         if (project == null) {
             throw new IllegalArgumentException("Project does not exist");
         }
-        for (String file : project.getFilenames()) {
+        for (String file : project.getReferenceNames()) {
             if (file.equals(uniqueFilename)) {
                 return FileRepository.getRepo().findFileById(uniqueFilename);
             }

@@ -69,7 +69,7 @@ public class RConsoleController {
 		if (project == null) {
 			return null;
 		}
-		return project.addNewFile(scriptName, scriptText);
+		return project.addNewFile(scriptText, scriptName);
 	}
 
 	/**

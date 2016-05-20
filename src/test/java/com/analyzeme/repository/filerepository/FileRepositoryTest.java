@@ -74,7 +74,7 @@ public class FileRepositoryTest {
 	}
 
 	/**
-	 * Test method of getFileByID
+	 * Test method of getByReferenceName
 	 * should fail for empty repository
 	 */
 	@Test
