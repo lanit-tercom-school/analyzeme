@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface IDataSetResolver {
 
-    DataSet createDataSet(String key) throws Exception;
+    DataSet getDataSet(String key) throws Exception;
 }

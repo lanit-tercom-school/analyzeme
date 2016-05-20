@@ -78,6 +78,16 @@ public class DataSet {
     }
 
     /**
+     * @param referenceName - referenceName
+     * @throws Exception
+     */
+    public void setReferenceName(final String referenceName) throws Exception {
+        if (referenceName == null || referenceName.equals(""))
+            throw new IllegalArgumentException("DataSet setReferenceName(): empty argument cannot be used");
+        this.referenceName = referenceName;
+    }
+
+    /**
      * @param field - field alias (use in script) (if you call this it will be used as a field name too)
      * @throws Exception
      */

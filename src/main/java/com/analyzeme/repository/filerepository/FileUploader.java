@@ -21,6 +21,8 @@ public class FileUploader {
         }
         ISourceInfo source = new JsonPointFileInRepositoryInfo(nameInRepo);
         DataSet result = new DataSet(referenceName, source);
+        //next line should be deprecated when real referenceName is ready
+        result.setReferenceName(nameInRepo);
         return result;
     }
 
@@ -34,6 +36,8 @@ public class FileUploader {
         }
         ISourceInfo source = new JsonPointFileInRepositoryInfo(nameInRepo);
         DataSet result = new DataSet(referenceName, source);
+        //next line should be deprecated when real referenceName is ready
+        result.setReferenceName(nameInRepo);
         return result;
     }
 
@@ -47,6 +51,8 @@ public class FileUploader {
         }
         ISourceInfo source = new JsonPointFileInRepositoryInfo(nameInRepo);
         DataSet result = new DataSet(referenceName, source);
+        //next line should be deprecated when real referenceName is ready
+        result.setReferenceName(nameInRepo);
         return result;
     }
 }

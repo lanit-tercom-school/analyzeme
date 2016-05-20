@@ -68,7 +68,7 @@ class RFileLinker {
 			} else {
 				res = DataSetResolversFactory.getDataSetResolver(null);
 			}
-			DataSet data = res.createDataSet(m.group(fileGroup));
+			DataSet data = res.getDataSet(m.group(fileGroup));
 			DataSet found = findInList(result, data);
 			if (found == null) {
 				data.addField(m.group(fieldGroup));
@@ -122,7 +122,7 @@ class RFileLinker {
 			} else {
 				res = DataSetResolversFactory.getDataSetResolver(null);
 			}
-			DataSet data = res.createDataSet(m.group(fileGroup));
+			DataSet data = res.getDataSet(m.group(fileGroup));
 			DataSet found = findInList(result, data);
 			if (found == null) {
 				data.addField(m.group(fieldGroup));
