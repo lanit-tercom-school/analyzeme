@@ -101,12 +101,12 @@ public class ProjectsRepository {
      * Return file if referenceName is given
      *
      * @param referenceName
-     * @return stream (or null if not found)
+     * @return dataset (or null if not found)
      */
-    public synchronized ByteArrayInputStream getByReferenceName(final String projectId, final String referenceName) throws Exception {
+    public synchronized DataSet getByReferenceName(final String projectId, final String referenceName) throws Exception {
         if (referenceName == null || referenceName.equals(""))
             throw new IllegalArgumentException("ProjectsRepository getByReferenceName(): wrong reference name");
-        return findProjectById(projectId).getDataSetByReferenceName(referenceName).getData();
+        return findProjectById(projectId).getDataSetByReferenceName(referenceName);
     }
 
     //info about files for demo project
@@ -134,34 +134,6 @@ public class ProjectsRepository {
 
     public List<ProjectInfo> getProjects() {
         return projects;
-    }
-
-    /**
-     * returns all names of projects
-     *
-     * @return
-     */
-    public List<String> returnAllProjectsNames() {
-        if (projects.isEmpty()) return null;
-        ArrayList<String> names = new ArrayList<String>();
-        for (ProjectInfo info : projects) {
-            names.add(info.getProjectName());
-        }
-        return names;
-    }
-
-    /**
-     * returns all names of active projects
-     *
-     * @return
-     */
-    public List<String> returnAllActiveProjectsNames() {
-        if (projects.isEmpty()) return null;
-        ArrayList<String> names = new ArrayList<String>();
-        for (ProjectInfo info : projects) {
-            if (info.isActive()) names.add(info.getProjectName());
-        }
-        return names;
     }
 
     /**

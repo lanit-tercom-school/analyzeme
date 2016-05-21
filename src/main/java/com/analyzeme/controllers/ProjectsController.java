@@ -102,24 +102,6 @@ public class ProjectsController {
 	}
 
 	/**
-	 * gets all projects for "guest" user
-	 */
-	@RequestMapping(value = "/user/projects", method = RequestMethod.GET)
-	public List<String> getProjectNames() throws IOException {
-		try {
-			if (UsersRepository.getRepo().checkInitialization() == null) {
-				return null;
-			}
-			//this returns all projects (temporary deleted included)
-			//to get only active projects use ...returnAllActiveProjectsNames()
-			return UsersRepository.getRepo().findUser("guest").getProjects().returnAllProjectsNames();
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	/**
 	 * returns info about all projects
 	 *
 	 * @throws IOException
