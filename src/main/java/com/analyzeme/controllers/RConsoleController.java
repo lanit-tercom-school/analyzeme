@@ -65,11 +65,9 @@ public class RConsoleController {
 							 @PathVariable("project_id") String projectId,
 							 @RequestHeader("name") String scriptName,
 							 @RequestBody String scriptText) throws Exception {
-		if (UsersRepository.getRepo().checkInitialization() == null) {
-			return null;
-		}
+		UsersRepository.checkInitialization();
 		DataSet file = FileUploader.upload(scriptText, scriptName, scriptName);
-		ProjectInfo project = UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId);
+		ProjectInfo project = UsersRepository.findUser(userId).getProjects().findProjectById(projectId);
 		if (project == null) {
 			return null;
 		}
@@ -91,11 +89,8 @@ public class RConsoleController {
 	public String getScript(@PathVariable("user_id") int userId,
 							@PathVariable("project_id") String projectId,
 							@RequestHeader("refName") String scriptRefName) throws Exception {
-
-		if (UsersRepository.getRepo().checkInitialization() == null) {
-			return null;
-		}
-		FileInfo file = UsersRepository.getRepo().findByReferenceName(scriptRefName, new String[]{String.valueOf(userId), projectId});
+		UsersRepository.checkInitialization();
+		FileInfo file = UsersRepository.findByReferenceName(scriptRefName, new String[]{String.valueOf(userId), projectId});
 		if (file == null) {
 			return null;
 		}

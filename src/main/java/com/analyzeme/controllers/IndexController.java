@@ -13,12 +13,14 @@ public class IndexController {
         ModelAndView mav = new ModelAndView("index");
 
         String msg = "Running IndexController.index() method";
+
+        UsersRepository.checkInitializationAndCreate();
         try {
-            UsersRepository.getRepo().findUser("guest");
+            UsersRepository.findUser("guest");
         } catch (IllegalArgumentException e) {
             //login, email, password  (IN THIS ORDER)
             String[] param = {"guest", "guest@mail.sth", "1234"};
-            UsersRepository.getRepo().newItem(param);
+            UsersRepository.newItem(param);
         }
         mav.addObject("msg", msg);
         return mav;

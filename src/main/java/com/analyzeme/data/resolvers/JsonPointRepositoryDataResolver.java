@@ -25,7 +25,7 @@ public class JsonPointRepositoryDataResolver implements IDataSetResolver {
     }
 
     public DataSet getDataSet(final String referenceName) throws Exception {
-        ProjectInfo project = UsersRepository.getRepo().findUser(Integer.parseInt(params[0])).getProjects().findProjectById(params[1]);
+        ProjectInfo project = UsersRepository.findUser(Integer.parseInt(params[0])).getProjects().findProjectById(params[1]);
         return project.getDataSetByReferenceName(referenceName);
     }
 }

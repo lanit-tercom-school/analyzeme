@@ -14,28 +14,19 @@ import java.util.List;
  * Created by lagroffe on 22.02.2016 23:03
  */
 
-public class UsersRepository implements IRepository {
-    private static UsersRepository repo = new UsersRepository();
+public class UsersRepository {
     private static List<UserInfo> users;
     //unique id of a new user - users.size()+1 (complete user deletion is not planned)
 
+    static synchronized void deleteForTests() {
+        users = null;
+    }
     /**
      * ctor should be private - call only from checkInitializationAndCreate()
      */
     private UsersRepository() {
         users = new ArrayList<UserInfo>();
     }
-
-    public static UsersRepository getRepo() {
-        return repo;
-    }
-
-    public static List<UserInfo> getUsers() {
-        return users;
-    }
-
-
-    //TODO: when real users are added, checkInitializationAndCreate() should be private and called from creation of a new user only (newItem)
 
     /**
      * checks if the object of class exists
@@ -44,11 +35,10 @@ public class UsersRepository implements IRepository {
      *
      * @return unique object of repository
      */
-    public synchronized IRepository checkInitializationAndCreate() {
+    public static synchronized void checkInitializationAndCreate() {
         if (users == null) {
             new UsersRepository();
         }
-        return repo;
     }
 
     /**
@@ -58,11 +48,10 @@ public class UsersRepository implements IRepository {
      *
      * @return existing unique object of repository or null
      */
-    public synchronized IRepository checkInitialization() {
+    public static synchronized void checkInitialization() throws IllegalStateException {
         if (users == null) {
-            return null;
+            throw new IllegalStateException("UsersRepository does not exist");
         }
-        return repo;
     }
 
 
@@ -73,7 +62,9 @@ public class UsersRepository implements IRepository {
      * @return id in repository or throws Exception
      * @throws Exception
      */
-    public synchronized String newItem(final String[] data) throws Exception {
+    public static synchronized String newItem(final String[] data) throws Exception {
+        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
+        if(data.length != 3) throw new IllegalArgumentException("UsersRepository newItem(): wrong parameters");
         for (String str : data) {
             if (str == null || str.equals(""))
                 throw new IllegalArgumentException("UsersRepository newItem(): empty argument");
@@ -90,7 +81,8 @@ public class UsersRepository implements IRepository {
      * @param id - user id in repository
      * @throws Exception
      */
-    public synchronized UserInfo findUser(final int id) throws Exception {
+    public static synchronized UserInfo findUser(final int id) throws Exception {
+        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
         if (id <= 0 || id > users.size())
             throw new ArrayIndexOutOfBoundsException("UsersRepository findUser(int): incorrect userId");
         return users.get(id - 1);
@@ -102,7 +94,8 @@ public class UsersRepository implements IRepository {
      * @param username
      * @throws Exception
      */
-    public synchronized UserInfo findUser(final String username) throws Exception {
+    public static synchronized UserInfo findUser(final String username) throws Exception {
+        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
         if (username == null || username.equals(""))
             throw new IllegalArgumentException("UsersRepository findUser(String): empty userId");
         for (UserInfo info : users) {
@@ -121,7 +114,8 @@ public class UsersRepository implements IRepository {
      * @return project id
      * @throws Exception
      */
-    public synchronized String newProject(final String username, final String projectName) throws Exception {
+    public static synchronized String newProject(final String username, final String projectName) throws Exception {
+        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
         if (username == null || username.equals("") || projectName == null || projectName.equals(""))
             throw new IllegalArgumentException("UsersRepository newProject(String): incorrect username or projectName");
         return findUser(username).getProjects().createProject(projectName);
@@ -135,7 +129,8 @@ public class UsersRepository implements IRepository {
      * @return project id
      * @throws Exception
      */
-    public synchronized String newProject(final int userId, final String projectName) throws Exception {
+    public static synchronized String newProject(final int userId, final String projectName) throws Exception {
+        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
         if (userId <= 0 || projectName == null || projectName.equals(""))
             throw new IllegalArgumentException("UsersRepository newProject(int): incorrect userId or projectName");
         return findUser(userId).getProjects().createProject(projectName);
@@ -146,7 +141,8 @@ public class UsersRepository implements IRepository {
      *
      * @return list of names or null if repository is empty
      */
-    public synchronized List<String> getAllIds() {
+    public static synchronized List<String> getAllIds() {
+        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
         ArrayList<String> names = new ArrayList<String>();
         for (UserInfo info : users) {
             names.add(Integer.toString(info.getId()));
@@ -162,7 +158,8 @@ public class UsersRepository implements IRepository {
      * @param params        - userId, projectId
      * @return
      */
-    public synchronized FileInfo findByReferenceName(final String referenceName, final String[] params) throws Exception {
+    public static synchronized FileInfo findByReferenceName(final String referenceName, final String[] params) throws Exception {
+        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
         DataSet set = getDataSetByReferenceName(referenceName, params);
         if (set == null)
             throw new IllegalArgumentException("UsersRepository findByReferenceName(): impossible to find dataset");
@@ -177,18 +174,18 @@ public class UsersRepository implements IRepository {
      * @param params        - userId, projectId
      * @return
      */
-    public synchronized DataSet getDataSetByReferenceName(final String referenceName, final String[] params) throws Exception {
+    public static synchronized DataSet getDataSetByReferenceName(final String referenceName, final String[] params) throws Exception {
+        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
         if (referenceName == null || referenceName.equals(""))
             throw new IllegalArgumentException("UsersRepository findByReferenceName(): empty referenceName");
+        if(params.length != 2)
+            throw new IllegalArgumentException("UsersRepository findByReferenceName(): wrong params");
         for (String str : params) {
             if (str == null || str.equals(""))
                 throw new IllegalArgumentException("UsersRepository findByReferenceName(): empty projectId or userId");
         }
         int userId = Integer.parseInt(params[0]);
         UserInfo user = findUser(userId);
-        if (userId == 0 || user == null) {
-            throw new IllegalArgumentException("UsersRepository findByReferenceName(): user does not exist");
-        }
         String projectId = params[1];
         ProjectInfo project = user.getProjects().findProjectById(projectId);
         if (project == null) {

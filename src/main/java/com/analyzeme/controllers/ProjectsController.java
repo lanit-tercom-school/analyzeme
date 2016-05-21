@@ -29,10 +29,8 @@ public class ProjectsController {
 			throw new IllegalArgumentException("Incorrect userId or/and projectId");
 		}
 		try {
-			if (UsersRepository.getRepo().checkInitialization() == null) {
-				throw new IllegalArgumentException("User does not exist");
-			}
-			return "{ \"Files\" : " + UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).returnActiveFilesForList() + "}";
+			UsersRepository.checkInitialization();
+			return "{ \"Files\" : " + UsersRepository.findUser(userId).getProjects().findProjectById(projectId).returnActiveFilesForList() + "}";
 			//to get only active files use:
 			//ArrayList<String> filenames = UsersRepository.repo.findUser("guest").projects.findProject(projectName).returnAllNamesOfActiveFiles();
 		} catch (Exception e) {
@@ -55,17 +53,17 @@ public class ProjectsController {
 		try {
 			//when other users created, CheckInitializationAndCreate() should be called from user creator only
 			//now it's possible to create a default user here
-			UsersRepository.getRepo().checkInitializationAndCreate();
+			UsersRepository.checkInitializationAndCreate();
 			try {
-				UsersRepository.getRepo().findUser("guest");
+				UsersRepository.findUser("guest");
 			} catch (IllegalArgumentException e) {
 				//login, email, password
 				String[] param = {"guest", "guest@mail.sth", "1234"};
-				UsersRepository.getRepo().newItem(param);
+				UsersRepository.newItem(param);
 			}
 			//now username is used here
 			//to use userId just change "guest" to int with it
-			String project = UsersRepository.getRepo().newProject(userId, projectName);
+			String project = UsersRepository.newProject(userId, projectName);
 			if (project == null) return null;
 			else return project;
 		} catch (Exception e) {
@@ -86,14 +84,14 @@ public class ProjectsController {
 	public HttpStatus deleteProjectById(@PathVariable("user_id") int userId, @PathVariable("unique_name") String uniqueName)
 			throws IOException {
 		try {
-			if (UsersRepository.getRepo().checkInitialization() == null) {
-				//response.setHeader("Success", "project doesn't exist");
+			try {
+				UsersRepository.checkInitialization();
+			} catch (IllegalStateException e) {
 				return HttpStatus.NOT_FOUND;
 			}
-			//to change to deleting by id use ...projects.deactivateProjectById(projectId)
-			//deleteProject or deactivateProjectById deactivate project and all files in it
-			//to remove them completely use deleteProjectCompletely or deleteProjectCompletelyById
-			return (UsersRepository.getRepo().findUser(userId).getProjects().deactivateProjectById(uniqueName) ?
+			//deactivateProjectById deactivate project and all files in it
+			//to remove them completely use deleteProjectCompletelyById
+			return (UsersRepository.findUser(userId).getProjects().deactivateProjectById(uniqueName) ?
 					HttpStatus.OK : HttpStatus.BAD_REQUEST);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -109,10 +107,8 @@ public class ProjectsController {
 	@RequestMapping(value = "/projects/info", method = RequestMethod.GET)
 	public String getProjectsInfo() throws IOException {
 		try {
-			if (UsersRepository.getRepo().checkInitialization() == null) {
-				return null;
-			}
-			return InfoToJson.convert(UsersRepository.getRepo().findUser("guest").getProjects().getProjects());
+			UsersRepository.checkInitialization();
+			return InfoToJson.convert(UsersRepository.findUser("guest").getProjects().getProjects());
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;

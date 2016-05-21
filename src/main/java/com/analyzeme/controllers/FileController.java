@@ -39,8 +39,9 @@ public class FileController {
 			String responseToJS;
 			String fileName = multipartFile.getOriginalFilename();
 
-			UsersRepository.getRepo().checkInitializationAndCreate();
-			UserInfo user = UsersRepository.getRepo().findUser(userId);
+			//after users added, change next line to UsersRepository.checkInitialization();
+			UsersRepository.checkInitializationAndCreate();
+			UserInfo user = UsersRepository.findUser(userId);
 			ProjectInfo project = user.getProjects().findProjectById(projectUniqueName);
 			if (project == null) {
 				throw new Exception();
@@ -74,18 +75,18 @@ public class FileController {
 			String responseToJS;
 			String fileName = multipartFile.getOriginalFilename();
 
-			UsersRepository.getRepo().checkInitializationAndCreate();
+			UsersRepository.checkInitializationAndCreate();
 			try {
-				UsersRepository.getRepo().findUser("guest");
+				UsersRepository.findUser("guest");
 			} catch (IllegalArgumentException e) {
 				//login, email, password  (IN THIS ORDER)
 				String[] param = {"guest", "guest@mail.sth", "1234"};
-				UsersRepository.getRepo().newItem(param);
+				UsersRepository.newItem(param);
 			}
 
 			//second filename here should be changed to reference name when UI is ready
 			DataSet set = FileUploader.upload(multipartFile, fileName, fileName);
-			UsersRepository.getRepo().findUser("guest").getProjects().findProjectById("demo").persist(set);
+			UsersRepository.findUser("guest").getProjects().findProjectById("demo").persist(set);
 
 			//Set responseHeaders "Data" and "fileName";
 			response.setHeader("fileName", set.getReferenceName());
@@ -145,7 +146,7 @@ public class FileController {
 	public String getFileFields(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference") String reference) throws Exception {
 		if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		DataSet set = UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
+		DataSet set = UsersRepository.findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
 		if (set == null)
 			throw new NullPointerException("File not found");
 		return InfoToJson.convertDataSet(set);
@@ -159,7 +160,7 @@ public class FileController {
 	public String getFullFileInfo(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference") String reference) throws Exception {
 		if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
 			throw new IllegalArgumentException();
-		DataSet set = UsersRepository.getRepo().findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
+		DataSet set = UsersRepository.findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
 		if (set == null)
 			throw new NullPointerException("File not found");
 
