@@ -5,7 +5,7 @@ import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
 /**
  * Created by lagroffe on 20.05.2016 21:27
@@ -27,7 +27,7 @@ public class FileUploader {
     }
 
     public static DataSet upload(String file, String filename, String referenceName) throws Exception {
-        if (filename == null || filename.equals("") || file == null) {
+        if (filename == null || filename.equals("") || file == null || file.equals("")) {
             throw new IllegalArgumentException("FileUploader upload(String): empty argument");
         }
         String nameInRepo = FileRepository.getRepo().persist(file, filename);
@@ -41,7 +41,7 @@ public class FileUploader {
         return result;
     }
 
-    public static DataSet upload(ByteArrayInputStream part, String filename, String referenceName) throws Exception {
+    public static DataSet upload(InputStream part, String filename, String referenceName) throws Exception {
         if (filename == null || filename.equals("") || part == null) {
             throw new IllegalArgumentException("FileUploader upload(ByteArrayInputStream): empty argument");
         }

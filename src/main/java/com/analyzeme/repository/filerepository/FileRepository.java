@@ -59,7 +59,7 @@ public class FileRepository implements IFileRepository {
      * @param filename - filename given by user
      * @return uniqueName - if succeed, exception if not
      */
-    public synchronized String persist(ByteArrayInputStream part, final String filename) throws IOException {
+    public synchronized String persist(InputStream part, final String filename) throws IOException {
         if (part == null) throw new IllegalArgumentException();
         if (filename == null || filename.equals(""))
             throw new IllegalArgumentException("FileRepository persist(ByteArrayInputStream): wrong filename");

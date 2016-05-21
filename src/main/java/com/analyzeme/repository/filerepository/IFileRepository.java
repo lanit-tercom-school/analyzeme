@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 public interface IFileRepository {
@@ -25,7 +26,7 @@ public interface IFileRepository {
 	 * @param filename - filename given by user
 	 * @return name in repository if succeed, exception if not
 	 */
-	String persist(final ByteArrayInputStream part, final String filename) throws IOException;
+	String persist(final InputStream part, final String filename) throws IOException;
 
 	/**
 	 * same with persist except for Part object
