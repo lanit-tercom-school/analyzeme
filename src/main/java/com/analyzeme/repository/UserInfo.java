@@ -27,7 +27,7 @@ public class UserInfo {
     UserInfo(final String login, final int id, final String email, final String password) throws Exception {
         if (login == null || login.equals("")) throw new IllegalArgumentException("UserInfo ctor: empty login");
         this.login = login;
-        if (id == 0) throw new IOException("UserInfo ctor: wrong id");
+        if (id <= 0) throw new IllegalArgumentException("UserInfo ctor: wrong id");
         this.id = id;
         if (email == null || email.equals("")) throw new IllegalArgumentException("UserInfo ctor: empty email");
         this.email = email;
@@ -41,7 +41,7 @@ public class UserInfo {
         return login.toString();
     }
 
-    public void setLogin(String login) throws IOException {
+    public void setLogin(String login) throws IllegalArgumentException {
         if (login == null || login.equals("")) throw new IllegalArgumentException("UserInfo setLogin(): empty login");
         this.login = login;
     }
@@ -50,7 +50,7 @@ public class UserInfo {
         return email.toString();
     }
 
-    public void setEmail(String email) throws IOException {
+    public void setEmail(String email) throws IllegalArgumentException {
         if (email == null || email.equals("")) throw new IllegalArgumentException("UserInfo setEmail(): empty email");
         this.email = email;
     }
@@ -59,7 +59,7 @@ public class UserInfo {
         return password.toString();
     }
 
-    public void setPassword(String password) throws IOException {
+    public void setPassword(String password) throws IllegalArgumentException {
         if (password == null || password.equals(""))
             throw new IllegalArgumentException("UserInfo setPassword(): empty password");
         this.password = password;

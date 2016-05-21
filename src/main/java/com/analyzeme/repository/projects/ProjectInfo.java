@@ -63,11 +63,13 @@ public class ProjectInfo {
         for (DataSet set : datasets) {
             if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class)) {
                 FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
-                if (info.isActive()) {
-                    JSONObject file = new JSONObject();
-                    file.put("uniqueName", info.getUniqueName());
-                    file.put("nameForUser", info.getNameForUser());
-                    result.add(file);
+                if (info != null) {
+                    if (info.isActive()) {
+                        JSONObject file = new JSONObject();
+                        file.put("uniqueName", info.getUniqueName());
+                        file.put("nameForUser", info.getNameForUser());
+                        result.add(file);
+                    }
                 }
             }
         }
@@ -83,7 +85,8 @@ public class ProjectInfo {
         if (getReferenceNames().isEmpty()) return null;
         ArrayList<String> names = new ArrayList<String>();
         for (String name : getReferenceNames()) {
-            if (FileRepository.getRepo().findFileById(name).isActive()) names.add(name);
+            FileInfo info = FileRepository.getRepo().findFileById(name);
+            if (info != null && info.isActive()) names.add(name);
         }
         return names;
     }
@@ -129,6 +132,8 @@ public class ProjectInfo {
      * @throws Exception
      */
     public DataSet getDataSetByReferenceName(final String referenceName) throws Exception {
+        if (referenceName == null || referenceName.equals(""))
+            throw new IllegalArgumentException("ProjectInfo getDataSetByReferenceName(): wrong referenceName");
         for (DataSet set : datasets) {
             if (set.getReferenceName().equals(referenceName)) {
                 return set;
@@ -144,7 +149,9 @@ public class ProjectInfo {
         for (DataSet set : datasets) {
             if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class)) {
                 FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
-                info.setIsActive(false);
+                if (info != null) {
+                    info.setIsActive(false);
+                }
             }
         }
     }

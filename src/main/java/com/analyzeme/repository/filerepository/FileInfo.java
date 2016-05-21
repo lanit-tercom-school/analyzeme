@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
+import java.util.IllegalFormatCodePointException;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -57,6 +58,7 @@ public class FileInfo {
         this.setNameForUser(nameForUser);
         if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException("FileInfo ctor: wrong uniqueName");
         this.uniqueName = uniqueName;
+        if(data == null) throw new IllegalArgumentException("FileInfo ctor: data is null");
         this.setData(new ByteArrayInputStream(getBytesFromInputStream(data)));
         //default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
         uploadingDate = new Date();
