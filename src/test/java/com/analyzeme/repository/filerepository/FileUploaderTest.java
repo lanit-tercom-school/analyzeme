@@ -17,89 +17,89 @@ public class FileUploaderTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void nullFileForUploadMultipart() throws Exception {
-        FileUploader.upload((MultipartFile) null, "sth", "sth");
+        FileUploader.upload((MultipartFile) null, "sth", "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullNameForUploadMultipart() throws Exception {
         MockMultipartFile file = new MockMultipartFile("sth", new byte[]{'a', 'b'});
-        FileUploader.upload(file, null, "sth");
+        FileUploader.upload(file, null, "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyNameForUploadMultipart() throws Exception {
         MockMultipartFile file = new MockMultipartFile("sth", new byte[]{'a', 'b'});
-        FileUploader.upload(file, "", "sth");
+        FileUploader.upload(file, "", "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullReferenceForUploadMultipart() throws Exception {
         MockMultipartFile file = new MockMultipartFile("sth", new byte[]{'a', 'b'});
-        FileUploader.upload(file, "sth", null);
+        FileUploader.upload(file, "sth", null, TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyReferenceForUploadMultipart() throws Exception {
         MockMultipartFile file = new MockMultipartFile("sth", new byte[]{'a', 'b'});
-        FileUploader.upload(file, "sth", "");
+        FileUploader.upload(file, "sth", "", TypeOfFile.SIMPLE_JSON);
     }
 
      @Test(expected = IllegalArgumentException.class)
     public void nullFileForUploadString() throws Exception {
-         FileUploader.upload((String)null, "sth", "sth");
+         FileUploader.upload((String)null, "sth", "sth", TypeOfFile.SIMPLE_JSON);
      }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyFileForUploadString() throws Exception {
-        FileUploader.upload("", "sth", "sth");
+        FileUploader.upload("", "sth", "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullNameForUploadString() throws Exception {
-        FileUploader.upload("sth", null, "sth");
+        FileUploader.upload("sth", null, "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyNameForUploadString() throws Exception {
-        FileUploader.upload("sth", "", "sth");
+        FileUploader.upload("sth", "", "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullReferenceForUploadString() throws Exception {
-        FileUploader.upload("sth", "sth", null);
+        FileUploader.upload("sth", "sth", null, TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyReferenceForUploadString() throws Exception {
-        FileUploader.upload("sth", "sth", "");
+        FileUploader.upload("sth", "sth", "", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullFileForUploadStream() throws Exception {
-        FileUploader.upload((ByteArrayInputStream)null, "sth", "sth");
+        FileUploader.upload((ByteArrayInputStream)null, "sth", "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullNameForUploadStream() throws Exception {
         InputStream stream = new ByteArrayInputStream(new byte[]{'a', 'b'});
-        FileUploader.upload(stream, null, "sth");
+        FileUploader.upload(stream, null, "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyNameForUploadStream() throws Exception {
         InputStream stream = new ByteArrayInputStream(new byte[]{'a', 'b'});
-        FileUploader.upload(stream, "", "sth");
+        FileUploader.upload(stream, "", "sth", TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullReferenceForUploadStream() throws Exception {
         InputStream stream = new ByteArrayInputStream(new byte[]{'a', 'b'});
-        FileUploader.upload(stream, "sth", null);
+        FileUploader.upload(stream, "sth", null, TypeOfFile.SIMPLE_JSON);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyReferenceForUploadStream() throws Exception {
         InputStream stream = new ByteArrayInputStream(new byte[]{'a', 'b'});
-        FileUploader.upload(stream, "sth", "");
+        FileUploader.upload(stream, "sth", "", TypeOfFile.SIMPLE_JSON);
     }
 }

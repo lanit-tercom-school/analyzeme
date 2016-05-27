@@ -7,6 +7,7 @@ import com.analyzeme.data.DataSet;
 import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.FileUploader;
+import com.analyzeme.repository.filerepository.TypeOfFile;
 import com.analyzeme.repository.projects.ProjectInfo;
 import com.analyzeme.repository.UsersRepository;
 import org.apache.commons.io.IOUtils;
@@ -66,7 +67,8 @@ public class RConsoleController {
 							 @RequestHeader("name") String scriptName,
 							 @RequestBody String scriptText) throws Exception {
 		UsersRepository.checkInitialization();
-		DataSet file = FileUploader.upload(scriptText, scriptName, scriptName);
+		//TODO: change type_of_call later
+		DataSet file = FileUploader.upload(scriptText, scriptName, scriptName, TypeOfFile.SIMPLE_JSON);
 		ProjectInfo project = UsersRepository.findUser(userId).getProjects().findProjectById(projectId);
 		if (project == null) {
 			return null;
