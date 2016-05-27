@@ -13,7 +13,7 @@ import org.eclipse.jetty.server.Authentication;
  * Created by lagroffe on 30.03.2016 13:17
  */
 
-public class JsonPointRepositoryDataResolver implements IDataSetResolver {
+public class FileInRepositoryResolver implements IDataSetResolver {
     private String[] params;
 
     public void setProject(final int userId, final String projectId) throws IllegalArgumentException {

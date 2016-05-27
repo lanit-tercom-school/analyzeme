@@ -10,7 +10,7 @@ public class DataSetResolversFactory {
             throw new IllegalArgumentException("Impossible type of data source");
         switch (type) {
             case REPO: {
-                return new JsonPointRepositoryDataResolver();
+                return new FileInRepositoryResolver();
             }
             default: {
                 throw new IllegalArgumentException("DataSetResolversFactory: internal error with enum");

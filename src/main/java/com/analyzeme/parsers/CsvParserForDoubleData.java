@@ -26,7 +26,7 @@ public class CsvParserForDoubleData {
             throw new IllegalArgumentException("CsvParserForDoubleData parse(): impossible to parse null");
         CsvParser parser = new CsvParser(settings);
         List<String[]> allRows = parser.parseAll(stream);
-        if (!allRows.isEmpty()) {
+        if (!allRows.isEmpty() || allRows.size() == 1) {
             String[] names = allRows.get(0);
             DoubleDataArray result = new DoubleDataArray();
             for (int i = 1; i < allRows.size(); i++) {

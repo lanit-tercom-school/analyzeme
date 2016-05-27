@@ -2,6 +2,7 @@ package com.analyzeme.repository.projects;
 
 import com.analyzeme.data.DataSet;
 import com.analyzeme.repository.filerepository.FileUploader;
+import com.analyzeme.repository.filerepository.TypeOfFile;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -124,8 +125,8 @@ public class ProjectsRepository {
         String projectName = "demo";
         String uniqueName = "demo";
         ProjectInfo info = new ProjectInfo(projectName, uniqueName);
-        DataSet demoFile1set = FileUploader.upload(demoFile1, demoFile1Name, demoFile1RefName);
-        DataSet demoFile2set = FileUploader.upload(demoFile2, demoFile2Name, demoFile2RefName);
+        DataSet demoFile1set = FileUploader.upload(demoFile1, demoFile1Name, demoFile1RefName, TypeOfFile.SIMPLE_JSON);
+        DataSet demoFile2set = FileUploader.upload(demoFile2, demoFile2Name, demoFile2RefName, TypeOfFile.SIMPLE_JSON);
         info.persist(demoFile1set);
         info.persist(demoFile2set);
         projects.add(info);
