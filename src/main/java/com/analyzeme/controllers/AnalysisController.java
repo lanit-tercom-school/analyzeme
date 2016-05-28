@@ -4,6 +4,8 @@ import com.analyzeme.R.facade.RFacade;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import com.analyzeme.analyze.Point;
+import com.analyzeme.data.DataSet;
+import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.parsers.JsonParserException;
 import com.analyzeme.parsers.PointToJson;
@@ -27,29 +29,51 @@ import java.util.List;
 @RestController
 public class AnalysisController {
 
-	/**
-	 * @param fileName
-	 * @return file data in string format
-	 * null if file doesn't exist
-	 * @throws IOException
-	 */
-	@RequestMapping(value = "/file/{file_name}/data", method = RequestMethod.GET)
-	public String getData(@PathVariable("file_name") String fileName, HttpServletResponse response)
-			throws IOException {
-		try {
-			ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
+	 //THIS WILL WORK FOR JSON_SIMPLE ONLY
+    /**
+     * @param fileName
+     * @return file data in string format
+     * null if file doesn't exist
+     * @throws IOException
+     */
+    @RequestMapping(value = "/file/{file_name}/data", method = RequestMethod.GET)
+    public String getData(@PathVariable("file_name") String fileName, HttpServletResponse response)
+            throws IOException {
+        try {
+            ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
 		/*
 		Convert ByteArrayInputStream into String
          */
-			String Data = StreamToString.ConvertStream(file);
+            String Data = StreamToString.ConvertStream(file);
 
-			return Data;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
+            return Data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
 
-	}
+    }
+
+
+    @RequestMapping(value = "/file/{user_id}/{project_id}/{reference_name}/data", method = RequestMethod.GET)
+    public String getDataByReferenceName(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference_name") String referenceName, HttpServletResponse response)
+            throws IOException {
+        try {
+            FileInRepositoryResolver res = new FileInRepositoryResolver();
+            res.setProject(userId, projectId);
+            DataSet file = res.getDataSet(referenceName);
+		/*
+		Convert ByteArrayInputStream into String
+         */
+            String Data = StreamToString.ConvertStream(file.getData());
+
+            return Data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
 	//todo return HttpEntity<double>
 
