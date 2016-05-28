@@ -6,6 +6,7 @@ import com.analyzeme.repository.filerepository.FileRepository;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +18,7 @@ public class CsvFileInRepositoryInfo implements ISourceInfo {
 
     public CsvFileInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException, IOException {
         if (uniqueNameInRepository == null || uniqueNameInRepository.equals(""))
-            throw new IllegalArgumentException("JsonPointFileInRepositoryInfo ctor: wrong uniqueNameInRepository");
+            throw new IllegalArgumentException("CsvFileInRepositoryInfo ctor: wrong uniqueNameInRepository");
         this.uniqueNameInRepository = uniqueNameInRepository;
         ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
         file = CsvParserForDoubleData.parse(f);
@@ -33,5 +34,12 @@ public class CsvFileInRepositoryInfo implements ISourceInfo {
 
     public String getToken() throws Exception {
         return uniqueNameInRepository;
+    }
+
+
+    public List<Double> getByField(final String fieldName) throws Exception {
+        if (fieldName == null || fieldName.equals(""))
+            throw new IllegalArgumentException("CsvFileInRepositoryInfo getByField(): fieldName cannot be null or empty");
+        return file.getByKey(fieldName);
     }
 }

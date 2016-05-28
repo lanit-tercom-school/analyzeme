@@ -4,6 +4,7 @@ import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.CsvFileInRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.ScriptInRepositoryInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -34,6 +35,10 @@ public class FileUploader {
                     keysTemp.add(key);
                 }
                 keys = keysTemp;
+                break;
+            }
+            case SCRIPT: {
+                source = new ScriptInRepositoryInfo(nameInRepo);
                 break;
             }
         }

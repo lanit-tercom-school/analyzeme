@@ -1,13 +1,8 @@
 package com.analyzeme.data.resolvers;
 
 import com.analyzeme.data.DataSet;
-import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
-import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
-import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.UsersRepository;
-import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.projects.ProjectInfo;
-import org.eclipse.jetty.server.Authentication;
 
 /**
  * Created by lagroffe on 30.03.2016 13:17

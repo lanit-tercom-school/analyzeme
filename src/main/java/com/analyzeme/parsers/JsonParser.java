@@ -9,7 +9,7 @@ import org.json.simple.parser.ParseException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * Created by Andrey Kalikin on 07.12.2015.
@@ -90,6 +90,40 @@ public class JsonParser {
 			}
 
 			return points;
+		} catch (ParseException e) {
+			throw new JsonParserException(JsonParserException.ExceptionType.PARSE_FILE);
+		} catch (IOException e) {
+			throw new JsonParserException(e.getStackTrace().toString());
+		}
+	}
+
+	/**
+	 * Method for parsing string type {Data:[{"x": "1","y": "15"},{"x": "20","y": "60" }]}
+	 */
+	public Map<String, List<Double>> getPointsFromJsonWithNames(InputStream inputStream, Set<String> names) throws JsonParserException {
+		if (inputStream == null) {
+			throw new NullPointerException();
+		}
+
+		JSONParser parser = new JSONParser();
+
+		try {
+			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+			Object obj = parser.parse(inputStreamReader);
+			JSONObject jsonObject = (JSONObject) obj;
+			JSONArray jsonArray = (JSONArray) jsonObject.get(dataName);
+			Map<String, List<Double>> result = new HashMap<String, List<Double>>();
+			for(String name : names) {
+				 result.put(name, new ArrayList<Double>());
+			}
+			Iterator<JSONObject> iterator = jsonArray.iterator();
+			while (iterator.hasNext()) {
+				JSONObject jsonPoint = iterator.next();
+				for(Map.Entry<String, List<Double>> entry : result.entrySet()) {
+					entry.getValue().add(Double.parseDouble((String) jsonPoint.get(entry.getKey())));
+				}
+			}
+			return result;
 		} catch (ParseException e) {
 			throw new JsonParserException(JsonParserException.ExceptionType.PARSE_FILE);
 		} catch (IOException e) {

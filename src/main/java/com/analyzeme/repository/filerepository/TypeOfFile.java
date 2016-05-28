@@ -5,5 +5,6 @@ package com.analyzeme.repository.filerepository;
  */
 public enum TypeOfFile {
     SIMPLE_JSON,
-    CSV
+    CSV,
+    SCRIPT
 }
