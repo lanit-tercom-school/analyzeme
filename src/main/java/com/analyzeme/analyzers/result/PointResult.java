@@ -10,8 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class PointResult implements IResult {
 
-    private ObjectMapper mapper = new ObjectMapper();
-    private Point result;
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final Point result;
 
     public PointResult(final Point result) {
         this.result = result;

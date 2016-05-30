@@ -163,7 +163,7 @@ public class FileController {
         }
         FileInfo info = FileRepository.getRepo().findFileById(referenceName);
         if (info == null) {
-            throw new NullPointerException("File not found");
+            throw new IllegalArgumentException("File not found");
         }
         return InfoToJson.convertFileInfo(info);
     }
@@ -179,7 +179,7 @@ public class FileController {
         }
         DataSet set = UsersRepository.findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
         if (set == null) {
-            throw new NullPointerException("File not found");
+            throw new IllegalArgumentException("File not found");
         }
         return InfoToJson.convertDataSet(set);
     }
@@ -195,7 +195,7 @@ public class FileController {
         }
         DataSet set = UsersRepository.findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
         if (set == null) {
-            throw new NullPointerException("File not found");
+            throw new IllegalArgumentException("File not found");
         }
 
         return InfoToJson.convertInfoAboutFile(FileRepository.getRepo().findFileById(set.getFile().getToken()), set);

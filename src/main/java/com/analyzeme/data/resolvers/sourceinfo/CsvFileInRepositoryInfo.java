@@ -13,8 +13,8 @@ import java.util.Set;
  * Created by lagroffe on 27.05.2016 20:00
  */
 public class CsvFileInRepositoryInfo implements ISourceInfo {
-    private String uniqueNameInRepository;
-    private DoubleDataArray file;
+    private final String uniqueNameInRepository;
+    private final DoubleDataArray file;
 
     public CsvFileInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException, IOException {
         if (uniqueNameInRepository == null || uniqueNameInRepository.equals("")) {

@@ -14,18 +14,18 @@ import java.util.Map;
  * Created by lagroffe on 27.05.2016 18:23
  */
 public class CsvParserForDoubleData {
-    private static CsvParserSettings settings;
+    private final static CsvParserSettings SETTINGS;
 
     static {
-        settings = new CsvParserSettings();
-        settings.getFormat().setLineSeparator("\n");
+        SETTINGS = new CsvParserSettings();
+        SETTINGS.getFormat().setLineSeparator("\n");
     }
 
     public static DoubleDataArray parse(InputStream stream) throws IllegalArgumentException {
         if (stream == null) {
             throw new IllegalArgumentException("CsvParserForDoubleData parse(): impossible to parse null");
         }
-        CsvParser parser = new CsvParser(settings);
+        CsvParser parser = new CsvParser(SETTINGS);
         List<String[]> allRows = parser.parseAll(stream);
         if (!allRows.isEmpty() || allRows.size() == 1) {
             String[] names = allRows.get(0);

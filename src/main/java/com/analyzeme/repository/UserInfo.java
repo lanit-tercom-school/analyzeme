@@ -15,12 +15,12 @@ public class UserInfo {
     @JsonProperty("username")
     private String login;
     @JsonProperty("userId")
-    private int id;
+    private final int id;
     @JsonProperty("email")
     private String email;
     @JsonProperty("password")
     private String password;
-    private ProjectsRepository projects;
+    private final ProjectsRepository projects;
 
     UserInfo(final String login, final int id, final String email, final String password) throws Exception {
         if (login == null || login.equals("")) {

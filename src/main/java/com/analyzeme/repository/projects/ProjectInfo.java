@@ -27,10 +27,10 @@ public class ProjectInfo {
     @JsonProperty("uniqueName")
     private String uniqueName;
     @JsonProperty("creationDate")
-    private Date creationDate;
+    private final Date creationDate;
     @JsonProperty("lastChangeDate")
     private Date lastChangeDate;
-    private List<DataSet> datasets;
+    private final List<DataSet> datasets;
     @JsonProperty("isActive")
     private boolean isActive = true;
     private BigInteger counterOfDatasets;

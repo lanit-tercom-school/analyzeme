@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.util.Arrays;
 
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class FileRepositoryTest {
 	private static ByteArrayInputStream file;
@@ -39,7 +40,7 @@ public class FileRepositoryTest {
 
 	private Boolean checkCorrect() {
 		for (int i = 0; i < 200; i++) {
-			if (correct[i] == false) {
+			if (!correct[i]) {
 				return false;
 			}
 		}
@@ -52,25 +53,20 @@ public class FileRepositoryTest {
 	@Test
 	public void testAddNewFile() throws Exception {
 		FileRepositoryTest.repo = new FileRepository();
-		int a = 0;
 		String nameToWrite = "";
 		try {
 			for (int j = 0; j < 10; j++) {
 				nameToWrite = FileRepositoryTest.repo.persist(file, "filename.txt");
 			}
 		} catch (Exception e) {
-			assertTrue("Exceptions in adding new file", false);
-			a++;
+			fail("Exceptions in adding new file");
 		}
 		if (nameToWrite == null) {
-			assertTrue("Wrong return value in adding new file", false);
-			a++;
+			fail("Wrong return value in adding new file");
 		}
 		if (FileRepositoryTest.repo.countFiles() != 10) {
-			assertTrue("Wrong counter of added files", false);
-			a++;
+			fail("Wrong counter of added files");
 		}
-		if (a == 0) assertTrue("Exceptions in adding new file", true);
 	}
 
 	/**

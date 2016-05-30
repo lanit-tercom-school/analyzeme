@@ -13,8 +13,8 @@ import java.io.InputStream;
  * Created by Sergey
  */
 public class TestGetPointsFromPointJson {
-    JsonParser jsonParser;
-    Point[] points;
+    private JsonParser jsonParser;
+    private Point[] points;
 
     @Test(expected = NullPointerException.class)
     public void testNullArgumentInConstructor() throws Exception {

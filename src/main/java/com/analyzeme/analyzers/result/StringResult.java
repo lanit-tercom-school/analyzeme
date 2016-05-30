@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class StringResult implements IResult {
 
-    private ObjectMapper mapper = new ObjectMapper();
-    private String result;
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final String result;
 
     public StringResult(final String result) {
         this.result = result;

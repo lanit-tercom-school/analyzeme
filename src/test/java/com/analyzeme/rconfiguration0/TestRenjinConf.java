@@ -1,37 +1,34 @@
 package com.analyzeme.rconfiguration;
 
-
 import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
 
 /**
- * Test class for FakeRConf
+ * test for  RenjinConf
  */
-public class TestFakeRConf {
+public class TestRenjinConf {
+
     @Test
     /**
-     * test for FakeR
+     * test for Renjin
      */
-    public void testFakeR() throws Exception {
-        FakeRConf C1 = new FakeRConf();
-        FakeRConf C2 = new FakeRConf(false, "Example");
+    public void testRenjin() throws Exception {
+        RenjinConf C1 = new RenjinConf();
+        RenjinConf C2 = new RenjinConf(false, "Example");
         //is field flag=true?
         assertTrue(C1.isActive());
         //is field flag=false?
         assertTrue(!C2.isActive());
         //is field name="Example"?
         assertTrue(C2.getName().equals("Example"));
-// TODO: 28.04.2016  travicCI doesn't work
         //test ToJsonString
-        // assertTrue(C2.toJSONObject().toString().equals("{\"rConfType\":\"FakeRConf\",\"name\":\"Example\",\"activeFlag\":false}"));
-        //assertTrue(C1.toJSONObject().toString().equals("{\"rConfType\":\"FakeRConf\",\"name\":\"newFake\",\"activeFlag\":true}"));
-
+        // assertTrue(C1.toJSONObject().toString().equals("{\"rConfType\":\"RenjinConf\",\"name\":\"newRenjin\",\"activeFlag\":true}"));
+        //  assertTrue(C2.toJSONObject().toString().equals("{\"rConfType\":\"RenjinConf\",\"name\":\"Example\",\"activeFlag\":false}"));
         // test of method assignment;
         C1.assignment(C2);
         assertTrue(!C1.isActive());
         assertTrue(C1.getName().equals("Example"));
-
 
     }
 }

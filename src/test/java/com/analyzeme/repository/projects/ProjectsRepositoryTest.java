@@ -12,16 +12,16 @@ import org.junit.Test;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
+import static junit.framework.Assert.fail;
 
 public class ProjectsRepositoryTest {
 
     @Test
     public void testCtor() {
         try {
-            ProjectsRepository repo = new ProjectsRepository();
-            assertTrue(true);
+            new ProjectsRepository();
         } catch (Exception e) {
-           assertTrue("ProjectsRepository ctor: exception", false);
+            fail("ProjectsRepository ctor: exception");
         }
     }
 
@@ -72,7 +72,7 @@ public class ProjectsRepositoryTest {
             String id = repo.createProject("new");
             assertTrue("Wrong id of first project", id.equals("project"));
         } catch (Exception e) {
-            assertTrue("Something went wrong in createProject", false);
+            fail("Something went wrong in createProject");
         }
     }
 
@@ -105,7 +105,7 @@ public class ProjectsRepositoryTest {
             assertTrue("Deactivation is correct for recently added", names.size() == 1);
             return;
         }
-        assertTrue("Deactivation is not correct for recently added", false);
+        fail("Deactivation is not correct for recently added");
     }
 
     @Test(expected = IllegalArgumentException.class)

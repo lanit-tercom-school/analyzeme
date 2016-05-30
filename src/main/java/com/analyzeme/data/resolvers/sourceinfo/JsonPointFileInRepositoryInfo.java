@@ -13,7 +13,7 @@ import java.util.Set;
  * Created by lagroffe on 30.03.2016 13:33
  */
 public class JsonPointFileInRepositoryInfo implements ISourceInfo {
-    private String uniqueNameInRepository;
+    private final String uniqueNameInRepository;
 
     public JsonPointFileInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException {
         if (uniqueNameInRepository == null || uniqueNameInRepository.equals("")) {

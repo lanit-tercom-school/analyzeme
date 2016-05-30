@@ -30,7 +30,6 @@ public class TestRserveConf {
         assertTrue(C2.getPort().equals("8080"));
         //is field name="example"?
         assertTrue(C2.getName().equals("example"));
-        // TODO: 28.04.2016  travicCI doesn't work
         //test ToJsonString
         //assertTrue(C1.toJSONObject().toString().equals("{\"port\":null,\"rConfType\":\"RserveConf\",\"name\":\"newRServe\",\"host\":null,\"activeFlag\":true}"));
         //assertTrue(C2.toJSONObject().toString().equals("{\"port\":\"8080\",\"rConfType\":\"RserveConf\",\"name\":\"example\",\"host\":\"localhost\",\"activeFlag\":false}"));

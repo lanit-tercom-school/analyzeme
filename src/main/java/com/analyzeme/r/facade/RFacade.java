@@ -22,17 +22,22 @@ import java.util.List;
 
 public class RFacade {
     private static IRCaller caller;
+    //temporary until rconf is finished
+    private static final String RSERVE = "Rserve";
+    private static final String RENJIN = "Renjin";
+    private static final String FAKE = "Fake";
+
 
     static {
         caller = new Renjin();
     }
 
     public RFacade(final String type) throws IllegalArgumentException {
-        if (type.equals("Rserve")) {
+        if (type.equals(RSERVE)) {
             caller = new Rserve();
-        } else if (type.equals("Renjin")) {
+        } else if (type.equals(RENJIN)) {
             caller = new Renjin();
-        } else if (type.equals("Fake")) {
+        } else if (type.equals(FAKE)) {
             caller = new FakeR();
         } else {
             throw new IllegalArgumentException();

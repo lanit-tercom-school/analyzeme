@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 /**
  * Created by lagroffe on 26.03.2016 18:53
@@ -113,20 +114,19 @@ public class FakeRTest {
 		try {
 			double resX = call.runCommandToGetNumber("x[1]", TEST_DATA);
 			double resY = call.runCommandToGetNumber("y[5]", TEST_DATA);
-			assertTrue("Double doesn't return correctly from FakeR", doubleEqual(resX, 0) && doubleEqual(resY, 0));
+			assertTrue("Double isn't returned correctly from FakeR", doubleEqual(resX, 0) && doubleEqual(resY, 0));
 		} catch (Exception e) {
-			assertTrue("Double doesn't return correctly from FakeR", false);
+			fail("Double isn't returned correctly from FakeR");
 		}
 	}
 
 	@Test
 	public void testCorrectCommandToGetPoint() {
 		try {
-			Point res = null;
-			res = call.runCommandToGetPoint("c(x[5], y[5])", TEST_DATA);
-			assertTrue("Points doesn't return correctly from FakeR", doubleEqual(0, res.getX()) && doubleEqual(0, res.getY()));
+			Point res = call.runCommandToGetPoint("c(x[5], y[5])", TEST_DATA);
+			assertTrue("Point isn't returned correctly from FakeR", doubleEqual(0, res.getX()) && doubleEqual(0, res.getY()));
 		} catch (Exception e) {
-			assertTrue("Points doesn't return correctly from FakeR", false);
+			fail("Point isn't returned correctly from FakeR");
 		}
 	}
 
@@ -134,9 +134,9 @@ public class FakeRTest {
 	public void testCorrectCommandToGetPoints() {
 		try {
 			List<Point> res = call.runCommandToGetPoints(testScriptForPoints, TEST_DATA);
-			assertTrue("Points doesn't return correctly from FakeR", res.isEmpty());
+			assertTrue("Points aren't returned correctly from FakeR", res.isEmpty());
 		} catch (Exception e) {
-			assertTrue("Points doesn't return correctly from FakeR", false);
+			fail("Points aren't returned correctly from FakeR");
 		}
 	}
 
@@ -156,20 +156,19 @@ public class FakeRTest {
 		try {
 			double resX = call.runCommandToGetNumber(correctX + "[2]", correct);
 			double resY = call.runCommandToGetNumber(correctY + "[9]", correct);
-			assertTrue("Double doesn't return correctly from FakeR", doubleEqual(resX, 0) && doubleEqual(resY, 0));
+			assertTrue("Double isn't returned correctly from FakeR", doubleEqual(resX, 0) && doubleEqual(resY, 0));
 		} catch (Exception e) {
-			assertTrue("Double doesn't return correctly from FakeR", false);
+			fail("Double isn't returned correctly from FakeR");
 		}
 	}
 
 	@Test
 	public void testCorrectCommandToGetPointCorrectFile() {
 		try {
-			Point res = null;
-			res = call.runCommandToGetPoint("c(" + correctX + "[5], " + correctY + "[5])", correct);
-			assertTrue("Points doesn't return correctly from FakeR", doubleEqual(0, res.getX()) && doubleEqual(0, res.getY()));
+			Point res = call.runCommandToGetPoint("c(" + correctX + "[5], " + correctY + "[5])", correct);
+			assertTrue("Point isn't returned correctly from FakeR", doubleEqual(0, res.getX()) && doubleEqual(0, res.getY()));
 		} catch (Exception e) {
-			assertTrue("Points doesn't return correctly from FakeR", false);
+			fail("Point isn't returned correctly from FakeR");
 		}
 	}
 
@@ -177,9 +176,9 @@ public class FakeRTest {
 	public void testCorrectCommandToGetPointsCorrectFile() {
 		try {
 			List<Point> res = call.runCommandToGetPoints(correctScriptForCorrectFileString, correct);
-			assertTrue("Points doesn't return correctly from FakeR", res.isEmpty());
+			assertTrue("Points aren't returned correctly from FakeR", res.isEmpty());
 		} catch (Exception e) {
-			assertTrue("Points doesn't return correctly from FakeR", false);
+			fail("Points aren't returned correctly from FakeR");
 		}
 	}
 
@@ -192,20 +191,19 @@ public class FakeRTest {
 		try {
 			double resX = call.runScriptToGetNumber(correctScriptForCorrectFileName, convertStringToStream(correctX + "[2]"), correct);
 			double resY = call.runScriptToGetNumber(correctScriptForCorrectFileName, convertStringToStream(correctY + "[3]"), correct);
-			assertTrue("Double doesn't return correctly from FakeR", doubleEqual(resX, 0) && doubleEqual(resY, 0));
+			assertTrue("Double isn't returned correctly from FakeR", doubleEqual(resX, 0) && doubleEqual(resY, 0));
 		} catch (Exception e) {
-			assertTrue("Double doesn't return correctly from FakeR", false);
+			fail("Double isn't returned correctly from FakeR");
 		}
 	}
 
 	@Test
 	public void testCorrectScriptToGetPointCorrectFile() {
 		try {
-			Point res = null;
-			res = call.runScriptToGetPoint(correctScriptForCorrectFileName, convertStringToStream("c(" + correctX + "[5]," + correctY + "[5])"), correct);
-			assertTrue("Points doesn't return correctly from FakeR", doubleEqual(0, res.getX()) && doubleEqual(0, res.getY()));
+			Point res = call.runScriptToGetPoint(correctScriptForCorrectFileName, convertStringToStream("c(" + correctX + "[5]," + correctY + "[5])"), correct);
+			assertTrue("Point isn't returned correctly from FakeR", doubleEqual(0, res.getX()) && doubleEqual(0, res.getY()));
 		} catch (Exception e) {
-			assertTrue("Points doesn't return correctly from FakeR", false);
+			fail("Point isn't returned correctly from FakeR");
 		}
 	}
 
@@ -215,7 +213,7 @@ public class FakeRTest {
 			List<Point> res = call.runScriptToGetPoints(correctScriptForCorrectFileName, correctScriptForCorrectFile, correct);
 			assertTrue("Points doesn't return correctly from FakeR", res.isEmpty());
 		} catch (Exception e) {
-			assertTrue("Points doesn't return correctly from FakeR", false);
+			fail("Points aren't returned correctly from FakeR");
 		}
 	}
 }

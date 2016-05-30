@@ -3,7 +3,6 @@ package com.analyzeme.data.resolvers.sourceinfo;
 import com.analyzeme.repository.filerepository.FileRepository;
 
 import java.io.ByteArrayInputStream;
-import java.util.IllegalFormatException;
 import java.util.List;
 import java.util.Set;
 
@@ -11,7 +10,7 @@ import java.util.Set;
  * Created by lagroffe on 28.05.2016 14:28
  */
 public class ScriptInRepositoryInfo implements ISourceInfo {
-    private String uniqueNameInRepository;
+    private final String uniqueNameInRepository;
 
     public ScriptInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException {
         if (uniqueNameInRepository == null || uniqueNameInRepository.equals("")) {

@@ -9,8 +9,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  */
 public class DoubleResult implements IResult {
 
-    private ObjectMapper mapper = new ObjectMapper();
-    private Double result;
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final Double result;
 
     public DoubleResult(final Double result) {
         this.result = result;

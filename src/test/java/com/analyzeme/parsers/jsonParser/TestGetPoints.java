@@ -14,8 +14,8 @@ import java.io.InputStream;
  * Created by ������ ������� on 07.12.2015.
  */
 public class TestGetPoints {
-	JsonParser jsonParser;
-	Point[] points;
+	private JsonParser jsonParser;
+	private Point[] points;
 
 	@Test(expected = NullPointerException.class)
 	public void testNullArgumentInConstructor() throws Exception {

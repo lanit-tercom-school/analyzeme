@@ -23,9 +23,9 @@ public class DataSet {
     //name that user gave this data in the process of uploading
     private String referenceName;
     //first String is field alias (use this in script), second - field name: example <"t", "time">
-    private Map<String, String> fields;
+    private final Map<String, String> fields;
     //specific structure that gives a possibility to get binary data from any source
-    private ISourceInfo file;
+    private final ISourceInfo file;
 
     /**
      * ctor

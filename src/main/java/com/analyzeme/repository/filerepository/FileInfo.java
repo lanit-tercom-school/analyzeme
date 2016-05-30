@@ -21,7 +21,7 @@ public class FileInfo {
     @JsonProperty("uniqueName")
     private String uniqueName;
     @JsonProperty("uploadingDate")
-    private Date uploadingDate;
+    private final Date uploadingDate;
     ByteArrayInputStream data;
     @JsonProperty("isActive")
     private boolean isActive = true;

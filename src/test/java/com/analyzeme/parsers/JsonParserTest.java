@@ -16,8 +16,8 @@ import static org.junit.Assert.assertTrue;
  * Created by ������ ������� on 07.12.2015.
  */
 public class JsonParserTest {
-	JsonParser jsonParser;
-	Point[] points;
+	private JsonParser jsonParser;
+	private Point[] points;
 
 	@Test(expected = NullPointerException.class)
 	public void testNullArgumentInConstructor() throws Exception {
@@ -174,17 +174,5 @@ public class JsonParserTest {
 		assertTrue(res.get("y").equals(y));
 		assertTrue(res.get("z").equals(z));
 
-	}
-
-	@Ignore
-	@Test
-	public void testNewParser() throws Exception {
-		JsonParser parser = new JsonParser();
-		Map<String, List<Double>> res = parser.parse("{\"Data\":[{ \"x\": \"1\",\"y\": \"1\",\"z\": \"1\" },{\"x\": \"20\",\"y\": \"20\",\"z\": \"1\"}]}");
-		/*for(Map.Entry<String, List<Double>> entry : res.entrySet()) {
-			System.out.println(entry.getKey());
-			System.out.println(Arrays.toString(entry.getValue().toArray()));
-		}  */
-		//parser.parse("{ \"x\": 1,\"y\": 1,\"z\": 1}");
 	}
 }

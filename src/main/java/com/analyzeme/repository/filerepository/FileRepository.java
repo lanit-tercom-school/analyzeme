@@ -48,7 +48,6 @@ public class FileRepository implements IFileRepository {
         if (!isNameCorrect(uniqueName)) {
             uniqueName = createCorrectName(filename);
         }
-        InputStream g = file.getInputStream();
         FileInfo newFile = new FileInfo(filename, uniqueName, file.getInputStream());
         files.add(newFile);
         return uniqueName;

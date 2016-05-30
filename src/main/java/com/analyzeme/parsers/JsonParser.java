@@ -24,9 +24,6 @@ public class JsonParser {
 	private static final String Y = "y";
 	private static final String DATA = "Data";
 
-	public JsonParser() {
-	}
-
 	/**
 	 * Method for parsing string type {"x": ["1", "2.5", "4.7"],"y": ["5", "6.5", "7.7"]}
 	 */
