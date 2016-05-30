@@ -31,7 +31,7 @@
 
         <!-- 2. Load our 'modules' -->
         <script src='${angularPath}app/app-utils.js'></script>
-        <script src='${angularPath}app/d3-utils.js'></script>
+        <script src='${angularPath}app/highcharts-utils.js'></script>
         <script src='${angularPath}app/oups.component.js'></script>
 
         <script src='${angularPath}app/project.service.js'></script>
