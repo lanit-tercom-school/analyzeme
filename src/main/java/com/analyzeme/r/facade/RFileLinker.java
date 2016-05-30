@@ -60,7 +60,7 @@ class RFileLinker {
 		ArrayList<DataSet> result = new ArrayList<DataSet>();
 
 		Pattern pattern = Pattern.compile(regexp);
-		Matcher m = pattern.matcher(StreamToString.ConvertStream(rScript));
+		Matcher m = pattern.matcher(StreamToString.convertStream(rScript));
 		while (m.find()) {
 			IDataSetResolver res;
 			if (m.group(sourceGroup).equalsIgnoreCase("repo")) {
@@ -93,7 +93,7 @@ class RFileLinker {
 		ArrayList<String> result = new ArrayList<String>();
 
 		Pattern pattern = Pattern.compile(regexp);
-		Matcher m = pattern.matcher(StreamToString.ConvertStream(rScript));
+		Matcher m = pattern.matcher(StreamToString.convertStream(rScript));
 		while (m.find()) {
 			result.add(m.group(fileGroup));
 		}

@@ -11,7 +11,7 @@ import static junit.framework.Assert.assertTrue;
  * Created by asus on 16.05.2016.
  */
 public class TestLinearCorrelationAnalyzer {
-    final double e = 0.0001;//constant need to compare two double numbers
+    final static double E = 0.0001;//constant need to compare two double numbers
 
     @Test
     public void test1LinearCorrelationAnalyzer() {
@@ -23,7 +23,7 @@ public class TestLinearCorrelationAnalyzer {
         list.add(new Point((double) 30, (double) 40));
         data.add(list);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
-        assertTrue("Linear correlation of y=10+x is wrong", Math.abs(1.0 - (Double) Analyze.analyze(data).getValue()) < e);
+        assertTrue("Linear correlation of y=10+x is wrong", Math.abs(1.0 - (Double) Analyze.analyze(data).getValue()) < E);
 
     }
 
@@ -37,7 +37,7 @@ public class TestLinearCorrelationAnalyzer {
         list.add(new Point((double) 30, (double) -20));
         data.add(list);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
-        assertTrue("Linear correlation of y=10-x is wrong", Math.abs(-0.999 - (Double) Analyze.analyze(data).getValue()) < e);
+        assertTrue("Linear correlation of y=10-x is wrong", Math.abs(-0.999 - (Double) Analyze.analyze(data).getValue()) < E);
 
     }
 
@@ -51,7 +51,7 @@ public class TestLinearCorrelationAnalyzer {
         list.add(new Point((double) 30, (double) -20));
         data.add(list);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
-        assertTrue("Linear correlation of not lineal data is wrong", Math.abs(-0.730 - (Double) Analyze.analyze(data).getValue()) < e);
+        assertTrue("Linear correlation of not lineal data is wrong", Math.abs(-0.730 - (Double) Analyze.analyze(data).getValue()) < E);
 
     }
 }

@@ -12,7 +12,7 @@ import static junit.framework.Assert.assertTrue;
 public class TestAnalyzeFunctionFactory {
 
 	@Test
-	public void TestAnalyzeFunctionFactory() throws Exception {
+	public void testAnalyzeFunctionFactory() throws Exception {
 		AnalyzeFunctionFactory testFactory = new AnalyzeFunctionFactory();
 		//Create object of class GlobalMaximum.
 		AnalyzeFunction functionMax = testFactory.getFunction("GlobalMaximum");

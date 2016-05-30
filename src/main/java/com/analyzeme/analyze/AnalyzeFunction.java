@@ -8,17 +8,17 @@ public interface AnalyzeFunction {
 	/**
 	 * Calculate sth  using arrays of x and y coordinates
 	 *
-	 * @param X_array array of x-coordinate.
-	 * @param Y_array array of y-coordinate.
+	 * @param xArray array of x-coordinate.
+	 * @param yArray array of y-coordinate.
 	 * @return index of calculated value.
 	 */
-	int Calc(double[] X_array, double[] Y_array);
+	int calc(double[] xArray, double[] yArray);
 
 	/**
 	 * Calculate sth  using arrays of Point
 	 *
-	 * @param Point_array array of Point.
+	 * @param pointArray array of Point.
 	 * @return index of calculated value.
 	 */
-	int Calc(Point[] Point_array);
+	int calc(Point[] pointArray);
 }

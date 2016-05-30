@@ -55,7 +55,7 @@ public class FileController {
             DataSet set = FileUploader.upload(multipartFile, fileName, fileName, type);
             project.persist(set);
             response.setHeader("fileName", set.getReferenceName());
-            String Data = StreamToString.ConvertStream(set.getData());
+            String Data = StreamToString.convertStream(set.getData());
             response.setHeader("Data", Data);
 
             response.setCharacterEncoding("UTF-32");
@@ -94,7 +94,7 @@ public class FileController {
             UsersRepository.findUser("guest").getProjects().findProjectById("demo").persist(set);
 
             response.setHeader("fileName", set.getReferenceName());
-            String Data = StreamToString.ConvertStream(set.getData());
+            String Data = StreamToString.convertStream(set.getData());
             response.setHeader("Data", Data);
 
             response.setCharacterEncoding("UTF-32");
@@ -121,7 +121,7 @@ public class FileController {
             FileInRepositoryResolver res = new FileInRepositoryResolver();
             res.setProject(userId, projectId);
             DataSet file = res.getDataSet(referenceName);
-            String Data = StreamToString.ConvertStream(file.getData());
+            String Data = StreamToString.convertStream(file.getData());
             return Data;
         } catch (Exception e) {
             e.printStackTrace();

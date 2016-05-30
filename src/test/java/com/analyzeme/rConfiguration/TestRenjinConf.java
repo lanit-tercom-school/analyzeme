@@ -13,7 +13,7 @@ public class TestRenjinConf {
     /**
      * test for Renjin
      */
-    public void TestRenjin() throws Exception {
+    public void testRenjin() throws Exception {
         RenjinConf C1 = new RenjinConf();
         RenjinConf C2 = new RenjinConf(false, "Example");
         //is field flag=true?

@@ -43,7 +43,7 @@ public class AnalysisController {
             Point[] Data;
 
             ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
-            String DataString = StreamToString.ConvertStream(file);
+            String DataString = StreamToString.convertStream(file);
 
 
             InputStream is = new ByteArrayInputStream(DataString.getBytes());
@@ -53,7 +53,7 @@ public class AnalysisController {
 
             Data = jsonParser.getPointsFromPointJson(is);
 
-            double value = Data[ServletAnalyzeFunction.Calc(Data)].GetY();
+            double value = Data[ServletAnalyzeFunction.calc(Data)].getY();
             return value;
 
         } catch (JsonParserException ex) {

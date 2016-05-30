@@ -20,7 +20,7 @@ public class Rserve implements IRCaller {
 	private static RConnection r = null;
 
 	//TODO: in the future should use Settings (for host+port info)
-	private void Initialize() throws Exception {
+	private void initialize() throws Exception {
 		if (r == null) {
 			r = new RConnection();
 		}
@@ -63,9 +63,9 @@ public class Rserve implements IRCaller {
 		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 		insertData(dataFiles);
-		String script = StreamToString.ConvertStreamANSI(rScript);
+		String script = StreamToString.convertStreamANSI(rScript);
 		REXP result = r.eval(script);
 		deleteData();
 		return result.toString();
@@ -87,9 +87,9 @@ public class Rserve implements IRCaller {
 		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 		insertData(dataFiles);
-		String script = StreamToString.ConvertStreamANSI(rScript);
+		String script = StreamToString.convertStreamANSI(rScript);
 		double result = r.eval(script).asDouble();
 		deleteData();
 		return result;
@@ -106,13 +106,13 @@ public class Rserve implements IRCaller {
 		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 		insertData(dataFiles);
-		String script = StreamToString.ConvertStreamANSI(rScript);
+		String script = StreamToString.convertStreamANSI(rScript);
 		double[] res = r.eval(script).asDoubles();
 		Point result = new Point();
-		result.SetX(res[0]);
-		result.SetY(res[1]);
+		result.setX(res[0]);
+		result.setY(res[1]);
 		deleteData();
 		return result;
 
@@ -129,15 +129,15 @@ public class Rserve implements IRCaller {
 		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 		insertData(dataFiles);
-		String script = StreamToString.ConvertStreamANSI(rScript);
+		String script = StreamToString.convertStreamANSI(rScript);
 		double[][] res = r.eval(script).asDoubleMatrix();
 		ArrayList<Point> result = new ArrayList<Point>();
 		for (int i = 0; i < res.length; i++) {
 			Point p = new Point();
-			p.SetX(res[i][0]);
-			p.SetY(res[i][1]);
+			p.setX(res[i][0]);
+			p.setY(res[i][1]);
 			result.add(p);
 		}
 		deleteData();
@@ -160,7 +160,7 @@ public class Rserve implements IRCaller {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 		insertData(dataFiles);
 		REXP result = r.eval(rCommand);
 		deleteData();
@@ -176,7 +176,7 @@ public class Rserve implements IRCaller {
 	public String runCommand(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
@@ -186,8 +186,8 @@ public class Rserve implements IRCaller {
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
 		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i].GetX();
-			y[i] = data[i].GetY();
+			x[i] = data[i].getX();
+			y[i] = data[i].getY();
 		}
 		r.assign("x", x);
 		r.assign("y", y);
@@ -211,7 +211,7 @@ public class Rserve implements IRCaller {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 		insertData(dataFiles);
 		double result = r.eval(rCommand).asDouble();
 		deleteData();
@@ -228,12 +228,12 @@ public class Rserve implements IRCaller {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 		insertData(dataFiles);
 		double[] res = r.eval(rCommand).asDoubles();
 		Point result = new Point();
-		result.SetX(res[0]);
-		result.SetY(res[1]);
+		result.setX(res[0]);
+		result.setY(res[1]);
 		deleteData();
 		return result;
 	}
@@ -248,14 +248,14 @@ public class Rserve implements IRCaller {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null)
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 		insertData(dataFiles);
 		double[][] res = r.eval(rCommand).asDoubleMatrix();
 		ArrayList<Point> result = new ArrayList<Point>();
 		for (int i = 0; i < res.length; i++) {
 			Point p = new Point();
-			p.SetX(res[i][0]);
-			p.SetY(res[i][1]);
+			p.setX(res[i][0]);
+			p.setY(res[i][1]);
 			result.add(p);
 		}
 		deleteData();
@@ -275,7 +275,7 @@ public class Rserve implements IRCaller {
 	public double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
@@ -285,8 +285,8 @@ public class Rserve implements IRCaller {
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
 		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i].GetX();
-			y[i] = data[i].GetY();
+			x[i] = data[i].getX();
+			y[i] = data[i].getY();
 		}
 		r.assign("x", x);
 		r.assign("y", y);
@@ -304,7 +304,7 @@ public class Rserve implements IRCaller {
 	public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
-		Initialize();
+		initialize();
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
@@ -314,15 +314,15 @@ public class Rserve implements IRCaller {
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
 		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i].GetX();
-			y[i] = data[i].GetY();
+			x[i] = data[i].getX();
+			y[i] = data[i].getY();
 		}
 		r.assign("x", x);
 		r.assign("y", y);
 		double[] res = r.eval(rCommand).asDoubles();
 		Point result = new Point();
-		result.SetX(res[0]);
-		result.SetY(res[1]);
+		result.setX(res[0]);
+		result.setY(res[1]);
 		deleteData();
 		return result;
 	}
@@ -337,7 +337,7 @@ public class Rserve implements IRCaller {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
 			throw new IllegalArgumentException();
 
-		Initialize();
+		initialize();
 
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
@@ -347,8 +347,8 @@ public class Rserve implements IRCaller {
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
 		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i].GetX();
-			y[i] = data[i].GetY();
+			x[i] = data[i].getX();
+			y[i] = data[i].getY();
 		}
 		r.assign("x", x);
 		r.assign("y", y);
@@ -356,8 +356,8 @@ public class Rserve implements IRCaller {
 		ArrayList<Point> result = new ArrayList<Point>();
 		for (int i = 0; i < res.length; i++) {
 			Point p = new Point();
-			p.SetX(res[i][0]);
-			p.SetY(res[i][1]);
+			p.setX(res[i][0]);
+			p.setY(res[i][1]);
 			result.add(p);
 		}
 		deleteData();

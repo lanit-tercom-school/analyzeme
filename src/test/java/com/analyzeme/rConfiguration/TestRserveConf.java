@@ -13,7 +13,7 @@ public class TestRserveConf {
      * test for RserveConf
      */
     @Test
-    public void TestRServeConfiguration() throws Exception {
+    public void testRServeConfiguration() throws Exception {
         RserveConf C1 = new RserveConf();
         RserveConf C2 = new RserveConf(false, "localhost", "8080", "example");
         //is field flag=true?

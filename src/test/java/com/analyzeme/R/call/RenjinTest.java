@@ -22,37 +22,24 @@ import static junit.framework.Assert.assertTrue;
  */
 
 public class RenjinTest {
-	private static double eps = 0.00001;
+	private static final double EPS = 0.00001;
 	private static IRCaller call;
 	private static Point[] points;
 
-	private static String testData = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
-	private static String wrongTestData = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" ,{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\" \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
+	private static final String TEST_DATA = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
+	private static final String WRONG_TEST_DATA = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" ,{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\" \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
 
-	private static String testScriptForPoints = "matrix(c(x[1], y[1], x[1], y[1]), nrow = 2, ncol = 2, byrow=TRUE)";
-
-
-	public static boolean doubleEqual(double a, double b) {
-		return Math.abs(a - b) < eps;
-	}
-
-	private static ByteArrayInputStream convertStringToStream(String data) {
-		byte[] b = new byte[data.length()];
-		for (int i = 0; i < data.length(); i++) {
-			b[i] = (byte) data.charAt(i);
-		}
-		return new ByteArrayInputStream(b);
-	}
+	private static final String TEST_SCRIPT_FOR_POINTS = "matrix(c(x[1], y[1], x[1], y[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 
 	private static ByteArrayInputStream correctFile;
-	private static String correctFilename = "fileRenjin.json";
+	private static final String CORRECT_FILENAME = "fileRenjin.json";
 	private static String correctFileId;
 	private static String correctX;
 	private static String correctY;
 	private static ArrayList<DataSet> correct;
 
 	private static ByteArrayInputStream incorrectFile;
-	private static String incorrectFilename = "incorrectFileRenjin.json";
+	private static final String INCORRECT_FILENAME = "incorrectFileRenjin.json";
 	private static String incorrectFileId;
 	private static String incorrectX;
 	private static String incorrectY;
@@ -70,33 +57,46 @@ public class RenjinTest {
 	private static String correctScriptForIncorrectFileString;
 	private static ByteArrayInputStream correctScriptForIncorrectFile;
 
+
+	public static boolean doubleEqual(double a, double b) {
+		return Math.abs(a - b) < EPS;
+	}
+
+	private static ByteArrayInputStream convertStringToStream(String data) {
+		byte[] b = new byte[data.length()];
+		for (int i = 0; i < data.length(); i++) {
+			b[i] = (byte) data.charAt(i);
+		}
+		return new ByteArrayInputStream(b);
+	}
+
 	@BeforeClass
 	public static void beforeClass() throws Exception {
-		InputStream is = new ByteArrayInputStream(testData.getBytes());
+		InputStream is = new ByteArrayInputStream(TEST_DATA.getBytes());
 		JsonParser jsonParser;
 		jsonParser = new JsonParser();
 		points = jsonParser.getPointsFromPointJson(is);
 		call = new Renjin();
 
-		correctFile = convertStringToStream(testData);
-		correctFileId = FileRepository.getRepo().persist(correctFile, correctFilename);
+		correctFile = convertStringToStream(TEST_DATA);
+		correctFileId = FileRepository.getRepo().persist(correctFile, CORRECT_FILENAME);
 		if (correctFileId == null) throw new IllegalArgumentException("Repository doesn't work");
 		correctX = "x_from__repo__" + correctFileId + "__";
 		correctY = "y_from__repo__" + correctFileId + "__";
 		correct = new ArrayList<DataSet>();
 		ISourceInfo correctInfo = new JsonPointFileInRepositoryInfo(correctFileId);
-		DataSet setCorrect = new DataSet(correctFilename, correctInfo);
+		DataSet setCorrect = new DataSet(CORRECT_FILENAME, correctInfo);
 		setCorrect.addField("x");
 		setCorrect.addField("y");
 		correct.add(setCorrect);
 
-		incorrectFile = convertStringToStream(wrongTestData);
-		incorrectFileId = FileRepository.getRepo().persist(incorrectFile, incorrectFilename);
+		incorrectFile = convertStringToStream(WRONG_TEST_DATA);
+		incorrectFileId = FileRepository.getRepo().persist(incorrectFile, INCORRECT_FILENAME);
 		incorrectX = "x_from__repo__" + incorrectFileId + "__";
 		incorrectY = "y_from__repo__" + incorrectFileId + "__";
 		incorrect = new ArrayList<DataSet>();
 		ISourceInfo incorrectInfo = new JsonPointFileInRepositoryInfo(incorrectFileId);
-		DataSet setIncorrect = new DataSet(incorrectFilename, incorrectInfo);
+		DataSet setIncorrect = new DataSet(INCORRECT_FILENAME, incorrectInfo);
 		setIncorrect.addField("x");
 		setIncorrect.addField("y");
 		incorrect.add(setIncorrect);
@@ -163,9 +163,9 @@ public class RenjinTest {
 		try {
 			double resX, resY;
 			for (int i = 0; i < points.length; i++) {
-				resX = call.runCommandToGetNumber("x[" + (int) (i + 1) + "]", testData);
-				resY = call.runCommandToGetNumber("y[" + (int) (i + 1) + "]", testData);
-				assertTrue("Double doesn't return correctly from Renjin", doubleEqual(resX, points[i].GetX()) && doubleEqual(resY, points[i].GetY()));
+				resX = call.runCommandToGetNumber("x[" + (int) (i + 1) + "]", TEST_DATA);
+				resY = call.runCommandToGetNumber("y[" + (int) (i + 1) + "]", TEST_DATA);
+				assertTrue("Double doesn't return correctly from Renjin", doubleEqual(resX, points[i].getX()) && doubleEqual(resY, points[i].getY()));
 			}
 		} catch (Exception e) {
 			assertTrue("Double doesn't return correctly from Renjin", false);
@@ -176,8 +176,8 @@ public class RenjinTest {
 	public void testCorrectCommandToGetPointCorrectJsonData() {
 		try {
 			Point res = null;
-			res = call.runCommandToGetPoint("c(x[5], y[5])", testData);
-			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[4].GetX(), res.GetX()) && doubleEqual(points[4].GetY(), res.GetY()));
+			res = call.runCommandToGetPoint("c(x[5], y[5])", TEST_DATA);
+			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[4].getX(), res.getX()) && doubleEqual(points[4].getY(), res.getY()));
 		} catch (Exception e) {
 			assertTrue("Points doesn't return correctly from Renjin", false);
 		}
@@ -186,8 +186,8 @@ public class RenjinTest {
 	@Test
 	public void testCorrectCommandToGetPointsCorrectJsonData() {
 		try {
-			List<Point> res = call.runCommandToGetPoints(testScriptForPoints, testData);
-			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[0].GetX(), res.get(0).GetX()) && doubleEqual(points[0].GetY(), res.get(0).GetY()) && doubleEqual(points[0].GetX(), res.get(1).GetX()) && doubleEqual(points[0].GetY(), res.get(1).GetY()));
+			List<Point> res = call.runCommandToGetPoints(TEST_SCRIPT_FOR_POINTS, TEST_DATA);
+			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[0].getX(), res.get(0).getX()) && doubleEqual(points[0].getY(), res.get(0).getY()) && doubleEqual(points[0].getX(), res.get(1).getX()) && doubleEqual(points[0].getY(), res.get(1).getY()));
 		} catch (Exception e) {
 			assertTrue("Points doesn't return correctly from Renjin", false);
 		}
@@ -199,18 +199,18 @@ public class RenjinTest {
 
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetNumberCorrectJsonData() throws Exception {
-		call.runCommandToGetNumber("y[5", testData);
+		call.runCommandToGetNumber("y[5", TEST_DATA);
 	}
 
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetPointCorrectJsonData() throws Exception {
-		call.runCommandToGetPoint("c(x[5], y[5)", testData);
+		call.runCommandToGetPoint("c(x[5], y[5)", TEST_DATA);
 
 	}
 
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetPointsCorrectJsonData() throws Exception {
-		call.runCommandToGetPoints(testScriptForPoints + "]", testData);
+		call.runCommandToGetPoints(TEST_SCRIPT_FOR_POINTS + "]", TEST_DATA);
 	}
 
 	//-----------------------------------------------------------
@@ -219,17 +219,17 @@ public class RenjinTest {
 
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetNumberIncorrectJsonData() throws Exception {
-		call.runCommandToGetNumber("x[5]", wrongTestData);
+		call.runCommandToGetNumber("x[5]", WRONG_TEST_DATA);
 	}
 
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetPointIncorrectJsonData() throws Exception {
-		call.runCommandToGetPoint("c(x[5], y[5])", wrongTestData);
+		call.runCommandToGetPoint("c(x[5], y[5])", WRONG_TEST_DATA);
 	}
 
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetPointsIncorrectJsonData() throws Exception {
-		call.runCommandToGetPoints(testScriptForPoints, wrongTestData);
+		call.runCommandToGetPoints(TEST_SCRIPT_FOR_POINTS, WRONG_TEST_DATA);
 	}
 
 
@@ -250,7 +250,7 @@ public class RenjinTest {
 			for (int i = 0; i < points.length; i++) {
 				resX = call.runCommandToGetNumber(correctX + "[" + (int) (i + 1) + "]", correct);
 				resY = call.runCommandToGetNumber(correctY + "[" + (int) (i + 1) + "]", correct);
-				assertTrue("Double doesn't return correctly from Renjin", doubleEqual(resX, points[i].GetX()) && doubleEqual(resY, points[i].GetY()));
+				assertTrue("Double doesn't return correctly from Renjin", doubleEqual(resX, points[i].getX()) && doubleEqual(resY, points[i].getY()));
 			}
 		} catch (Exception e) {
 			assertTrue("Double doesn't return correctly from Renjin", false);
@@ -262,7 +262,7 @@ public class RenjinTest {
 		try {
 			Point res = null;
 			res = call.runCommandToGetPoint("c(" + correctX + "[5], " + correctY + "[5])", correct);
-			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[4].GetX(), res.GetX()) && doubleEqual(points[4].GetY(), res.GetY()));
+			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[4].getX(), res.getX()) && doubleEqual(points[4].getY(), res.getY()));
 		} catch (Exception e) {
 			assertTrue("Points doesn't return correctly from Renjin", false);
 		}
@@ -272,7 +272,7 @@ public class RenjinTest {
 	public void testCorrectCommandToGetPointsCorrectFile() {
 		try {
 			List<Point> res = call.runCommandToGetPoints(correctScriptForCorrectFileString, correct);
-			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[0].GetX(), res.get(0).GetX()) && doubleEqual(points[0].GetY(), res.get(0).GetY()) && doubleEqual(points[0].GetX(), res.get(1).GetX()) && doubleEqual(points[0].GetY(), res.get(1).GetY()));
+			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[0].getX(), res.get(0).getX()) && doubleEqual(points[0].getY(), res.get(0).getY()) && doubleEqual(points[0].getX(), res.get(1).getX()) && doubleEqual(points[0].getY(), res.get(1).getY()));
 		} catch (Exception e) {
 			assertTrue("Points doesn't return correctly from Renjin", false);
 		}
@@ -289,7 +289,7 @@ public class RenjinTest {
 			for (int i = 0; i < points.length; i++) {
 				resX = call.runScriptToGetNumber(correctScriptForCorrectFileName, convertStringToStream(correctX + "[" + (int) (i + 1) + "]"), correct);
 				resY = call.runScriptToGetNumber(correctScriptForCorrectFileName, convertStringToStream(correctY + "[" + (int) (i + 1) + "]"), correct);
-				assertTrue("Double doesn't return correctly from Renjin", doubleEqual(resX, points[i].GetX()) && doubleEqual(resY, points[i].GetY()));
+				assertTrue("Double doesn't return correctly from Renjin", doubleEqual(resX, points[i].getX()) && doubleEqual(resY, points[i].getY()));
 			}
 		} catch (Exception e) {
 			assertTrue("Double doesn't return correctly from Renjin", false);
@@ -301,7 +301,7 @@ public class RenjinTest {
 		try {
 			Point res = null;
 			res = call.runScriptToGetPoint(correctScriptForCorrectFileName, convertStringToStream("c(" + correctX + "[5]," + correctY + "[5])"), correct);
-			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[4].GetX(), res.GetX()) && doubleEqual(points[4].GetY(), res.GetY()));
+			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[4].getX(), res.getX()) && doubleEqual(points[4].getY(), res.getY()));
 		} catch (Exception e) {
 			assertTrue("Points doesn't return correctly from Renjin", false);
 		}
@@ -311,7 +311,7 @@ public class RenjinTest {
 	public void testCorrectScriptToGetPointsCorrectFile() {
 		try {
 			List<Point> res = call.runScriptToGetPoints(correctScriptForCorrectFileName, correctScriptForCorrectFile, correct);
-			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[0].GetX(), res.get(0).GetX()) && doubleEqual(points[0].GetY(), res.get(0).GetY()) && doubleEqual(points[0].GetX(), res.get(1).GetX()) && doubleEqual(points[0].GetY(), res.get(1).GetY()));
+			assertTrue("Points doesn't return correctly from Renjin", doubleEqual(points[0].getX(), res.get(0).getX()) && doubleEqual(points[0].getY(), res.get(0).getY()) && doubleEqual(points[0].getX(), res.get(1).getX()) && doubleEqual(points[0].getY(), res.get(1).getY()));
 		} catch (Exception e) {
 			assertTrue("Points doesn't return correctly from Renjin", false);
 		}

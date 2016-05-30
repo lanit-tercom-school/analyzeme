@@ -14,7 +14,7 @@ public class TestGlobalMaximum {
     final double e = 0.001;//constant need to compare two double numbers
 
     @Test
-    public void TestGlobalMax() throws Exception {
+    public void testGlobalMax() throws Exception {
         GlobalMaximum tester = new GlobalMaximum();
         double[] X_array = new double[1001];
         double[] Y_array = new double[1001];
@@ -26,7 +26,7 @@ public class TestGlobalMaximum {
 
         }
         //Compare 4 and maximum of y=x
-        assertTrue("Global maximum of y=x is wrong", Math.abs(4.0 - Y_array[tester.Calc(X_array, Y_array)]) < e);
+        assertTrue("Global maximum of y=x is wrong", Math.abs(4.0 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
         //generate  array of  y=x^2
         for (int i = 0; i < 1001; i++) {
@@ -35,7 +35,7 @@ public class TestGlobalMaximum {
 
         }
         //Compare 16 and maximum of y=x^2
-        assertTrue("Global maximum of y=x^2 is wrong", Math.abs(16 - Y_array[tester.Calc(X_array, Y_array)]) < e);
+        assertTrue("Global maximum of y=x^2 is wrong", Math.abs(16 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
         //generate array of  y=sin(x^2)
         for (int i = 0; i < 1001; i++) {
@@ -44,13 +44,13 @@ public class TestGlobalMaximum {
 
         }
         //Compare 1 and maximum of y=sin(x^2)
-        assertTrue("Global maximum of y=sin(x^2) is wrong", Math.abs(1 - Y_array[tester.Calc(X_array, Y_array)]) < e);
+        assertTrue("Global maximum of y=sin(x^2) is wrong", Math.abs(1 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
 
     }
 
     @Test
-    public void TestGlobalMaxPointArray() throws Exception {
+    public void testGlobalMaxPointArray() throws Exception {
         Point[] pointArray = new Point[1001];
         GlobalMaximum tester = new GlobalMaximum();
         double x;
@@ -62,6 +62,6 @@ public class TestGlobalMaximum {
             pointArray[i] = new Point(x, y);
         }
         //Compare -1 and minimum of y=sin(x^2)
-        assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(1 - pointArray[tester.Calc(pointArray)].GetY()) < e);
+        assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(1 - pointArray[tester.calc(pointArray)].getY()) < e);
     }
 }

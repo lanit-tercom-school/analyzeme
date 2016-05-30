@@ -7,28 +7,28 @@ package com.analyzeme.analyze;
  */
 public class GlobalMinimum implements AnalyzeFunction {
 	/**
-	 * @param X_array array of x-coordinate.
-	 * @param Y_array array of y-coordinate.
+	 * @param xArray array of x-coordinate.
+	 * @param yArray array of y-coordinate.
 	 * @return index of Minimum value.
 	 */
-	public int Calc(double[] X_array, double[] Y_array) {
+	public int calc(double[] xArray, double[] yArray) {
 		int min_index = 0;//index of minimum value
 
-		for (int i = 0; i < Y_array.length; i++) //cicle where we looking for minimum.
-			if (Y_array[min_index] > Y_array[i]) min_index = i;
+		for (int i = 0; i < yArray.length; i++) //cicle where we looking for minimum.
+			if (yArray[min_index] > yArray[i]) min_index = i;
 
 		return min_index;
 	}
 
 	/**
-	 * @param Point_array array of Point.
+	 * @param pointArray array of Point.
 	 * @return index of minimum value.
 	 */
-	public int Calc(Point[] Point_array) {
+	public int calc(Point[] pointArray) {
 		int min_index = 0;//index of minimum value
 
-		for (int i = 0; i < Point_array.length; i++) //cicle where we looking for minimum.
-			if (Point_array[min_index].GetY() > Point_array[i].GetY()) min_index = i;
+		for (int i = 0; i < pointArray.length; i++) //cicle where we looking for minimum.
+			if (pointArray[min_index].getY() > pointArray[i].getY()) min_index = i;
 
 		return min_index;
 	}

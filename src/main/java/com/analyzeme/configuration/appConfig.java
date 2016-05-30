@@ -9,6 +9,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 //@EnableWebMvc
 @ComponentScan(basePackages = "controllers")
-public class appConfig {
+public class AppConfig {
 }
 

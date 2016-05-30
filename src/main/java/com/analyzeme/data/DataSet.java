@@ -60,7 +60,7 @@ public class DataSet {
      */
     public Point[] getPoints() throws Exception {
         ByteArrayInputStream data = getData();
-        String DataString = StreamToString.ConvertStream(data);
+        String DataString = StreamToString.convertStream(data);
 
         InputStream is = new ByteArrayInputStream(DataString.getBytes());
 

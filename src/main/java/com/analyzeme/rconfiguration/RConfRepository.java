@@ -125,7 +125,7 @@ public class RConfRepository {
      * get first active non Fake RConf
      * @return active Rseve or Renjin RConf
      */
-    public IRConf GetDefaultConfiguration() {
+    public IRConf getDefaultConfiguration() {
         for (IRConf rConf : RConfigurations) {
             if (!(rConf instanceof FakeRConf) && rConf.isActive()) {
                 return rConf;
@@ -139,7 +139,7 @@ public class RConfRepository {
      * get first active FakeRConf
      * @return first active FakeRConf
      */
-    public IRConf GetDefaultTestConfiguration() {
+    public IRConf getDefaultTestConfiguration() {
         for (IRConf rConf : RConfigurations) {
             if ((rConf instanceof FakeRConf) && rConf.isActive()) {
                 return rConf;

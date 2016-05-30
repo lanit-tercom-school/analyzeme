@@ -16,7 +16,7 @@ public class StreamToString {
 	 * @param stream ByteArrayInputStream that need convert into stream
 	 * @return String of data from ByteArrayInputStream
 	 */
-	public static String ConvertStream(ByteArrayInputStream stream) throws IOException {
+	public static String convertStream(ByteArrayInputStream stream) throws IOException {
 		stream.reset();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
@@ -41,7 +41,7 @@ public class StreamToString {
 	 * @param stream ByteArrayInputStream that need convert into stream
 	 * @return String of data from ByteArrayInputStream
 	 */
-	public static String ConvertStreamANSI(ByteArrayInputStream stream) throws IOException {
+	public static String convertStreamANSI(ByteArrayInputStream stream) throws IOException {
 		stream.reset();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];

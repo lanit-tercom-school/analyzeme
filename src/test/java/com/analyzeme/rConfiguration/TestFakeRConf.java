@@ -13,7 +13,7 @@ public class TestFakeRConf {
     /**
      * test for FakeR
      */
-    public void TestFakeR() throws Exception {
+    public void testFakeR() throws Exception {
         FakeRConf C1 = new FakeRConf();
         FakeRConf C2 = new FakeRConf(false, "Example");
         //is field flag=true?

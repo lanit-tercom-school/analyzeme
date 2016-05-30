@@ -4,34 +4,34 @@ package com.analyzeme.analyzers;
  * Created by Ольга on 12.04.2016.
  */
 //TODO: add functions for this type of Point in r.Call
-public class Point<T1, T2> {
+public class Point<U, V> {
 
 	/**
 	 * (on 12.04.2016)
-	 * T1 - can be Double,Integer or Date
-	 * T2 - can be Double,Integer
+	 * U - can be Double,Integer or Date
+	 * V - can be Double,Integer
 	 */
-	private T1 x;
-	private T2 y;
+	private U x;
+	private V y;
 
-	public Point(T1 x, T2 y) {
+	public Point(U x, V y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public T1 getX() {
+	public U getX() {
 		return x;
 	}
 
-	public void setX(T1 x) {
+	public void setX(U x) {
 		this.x = x;
 	}
 
-	public T2 getY() {
+	public V getY() {
 		return y;
 	}
 
-	public void setY(T2 y) {
+	public void setY(V y) {
 		this.y = y;
 	}
 }

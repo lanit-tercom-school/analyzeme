@@ -24,7 +24,7 @@ public class Renjin implements IRCaller {
     private static ScriptEngineManager manager = null;
     private static ScriptEngine engine = null;
 
-    private static void Initialize() {
+    private static void initialize() {
         if (engine == null) {
             manager = new ScriptEngineManager();
             engine = manager.getEngineByName("Renjin");
@@ -69,9 +69,9 @@ public class Renjin implements IRCaller {
         //dataFiles can be empty for simple commands
         if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
         insertData(dataFiles);
-        String script = StreamToString.ConvertStreamANSI(rScript);
+        String script = StreamToString.convertStreamANSI(rScript);
         SEXP result = (SEXP) engine.eval(script);
         deleteData();
         return result.toString();
@@ -92,9 +92,9 @@ public class Renjin implements IRCaller {
         //dataFiles can be empty for simple commands
         if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
         insertData(dataFiles);
-        String script = StreamToString.ConvertStreamANSI(rScript);
+        String script = StreamToString.convertStreamANSI(rScript);
         double result = ((SEXP) engine.eval(script)).asReal();
         deleteData();
         return result;
@@ -111,16 +111,16 @@ public class Renjin implements IRCaller {
         //dataFiles can be empty for simple commands
         if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
         insertData(dataFiles);
-        String script = StreamToString.ConvertStreamANSI(rScript);
+        String script = StreamToString.convertStreamANSI(rScript);
         Vector res = ((Vector) engine.eval(script));
         if (res == null) {
             throw new NullPointerException("Impossible to evaluate");
         }
         Point result = new Point();
-        result.SetX(res.getElementAsDouble(0));
-        result.SetY(res.getElementAsDouble(1));
+        result.setX(res.getElementAsDouble(0));
+        result.setY(res.getElementAsDouble(1));
         deleteData();
         return result;
     }
@@ -136,9 +136,9 @@ public class Renjin implements IRCaller {
         //dataFiles can be empty for simple commands
         if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null)
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
         insertData(dataFiles);
-        String script = StreamToString.ConvertStreamANSI(rScript);
+        String script = StreamToString.convertStreamANSI(rScript);
         Vector res = ((Vector) engine.eval(script));
         if (res == null) {
             throw new NullPointerException("Impossible to evaluate");
@@ -153,8 +153,8 @@ public class Renjin implements IRCaller {
                 Matrix m = new Matrix(res);
                 for (int i = 0; i < m.getNumRows(); i++) {
                     Point p = new Point();
-                    p.SetX(m.getElementAsDouble(i, 0));
-                    p.SetY(m.getElementAsDouble(i, 1));
+                    p.setX(m.getElementAsDouble(i, 0));
+                    p.setY(m.getElementAsDouble(i, 1));
                     result.add(p);
                 }
             } else {
@@ -181,7 +181,7 @@ public class Renjin implements IRCaller {
         //dataFiles can be empty for simple commands
         if (rCommand == null || rCommand.equals("") || dataFiles == null)
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
         insertData(dataFiles);
         SEXP result = (SEXP) engine.eval(rCommand);
         deleteData();
@@ -197,7 +197,7 @@ public class Renjin implements IRCaller {
     public String runCommand(String rCommand, String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
 
         InputStream is = new ByteArrayInputStream(jsonData.getBytes());
         JsonParser jsonParser;
@@ -207,8 +207,8 @@ public class Renjin implements IRCaller {
         double[] x = new double[data.length];
         double[] y = new double[data.length];
         for (int i = 0; i < data.length; i++) {
-            x[i] = data[i].GetX();
-            y[i] = data[i].GetY();
+            x[i] = data[i].getX();
+            y[i] = data[i].getY();
         }
         engine.put("x", x);
         engine.put("y", y);
@@ -232,7 +232,7 @@ public class Renjin implements IRCaller {
         //dataFiles can be empty for simple commands
         if (rCommand == null || rCommand.equals("") || dataFiles == null)
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
         insertData(dataFiles);
         double result = ((SEXP) engine.eval(rCommand)).asReal();
         deleteData();
@@ -249,15 +249,15 @@ public class Renjin implements IRCaller {
         //dataFiles can be empty for simple commands
         if (rCommand == null || rCommand.equals("") || dataFiles == null)
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
         insertData(dataFiles);
         Vector res = ((Vector) engine.eval(rCommand));
         if (res == null) {
             throw new NullPointerException("Impossible to evaluate");
         }
         Point result = new Point();
-        result.SetX(res.getElementAsDouble(0));
-        result.SetY(res.getElementAsDouble(1));
+        result.setX(res.getElementAsDouble(0));
+        result.setY(res.getElementAsDouble(1));
         deleteData();
         return result;
     }
@@ -272,7 +272,7 @@ public class Renjin implements IRCaller {
         //dataFiles can be empty for simple commands
         if (rCommand == null || rCommand.equals("") || dataFiles == null)
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
         insertData(dataFiles);
         Vector res = ((Vector) engine.eval(rCommand));
         if (res == null) {
@@ -288,8 +288,8 @@ public class Renjin implements IRCaller {
                 Matrix m = new Matrix(res);
                 for (int i = 0; i < m.getNumRows(); i++) {
                     Point p = new Point();
-                    p.SetX(m.getElementAsDouble(i, 0));
-                    p.SetY(m.getElementAsDouble(i, 1));
+                    p.setX(m.getElementAsDouble(i, 0));
+                    p.setY(m.getElementAsDouble(i, 1));
                     result.add(p);
                 }
             } else {
@@ -313,7 +313,7 @@ public class Renjin implements IRCaller {
     public double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
 
         InputStream is = new ByteArrayInputStream(jsonData.getBytes());
         JsonParser jsonParser;
@@ -323,8 +323,8 @@ public class Renjin implements IRCaller {
         double[] x = new double[data.length];
         double[] y = new double[data.length];
         for (int i = 0; i < data.length; i++) {
-            x[i] = data[i].GetX();
-            y[i] = data[i].GetY();
+            x[i] = data[i].getX();
+            y[i] = data[i].getY();
         }
         engine.put("x", x);
         engine.put("y", y);
@@ -342,7 +342,7 @@ public class Renjin implements IRCaller {
     public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
             throw new IllegalArgumentException();
-        Initialize();
+        initialize();
 
         InputStream is = new ByteArrayInputStream(jsonData.getBytes());
         JsonParser jsonParser;
@@ -352,8 +352,8 @@ public class Renjin implements IRCaller {
         double[] x = new double[data.length];
         double[] y = new double[data.length];
         for (int i = 0; i < data.length; i++) {
-            x[i] = data[i].GetX();
-            y[i] = data[i].GetY();
+            x[i] = data[i].getX();
+            y[i] = data[i].getY();
         }
         engine.put("x", x);
         engine.put("y", y);
@@ -362,8 +362,8 @@ public class Renjin implements IRCaller {
             throw new NullPointerException("Impossible to evaluate");
         }
         Point result = new Point();
-        result.SetX(res.getElementAsDouble(0));
-        result.SetY(res.getElementAsDouble(1));
+        result.setX(res.getElementAsDouble(0));
+        result.setY(res.getElementAsDouble(1));
         deleteData();
         return result;
     }
@@ -378,7 +378,7 @@ public class Renjin implements IRCaller {
         if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
             throw new IllegalArgumentException();
 
-        Initialize();
+        initialize();
 
         InputStream is = new ByteArrayInputStream(jsonData.getBytes());
         JsonParser jsonParser;
@@ -388,8 +388,8 @@ public class Renjin implements IRCaller {
         double[] x = new double[data.length];
         double[] y = new double[data.length];
         for (int i = 0; i < data.length; i++) {
-            x[i] = data[i].GetX();
-            y[i] = data[i].GetY();
+            x[i] = data[i].getX();
+            y[i] = data[i].getY();
         }
         engine.put("x", x);
         engine.put("y", y);
@@ -407,8 +407,8 @@ public class Renjin implements IRCaller {
                 Matrix m = new Matrix(res);
                 for (int i = 0; i < m.getNumRows(); i++) {
                     Point p = new Point();
-                    p.SetX(m.getElementAsDouble(i, 0));
-                    p.SetY(m.getElementAsDouble(i, 1));
+                    p.setX(m.getElementAsDouble(i, 0));
+                    p.setY(m.getElementAsDouble(i, 1));
                     result.add(p);
                 }
             } else {

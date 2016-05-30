@@ -139,11 +139,11 @@ public class TestRConfRepository {
     }
 
     /**
-     * test method GetDefaultConfiguration()
+     * test method getDefaultConfiguration()
      */
     @Test
     public void testGetDefaultConfiguration() {
-        IRConf RConf = RConfRepository.getRepo().GetDefaultConfiguration();
+        IRConf RConf = RConfRepository.getRepo().getDefaultConfiguration();
         assertTrue(RConf instanceof RenjinConf);
         assertTrue(RConf.getName().equals("Renjin"));
         assertTrue(RConf.isActive());
@@ -151,7 +151,7 @@ public class TestRConfRepository {
     }
 
     /**
-     * test method GetDefaultTestConfiguration
+     * test method getDefaultTestConfiguration
      */
     @Test
     public void testGetDefaultTestConfiguration() throws IOException {
@@ -161,7 +161,7 @@ public class TestRConfRepository {
         RConfRepository.getRepo().deleteRConfByName("FakeR");
         RConfRepository.getRepo().addRConf(new FakeRConf(true, "FakeR1"));
         //get first active FakeR
-        IRConf RConf = RConfRepository.getRepo().GetDefaultTestConfiguration();
+        IRConf RConf = RConfRepository.getRepo().getDefaultTestConfiguration();
         //test first active FakeR
         assertTrue(RConf instanceof FakeRConf);
         assertTrue(RConf.getName().equals("FakeR1"));

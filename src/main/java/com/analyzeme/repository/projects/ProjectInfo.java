@@ -64,13 +64,11 @@ public class ProjectInfo {
         for (DataSet set : datasets) {
             if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class) || set.getFile().getClass().equals(CsvFileInRepositoryInfo.class)) {
                 FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
-                if (info != null) {
-                    if (info.isActive()) {
-                        JSONObject file = new JSONObject();
-                        file.put("uniqueName", info.getUniqueName());
-                        file.put("nameForUser", info.getNameForUser());
-                        result.add(file);
-                    }
+                if (info != null && info.isActive()) {
+                    JSONObject file = new JSONObject();
+                    file.put("uniqueName", info.getUniqueName());
+                    file.put("nameForUser", info.getNameForUser());
+                    result.add(file);
                 }
             }
         }

@@ -18,8 +18,8 @@ public class PointToJson {
 	 */
 	public static String convertPoint(Point point) {
 		JSONObject result = new JSONObject();
-		result.put("x", Double.toString(point.GetX()));
-		result.put("y", Double.toString(point.GetY()));
+		result.put("x", Double.toString(point.getX()));
+		result.put("y", Double.toString(point.getY()));
 		return result.toJSONString();
 	}
 
@@ -29,8 +29,8 @@ public class PointToJson {
 	 */
 	public static JSONObject convertPointToJsonObject(Point point) {
 		JSONObject result = new JSONObject();
-		result.put("x", Double.toString(point.GetX()));
-		result.put("y", Double.toString(point.GetY()));
+		result.put("x", Double.toString(point.getX()));
+		result.put("y", Double.toString(point.getY()));
 		return result;
 	}
 

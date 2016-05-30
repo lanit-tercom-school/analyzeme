@@ -12,7 +12,7 @@ public class TestGlobalMinimum {
 	final double e = 0.001;//constant need to compare two double numbers
 
 	@Test
-	public void TestGlobalMinTwoArray() throws Exception {
+	public void testGlobalMinTwoArray() throws Exception {
 		GlobalMinimum tester = new GlobalMinimum();
 		double[] X_array = new double[1001];
 		double[] Y_array = new double[1001];
@@ -24,7 +24,7 @@ public class TestGlobalMinimum {
 
 		}
 		//Compare -4 and minimum of y=x
-		assertTrue("Global minimum of y=x is  wrong", Math.abs(-4.0 - Y_array[tester.Calc(X_array, Y_array)]) < e);
+		assertTrue("Global minimum of y=x is  wrong", Math.abs(-4.0 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
 		//generate array of  y=x^2
 		for (int i = 0; i < 1001; i++) {
@@ -33,7 +33,7 @@ public class TestGlobalMinimum {
 
 		}
 		// Compare 0 and minimum of y=x^2
-		assertTrue("Global minimum of y=x^2 is  wrong", Math.abs(0 - Y_array[tester.Calc(X_array, Y_array)]) < e);
+		assertTrue("Global minimum of y=x^2 is  wrong", Math.abs(0 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
 
 		//generate array of  y=sin(x^2)
@@ -43,12 +43,12 @@ public class TestGlobalMinimum {
 
 		}
 		//Compare -1 and minimum of y=sin(x^2)
-		assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(-1 - Y_array[tester.Calc(X_array, Y_array)]) < e);
+		assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(-1 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
 	}
 
 	@Test
-	public void TestGlobalMinPointArray() throws Exception {
+	public void testGlobalMinPointArray() throws Exception {
 		Point[] pointArray = new Point[1001];
 		GlobalMinimum tester = new GlobalMinimum();
 		double x;
@@ -60,7 +60,7 @@ public class TestGlobalMinimum {
 			pointArray[i] = new Point(x, y);
 		}
 		//Compare -1 and minimum of y=sin(x^2)
-		assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(-1 - pointArray[tester.Calc(pointArray)].GetY()) < e);
+		assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(-1 - pointArray[tester.calc(pointArray)].getY()) < e);
 	}
 }
 

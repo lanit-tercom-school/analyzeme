@@ -20,9 +20,9 @@ import java.util.*;
  */
 
 public class JsonParser {
-	private final String xName = "x";
-	private final String yName = "y";
-	private final String dataName = "Data";
+	private static final String X = "x";
+	private static final String Y = "y";
+	private static final String DATA = "Data";
 
 	public JsonParser() {
 	}
@@ -40,8 +40,8 @@ public class JsonParser {
 		try {
 			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 			JSONObject jsonObject = (JSONObject) parser.parse(inputStreamReader);
-			JSONArray xPoints = (JSONArray) jsonObject.get(xName);
-			JSONArray yPoints = (JSONArray) jsonObject.get(yName);
+			JSONArray xPoints = (JSONArray) jsonObject.get(X);
+			JSONArray yPoints = (JSONArray) jsonObject.get(Y);
 
 			if (xPoints.size() != yPoints.size()) {
 				throw new JsonParserException(JsonParserException.ExceptionType.DIFFERENT_LENGTH);
@@ -78,7 +78,7 @@ public class JsonParser {
 
 			Object obj = parser.parse(inputStreamReader);
 			JSONObject jsonObject = (JSONObject) obj;
-			JSONArray jsonArray = (JSONArray) jsonObject.get(dataName);
+			JSONArray jsonArray = (JSONArray) jsonObject.get(DATA);
 			Point[] points = new Point[jsonArray.size()];
 
 			Iterator<JSONObject> iterator = jsonArray.iterator();
@@ -87,8 +87,8 @@ public class JsonParser {
 
 				JSONObject jsonPoint = iterator.next();
 
-				double x = Double.parseDouble((String) jsonPoint.get(xName));
-				double y = Double.parseDouble((String) jsonPoint.get(yName));
+				double x = Double.parseDouble((String) jsonPoint.get(X));
+				double y = Double.parseDouble((String) jsonPoint.get(Y));
 				points[i] = new Point(x, y);
 				i++;
 			}
@@ -115,7 +115,7 @@ public class JsonParser {
 			InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 			Object obj = parser.parse(inputStreamReader);
 			JSONObject jsonObject = (JSONObject) obj;
-			JSONArray jsonArray = (JSONArray) jsonObject.get(dataName);
+			JSONArray jsonArray = (JSONArray) jsonObject.get(DATA);
 			Map<String, List<Double>> result = new HashMap<String, List<Double>>();
 			for(String name : names) {
 				 result.put(name, new ArrayList<Double>());
@@ -141,7 +141,7 @@ public class JsonParser {
 		ObjectMapper mapper = new ObjectMapper(factory);
 		JsonNode rootNode = mapper.readTree(json);
 		Map<String, List<Double>> result = new HashMap<String, List<Double>>();
-        JsonNode array = rootNode.get(dataName);
+        JsonNode array = rootNode.get(DATA);
         Iterator<JsonNode> objectIterator = array.iterator();
         while (objectIterator.hasNext()) {
             JsonNode current = objectIterator.next();

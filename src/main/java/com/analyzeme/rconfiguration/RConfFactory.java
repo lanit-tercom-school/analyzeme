@@ -76,7 +76,7 @@ public class RConfFactory {
      * @return boolean getting from st
      * @throws IllegalArgumentException
      */
-    private static boolean StringToBoll(String st) throws IllegalArgumentException {
+    private static boolean stringToBool(String st) throws IllegalArgumentException {
         if (st.equals("true")) return true;
         else if (st.equals("false")) return false;
         else

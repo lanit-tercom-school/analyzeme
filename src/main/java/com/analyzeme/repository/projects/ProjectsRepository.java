@@ -4,7 +4,6 @@ import com.analyzeme.data.DataSet;
 import com.analyzeme.repository.filerepository.FileUploader;
 import com.analyzeme.repository.filerepository.TypeOfFile;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,28 @@ import java.util.List;
 public class ProjectsRepository {
     private List<ProjectInfo> projects;
     private int counter = 0;
+
+    //info about files for demo project
+    private static final String DEMO_FILE_1 = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
+    private static final String DEMO_FILE_1_NAME = "0_10.json";
+    private static final String DEMO_FILE_1_REF_NAME = "0_10";
+    private static final String DEMO_FILE_2 = "{\"Data\":[{ \"x\": \"1\",\"y\": \"1\"},{\"x\": \"20\",\"y\": \"20\"},{\"x\": \"40\", \"y\": \"40\"},{\"x\": \"60\",\"y\": \"60\"}, {\"x\": \"80\",\"y\": \"80\"},{\"x\": \"100\",\"y\": \"100\"}]}";
+    private static final String DEMO_FILE_2_NAME = "lineal.json";
+    private static final String DEMO_FILE_2_REF_NAME = "lineal";
+
+    /**
+     * creates demo project
+     */
+    private void createDemoProject() throws Exception {
+        String projectName = "demo";
+        String uniqueName = "demo";
+        ProjectInfo info = new ProjectInfo(projectName, uniqueName);
+        DataSet demoFile1set = FileUploader.upload(DEMO_FILE_1, DEMO_FILE_1_NAME, DEMO_FILE_1_REF_NAME, TypeOfFile.SIMPLE_JSON);
+        DataSet demoFile2set = FileUploader.upload(DEMO_FILE_2, DEMO_FILE_2_NAME, DEMO_FILE_2_REF_NAME, TypeOfFile.SIMPLE_JSON);
+        info.persist(demoFile1set);
+        info.persist(demoFile2set);
+        projects.add(info);
+    }
 
     /**
      * creates empty repository
@@ -108,28 +129,6 @@ public class ProjectsRepository {
         if (referenceName == null || referenceName.equals(""))
             throw new IllegalArgumentException("ProjectsRepository getByReferenceName(): wrong reference name");
         return findProjectById(projectId).getDataSetByReferenceName(referenceName);
-    }
-
-    //info about files for demo project
-    private static String demoFile1 = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
-    private static String demoFile1Name = "0_10.json";
-    private static String demoFile1RefName = "0_10";
-    private static String demoFile2 = "{\"Data\":[{ \"x\": \"1\",\"y\": \"1\"},{\"x\": \"20\",\"y\": \"20\"},{\"x\": \"40\", \"y\": \"40\"},{\"x\": \"60\",\"y\": \"60\"}, {\"x\": \"80\",\"y\": \"80\"},{\"x\": \"100\",\"y\": \"100\"}]}";
-    private static String demoFile2Name = "lineal.json";
-    private static String demoFile2RefName = "lineal";
-
-    /**
-     * creates demo project
-     */
-    private void createDemoProject() throws Exception {
-        String projectName = "demo";
-        String uniqueName = "demo";
-        ProjectInfo info = new ProjectInfo(projectName, uniqueName);
-        DataSet demoFile1set = FileUploader.upload(demoFile1, demoFile1Name, demoFile1RefName, TypeOfFile.SIMPLE_JSON);
-        DataSet demoFile2set = FileUploader.upload(demoFile2, demoFile2Name, demoFile2RefName, TypeOfFile.SIMPLE_JSON);
-        info.persist(demoFile1set);
-        info.persist(demoFile2set);
-        projects.add(info);
     }
 
 
