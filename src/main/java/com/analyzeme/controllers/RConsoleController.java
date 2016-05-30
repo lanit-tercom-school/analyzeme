@@ -5,7 +5,6 @@ import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.analyzers.r.TypeOfCall;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.repository.filerepository.FileInfo;
-import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.FileUploader;
 import com.analyzeme.repository.filerepository.TypeOfFile;
 import com.analyzeme.repository.projects.ProjectInfo;
@@ -52,8 +51,9 @@ public class RConsoleController {
 	}
 
 
+	//not tested
 	/**
-	 * saves script for user into concrete project
+	 * saves script for user into the project
 	 *
 	 * @param userId     unique user id
 	 * @param projectId  unique project id
@@ -67,8 +67,7 @@ public class RConsoleController {
 							 @RequestHeader("name") String scriptName,
 							 @RequestBody String scriptText) throws Exception {
 		UsersRepository.checkInitialization();
-		//TODO: change type_of_call later
-		DataSet file = FileUploader.upload(scriptText, scriptName, scriptName, TypeOfFile.SIMPLE_JSON);
+		DataSet file = FileUploader.upload(scriptText, scriptName, scriptName, TypeOfFile.SCRIPT);
 		ProjectInfo project = UsersRepository.findUser(userId).getProjects().findProjectById(projectId);
 		if (project == null) {
 			return null;
@@ -77,10 +76,8 @@ public class RConsoleController {
 		return file.getFile().getToken();
 	}
 
+	//not tested
 	/**
-	 * (has problems with repeating names)
-	 * doesn't distinguish script and not-script files yet
-	 * <p/>
 	 * gets file by its unique name
 	 *
 	 * @param scriptRefName - unique script name

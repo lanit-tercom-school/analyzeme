@@ -6,10 +6,13 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.util.*;
+
+import static org.junit.Assert.assertTrue;
 
 
 /**
- * Created by Андрей Каликин on 07.12.2015.
+ * Created by пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ on 07.12.2015.
  */
 public class JsonParserTest {
 	JsonParser jsonParser;
@@ -141,5 +144,34 @@ public class JsonParserTest {
 			sb.append(item);
 		}
 		return sb.toString();
+	}
+
+	@Test
+	public void testParseWithNames() throws Exception {
+		Set<String> names = new HashSet<String>();
+		names.add("x");
+		names.add("y");
+		names.add("z");
+		String s = join("\n", new String[]{
+				"{\"Data\":[{ \"x\": \"1\",\"y\": \"1\",\"z\": \"1\" },{\"x\": \"20\",\"y\": \"20\",\"z\": \"1\"}]}"
+		});
+		List<Double> x = new ArrayList<Double>();
+		x.add(1.0); x.add(20.0);
+
+		List<Double> y = new ArrayList<Double>();
+		y.add(1.0); y.add(20.0);
+
+
+		List<Double> z = new ArrayList<Double>();
+		z.add(1.0); z.add(1.0);
+
+		InputStream is = new ByteArrayInputStream(s.getBytes());
+		jsonParser = new JsonParser();
+		Map<String, List<Double>> res = jsonParser.getPointsFromJsonWithNames(is, names);
+
+		assertTrue(res.get("x").equals(x));
+		assertTrue(res.get("y").equals(y));
+		assertTrue(res.get("z").equals(z));
+
 	}
 }

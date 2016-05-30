@@ -1,6 +1,7 @@
 package com.analyzeme.controllers;
 
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import com.analyzeme.parsers.InfoToJson;
 import com.analyzeme.repository.*;
 import com.analyzeme.repository.filerepository.FileInfo;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 /**
@@ -36,6 +36,7 @@ public class FileController {
                        HttpServletResponse response) throws IOException {
         try {
             String fileName = multipartFile.getOriginalFilename();
+            //TODO: now type checking is only formal, change with #202
             TypeOfFile type = null;
             if (fileName.endsWith(".json")) {
                 type = TypeOfFile.SIMPLE_JSON;
@@ -43,22 +44,17 @@ public class FileController {
                 type = TypeOfFile.CSV;
             }
 
-            //after users added, change next line to UsersRepository.checkInitialization();
+            //TODO: after users added, change next line to UsersRepository.checkInitialization();
             UsersRepository.checkInitializationAndCreate();
             UserInfo user = UsersRepository.findUser(userId);
             ProjectInfo project = user.getProjects().findProjectById(projectUniqueName);
             if (project == null) {
-                throw new Exception();
+                throw new IllegalArgumentException("FileController doPost(): project does not exists");
             }
-
 
             DataSet set = FileUploader.upload(multipartFile, fileName, fileName, type);
             project.persist(set);
-            //filename, projectId, userId
-
-            //Set responseHeaders "Data" and "fileName";
             response.setHeader("fileName", set.getReferenceName());
-            //ByteArrayInputStream file = FileRepository.getRepo().getFileByID(set.getFile().getToken());
             String Data = StreamToString.ConvertStream(set.getData());
             response.setHeader("Data", Data);
 
@@ -77,6 +73,7 @@ public class FileController {
                        HttpServletResponse response) throws IOException {
         try {
             String fileName = multipartFile.getOriginalFilename();
+            //TODO: now type checking is only formal, change with #202
             TypeOfFile type = null;
             if (fileName.endsWith(".json")) {
                 type = TypeOfFile.SIMPLE_JSON;
@@ -96,9 +93,7 @@ public class FileController {
             DataSet set = FileUploader.upload(multipartFile, fileName, fileName, type);
             UsersRepository.findUser("guest").getProjects().findProjectById("demo").persist(set);
 
-            //Set responseHeaders "Data" and "fileName";
             response.setHeader("fileName", set.getReferenceName());
-            //ByteArrayInputStream file = FileRepository.getRepo().getFileByID(set.getFile().getToken());
             String Data = StreamToString.ConvertStream(set.getData());
             response.setHeader("Data", Data);
 
@@ -110,6 +105,31 @@ public class FileController {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * @param userId        - id of a user who uploaded this data
+     * @param projectId     - project with this data
+     * @param referenceName - reference name (now id in repository is used here)
+     * @param response
+     * @return String with json like  {"Data": [{"x":"1", "y":"1"}, ...]}
+     * @throws IOException
+     */
+    @RequestMapping(value = "/file/{user_id}/{project_id}/{reference_name}/data", method = RequestMethod.GET)
+    public String getDataByReferenceName(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference_name") String referenceName, HttpServletResponse response)
+            throws IOException {
+        try {
+            FileInRepositoryResolver res = new FileInRepositoryResolver();
+            res.setProject(userId, projectId);
+            DataSet file = res.getDataSet(referenceName);
+            String Data = StreamToString.ConvertStream(file.getData());
+            return Data;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 
     /**
      * deletes file by unique name

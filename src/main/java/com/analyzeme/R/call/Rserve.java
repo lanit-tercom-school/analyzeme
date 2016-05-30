@@ -27,24 +27,15 @@ public class Rserve implements IRCaller {
 	}
 
 	private static void insertData(List<DataSet> dataFiles) throws Exception {
-		for (DataSet data : dataFiles) {
-			if (data.getFields().contains("x") || data.getFields().contains("y")) {
-				ByteArrayInputStream file = data.getData();
-				InputStream is = new ByteArrayInputStream(StreamToString.ConvertStream(file).getBytes());
-				JsonParser jsonParser;
-				jsonParser = new JsonParser();
-				Point[] points = jsonParser.getPointsFromPointJson(is);
-
-				double[] x = new double[points.length];
-				double[] y = new double[points.length];
-				for (int i = 0; i < points.length; i++) {
-					x[i] = points[i].GetX();
-					y[i] = points[i].GetY();
+		for (DataSet set : dataFiles) {
+			for(String field : set.getFields()) {
+				List<Double> value = set.getByField(field);
+				double[] v1 = new double[value.size()];
+				int i = 0;
+				for(Double v : value) {
+					v1[i++] = v;
 				}
-				if (data.getFields().contains("x"))
-					r.assign("x_from__repo__" + data.getReferenceName() + "__", x);
-				if (data.getFields().contains("y"))
-					r.assign("y_from__repo__" + data.getReferenceName() + "__", y);
+				r.assign(field + "_from__repo__" + set.getReferenceName() + "__", v1);
 			}
 		}
 	}

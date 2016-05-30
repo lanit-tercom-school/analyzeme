@@ -1,43 +1,59 @@
 'use strict';
-(function(app) {
+(function (app) {
     //draw graph
     app.d3Utils = {};
-    app.d3Utils.DrawGraph = function(Data) {
-        //alert(Data);
-        var vis = d3.select("#svgVisualize");
-        //clear Graph
-        vis.selectAll("*").remove();
+    app.d3Utils.DrawGraph = function (Data) {
+        var data2D=[];
+       for (var i = 0; i < Data.length; i++) {
+            data2D.push([parseFloat(Data[i].x),parseFloat(Data[i].y)]);
+        }
 
-        var xRange = d3.scale.linear().range([40, 400]).domain([d3.min(Data, function(d) {
-                return (d.x);
-            }),
-            d3.max(Data, function(d) {
-                return d.x;
-            })
-        ]);
-        var yRange = d3.scale.linear().range([400, 40]).domain([d3.min(Data, function(d) {
-                return d.y;
-            }),
-            d3.max(Data, function(d) {
-                return d.y;
-            })
-        ]);
-        var xAxis = d3.svg.axis().scale(xRange);
-        var yAxis = d3.svg.axis().scale(yRange).orient("left");
-        vis.append("svg:g").call(xAxis).attr("transform", "translate(0,400)");
-        vis.append("svg:g").call(yAxis).attr("transform", "translate(40,0)");
+        $('#svgVisualize').highcharts({
+            chart: {
+                zoomType: 'x'
+            },
+            title: {
+                text: 'Your graph',
+                x: -20 //center
+            },
+            subtitle: {
+                text: 'Click and drag in the plot area to zoom in'
+            },
+            xAxis: {
+                minPadding: 0.05,
+                maxPadding: 0.05
 
-        var circles = vis.selectAll("circle").data(Data);
-        circles
-            .enter()
-            .insert("circle")
-            .attr("cx", function(d) {
-                return xRange(d.x);
-            })
-            .attr("cy", function(d) {
-                return yRange(d.y);
-            })
-            .attr("r", 10)
-            .style("fill", "red");
+            },
+            yAxis: {
+                title: {
+                    text: null
+                },
+
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#2e7d32',
+
+                }]
+            },
+
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
+            plotOptions: {
+                line: {
+                    allowPointSelect: true
+                },
+                series: {
+                    color: '#2e7d32'
+                }
+            },
+            series: [{
+                data: data2D
+            }]
+        });
     };
 })(window.app || (window.app = {}));

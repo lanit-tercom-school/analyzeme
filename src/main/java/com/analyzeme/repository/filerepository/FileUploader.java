@@ -4,24 +4,41 @@ import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.CsvFileInRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.ScriptInRepositoryInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by lagroffe on 20.05.2016 21:27
  */
 public class FileUploader {
+    private static Set<String> keys;
+
     private static ISourceInfo createSourceInfo(final String nameInRepo, TypeOfFile typeOfFile) throws IOException {
         ISourceInfo source = null;
         switch (typeOfFile) {
             case SIMPLE_JSON: {
                 source = new JsonPointFileInRepositoryInfo(nameInRepo);
+                keys = new HashSet<String>();
+                keys.add("x");
+                keys.add("y");
                 break;
             }
             case CSV: {
                 source = new CsvFileInRepositoryInfo(nameInRepo);
+                Set<String> keysTemp = new HashSet<String>();
+                for(String key: ((CsvFileInRepositoryInfo)source).getKeys())  {
+                    keysTemp.add(key);
+                }
+                keys = keysTemp;
+                break;
+            }
+            case SCRIPT: {
+                source = new ScriptInRepositoryInfo(nameInRepo);
                 break;
             }
         }
@@ -41,8 +58,10 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        result.addField("x");
-        result.addField("y");
+        for(String key: keys) {
+            result.addField(key);
+        }
+        keys.clear();
         //next line should be deprecated when real referenceName is ready
         result.setReferenceName(nameInRepo);
         return result;
@@ -61,8 +80,10 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        result.addField("x");
-        result.addField("y");
+        for(String key: keys) {
+            result.addField(key);
+        }
+        keys.clear();
         //next line should be deprecated when real referenceName is ready
         result.setReferenceName(nameInRepo);
         return result;
@@ -81,8 +102,10 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        result.addField("x");
-        result.addField("y");
+        for(String key: keys) {
+            result.addField(key);
+        }
+        keys.clear();
         //next line should be deprecated when real referenceName is ready
         result.setReferenceName(nameInRepo);
         return result;

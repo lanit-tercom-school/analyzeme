@@ -210,6 +210,24 @@
         );
     };
 
+    ///GET: file/{user_id}/{project_id}/{reference_name}/data
+    // returns file data
+    // extract: JSON.parse(xhr.responseText).Data
+    app.AppUtils.API.getFileDataFromDataSet = function (userId, projectId, referenceName) {
+        return app.AppUtils.makeRequest(
+            "GET",
+            "file/" + userId + "/" + projectId + "/" + referenceName + "/data",
+            null,
+            [],
+            (xhr) => xhr.status == 200,
+            (xhr) => app.AppUtils.API.logger.log("got file's data: " + referenceName),
+            (xhr) => app.AppUtils.API.logger.log(
+            "failed to get file's data: " + referenceName
+            + ": error " + xhr.status
+        )
+        );
+    };
+
     app.AppUtils.API.deleteFile = function (fileName) {
         return app.AppUtils.makeRequest(
             "DELETE",

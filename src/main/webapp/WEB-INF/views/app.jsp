@@ -56,11 +56,16 @@
         <script src='${angularPath}app/footer.component.js'></script>
         <script src='${angularPath}app/app.component.js'></script>
         <script src='${angularPath}app/main.js'></script>
-        <!--d3-->
-        <script src="${angularPath}lib/d3.v3.min.js" charset="utf-8"></script>
+        <%--<!--d3-->--%>
+        <%--<script src="${angularPath}lib/d3.v3.min.js" charset="utf-8"></script>--%>
         <!--ace editor-->
         <script src="${angularPath}lib/ace/ace.js" charset="utf-8"></script>
         <script src="${angularPath}lib/ace/mode-r.js" charset="utf-8"></script>
+        <!-- jQuery -->
+        <script src="${angularPath}lib/jquery.min.js"></script>
+        <!--hightchart -->
+        <script src="${angularPath}lib/highcharts/highcharts.js"></script>
+        <script src="${angularPath}lib/highcharts/highcharts.modules.exporting.js"></script>
     </head>
 
     <!-- 3. Display the application -->
