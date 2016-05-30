@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=csvSupport)](https://travis-ci.org/lanit-tercom-school/analyzeme) [![codecov.io](https://codecov.io/github/lanit-tercom-school/analyzeme/coverage.svg?branch=csvSupport)](https://codecov.io/github/lanit-tercom-school/analyzeme?branch=csvSupport)
-=======
 # analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=dev)](https://travis-ci.org/lanit-tercom-school/analyzeme) [![codecov.io](https://codecov.io/github/lanit-tercom-school/analyzeme/coverage.svg?branch=dev)](https://codecov.io/github/lanit-tercom-school/analyzeme?branch=dev) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/21aa2175753b48be8fd0609f720b141a)](https://www.codacy.com/app/lanit-tercom-school/analyzeme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lanit-tercom-school/analyzeme&amp;utm_campaign=Badge_Grade)
->>>>>>> dev
 
 ####Сборка проекта под Windows
 
