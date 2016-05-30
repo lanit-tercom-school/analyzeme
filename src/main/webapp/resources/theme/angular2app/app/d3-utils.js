@@ -13,7 +13,7 @@
                 zoomType: 'x'
             },
             title: {
-                text: 'Your graph',
+                text: 'Your line chart',
                 x: -20 //center
             },
             subtitle: {
@@ -32,17 +32,17 @@
                 plotLines: [{
                     value: 0,
                     width: 1,
-                    color: '#2e7d32',
+                    color: '#2e7d32'
 
                 }]
             },
-
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
+            //
+            //legend: {
+            //    layout: 'vertical',
+            //    align: 'right',
+            //    verticalAlign: 'middle',
+            //    borderWidth: 0
+            //},
             plotOptions: {
                 line: {
                     allowPointSelect: true
