@@ -29,14 +29,23 @@ public class JsonPointFileInRepositoryInfo implements ISourceInfo {
         return uniqueNameInRepository;
     }
 
+    public Set<String> getKeys() throws Exception {
+        ByteArrayInputStream stream = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
+        JsonParser parser = new JsonParser();
+        Map<String, List<Double>> data = parser.parse(stream);
+        return data.keySet();
+    }
+
 
     public List<Double> getByField(final String fieldName) throws Exception {
         ByteArrayInputStream stream = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
-        Set<String> names = new HashSet<String>();
-        names.add("x");
-        names.add("y");
+        //Set<String> names = new HashSet<String>();
+        //names.add("x");
+        //names.add("y");
+        //JsonParser parser = new JsonParser();
+        //Map<String, List<Double>> data = parser.getPointsFromJsonWithNames(stream, names);
         JsonParser parser = new JsonParser();
-        Map<String, List<Double>> data = parser.getPointsFromJsonWithNames(stream, names);
+        Map<String, List<Double>> data = parser.parse(stream);
         return data.get(fieldName);
     }
 }

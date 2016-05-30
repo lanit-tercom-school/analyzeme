@@ -47,7 +47,7 @@ public class ProjectInfoTest {
     @Test
     public void testRecentlyAddedForReturnActiveFilesForList() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
-        DataSet set = FileUploader.upload("{\"Data\":{\"x\":\"1\", \"y\":\"1\"", "sth", "sth", TypeOfFile.SIMPLE_JSON);
+        DataSet set = FileUploader.upload("{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}", "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         String list = info.returnActiveFilesForList();
         assertTrue("returnActiveFilesForList incorrect for recently added", list != null && !list.equals("[]"));
@@ -56,7 +56,7 @@ public class ProjectInfoTest {
     @Test
     public void testRecentlyDeletedForReturnActiveFilesForList() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
-        DataSet set = FileUploader.upload("file", "sth", "sth", TypeOfFile.SIMPLE_JSON);
+        DataSet set = FileUploader.upload("{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}", "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         info.deactivateFiles();
         String list = info.returnActiveFilesForList();
@@ -73,7 +73,7 @@ public class ProjectInfoTest {
     @Test
     public void testRecentlyAddedForReturnAllNamesOfActiveFiles() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
-        DataSet set = FileUploader.upload("file", "sth", "sth", TypeOfFile.SIMPLE_JSON);
+        DataSet set = FileUploader.upload("{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}", "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         List<String> list = info.returnAllNamesOfActiveFiles();
         assertTrue("returnAllNamesOfActiveFiles incorrect for recently added", list != null && !list.isEmpty());
@@ -82,7 +82,7 @@ public class ProjectInfoTest {
     @Test
     public void testRecentlyDeletedForReturnAllNamesOfActiveFiles() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
-        DataSet set = FileUploader.upload("{\"Data\":{\"x\":\"1\", \"y\":\"1\"", "sth", "sth", TypeOfFile.SIMPLE_JSON);
+        DataSet set = FileUploader.upload("{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}", "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         info.deactivateFiles();
         List<String> list = info.returnAllNamesOfActiveFiles();
@@ -99,7 +99,7 @@ public class ProjectInfoTest {
     @Test
     public void testRecentlyAddedForGetReferenceNames() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
-        DataSet set = FileUploader.upload("file", "sth", "sth", TypeOfFile.SIMPLE_JSON);
+        DataSet set = FileUploader.upload("{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}", "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         List<String> list = info.getReferenceNames();
         assertTrue("returnAllNamesOfActiveFiles incorrect for recently added", list != null && !list.isEmpty());
@@ -127,7 +127,7 @@ public class ProjectInfoTest {
     @Test
     public void testNonExistingForGetDataSetByReferenceName() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
-        DataSet set = FileUploader.upload("file", "sth", "sth", TypeOfFile.SIMPLE_JSON);
+        DataSet set = FileUploader.upload("{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}", "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         DataSet set2 = info.getDataSetByReferenceName("sth2");
         assertTrue(set2 == null);
@@ -136,7 +136,7 @@ public class ProjectInfoTest {
     @Test
     public void testRecentlyAddedForGetDataSetByReferenceName() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
-        DataSet set = FileUploader.upload("file", "sth", "sth", TypeOfFile.SIMPLE_JSON);
+        DataSet set = FileUploader.upload("{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}", "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         DataSet set2 = info.getDataSetByReferenceName(set.getReferenceName());
         assertTrue(set2 != null && set2.getReferenceName().equals(set.getReferenceName()));
