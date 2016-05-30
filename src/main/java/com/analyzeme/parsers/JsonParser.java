@@ -1,11 +1,15 @@
 package com.analyzeme.parsers;
 
 import com.analyzeme.analyze.Point;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -129,5 +133,36 @@ public class JsonParser {
 		} catch (IOException e) {
 			throw new JsonParserException(e.getStackTrace().toString());
 		}
+	}
+
+	public Map<String, List<Double>> parse(InputStream json) throws Exception {
+		JsonFactory factory = new JsonFactory();
+
+		ObjectMapper mapper = new ObjectMapper(factory);
+		JsonNode rootNode = mapper.readTree(json);
+		Map<String, List<Double>> result = new HashMap<String, List<Double>>();
+        JsonNode array = rootNode.get(dataName);
+        Iterator<JsonNode> objectIterator = array.iterator();
+        while (objectIterator.hasNext()) {
+            JsonNode current = objectIterator.next();
+            Iterator<Map.Entry<String, JsonNode>> fieldsIterator = current.fields();
+            while (fieldsIterator.hasNext()) {
+                Map.Entry<String, JsonNode> field = fieldsIterator.next();
+                //System.out.println("Key: " + field.getKey() + "\tValue:" + field.getValue());
+                if (!result.containsKey(field.getKey())) {
+                    result.put(field.getKey(), new ArrayList<Double>());
+                    result.get(field.getKey()).add(field.getValue().asDouble());
+                } else {
+                    result.get(field.getKey()).add(field.getValue().asDouble());
+                }
+            }
+        }
+        return result;
+	}
+
+
+
+	public Map<String, List<Double>> parse(String json) throws Exception {
+		return parse(new ByteArrayInputStream(json.getBytes()));
 	}
 }

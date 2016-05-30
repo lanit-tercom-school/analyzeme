@@ -7,7 +7,6 @@ import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ScriptInRepositoryInfo;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,20 +17,22 @@ import java.util.Set;
 public class FileUploader {
     private static Set<String> keys;
 
-    private static ISourceInfo createSourceInfo(final String nameInRepo, TypeOfFile typeOfFile) throws IOException {
+    private static ISourceInfo createSourceInfo(final String nameInRepo, TypeOfFile typeOfFile) throws Exception {
         ISourceInfo source = null;
         switch (typeOfFile) {
             case SIMPLE_JSON: {
                 source = new JsonPointFileInRepositoryInfo(nameInRepo);
-                keys = new HashSet<String>();
-                keys.add("x");
-                keys.add("y");
+                Set<String> keysTemp = new HashSet<String>();
+                for(String key: source.getKeys())  {
+                    keysTemp.add(key);
+                }
+                keys = keysTemp;
                 break;
             }
             case CSV: {
                 source = new CsvFileInRepositoryInfo(nameInRepo);
                 Set<String> keysTemp = new HashSet<String>();
-                for(String key: ((CsvFileInRepositoryInfo)source).getKeys())  {
+                for(String key: source.getKeys())  {
                     keysTemp.add(key);
                 }
                 keys = keysTemp;
@@ -46,7 +47,7 @@ public class FileUploader {
     }
 
     public static DataSet upload(MultipartFile file, String filename, String referenceName, TypeOfFile typeOfFile) throws Exception {
-        if (filename == null || filename.equals("") || file == null) {
+        if (filename == null || filename.equals("") || referenceName == null || referenceName.equals("") || file == null) {
             throw new IllegalArgumentException("FileUploader upload(MultipartFile): empty argument");
         }
         if(typeOfFile == null) {
@@ -68,7 +69,7 @@ public class FileUploader {
     }
 
     public static DataSet upload(String file, String filename, String referenceName, TypeOfFile typeOfFile) throws Exception {
-        if (filename == null || filename.equals("") || file == null || file.equals("")) {
+        if (filename == null || filename.equals("") ||referenceName == null || referenceName.equals("") || file == null || file.equals("")) {
             throw new IllegalArgumentException("FileUploader upload(String): empty argument");
         }
         if(typeOfFile == null) {
@@ -90,7 +91,7 @@ public class FileUploader {
     }
 
     public static DataSet upload(InputStream part, String filename, String referenceName, TypeOfFile typeOfFile) throws Exception {
-        if (filename == null || filename.equals("") || part == null) {
+        if (filename == null || filename.equals("") ||referenceName == null || referenceName.equals("") || part == null) {
             throw new IllegalArgumentException("FileUploader upload(ByteArrayInputStream): empty argument");
         }
         if(typeOfFile == null) {

@@ -2,6 +2,7 @@ package com.analyzeme.parsers;
 
 import com.analyzeme.analyze.Point;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -173,5 +174,17 @@ public class JsonParserTest {
 		assertTrue(res.get("y").equals(y));
 		assertTrue(res.get("z").equals(z));
 
+	}
+
+	@Ignore
+	@Test
+	public void testNewParser() throws Exception {
+		JsonParser parser = new JsonParser();
+		Map<String, List<Double>> res = parser.parse("{\"Data\":[{ \"x\": \"1\",\"y\": \"1\",\"z\": \"1\" },{\"x\": \"20\",\"y\": \"20\",\"z\": \"1\"}]}");
+		/*for(Map.Entry<String, List<Double>> entry : res.entrySet()) {
+			System.out.println(entry.getKey());
+			System.out.println(Arrays.toString(entry.getValue().toArray()));
+		}  */
+		//parser.parse("{ \"x\": 1,\"y\": 1,\"z\": 1}");
 	}
 }
