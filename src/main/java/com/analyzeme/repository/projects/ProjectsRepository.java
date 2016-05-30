@@ -17,12 +17,25 @@ public class ProjectsRepository {
     private int counter = 0;
 
     //info about files for demo project
-    private static final String DEMO_FILE_1 = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
-    private static final String DEMO_FILE_1_NAME = "0_10.json";
-    private static final String DEMO_FILE_1_REF_NAME = "0_10";
-    private static final String DEMO_FILE_2 = "{\"Data\":[{ \"x\": \"1\",\"y\": \"1\"},{\"x\": \"20\",\"y\": \"20\"},{\"x\": \"40\", \"y\": \"40\"},{\"x\": \"60\",\"y\": \"60\"}, {\"x\": \"80\",\"y\": \"80\"},{\"x\": \"100\",\"y\": \"100\"}]}";
-    private static final String DEMO_FILE_2_NAME = "lineal.json";
-    private static final String DEMO_FILE_2_REF_NAME = "lineal";
+    private static final String DEMO_FILE_1 =
+            "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" }," +
+                    "{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" }," +
+                    "{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" }," +
+                    "{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" }," +
+                    "{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" }," +
+                    "{ \"x\": \"10\",\"y\": \"10\" }]}";
+    private static final String DEMO_FILE_1_NAME =
+            "0_10.json";
+    private static final String DEMO_FILE_1_REF_NAME =
+            "0_10";
+    private static final String DEMO_FILE_2 =
+            "{\"Data\":[{ \"x\": \"1\",\"y\": \"1\"},{\"x\": \"20\",\"y\": \"20\"}," +
+                    "{\"x\": \"40\", \"y\": \"40\"},{\"x\": \"60\",\"y\": \"60\"}," +
+                    " {\"x\": \"80\",\"y\": \"80\"},{\"x\": \"100\",\"y\": \"100\"}]}";
+    private static final String DEMO_FILE_2_NAME =
+            "lineal.json";
+    private static final String DEMO_FILE_2_REF_NAME =
+            "lineal";
 
     /**
      * creates demo project
@@ -31,8 +44,12 @@ public class ProjectsRepository {
         String projectName = "demo";
         String uniqueName = "demo";
         ProjectInfo info = new ProjectInfo(projectName, uniqueName);
-        DataSet demoFile1set = FileUploader.upload(DEMO_FILE_1, DEMO_FILE_1_NAME, DEMO_FILE_1_REF_NAME, TypeOfFile.SIMPLE_JSON);
-        DataSet demoFile2set = FileUploader.upload(DEMO_FILE_2, DEMO_FILE_2_NAME, DEMO_FILE_2_REF_NAME, TypeOfFile.SIMPLE_JSON);
+        DataSet demoFile1set = FileUploader.upload(DEMO_FILE_1,
+                DEMO_FILE_1_NAME, DEMO_FILE_1_REF_NAME,
+                TypeOfFile.SIMPLE_JSON);
+        DataSet demoFile2set = FileUploader.upload(DEMO_FILE_2,
+                DEMO_FILE_2_NAME, DEMO_FILE_2_REF_NAME,
+                TypeOfFile.SIMPLE_JSON);
         info.persist(demoFile1set);
         info.persist(demoFile2set);
         projects.add(info);
@@ -54,7 +71,8 @@ public class ProjectsRepository {
      */
     public ProjectInfo findProjectById(final String projectId) throws IOException {
         if (projectId == null || projectId.equals("")) {
-            throw new IllegalArgumentException("ProjectsRepository findProjectById(): wrong id");
+            throw new IllegalArgumentException(
+                    "ProjectsRepository findProjectById(): wrong id");
         }
         for (ProjectInfo project : projects) {
             if (project.getUniqueName().equals(projectId)) {
@@ -80,7 +98,8 @@ public class ProjectsRepository {
      */
     public String createProject(final String projectName) throws Exception {
         if (projectName == null || projectName.equals("")) {
-            throw new IllegalArgumentException("ProjectsRepository createProject(): empty projectName");
+            throw new IllegalArgumentException(
+                    "ProjectsRepository createProject(): empty projectName");
         }
         String uniqueName = createUniqueName();
         ProjectInfo info = new ProjectInfo(projectName, uniqueName);
@@ -95,9 +114,11 @@ public class ProjectsRepository {
      * @param projectId - id of project to delete
      * @return true if succeed
      */
-    public synchronized boolean deactivateProjectById(final String projectId) throws Exception {
+    public synchronized boolean deactivateProjectById(final String projectId)
+            throws Exception {
         if (projectId == null || projectId.equals("")) {
-            throw new IllegalArgumentException("ProjectsRepository deactivateProjectById(): empty projectId");
+            throw new IllegalArgumentException(
+                    "ProjectsRepository deactivateProjectById(): empty projectId");
         }
         for (ProjectInfo info : projects) {
             if (info.getUniqueName().equals(projectId)) {
@@ -112,16 +133,20 @@ public class ProjectsRepository {
     /**
      * @param file - dataset
      */
-    public synchronized void persist(final DataSet file, final String projectId) throws Exception {
+    public synchronized void persist(final DataSet file,
+                                     final String projectId) throws Exception {
         if (projectId == null || projectId.equals("")) {
-            throw new IllegalArgumentException("ProjectsRepository persist(): wrong projectId");
+            throw new IllegalArgumentException(
+                    "ProjectsRepository persist(): wrong projectId");
         }
         if (file == null) {
-            throw new IllegalArgumentException("ProjectsRepository persist(): empty entity of DataSet");
+            throw new IllegalArgumentException(
+                    "ProjectsRepository persist(): empty entity of DataSet");
         }
         ProjectInfo info = findProjectById(projectId);
         if (info == null) {
-            throw new IllegalArgumentException("ProjectsRepository persist(): project with this id does not exist");
+            throw new IllegalArgumentException(
+                    "ProjectsRepository persist(): project with this id does not exist");
         }
         info.persist(file);
     }
@@ -132,9 +157,12 @@ public class ProjectsRepository {
      * @param referenceName
      * @return dataset (or null if not found)
      */
-    public synchronized DataSet getByReferenceName(final String projectId, final String referenceName) throws Exception {
+    public synchronized DataSet getByReferenceName(
+            final String projectId, final String referenceName)
+            throws Exception {
         if (referenceName == null || referenceName.equals("")) {
-            throw new IllegalArgumentException("ProjectsRepository getByReferenceName(): wrong reference name");
+            throw new IllegalArgumentException(
+                    "ProjectsRepository getByReferenceName(): wrong reference name");
         }
         return findProjectById(projectId).getDataSetByReferenceName(referenceName);
     }

@@ -48,19 +48,25 @@ public class UserInfoTest {
     @Test
     public void testGetLogin() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct", info.getLogin() != null && !info.getLogin().equals(""));
+        assertTrue("getLogin is not correct",
+                info.getLogin() != null &&
+                        !info.getLogin().equals(""));
     }
 
     @Test
     public void testGetEmail() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct", info.getEmail() != null && !info.getEmail().equals(""));
+        assertTrue("getLogin is not correct",
+                info.getEmail() != null &&
+                        !info.getEmail().equals(""));
     }
 
     @Test
     public void testGetPassword() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct", info.getPassword() != null && !info.getPassword().equals(""));
+        assertTrue("getLogin is not correct",
+                info.getPassword() != null &&
+                        !info.getPassword().equals(""));
     }
 
     @Test
@@ -72,7 +78,8 @@ public class UserInfoTest {
     @Test
     public void testGetProjects() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct", info.getProjects() != null);
+        assertTrue("getLogin is not correct",
+                info.getProjects() != null);
     }
 
     @Test(expected = IllegalArgumentException.class)

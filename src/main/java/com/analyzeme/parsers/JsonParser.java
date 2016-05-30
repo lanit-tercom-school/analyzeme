@@ -29,7 +29,7 @@ public class JsonParser {
 	 */
 	public Point[] getPoints(InputStream inputStream) throws JsonParserException {
 		if (inputStream == null) {
-			throw new NullPointerException();
+			throw new IllegalArgumentException();
 		}
 
 		JSONParser parser = new JSONParser();

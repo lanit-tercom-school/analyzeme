@@ -2,7 +2,6 @@ package com.analyzeme.parsers;
 
 import com.analyzeme.analyze.Point;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -19,7 +18,7 @@ public class JsonParserTest {
 	private JsonParser jsonParser;
 	private Point[] points;
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullArgumentInConstructor() throws Exception {
 		jsonParser = new JsonParser();
 		jsonParser.getPoints((InputStream) null);
@@ -154,7 +153,8 @@ public class JsonParserTest {
 		names.add("y");
 		names.add("z");
 		String s = join("\n", new String[]{
-				"{\"Data\":[{ \"x\": \"1\",\"y\": \"1\",\"z\": \"1\" },{\"x\": \"20\",\"y\": \"20\",\"z\": \"1\"}]}"
+				"{\"Data\":[{ \"x\": \"1\",\"y\": \"1\",\"z\": \"1\" }," +
+						"{\"x\": \"20\",\"y\": \"20\",\"z\": \"1\"}]}"
 		});
 		List<Double> x = new ArrayList<Double>();
 		x.add(1.0); x.add(20.0);
@@ -168,7 +168,8 @@ public class JsonParserTest {
 
 		InputStream is = new ByteArrayInputStream(s.getBytes());
 		jsonParser = new JsonParser();
-		Map<String, List<Double>> res = jsonParser.getPointsFromJsonWithNames(is, names);
+		Map<String, List<Double>> res =
+				jsonParser.getPointsFromJsonWithNames(is, names);
 
 		assertTrue(res.get("x").equals(x));
 		assertTrue(res.get("y").equals(y));

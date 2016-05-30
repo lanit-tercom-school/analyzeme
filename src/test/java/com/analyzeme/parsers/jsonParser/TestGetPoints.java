@@ -17,7 +17,7 @@ public class TestGetPoints {
 	private JsonParser jsonParser;
 	private Point[] points;
 
-	@Test(expected = NullPointerException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testNullArgumentInConstructor() throws Exception {
 		jsonParser = new JsonParser();
 		jsonParser.getPoints((InputStream)null);
@@ -128,7 +128,8 @@ public class TestGetPoints {
 		InputStream is = new ByteArrayInputStream(s.getBytes());
 		jsonParser = new JsonParser();
 		points = jsonParser.getPoints(is);
-		Assert.assertArrayEquals(new Point[]{new Point(1.0, 5.0), new Point(2.5, 6.5),
+		Assert.assertArrayEquals(new Point[]{new Point(1.0, 5.0),
+				new Point(2.5, 6.5),
 				new Point(4.7, 7.7)}, points);
 	}
 

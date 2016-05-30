@@ -76,7 +76,8 @@ public class FileRepositoryTest {
 	@Test
 	public void testEmptyRepository() throws Exception {
 		FileRepositoryTest.repo = new FileRepository();
-		ByteArrayInputStream get = FileRepositoryTest.repo.getFileByID("anything");
+		ByteArrayInputStream get =
+				FileRepositoryTest.repo.getFileByID("anything");
 		assertTrue("Empty repository does not work properly", get == null);
 	}
 
@@ -87,16 +88,19 @@ public class FileRepositoryTest {
 	@Test
 	public void testRecentlyAdded() throws Exception {
 		FileRepositoryTest.repo = new FileRepository();
-		String nameToWrite = FileRepositoryTest.repo.persist(file, "filename.txt");
+		String nameToWrite =
+				FileRepositoryTest.repo.persist(file, "filename.txt");
 		for (int i = 0; i < 10; i++) {
-			ByteArrayInputStream file2 = FileRepositoryTest.repo.getFileByID(nameToWrite);
+			ByteArrayInputStream file2 =
+					FileRepositoryTest.repo.getFileByID(nameToWrite);
 			byte[] b2 = new byte[4];
 			file2.read(b2);
 			char[] buffer2 = new char[4];
 			for (int j = 0; j < b2.length; j++) {
 				buffer2[j] = (char) b2[j];
 			}
-			assertTrue("File is not returned correctly", Arrays.equals(buffer, buffer2));
+			assertTrue("File is not returned correctly",
+					Arrays.equals(buffer, buffer2));
 		}
 	}
 
@@ -110,7 +114,8 @@ public class FileRepositoryTest {
 	@Test
 	public void testDeleteNonExisting() throws Exception {
 		FileRepositoryTest.repo = new FileRepository();
-		boolean result = FileRepository.getRepo().deleteFileByIdCompletely("sth");
+		boolean result =
+				FileRepository.getRepo().deleteFileByIdCompletely("sth");
 		assertTrue("Empty repository does not work properly", !result);
 	}
 
@@ -136,10 +141,10 @@ public class FileRepositoryTest {
 
 
 	private class testReaderThread extends Thread {
-		String nameToWrite;
-		int number;
+		private final String nameToWrite;
+		private final int number;
 
-		testReaderThread(String name, int number) {
+		testReaderThread(final String name, final int number) {
 			nameToWrite = name;
 			this.number = number;
 		}
@@ -147,7 +152,8 @@ public class FileRepositoryTest {
 		@Override
 		public void run() {
 			try {
-				ByteArrayInputStream file2 = FileRepositoryTest.repo.getFileByID(nameToWrite);
+				ByteArrayInputStream file2 =
+						FileRepositoryTest.repo.getFileByID(nameToWrite);
 				byte[] b2 = new byte[4];
 				file2.read(b2);
 				char[] buffer2 = new char[4];

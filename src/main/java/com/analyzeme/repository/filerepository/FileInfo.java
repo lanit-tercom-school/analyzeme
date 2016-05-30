@@ -22,7 +22,7 @@ public class FileInfo {
     private String uniqueName;
     @JsonProperty("uploadingDate")
     private final Date uploadingDate;
-    ByteArrayInputStream data;
+    private ByteArrayInputStream data;
     @JsonProperty("isActive")
     private boolean isActive = true;
 
@@ -31,7 +31,8 @@ public class FileInfo {
      *
      * @throws IOException
      */
-    private synchronized static byte[] getBytesFromInputStream(InputStream is) throws IOException {
+    private synchronized static byte[] getBytesFromInputStream(InputStream is)
+            throws IOException {
         try {
             ByteArrayOutputStream os = new ByteArrayOutputStream();
             byte[] buffer = new byte[0xFFFF];
@@ -52,7 +53,8 @@ public class FileInfo {
      * @param uniqueName  - name generated for repository
      * @param data        - input stream with byte info (to extract from Part use method getInputStream)
      */
-    FileInfo(final String nameForUser, final String uniqueName, final InputStream data) throws IOException {
+    FileInfo(final String nameForUser, final String uniqueName,
+             final InputStream data) throws IOException {
         if (nameForUser == null || nameForUser.equals("")) {
             throw new IllegalArgumentException("FileInfo ctor: wrong nameForUser");
         }
@@ -75,7 +77,8 @@ public class FileInfo {
 
     public void setNameForUser(String nameForUser) throws IOException {
         if (nameForUser == null || nameForUser.equals("")) {
-            throw new IllegalArgumentException("FileInfo: impossible to set this name for user");
+            throw new IllegalArgumentException(
+                    "FileInfo: impossible to set this name for user");
         }
         this.nameForUser = nameForUser;
     }
@@ -105,7 +108,8 @@ public class FileInfo {
 
     public void setData(ByteArrayInputStream data) throws IOException {
         if (data == null) {
-            throw new IllegalArgumentException("FileInfo: you should not change data to null");
+            throw new IllegalArgumentException(
+                    "FileInfo: you should not change data to null");
         }
         this.data = data;
     }

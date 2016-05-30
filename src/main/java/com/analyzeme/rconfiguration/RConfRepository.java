@@ -58,6 +58,7 @@ public class RConfRepository {
      * @param newConfiguration will be added to repository
      */
     public synchronized void addRConf(final IRConf newConfiguration) {
+
         RConfigurations.add(newConfiguration);
     }
 
@@ -100,7 +101,8 @@ public class RConfRepository {
      * @throws IOException
      * @throws IllegalArgumentException
      */
-    public void updateRConfByName(final String name, final String data) throws IOException, IllegalArgumentException {
+    public void updateRConfByName(final String name, final String data)
+            throws IOException, IllegalArgumentException {
 
         IRConf RConf = repo.getRConfByName(name);
         RConf.assignment(RConfFactory.getRConf(data));

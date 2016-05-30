@@ -29,20 +29,35 @@ public class RserveTest {
 	private static IRCaller call;
 	private static Point[] points;
 
-	private static final String TEST_DATA = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
-	private static final String WRONG_TEST_DATA = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" ,{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" },{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" },{ \"x\" \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"\": \"9\" },{ \"x\": \"10\",\"y\": \"10\" }]}";
+	private static final String TEST_DATA =
+			"{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" },{ \"x\": \"1\",\"y\": \"1\" }," +
+					"{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" }," +
+					"{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" }," +
+					"{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" }," +
+					"{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" }," +
+					"{ \"x\": \"10\",\"y\": \"10\" }]}";
+	private static final String WRONG_TEST_DATA =
+			"{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" ,{ \"x\": \"1\",\"y\": \"1\" }," +
+					"{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" }," +
+					"{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" }," +
+					"{ \"x\": \"6\",\"y\": \"6\" },{ \"x\": \"7\",\"y\": \"7\" }," +
+					"{ \"x\" \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"\": \"9\" }," +
+					"{ \"x\": \"10\",\"y\": \"10\" }]}";
 
-	private static final String TEST_SCRIPT_FOR_POINTS = "matrix(c(x[1], y[1], x[1], y[1]), nrow = 2, ncol = 2, byrow=TRUE)";
+	private static final String TEST_SCRIPT_FOR_POINTS =
+			"matrix(c(x[1], y[1], x[1], y[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 
 	private static ByteArrayInputStream correctFile;
-	private static final String CORRECT_FILENAME = "fileRserve.json";
+	private static final String CORRECT_FILENAME =
+			"fileRserve.json";
 	private static String correctFileId;
 	private static String correctX;
 	private static String correctY;
 	private static ArrayList<DataSet> correct;
 
 	private static ByteArrayInputStream incorrectFile;
-	private static final String INCORRECT_FILENAME = "incorrectFileRserve.json";
+	private static final String INCORRECT_FILENAME =
+			"incorrectFileRserve.json";
 	private static String incorrectFileId;
 	private static String incorrectX;
 	private static String incorrectY;
@@ -82,38 +97,56 @@ public class RserveTest {
 		call = new Rserve();
 
 		correctFile = convertStringToStream(TEST_DATA);
-		correctFileId = FileRepository.getRepo().persist(correctFile, CORRECT_FILENAME);
-		if (correctFileId == null) throw new IllegalArgumentException("Repository doesn't work");
+		correctFileId = FileRepository.getRepo().persist(
+				correctFile,
+				CORRECT_FILENAME);
+		if (correctFileId == null) {
+			throw new IllegalArgumentException("Repository doesn't work");
+		}
 		correctX = "x_from__repo__" + correctFileId + "__";
 		correctY = "y_from__repo__" + correctFileId + "__";
 		correct = new ArrayList<DataSet>();
-		ISourceInfo correctInfo = new JsonPointFileInRepositoryInfo(correctFileId);
-		DataSet setCorrect = new DataSet(CORRECT_FILENAME, correctInfo);
+		ISourceInfo correctInfo =
+				new JsonPointFileInRepositoryInfo(correctFileId);
+		DataSet setCorrect =
+				new DataSet(CORRECT_FILENAME, correctInfo);
 		setCorrect.addField("x");
 		setCorrect.addField("y");
 		correct.add(setCorrect);
 
 		incorrectFile = convertStringToStream(WRONG_TEST_DATA);
-		incorrectFileId = FileRepository.getRepo().persist(incorrectFile, INCORRECT_FILENAME);
+		incorrectFileId = FileRepository.getRepo().persist(
+				incorrectFile, INCORRECT_FILENAME);
 		incorrectX = "x_from__repo__" + incorrectFileId + "__";
 		incorrectY = "y_from__repo__" + incorrectFileId + "__";
 		incorrect = new ArrayList<DataSet>();
-		ISourceInfo incorrectInfo = new JsonPointFileInRepositoryInfo(incorrectFileId);
-		DataSet setIncorrect = new DataSet(INCORRECT_FILENAME, incorrectInfo);
+		ISourceInfo incorrectInfo = new JsonPointFileInRepositoryInfo(
+				incorrectFileId);
+		DataSet setIncorrect = new DataSet(
+				INCORRECT_FILENAME, incorrectInfo);
 		setIncorrect.addField("x");
 		setIncorrect.addField("y");
 		incorrect.add(setIncorrect);
 		correctScriptForCorrectFileName = "script.r";
-		correctScriptForCorrectFileString = "matrix(c(" + correctX + "[1], " + correctY + "[1], " + correctX + "[1], " + correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
-		correctScriptForCorrectFile = convertStringToStream(correctScriptForCorrectFileString);
+		correctScriptForCorrectFileString = "matrix(c(" + correctX + "[1], " +
+				correctY + "[1], " + correctX + "[1], " +
+				correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
+		correctScriptForCorrectFile =
+				convertStringToStream(correctScriptForCorrectFileString);
 
 		incorrectScriptForCorrectFileName = "incorrectScript.r";
-		incorrectScriptForCorrectFileString = "matrix(c" + correctX + "[1], " + correctY + "[1, " + correctX + "[1], " + correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
-		incorrectScriptForCorrectFile = convertStringToStream(incorrectScriptForCorrectFileString);
+		incorrectScriptForCorrectFileString = "matrix(c" + correctX + "[1], " +
+				correctY + "[1, " + correctX + "[1], " +
+				correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
+		incorrectScriptForCorrectFile =
+				convertStringToStream(incorrectScriptForCorrectFileString);
 
 		correctScriptForIncorrectFileName = "scriptForIncorrect.r";
-		correctScriptForIncorrectFileString = "matrix(c(" + incorrectX + "[1], " + incorrectY + "[1], " + incorrectX + "[1], " + incorrectY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
-		correctScriptForIncorrectFile = convertStringToStream(correctScriptForIncorrectFileString);
+		correctScriptForIncorrectFileString = "matrix(c(" + incorrectX + "[1], " +
+				incorrectY + "[1], " + incorrectX + "[1], " +
+				incorrectY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
+		correctScriptForIncorrectFile =
+				convertStringToStream(correctScriptForIncorrectFileString);
 
 	}
 
@@ -146,7 +179,9 @@ public class RserveTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument4() throws Exception {
-		call.runScriptToGetPoint((String) null, (ByteArrayInputStream) null, (ArrayList<DataSet>) null);
+		call.runScriptToGetPoint((String) null,
+				(ByteArrayInputStream) null,
+				(ArrayList<DataSet>) null);
 	}
 
 
@@ -167,9 +202,13 @@ public class RserveTest {
 			double resX;
 			double resY;
 			for (int i = 0; i < points.length; i++) {
-				resX = call.runCommandToGetNumber("x[" + (int) (i + 1) + "]", TEST_DATA);
-				resY = call.runCommandToGetNumber("y[" + (int) (i + 1) + "]", TEST_DATA);
-				assertTrue("Double isn't returned correctly from Rserve", doubleEqual(resX, points[i].getX()) && doubleEqual(resY, points[i].getY()));
+				resX = call.runCommandToGetNumber("x[" +
+						(int) (i + 1) + "]", TEST_DATA);
+				resY = call.runCommandToGetNumber("y[" +
+						(int) (i + 1) + "]", TEST_DATA);
+				assertTrue("Double isn't returned correctly from Rserve",
+						doubleEqual(resX, points[i].getX()) &&
+								doubleEqual(resY, points[i].getY()));
 			}
 		} catch (Exception e) {
 			fail("Double isn't returned correctly from Rserve");
@@ -179,8 +218,11 @@ public class RserveTest {
 	@Test
 	public void testCorrectCommandToGetPointCorrectJsonData() {
 		try {
-			Point res = call.runCommandToGetPoint("c(x[5], y[5])", TEST_DATA);
-			assertTrue("Point isn't returned correctly from Rserve", doubleEqual(points[4].getX(), res.getX()) && doubleEqual(points[4].getY(), res.getY()));
+			Point res = call.runCommandToGetPoint("c(x[5], y[5])",
+					TEST_DATA);
+			assertTrue("Point isn't returned correctly from Rserve",
+					doubleEqual(points[4].getX(), res.getX()) &&
+							doubleEqual(points[4].getY(), res.getY()));
 		} catch (Exception e) {
 			fail("Point isn't returnedcorrectly from Rserve");
 		}
@@ -189,8 +231,14 @@ public class RserveTest {
 	@Test
 	public void testCorrectCommandToGetPointsCorrectJsonData() {
 		try {
-			List<Point> res = call.runCommandToGetPoints(TEST_SCRIPT_FOR_POINTS, TEST_DATA);
-			assertTrue("Points aren't returned correctly from Rserve", doubleEqual(points[0].getX(), res.get(0).getX()) && doubleEqual(points[0].getY(), res.get(0).getY()) && doubleEqual(points[0].getX(), res.get(1).getX()) && doubleEqual(points[0].getY(), res.get(1).getY()));
+			List<Point> res = call.runCommandToGetPoints(
+					TEST_SCRIPT_FOR_POINTS,
+					TEST_DATA);
+			assertTrue("Points aren't returned correctly from Rserve",
+					doubleEqual(points[0].getX(), res.get(0).getX()) &&
+							doubleEqual(points[0].getY(), res.get(0).getY()) &&
+							doubleEqual(points[0].getX(), res.get(1).getX()) &&
+							doubleEqual(points[0].getY(), res.get(1).getY()));
 		} catch (Exception e) {
 			fail("Points aren't returned correctly from Rserve");
 		}
@@ -252,9 +300,13 @@ public class RserveTest {
 			double resX;
 			double resY;
 			for (int i = 0; i < points.length; i++) {
-				resX = call.runCommandToGetNumber(correctX + "[" + (int) (i + 1) + "]", correct);
-				resY = call.runCommandToGetNumber(correctY + "[" + (int) (i + 1) + "]", correct);
-				assertTrue("Double isn't returned correctly from Rserve", doubleEqual(resX, points[i].getX()) && doubleEqual(resY, points[i].getY()));
+				resX = call.runCommandToGetNumber(correctX + "[" +
+						(int) (i + 1) + "]", correct);
+				resY = call.runCommandToGetNumber(correctY + "[" +
+						(int) (i + 1) + "]", correct);
+				assertTrue("Double isn't returned correctly from Rserve",
+						doubleEqual(resX, points[i].getX()) &&
+								doubleEqual(resY, points[i].getY()));
 			}
 		} catch (Exception e) {
 			fail("Double isn't returned correctly from Rserve");
@@ -264,8 +316,12 @@ public class RserveTest {
 	@Test
 	public void testCorrectCommandToGetPointCorrectFile() {
 		try {
-			Point res =  call.runCommandToGetPoint("c(" + correctX + "[5], " + correctY + "[5])", correct);
-			assertTrue("Point  isn't returned correctly from Rserve", doubleEqual(points[4].getX(), res.getX()) && doubleEqual(points[4].getY(), res.getY()));
+			Point res =  call.runCommandToGetPoint("c(" +
+					correctX + "[5], " + correctY + "[5])",
+					correct);
+			assertTrue("Point  isn't returned correctly from Rserve",
+					doubleEqual(points[4].getX(), res.getX()) &&
+							doubleEqual(points[4].getY(), res.getY()));
 		} catch (Exception e) {
 			fail("Point isn't returned correctly from Rserve");
 		}
@@ -274,8 +330,14 @@ public class RserveTest {
 	@Test
 	public void testCorrectCommandToGetPointsCorrectFile() {
 		try {
-			List<Point> res = call.runCommandToGetPoints(correctScriptForCorrectFileString, correct);
-			assertTrue("Points aren't returned correctly from Rserve", doubleEqual(points[0].getX(), res.get(0).getX()) && doubleEqual(points[0].getY(), res.get(0).getY()) && doubleEqual(points[0].getX(), res.get(1).getX()) && doubleEqual(points[0].getY(), res.get(1).getY()));
+			List<Point> res = call.runCommandToGetPoints(
+					correctScriptForCorrectFileString,
+					correct);
+			assertTrue("Points aren't returned correctly from Rserve",
+					doubleEqual(points[0].getX(), res.get(0).getX()) &&
+							doubleEqual(points[0].getY(), res.get(0).getY()) &&
+							doubleEqual(points[0].getX(), res.get(1).getX()) &&
+							doubleEqual(points[0].getY(), res.get(1).getY()));
 		} catch (Exception e) {
 			fail("Points aren't returned correctly from Rserve");
 		}
@@ -291,9 +353,17 @@ public class RserveTest {
 			double resX;
 			double resY;
 			for (int i = 0; i < points.length; i++) {
-				resX = call.runScriptToGetNumber(correctScriptForCorrectFileName, convertStringToStream(correctX + "[" + (int) (i + 1) + "]"), correct);
-				resY = call.runScriptToGetNumber(correctScriptForCorrectFileName, convertStringToStream(correctY + "[" + (int) (i + 1) + "]"), correct);
-				assertTrue("Double isn't returned correctly from Rserve", doubleEqual(resX, points[i].getX()) && doubleEqual(resY, points[i].getY()));
+				resX = call.runScriptToGetNumber(
+						correctScriptForCorrectFileName,
+						convertStringToStream(correctX + "[" + (int) (i + 1) + "]"),
+						correct);
+				resY = call.runScriptToGetNumber(
+						correctScriptForCorrectFileName,
+						convertStringToStream(correctY + "[" + (int) (i + 1) + "]"),
+						correct);
+				assertTrue("Double isn't returned correctly from Rserve",
+						doubleEqual(resX, points[i].getX()) &&
+								doubleEqual(resY, points[i].getY()));
 			}
 		} catch (Exception e) {
 			fail("Double isn't returned correctly from Rserve");
@@ -303,8 +373,14 @@ public class RserveTest {
 	@Test
 	public void testCorrectScriptToGetPointCorrectFile() {
 		try {
-			Point res = call.runScriptToGetPoint(correctScriptForCorrectFileName, convertStringToStream("c(" + correctX + "[5]," + correctY + "[5])"), correct);
-			assertTrue("Point isn't returned correctly from Rserve", doubleEqual(points[4].getX(), res.getX()) && doubleEqual(points[4].getY(), res.getY()));
+			Point res = call.runScriptToGetPoint(
+					correctScriptForCorrectFileName,
+					convertStringToStream("c(" + correctX + "[5]," +
+							correctY + "[5])"),
+					correct);
+			assertTrue("Point isn't returned correctly from Rserve",
+					doubleEqual(points[4].getX(), res.getX()) &&
+							doubleEqual(points[4].getY(), res.getY()));
 		} catch (Exception e) {
 			fail("Point isn't returned correctly from Rserve");
 		}
@@ -313,8 +389,15 @@ public class RserveTest {
 	@Test
 	public void testCorrectScriptToGetPointsCorrectFile() {
 		try {
-			List<Point> res = call.runScriptToGetPoints(correctScriptForCorrectFileName, correctScriptForCorrectFile, correct);
-			assertTrue("Points aren't returned correctly from Rserve", doubleEqual(points[0].getX(), res.get(0).getX()) && doubleEqual(points[0].getY(), res.get(0).getY()) && doubleEqual(points[0].getX(), res.get(1).getX()) && doubleEqual(points[0].getY(), res.get(1).getY()));
+			List<Point> res = call.runScriptToGetPoints(
+					correctScriptForCorrectFileName,
+					correctScriptForCorrectFile,
+					correct);
+			assertTrue("Points aren't returned correctly from Rserve",
+					doubleEqual(points[0].getX(), res.get(0).getX()) &&
+							doubleEqual(points[0].getY(), res.get(0).getY()) &&
+							doubleEqual(points[0].getX(), res.get(1).getX()) &&
+							doubleEqual(points[0].getY(), res.get(1).getY()));
 		} catch (Exception e) {
 			fail("Points aren't returned correctly from Rserve");
 		}
@@ -331,7 +414,8 @@ public class RserveTest {
 
 	@Test(expected = Exception.class)
 	public void testIncorrectCommandToGetPointCorrectFile() throws Exception {
-		call.runCommandToGetPoint("c" + correctX + "[5," + correctY + "[5)", correct);
+		call.runCommandToGetPoint("c" + correctX + "[5," +
+				correctY + "[5)", correct);
 	}
 
 	@Test(expected = Exception.class)
@@ -345,17 +429,21 @@ public class RserveTest {
 
 	@Test(expected = Exception.class)
 	public void testIncorrectScriptToGetNumberCorrectFile() throws Exception {
-		call.runScriptToGetNumber(incorrectScriptForCorrectFileName, convertStringToStream(correctX + "]"), correct);
+		call.runScriptToGetNumber(incorrectScriptForCorrectFileName,
+				convertStringToStream(correctX + "]"), correct);
 	}
 
 	@Test(expected = Exception.class)
 	public void testIncorrectScriptToGetPointCorrectFile() throws Exception {
-		call.runScriptToGetPoint(incorrectScriptForCorrectFileName, convertStringToStream("c" + correctX + "[5," + correctY + "[5)"), correct);
+		call.runScriptToGetPoint(incorrectScriptForCorrectFileName,
+				convertStringToStream("c" + correctX + "[5," +
+						correctY + "[5)"), correct);
 	}
 
 	@Test(expected = Exception.class)
 	public void testIncorrectScriptToGetPointsCorrectFile() throws Exception {
-		call.runScriptToGetPoints(incorrectScriptForCorrectFileName, incorrectScriptForCorrectFile, correct);
+		call.runScriptToGetPoints(incorrectScriptForCorrectFileName,
+				incorrectScriptForCorrectFile, correct);
 	}
 
 	//-----------------------------------------------------------
@@ -369,12 +457,15 @@ public class RserveTest {
 
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetPointIncorrectFile() throws Exception {
-		call.runCommandToGetPoint("c(" + incorrectX + "[5], " + incorrectY + "[5])", incorrect);
+		call.runCommandToGetPoint("c(" + incorrectX + "[5], " +
+				incorrectY + "[5])", incorrect);
 	}
 
 	@Test(expected = Exception.class)
 	public void testCorrectCommandToGetPointsIncorrectFile() throws Exception {
-		call.runCommandToGetPoints(correctScriptForIncorrectFileString, incorrect);
+		call.runCommandToGetPoints(
+				correctScriptForIncorrectFileString,
+				incorrect);
 	}
 
 	//-----------------------------------------------------------
@@ -383,16 +474,24 @@ public class RserveTest {
 
 	@Test(expected = Exception.class)
 	public void testCorrectScripToGetNumberIncorrectFile() throws Exception {
-		call.runScriptToGetNumber(correctScriptForIncorrectFileName, convertStringToStream(incorrectX + "[5]"), incorrect);
+		call.runScriptToGetNumber(
+				correctScriptForIncorrectFileName,
+				convertStringToStream(incorrectX + "[5]"), incorrect);
 	}
 
 	@Test(expected = Exception.class)
 	public void testCorrectScriptToGetPointIncorrectFile() throws Exception {
-		call.runScriptToGetPoint(correctScriptForIncorrectFileName, convertStringToStream("c(" + incorrectX + "[5]," + incorrectY + "[5])"), incorrect);
+		call.runScriptToGetPoint(
+				correctScriptForIncorrectFileName,
+				convertStringToStream("c(" + incorrectX + "[5]," +
+						incorrectY + "[5])"), incorrect);
 	}
 
 	@Test(expected = Exception.class)
 	public void testCorrectScriptToGetPointsIncorrectFile() throws Exception {
-		call.runScriptToGetPoints(correctScriptForIncorrectFileName, correctScriptForIncorrectFile, incorrect);
+		call.runScriptToGetPoints(
+				correctScriptForIncorrectFileName,
+				correctScriptForIncorrectFile,
+				incorrect);
 	}
 }

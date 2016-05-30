@@ -26,8 +26,11 @@ public class FakeR implements IRCaller {
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or script errored
      */
-    public String runScript(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception {
-        if (scriptName == null || rScript == null || scriptName.equals("") || dataFiles == null) {
+    public String runScript(final String scriptName,
+                            ByteArrayInputStream rScript,
+                            final ArrayList<DataSet> dataFiles) throws Exception {
+        if (scriptName == null || rScript == null ||
+                scriptName.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         String result = "";
@@ -46,8 +49,11 @@ public class FakeR implements IRCaller {
      * @return double result
      * @throws Exception if failed to call r or script errored
      */
-    public double runScriptToGetNumber(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception {
-        if (scriptName == null || rScript == null || scriptName.equals("") || dataFiles == null) {
+    public double runScriptToGetNumber(final String scriptName,
+                                       ByteArrayInputStream rScript,
+                                       final ArrayList<DataSet> dataFiles) throws Exception {
+        if (scriptName == null || rScript == null ||
+                scriptName.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         double result = 0;
@@ -61,8 +67,11 @@ public class FakeR implements IRCaller {
      * @return one point
      * @throws Exception if failed to call r or script errored
      */
-    public Point runScriptToGetPoint(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception {
-        if (scriptName == null || rScript == null || scriptName.equals("") || dataFiles == null) {
+    public Point runScriptToGetPoint(final String scriptName,
+                                     ByteArrayInputStream rScript,
+                                     final ArrayList<DataSet> dataFiles) throws Exception {
+        if (scriptName == null || rScript == null ||
+                scriptName.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         Point result = new Point();
@@ -76,8 +85,11 @@ public class FakeR implements IRCaller {
      * @return List<Point>
      * @throws Exception if failed to call r or script errored
      */
-    public List<Point> runScriptToGetPoints(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception {
-        if (scriptName == null || rScript == null || scriptName.equals("") || dataFiles == null) {
+    public List<Point> runScriptToGetPoints(final String scriptName,
+                                            ByteArrayInputStream rScript,
+                                            final ArrayList<DataSet> dataFiles) throws Exception {
+        if (scriptName == null || rScript == null ||
+                scriptName.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         List<Point> result = new ArrayList<Point>();
@@ -96,7 +108,8 @@ public class FakeR implements IRCaller {
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public String runCommand(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception {
+    public String runCommand(final String rCommand,
+                             final ArrayList<DataSet> dataFiles) throws Exception {
         if (rCommand == null || rCommand.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
@@ -110,8 +123,10 @@ public class FakeR implements IRCaller {
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public String runCommand(final String rCommand, final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public String runCommand(final String rCommand,
+                             final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         String result = "";
@@ -129,7 +144,8 @@ public class FakeR implements IRCaller {
      * @return double result
      * @throws Exception if failed to call r or command errored
      */
-    public double runCommandToGetNumber(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception {
+    public double runCommandToGetNumber(final String rCommand,
+                                        final ArrayList<DataSet> dataFiles) throws Exception {
         if (rCommand == null || rCommand.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
@@ -143,7 +159,8 @@ public class FakeR implements IRCaller {
      * @return one point
      * @throws Exception if failed to call r or command errored
      */
-    public Point runCommandToGetPoint(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception {
+    public Point runCommandToGetPoint(final String rCommand,
+                                      final ArrayList<DataSet> dataFiles) throws Exception {
         if (rCommand == null || rCommand.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
@@ -157,7 +174,8 @@ public class FakeR implements IRCaller {
      * @return List<Point>
      * @throws Exception if failed to call r or command errored
      */
-    public List<Point> runCommandToGetPoints(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception {
+    public List<Point> runCommandToGetPoints(final String rCommand,
+                                             final ArrayList<DataSet> dataFiles) throws Exception {
         if (rCommand == null || rCommand.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
@@ -175,8 +193,10 @@ public class FakeR implements IRCaller {
      * @return double result
      * @throws Exception if failed to call r or command errored
      */
-    public double runCommandToGetNumber(final String rCommand, final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public double runCommandToGetNumber(final String rCommand,
+                                        final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         double result = 0;
@@ -189,8 +209,10 @@ public class FakeR implements IRCaller {
      * @return one point
      * @throws Exception if failed to call r or command errored
      */
-    public Point runCommandToGetPoint(final String rCommand, final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public Point runCommandToGetPoint(final String rCommand,
+                                      final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         Point result = new Point();
@@ -203,8 +225,10 @@ public class FakeR implements IRCaller {
      * @return List<Point>
      * @throws Exception if failed to call r or command errored
      */
-    public List<Point> runCommandToGetPoints(final String rCommand, final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public List<Point> runCommandToGetPoints(final String rCommand,
+                                             final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         List<Point> result = new ArrayList<Point>();

@@ -10,7 +10,7 @@ import java.util.Set;
  * Created by lagroffe on 27.05.2016 18:34
  */
 public class DoubleDataArray {
-    private List<DoubleData> data;
+    private final List<DoubleData> data;
 
     public DoubleDataArray() {
         data = new ArrayList<DoubleData>();

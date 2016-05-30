@@ -22,7 +22,9 @@ public class UserInfo {
     private String password;
     private final ProjectsRepository projects;
 
-    UserInfo(final String login, final int id, final String email, final String password) throws Exception {
+    UserInfo(final String login, final int id,
+             final String email, final String password)
+            throws Exception {
         if (login == null || login.equals("")) {
             throw new IllegalArgumentException("UserInfo ctor: empty login");
         }
@@ -48,7 +50,8 @@ public class UserInfo {
 
     public void setLogin(String login) throws IllegalArgumentException {
         if (login == null || login.equals("")) {
-            throw new IllegalArgumentException("UserInfo setLogin(): empty login");
+            throw new IllegalArgumentException(
+                    "UserInfo setLogin(): empty login");
         }
         this.login = login;
     }
@@ -59,7 +62,8 @@ public class UserInfo {
 
     public void setEmail(String email) throws IllegalArgumentException {
         if (email == null || email.equals("")) {
-            throw new IllegalArgumentException("UserInfo setEmail(): empty email");
+            throw new IllegalArgumentException(
+                    "UserInfo setEmail(): empty email");
         }
         this.email = email;
     }
@@ -70,7 +74,8 @@ public class UserInfo {
 
     public void setPassword(String password) throws IllegalArgumentException {
         if (password == null || password.equals("")) {
-            throw new IllegalArgumentException("UserInfo setPassword(): empty password");
+            throw new IllegalArgumentException(
+                    "UserInfo setPassword(): empty password");
         }
         this.password = password;
     }

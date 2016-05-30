@@ -20,11 +20,15 @@ public class PointFromR implements GetFromR<Point> {
 	 * @return one point
 	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
-	public Point runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+	public Point runScript(String rScriptName,
+						   ByteArrayInputStream rScript, int userId,
+						   String projectId) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") ||
+				rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
 		}
-		Point result = RScriptManager.runScriptToGetPoint(rScriptName, rScript, userId, projectId);
+		Point result = RScriptManager.runScriptToGetPoint(
+				rScriptName, rScript, userId, projectId);
 		return result;
 	}
 
@@ -38,11 +42,14 @@ public class PointFromR implements GetFromR<Point> {
 	 * @return one point
 	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
-	public Point runScript(String rScriptId, int userId, String projectId) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+	public Point runScript(String rScriptId, int userId,
+						   String projectId) throws Exception {
+		if (rScriptId == null || rScriptId.equals("") ||
+				userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
 		}
-		Point result = RScriptManager.runScriptToGetPoint(rScriptId, userId, projectId);
+		Point result = RScriptManager.runScriptToGetPoint(
+				rScriptId, userId, projectId);
 		return result;
 	}
 
@@ -56,11 +63,14 @@ public class PointFromR implements GetFromR<Point> {
 	 * @return one point
 	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
-	public Point runCommand(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+	public Point runCommand(String rCommand, int userId,
+							String projectId) throws Exception {
+		if (rCommand == null || rCommand.equals("") ||
+				userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
 		}
-		Point result = RFacade.runCommandToGetPoint(rCommand, userId, projectId);
+		Point result = RFacade.runCommandToGetPoint(
+				rCommand, userId, projectId);
 		return result;
 	}
 
@@ -73,7 +83,8 @@ public class PointFromR implements GetFromR<Point> {
 	 * @throws Exception if r was impossible to call or there was in error in command
 	 */
 	public Point runCommand(String rCommand, String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+		if (rCommand == null || rCommand.equals("") ||
+				jsonData == null || jsonData.equals("")) {
 			throw new IllegalArgumentException();
 		}
 		Point result = RFacade.runCommandToGetPoint(rCommand, jsonData);

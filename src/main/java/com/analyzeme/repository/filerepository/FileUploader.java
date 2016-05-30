@@ -17,7 +17,8 @@ import java.util.Set;
 public class FileUploader {
     private static Set<String> keys;
 
-    private static ISourceInfo createSourceInfo(final String nameInRepo, TypeOfFile typeOfFile) throws Exception {
+    private static ISourceInfo createSourceInfo(
+            final String nameInRepo, TypeOfFile typeOfFile) throws Exception {
         ISourceInfo source = null;
         switch (typeOfFile) {
             case SIMPLE_JSON: {
@@ -43,22 +44,29 @@ public class FileUploader {
                 break;
             }
             default: {
-                throw new IllegalArgumentException("FileUploader createSourceInfo(): wrong TypeOfFile");
+                throw new IllegalArgumentException(
+                        "FileUploader createSourceInfo(): wrong TypeOfFile");
             }
         }
         return source;
     }
 
-    public static DataSet upload(MultipartFile file, String filename, String referenceName, TypeOfFile typeOfFile) throws Exception {
-        if (filename == null || filename.equals("") || referenceName == null || referenceName.equals("") || file == null) {
-            throw new IllegalArgumentException("FileUploader upload(MultipartFile): empty argument");
+    public static DataSet upload(MultipartFile file,
+                                 String filename, String referenceName,
+                                 TypeOfFile typeOfFile) throws Exception {
+        if (filename == null || filename.equals("") ||
+                referenceName == null || referenceName.equals("") ||
+                file == null) {
+            throw new IllegalArgumentException(
+                    "FileUploader upload(MultipartFile): empty argument");
         }
         if(typeOfFile == null) {
-            throw new NullPointerException("null type of file");
+            throw new IllegalArgumentException("null type of file");
         }
         String nameInRepo = FileRepository.getRepo().persist(file, filename);
         if (nameInRepo == null || nameInRepo.equals("")) {
-            throw new NullPointerException("FileUploader upload(MultipartFile): impossible to add file in FileRepository");
+            throw new IllegalArgumentException(
+                    "FileUploader upload(MultipartFile): impossible to add file in FileRepository");
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
@@ -71,16 +79,22 @@ public class FileUploader {
         return result;
     }
 
-    public static DataSet upload(String file, String filename, String referenceName, TypeOfFile typeOfFile) throws Exception {
-        if (filename == null || filename.equals("") ||referenceName == null || referenceName.equals("") || file == null || file.equals("")) {
-            throw new IllegalArgumentException("FileUploader upload(String): empty argument");
+    public static DataSet upload(String file,
+                                 String filename, String referenceName,
+                                 TypeOfFile typeOfFile) throws Exception {
+        if (filename == null || filename.equals("") ||
+                referenceName == null || referenceName.equals("") ||
+                file == null || file.equals("")) {
+            throw new IllegalArgumentException(
+                    "FileUploader upload(String): empty argument");
         }
         if(typeOfFile == null) {
-            throw new NullPointerException("null type of file");
+            throw new IllegalArgumentException("null type of file");
         }
         String nameInRepo = FileRepository.getRepo().persist(file, filename);
         if (nameInRepo == null || nameInRepo.equals("")) {
-            throw new IllegalArgumentException("FileUploader upload(String): impossible to add file in FileRepository");
+            throw new IllegalArgumentException(
+                    "FileUploader upload(String): impossible to add file in FileRepository");
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
@@ -93,16 +107,21 @@ public class FileUploader {
         return result;
     }
 
-    public static DataSet upload(InputStream part, String filename, String referenceName, TypeOfFile typeOfFile) throws Exception {
-        if (filename == null || filename.equals("") ||referenceName == null || referenceName.equals("") || part == null) {
-            throw new IllegalArgumentException("FileUploader upload(ByteArrayInputStream): empty argument");
+    public static DataSet upload(InputStream part,
+                                 String filename, String referenceName,
+                                 TypeOfFile typeOfFile) throws Exception {
+        if (filename == null || filename.equals("") ||
+                referenceName == null || referenceName.equals("") || part == null) {
+            throw new IllegalArgumentException(
+                    "FileUploader upload(ByteArrayInputStream): empty argument");
         }
         if(typeOfFile == null) {
-            throw new NullPointerException("null type of file");
+            throw new IllegalArgumentException("null type of file");
         }
         String nameInRepo = FileRepository.getRepo().persist(part, filename);
         if (nameInRepo == null || nameInRepo.equals("")) {
-            throw new IllegalArgumentException("FileUploader upload(ByteArrayInputStream): impossible to add file in FileRepository");
+            throw new IllegalArgumentException(
+                    "FileUploader upload(ByteArrayInputStream): impossible to add file in FileRepository");
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);

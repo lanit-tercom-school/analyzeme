@@ -18,7 +18,8 @@ public class StreamToString {
 	 */
 	public static String convertStream(ByteArrayInputStream stream) throws IOException {
 		stream.reset();
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ByteArrayOutputStream baos =
+				new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
 		int len;
 		while ((len = stream.read(buffer)) > -1) {
@@ -26,7 +27,8 @@ public class StreamToString {
 		}
 		baos.flush();
 		stream = new ByteArrayInputStream(baos.toByteArray());
-		ByteArrayInputStream streamCopy = new ByteArrayInputStream(baos.toByteArray());
+		ByteArrayInputStream streamCopy =
+				new ByteArrayInputStream(baos.toByteArray());
 
 		int size = streamCopy.available();
 		byte[] bytes = new byte[size];
@@ -51,7 +53,8 @@ public class StreamToString {
 		}
 		baos.flush();
 		stream = new ByteArrayInputStream(baos.toByteArray());
-		ByteArrayInputStream streamCopy = new ByteArrayInputStream(baos.toByteArray());
+		ByteArrayInputStream streamCopy =
+				new ByteArrayInputStream(baos.toByteArray());
 
 		int size = streamCopy.available();
 		byte[] bytes = new byte[size];

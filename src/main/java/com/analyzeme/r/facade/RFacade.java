@@ -69,8 +69,12 @@ public class RFacade {
      * @return json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static String runCommand(final String rCommand, final int userId, final String projectId) throws Exception {
-        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public static String runCommand(final String rCommand,
+                                    final int userId,
+                                    final String projectId) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                userId == 0 || projectId == null ||
+                projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
@@ -88,8 +92,10 @@ public class RFacade {
      * @return json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static String runCommand(final String rCommand, final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public static String runCommand(final String rCommand,
+                                    final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         String result = caller.runCommand(rCommand, jsonData);
@@ -105,8 +111,11 @@ public class RFacade {
      * @return double result
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static double runCommandToGetNumber(final String rCommand, final int userId, final String projectId) throws Exception {
-        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public static double runCommandToGetNumber(
+            final String rCommand, final int userId,
+            final String projectId) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
@@ -124,8 +133,11 @@ public class RFacade {
      * @return double result
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static double runCommandToGetNumber(final String rCommand, final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public static double runCommandToGetNumber(
+            final String rCommand, final String jsonData)
+            throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         double result = caller.runCommandToGetNumber(rCommand, jsonData);
@@ -141,8 +153,11 @@ public class RFacade {
      * @return one point
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static Point runCommandToGetPoint(final String rCommand, final int userId, final String projectId) throws Exception {
-        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public static Point runCommandToGetPoint(final String rCommand,
+                                             final int userId, final String projectId)
+            throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
@@ -160,8 +175,10 @@ public class RFacade {
      * @return one point
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static Point runCommandToGetPoint(final String rCommand, final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public static Point runCommandToGetPoint(final String rCommand,
+                                             final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         Point result = caller.runCommandToGetPoint(rCommand, jsonData);
@@ -177,8 +194,11 @@ public class RFacade {
      * @return List<Point>
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static List<Point> runCommandToGetPoints(final String rCommand, final int userId, final String projectId) throws Exception {
-        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public static List<Point> runCommandToGetPoints(final String rCommand,
+                                                    final int userId, final String projectId)
+            throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
@@ -196,8 +216,11 @@ public class RFacade {
      * @return List<Point>
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static List<Point> runCommandToGetPoints(final String rCommand, final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public static List<Point> runCommandToGetPoints(
+            final String rCommand, final String jsonData)
+            throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         List<Point> result = caller.runCommandToGetPoints(rCommand, jsonData);
@@ -233,8 +256,12 @@ public class RFacade {
      * @return json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static String runScript(final String rScriptName, ByteArrayInputStream rScript, final int userId, final String projectId) throws Exception {
-        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+    public static String runScript(final String rScriptName,
+                                   ByteArrayInputStream rScript, final int userId,
+                                   final String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") ||
+                rScript == null || userId == 0 ||
+                projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
@@ -253,8 +280,12 @@ public class RFacade {
      * @return json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static String runScript(final String rScriptId, final int userId, final String projectId) throws Exception {
-        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public static String runScript(final String rScriptId,
+                                   final int userId, final String projectId)
+            throws Exception {
+        if (rScriptId == null || rScriptId.equals("") ||
+                userId == 0 || projectId == null ||
+                projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
@@ -281,8 +312,12 @@ public class RFacade {
      * @return double result
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+    public static double runScriptToGetNumber(String rScriptName,
+                                              ByteArrayInputStream rScript, int userId,
+                                              String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") ||
+                rScript == null || userId == 0 ||
+                projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
@@ -302,8 +337,11 @@ public class RFacade {
      * @return double result
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static double runScriptToGetNumber(final String rScriptId, final int userId, final String projectId) throws Exception {
-        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public static double runScriptToGetNumber(final String rScriptId,
+                                              final int userId, final String projectId) throws Exception {
+        if (rScriptId == null || rScriptId.equals("") ||
+                userId == 0 || projectId == null ||
+                projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
@@ -329,8 +367,12 @@ public class RFacade {
      * @return one point
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static Point runScriptToGetPoint(final String rScriptName, ByteArrayInputStream rScript, final int userId, final String projectId) throws Exception {
-        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+    public static Point runScriptToGetPoint(final String rScriptName,
+                                            ByteArrayInputStream rScript, final int userId,
+                                            final String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") ||
+                rScript == null || userId == 0 ||
+                projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
@@ -350,8 +392,11 @@ public class RFacade {
      * @return one point
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static Point runScriptToGetPoint(final String rScriptId, final int userId, final String projectId) throws Exception {
-        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public static Point runScriptToGetPoint(final String rScriptId,
+                                            final int userId, final String projectId)
+            throws Exception {
+        if (rScriptId == null || rScriptId.equals("") ||
+                userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
@@ -378,8 +423,12 @@ public class RFacade {
      * @return List<Point>
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static List<Point> runScriptToGetPoints(final String rScriptName, ByteArrayInputStream rScript, final int userId, final String projectId) throws Exception {
-        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+    public static List<Point> runScriptToGetPoints(final String rScriptName,
+                                                   ByteArrayInputStream rScript, final int userId,
+                                                   final String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") ||
+                rScript == null || userId == 0 ||
+                projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
@@ -398,8 +447,11 @@ public class RFacade {
      * @return List<Point>
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static List<Point> runScriptToGetPoints(final String rScriptId, final int userId, final String projectId) throws Exception {
-        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public static List<Point> runScriptToGetPoints(final String rScriptId,
+                                                   final int userId,
+                                                   final String projectId) throws Exception {
+        if (rScriptId == null || rScriptId.equals("") ||
+                userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         FileInfo script = FileRepository.getRepo().findFileById(rScriptId);

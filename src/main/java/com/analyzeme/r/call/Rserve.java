@@ -26,7 +26,8 @@ public class Rserve implements IRCaller {
 		}
 	}
 
-	private static void insertData(final List<DataSet> dataFiles) throws Exception {
+	private static void insertData(final List<DataSet> dataFiles)
+			throws Exception {
 		for (DataSet set : dataFiles) {
 			for(String field : set.getFields()) {
 				List<Double> value = set.getByField(field);
@@ -35,7 +36,8 @@ public class Rserve implements IRCaller {
 				for(Double v : value) {
 					v1[i++] = v;
 				}
-				r.assign(field + "_from__repo__" + set.getReferenceName() + "__", v1);
+				r.assign(field + "_from__repo__" +
+						set.getReferenceName() + "__", v1);
 			}
 		}
 	}
@@ -59,9 +61,12 @@ public class Rserve implements IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or script errored
 	 */
-	public String runScript(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception {
+	public String runScript(final String scriptName,
+							ByteArrayInputStream rScript,
+							final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null) {
+		if (scriptName == null || scriptName.equals("") ||
+				rScript == null || dataFiles == null) {
 			throw new IllegalArgumentException();
 		}
 		initialize();
@@ -84,9 +89,12 @@ public class Rserve implements IRCaller {
 	 * @return double result
 	 * @throws Exception if failed to call r or script errored
 	 */
-	public double runScriptToGetNumber(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception {
+	public double runScriptToGetNumber(final String scriptName,
+									   ByteArrayInputStream rScript,
+									   final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null) {
+		if (scriptName == null || scriptName.equals("") ||
+				rScript == null || dataFiles == null) {
 			throw new IllegalArgumentException();
 		}
 		initialize();
@@ -104,9 +112,12 @@ public class Rserve implements IRCaller {
 	 * @return one point
 	 * @throws Exception if failed to call r or script errored
 	 */
-	public Point runScriptToGetPoint(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception {
+	public Point runScriptToGetPoint(final String scriptName,
+									 ByteArrayInputStream rScript,
+									 final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null) {
+		if (scriptName == null || scriptName.equals("") ||
+				rScript == null || dataFiles == null) {
 			throw new IllegalArgumentException();
 		}
 		initialize();
@@ -128,9 +139,12 @@ public class Rserve implements IRCaller {
 	 * @return List<Point>
 	 * @throws Exception if failed to call r or script errored
 	 */
-	public List<Point> runScriptToGetPoints(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception {
+	public List<Point> runScriptToGetPoints(final String scriptName,
+											ByteArrayInputStream rScript,
+											final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
-		if (scriptName == null || scriptName.equals("") || rScript == null || dataFiles == null) {
+		if (scriptName == null || scriptName.equals("") ||
+				rScript == null || dataFiles == null) {
 			throw new IllegalArgumentException();
 		}
 		initialize();
@@ -160,7 +174,8 @@ public class Rserve implements IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public String runCommand(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception {
+	public String runCommand(final String rCommand,
+							 final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null) {
 			throw new IllegalArgumentException();
@@ -178,8 +193,10 @@ public class Rserve implements IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public String runCommand(final String rCommand, final String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+	public String runCommand(final String rCommand,
+							 final String jsonData) throws Exception {
+		if (rCommand == null || rCommand.equals("") ||
+				jsonData == null || jsonData.equals("")) {
 			throw new IllegalArgumentException();
 		}
 		initialize();
@@ -213,7 +230,8 @@ public class Rserve implements IRCaller {
 	 * @return double result
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public double runCommandToGetNumber(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception {
+	public double runCommandToGetNumber(final String rCommand,
+										final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null) {
 			throw new IllegalArgumentException();
@@ -231,7 +249,8 @@ public class Rserve implements IRCaller {
 	 * @return one point
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public Point runCommandToGetPoint(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception {
+	public Point runCommandToGetPoint(final String rCommand,
+									  final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null) {
 			throw new IllegalArgumentException();
@@ -252,7 +271,8 @@ public class Rserve implements IRCaller {
 	 * @return List<Point>
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public List<Point> runCommandToGetPoints(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception {
+	public List<Point> runCommandToGetPoints(final String rCommand,
+											 final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null) {
 			throw new IllegalArgumentException();
@@ -281,8 +301,10 @@ public class Rserve implements IRCaller {
 	 * @return double result
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public double runCommandToGetNumber(final String rCommand, final String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+	public double runCommandToGetNumber(final String rCommand,
+										final String jsonData) throws Exception {
+		if (rCommand == null || rCommand.equals("") ||
+				jsonData == null || jsonData.equals("")) {
 			throw new IllegalArgumentException();
 		}
 		initialize();
@@ -311,8 +333,10 @@ public class Rserve implements IRCaller {
 	 * @return one point
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public Point runCommandToGetPoint(final String rCommand, final String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+	public Point runCommandToGetPoint(final String rCommand,
+									  final String jsonData) throws Exception {
+		if (rCommand == null || rCommand.equals("") ||
+				jsonData == null || jsonData.equals("")) {
 			throw new IllegalArgumentException();
 		}
 		initialize();
@@ -344,8 +368,10 @@ public class Rserve implements IRCaller {
 	 * @return List<Point>
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public List<Point> runCommandToGetPoints(final String rCommand, final String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+	public List<Point> runCommandToGetPoints(final String rCommand,
+											 final String jsonData) throws Exception {
+		if (rCommand == null || rCommand.equals("") ||
+				jsonData == null || jsonData.equals("")) {
 			throw new IllegalArgumentException();
 		}
 		initialize();

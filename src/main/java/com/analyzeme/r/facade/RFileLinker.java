@@ -22,7 +22,8 @@ class RFileLinker {
 	//y_from__repo__myFile.json__
 	//y_from__webRepo__webToken__
 	//time_from__repo__0_10.json__
-	private final static String REGEXP = "([A-Za-z]+)_from__([A-Za-z]+)__([A-Za-z0-9,_.]+)__";
+	private final static String REGEXP =
+			"([A-Za-z]+)_from__([A-Za-z]+)__([A-Za-z0-9,_.]+)__";
 	private final static int FIELD_GROUP = 1;
 	private final static int SOURCE_GROUP = 2;
 	private final static int FILE_GROUP = 3;
@@ -42,7 +43,8 @@ class RFileLinker {
 	 * @return DataSets of necessary files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
-	public static ArrayList<DataSet> parse(ByteArrayInputStream rScript, FileInRepositoryResolver resolver) throws Exception {
+	public static ArrayList<DataSet> parse(ByteArrayInputStream rScript,
+										   FileInRepositoryResolver resolver) throws Exception {
 		if (rScript == null || resolver == null) {
 			throw new IllegalArgumentException();
 		}
@@ -76,7 +78,8 @@ class RFileLinker {
 	 * @return names of files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
-	public static ArrayList<String> parseForTests(ByteArrayInputStream rScript) throws Exception {
+	public static ArrayList<String> parseForTests(
+			ByteArrayInputStream rScript) throws Exception {
 		if (rScript == null) {
 			throw new IllegalArgumentException();
 		}
@@ -98,7 +101,8 @@ class RFileLinker {
 	 * @return DataSets of necessary files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
-	public static ArrayList<DataSet> parse(final String rCommand, FileInRepositoryResolver resolver) throws Exception {
+	public static ArrayList<DataSet> parse(final String rCommand,
+										   FileInRepositoryResolver resolver) throws Exception {
 		if (rCommand == null || rCommand.equals("") || resolver == null) {
 			throw new IllegalArgumentException();
 		}

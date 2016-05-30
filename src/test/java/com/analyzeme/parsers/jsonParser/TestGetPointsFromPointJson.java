@@ -52,7 +52,9 @@ public class TestGetPointsFromPointJson {
         InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser();
         points = jsonParser.getPointsFromPointJson(is);
-        Assert.assertArrayEquals(new Point[]{new Point(1.0, 1.0), new Point(20.0, 20.0)}, points);
+        Assert.assertArrayEquals(new Point[]{new Point(1.0, 1.0),
+                new Point(20.0, 20.0)},
+                points);
     }
 
     static public String join(String delimiter, String[] list) {

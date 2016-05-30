@@ -18,11 +18,16 @@ public class DefaultFromR implements GetFromR<String> {
      * @return json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+    public String runScript(String rScriptName,
+                            ByteArrayInputStream rScript,
+                            int userId, String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") ||
+                rScript == null || userId == 0 ||
+                projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RScriptManager.runScript(rScriptName, rScript, userId, projectId);
+        String result = RScriptManager.runScript(rScriptName,
+                rScript, userId, projectId);
         return result;
     }
 
@@ -35,11 +40,14 @@ public class DefaultFromR implements GetFromR<String> {
      * @return json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public String runScript(String rScriptId, int userId, String projectId) throws Exception {
-        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public String runScript(String rScriptId, int userId,
+                            String projectId) throws Exception {
+        if (rScriptId == null || rScriptId.equals("") ||
+                userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RScriptManager.runScript(rScriptId, userId, projectId);
+        String result = RScriptManager.runScript(rScriptId,
+                userId, projectId);
         return result;
     }
 
@@ -53,8 +61,10 @@ public class DefaultFromR implements GetFromR<String> {
      * @return json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public String runCommand(String rCommand, int userId, String projectId) throws Exception {
-        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+    public String runCommand(String rCommand, int userId,
+                             String projectId) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         String result = RFacade.runCommand(rCommand, userId, projectId);
@@ -69,8 +79,10 @@ public class DefaultFromR implements GetFromR<String> {
      * @return json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public String runCommand(String rCommand, String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+    public String runCommand(String rCommand,
+                             String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         String result = RFacade.runCommand(rCommand, jsonData);

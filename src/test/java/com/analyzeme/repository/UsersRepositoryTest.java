@@ -70,7 +70,8 @@ public class UsersRepositoryTest {
     @Test
     public void testNewItem() throws Exception {
         String id = UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
-        assertTrue("newItem not correct for empty repository", id.equals("1"));
+        assertTrue("newItem not correct for empty repository",
+                id.equals("1"));
     }
 
     @Test(expected = ArrayIndexOutOfBoundsException.class)
@@ -88,7 +89,8 @@ public class UsersRepositoryTest {
     public void testRecentlyAddedForFindUserId() throws Exception {
         String id = UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
         UserInfo info = UsersRepository.findUser(Integer.parseInt(id));
-        assertTrue("findUser(int) does not work correctly", info.getLogin().equals("sth"));
+        assertTrue("findUser(int) does not work correctly",
+                info.getLogin().equals("sth"));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -113,7 +115,8 @@ public class UsersRepositoryTest {
     public void testRecentlyAddedForFindUserName() throws Exception {
         UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
         UserInfo info = UsersRepository.findUser("sth");
-        assertTrue("findUser(int) does not work correctly", info.getLogin().equals("sth"));
+        assertTrue("findUser(int) does not work correctly",
+                info.getLogin().equals("sth"));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -145,7 +148,8 @@ public class UsersRepositoryTest {
     public void testForNewProject() throws Exception {
         UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
         String id = UsersRepository.newProject("sth", "sth");
-        assertTrue("new project is not created correctly", id.equals("project"));
+        assertTrue("new project is not created correctly",
+                id.equals("project"));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -170,86 +174,116 @@ public class UsersRepositoryTest {
 
     @Test
     public void testForNewProjectId() throws Exception {
-        String user = UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
-        String id = UsersRepository.newProject(Integer.parseInt(user), "sth");
-        assertTrue("new project is not created correctly", id.equals("project"));
+        String user = UsersRepository.newItem(
+                new String[]{"sth", "sth", "sth"});
+        String id = UsersRepository.newProject(
+                Integer.parseInt(user), "sth");
+        assertTrue("new project is not created correctly",
+                id.equals("project"));
     }
 
     @Test
     public void testGetAllIds() throws Exception {
         List<String> ids = UsersRepository.getAllIds();
-        assertTrue("getAllIds does not work correctly", ids.isEmpty());
+        assertTrue("getAllIds does not work correctly",
+                ids.isEmpty());
     }
 
     @Test
     public void testFindByReferenceName() throws Exception {
-        String user = UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
-        String id = UsersRepository.newProject(Integer.parseInt(user), "sth");
+        String user = UsersRepository.newItem(
+                new String[]{"sth", "sth", "sth"});
+        String id = UsersRepository.newProject(
+                Integer.parseInt(user), "sth");
         ISourceInfo info = new JsonPointFileInRepositoryInfo("sth");
         DataSet set = new DataSet("sth", info);
-        UsersRepository.findUser("sth").getProjects().findProjectById(id).persist(set);
-        FileInfo res = UsersRepository.findByReferenceName("sth", new String[]{user, id});
-        assertTrue("findByReferenceName does not work correctly", res==null);
+        UsersRepository.findUser("sth").
+                getProjects().findProjectById(id).persist(set);
+        FileInfo res = UsersRepository.findByReferenceName(
+                "sth", new String[]{user, id});
+        assertTrue("findByReferenceName does not work correctly",
+                res==null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullNameForGetDataSetByReferenceName() throws Exception {
-        UsersRepository.getDataSetByReferenceName(null, new String[]{"sth", "sth"});
+        UsersRepository.getDataSetByReferenceName(
+                null, new String[]{"sth", "sth"});
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyNameForGetDataSetByReferenceName() throws Exception {
-        UsersRepository.getDataSetByReferenceName("", new String[]{"sth", "sth"});
+        UsersRepository.getDataSetByReferenceName("",
+                new String[]{"sth", "sth"});
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void lengthForGetDataSetByReferenceName() throws Exception {
-        UsersRepository.getDataSetByReferenceName("sth", new String[]{"sth"});
+        UsersRepository.getDataSetByReferenceName("sth",
+                new String[]{"sth"});
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyArgumentForGetDataSetByReferenceName0() throws Exception {
-        UsersRepository.getDataSetByReferenceName("sth", new String[]{"", "sth"});
+        UsersRepository.getDataSetByReferenceName("sth",
+                new String[]{"", "sth"});
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullArgumentForGetDataSetByReferenceName0() throws Exception {
-        UsersRepository.getDataSetByReferenceName("sth", new String[]{null, "sth"});
+        UsersRepository.getDataSetByReferenceName("sth",
+                new String[]{null, "sth"});
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void emptyArgumentForGetDataSetByReferenceName1() throws Exception {
-        UsersRepository.getDataSetByReferenceName("sth", new String[]{"sth", ""});
+        UsersRepository.getDataSetByReferenceName("sth",
+                new String[]{"sth", ""});
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nullArgumentForGetDataSetByReferenceName1() throws Exception {
-        UsersRepository.getDataSetByReferenceName("sth", new String[]{"sth", null});
+        UsersRepository.getDataSetByReferenceName("sth",
+                new String[]{"sth", null});
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void nonExistingProjectForGetDataSetByReferenceName() throws Exception {
-        String user = UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
-        UsersRepository.getDataSetByReferenceName("sth", new String[]{user, "sth"});
+        String user = UsersRepository.newItem(
+                new String[]{"sth", "sth", "sth"});
+        UsersRepository.getDataSetByReferenceName("sth",
+                new String[]{user, "sth"});
     }
 
     @Test
     public void emptyProjectForGetDataSetByReferenceName() throws Exception {
-        String user = UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
-        String id = UsersRepository.newProject(Integer.parseInt(user), "sth");
-        DataSet set = UsersRepository.getDataSetByReferenceName("sth", new String[]{user, id});
-        assertTrue("getDataSetByReferenceName does not work correctly for empty project", set == null);
+        String user = UsersRepository.newItem(
+                new String[]{"sth", "sth", "sth"});
+        String id = UsersRepository.newProject(
+                Integer.parseInt(user), "sth");
+        DataSet set = UsersRepository.getDataSetByReferenceName(
+                "sth", new String[]{user, id});
+        assertTrue(
+                "getDataSetByReferenceName does not work correctly for empty project",
+                set == null);
     }
 
      @Test
     public void testGetDataSetByReferenceName() throws Exception {
-         String user = UsersRepository.newItem(new String[]{"sth", "sth", "sth"});
-         String id = UsersRepository.newProject(Integer.parseInt(user), "sth");
-         ISourceInfo info = new JsonPointFileInRepositoryInfo("sth");
+         String user = UsersRepository.newItem(
+                 new String[]{"sth", "sth", "sth"});
+         String id = UsersRepository.newProject(
+                 Integer.parseInt(user), "sth");
+         ISourceInfo info =
+                 new JsonPointFileInRepositoryInfo("sth");
          DataSet set = new DataSet("sth", info);
-         UsersRepository.findUser("sth").getProjects().findProjectById(id).persist(set);
+         UsersRepository.findUser("sth").
+                 getProjects().findProjectById(id).persist(set);
 
-         DataSet res =  UsersRepository.getDataSetByReferenceName("sth", new String[]{user, id});
-         assertTrue("getDataSetByReferenceName does not work correctly for recently added", set.equals(res));
+         DataSet res =  UsersRepository.
+                 getDataSetByReferenceName("sth", new String[]{user, id});
+         assertTrue(
+                 "getDataSetByReferenceName does not work correctly for recently added",
+                 set.equals(res));
      }
 }

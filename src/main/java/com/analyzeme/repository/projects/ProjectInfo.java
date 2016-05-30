@@ -50,7 +50,8 @@ public class ProjectInfo {
             throw new IllegalArgumentException("ProjectInfo ctor: wrong id");
         }
         this.uniqueName = uniqueName;
-        //default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
+        //default ctor fills Date with current info (
+        // number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
         creationDate = new Date();
         lastChangeDate = new Date();
         datasets = new ArrayList<DataSet>();
@@ -67,8 +68,11 @@ public class ProjectInfo {
         }
         JSONArray result = new JSONArray();
         for (DataSet set : datasets) {
-            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class) || set.getFile().getClass().equals(CsvFileInRepositoryInfo.class)) {
-                FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
+            if (set.getFile().getClass().
+                    equals(JsonPointFileInRepositoryInfo.class) ||
+                    set.getFile().getClass().equals(CsvFileInRepositoryInfo.class)) {
+                FileInfo info = FileRepository.getRepo().
+                        findFileById(set.getFile().getToken());
                 if (info != null && info.isActive()) {
                     JSONObject file = new JSONObject();
                     file.put("uniqueName", info.getUniqueName());
@@ -112,7 +116,8 @@ public class ProjectInfo {
      */
     public void persist(DataSet file) throws Exception {
         if (file == null) {
-            throw new IllegalArgumentException("ProjectInfo persist(): empty entity of DataSet");
+            throw new IllegalArgumentException(
+                    "ProjectInfo persist(): empty entity of DataSet");
         }
         changeCounter();
         file.setIdInProject(counterOfDatasets);
@@ -139,7 +144,8 @@ public class ProjectInfo {
      */
     public DataSet getDataSetByReferenceName(final String referenceName) throws Exception {
         if (referenceName == null || referenceName.equals("")) {
-            throw new IllegalArgumentException("ProjectInfo getDataSetByReferenceName(): wrong referenceName");
+            throw new IllegalArgumentException(
+                    "ProjectInfo getDataSetByReferenceName(): wrong referenceName");
         }
         for (DataSet set : datasets) {
             if (set.getReferenceName().equals(referenceName)) {
@@ -154,7 +160,8 @@ public class ProjectInfo {
      */
     public void deactivateFiles() throws Exception {
         for (DataSet set : datasets) {
-            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class) || set.getFile().getClass().equals(CsvFileInRepositoryInfo.class)) {
+            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class) ||
+                    set.getFile().getClass().equals(CsvFileInRepositoryInfo.class)) {
                 FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
                 if (info != null) {
                     info.setIsActive(false);
@@ -180,7 +187,8 @@ public class ProjectInfo {
      */
     public void setProjectName(String projectName) throws IOException {
         if (projectName == null || projectName.equals("")) {
-            throw new IllegalArgumentException("ProjectInfo setProjectName(): projectName should not be empty");
+            throw new IllegalArgumentException(
+                    "ProjectInfo setProjectName(): projectName should not be empty");
         }
         this.projectName = projectName;
         lastChangeDate = new Date();

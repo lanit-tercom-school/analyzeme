@@ -18,11 +18,15 @@ public class NumberFromR implements GetFromR<Double> {
 	 * @return double result
 	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
-	public Double runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+	public Double runScript(String rScriptName,
+							ByteArrayInputStream rScript, int userId,
+							String projectId) throws Exception {
+		if (rScriptName == null || rScriptName.equals("") ||
+				rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
 		}
-		double result = RScriptManager.runScriptToGetNumber(rScriptName, rScript, userId, projectId);
+		double result = RScriptManager.runScriptToGetNumber(
+				rScriptName, rScript, userId, projectId);
 		return result;
 	}
 
@@ -37,10 +41,12 @@ public class NumberFromR implements GetFromR<Double> {
 	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public Double runScript(String rScriptId, int userId, String projectId) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+		if (rScriptId == null || rScriptId.equals("") ||
+				userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
 		}
-		double result = RScriptManager.runScriptToGetNumber(rScriptId, userId, projectId);
+		double result = RScriptManager.runScriptToGetNumber(
+				rScriptId, userId, projectId);
 		return result;
 	}
 
@@ -54,7 +60,8 @@ public class NumberFromR implements GetFromR<Double> {
 	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
 	public Double runCommand(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+		if (rCommand == null || rCommand.equals("") ||
+				userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
 		}
 		double result = RFacade.runCommandToGetNumber(rCommand, userId, projectId);
@@ -70,7 +77,8 @@ public class NumberFromR implements GetFromR<Double> {
 	 * @throws Exception if r was impossible to call or there was in error in command
 	 */
 	public Double runCommand(String rCommand, String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+		if (rCommand == null || rCommand.equals("") ||
+				jsonData == null || jsonData.equals("")) {
 			throw new IllegalArgumentException();
 		}
 		double result = RFacade.runCommandToGetNumber(rCommand, jsonData);

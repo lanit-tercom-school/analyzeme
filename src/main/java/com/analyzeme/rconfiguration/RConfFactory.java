@@ -62,7 +62,9 @@ public class RConfFactory {
                 return new FakeRConf(activeFlag, name);
 
             } else {
-                throw new IllegalArgumentException("param ''rConfType'' has illegal value. ''" + rConfType + "'' isn't name of real RConfiguration");
+                throw new IllegalArgumentException(
+                        "param ''rConfType'' has illegal value. ''" +
+                                rConfType + "'' isn't name of real RConfiguration");
             }
 
         } catch (ParseException e) {
@@ -80,6 +82,8 @@ public class RConfFactory {
         if (st.equals("true")) return true;
         else if (st.equals("false")) return false;
         else
-            throw new IllegalArgumentException("param ''st'' has illegal value. ''" + st + "'' isn't 'true' or 'false'");
+            throw new IllegalArgumentException(
+                    "param ''st'' has illegal value. ''" +
+                            st + "'' isn't 'true' or 'false'");
     }
 }

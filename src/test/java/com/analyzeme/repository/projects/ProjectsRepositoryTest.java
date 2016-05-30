@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import java.util.List;
 
+import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
@@ -50,7 +51,8 @@ public class ProjectsRepositoryTest {
         String testProjectName = "new";
         String id = repo.createProject(testProjectName);
         ProjectInfo info = repo.findProjectById(id);
-        assertTrue("FindProjectById for recently added does not work correctly", info.getProjectName().equals(testProjectName) && info.getUniqueName().equals(id));
+        assertTrue("FindProjectById for recently added does not work correctly",
+                info.getProjectName().equals(testProjectName) && info.getUniqueName().equals(id));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -92,7 +94,8 @@ public class ProjectsRepositoryTest {
     public void testEmptyForDeactivateProjectById() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         boolean deactivated = repo.deactivateProjectById("sth");
-        assertTrue("Empty repository works correctly for deactivation", !deactivated);
+        assertFalse("Empty repository works correctly for deactivation",
+                deactivated);
     }
 
     @Test
@@ -102,7 +105,8 @@ public class ProjectsRepositoryTest {
         boolean deactivated = repo.deactivateProjectById(id);
         if(deactivated) {
             List<String> names = repo.returnAllActiveProjectsIds();
-            assertTrue("Deactivation is correct for recently added", names.size() == 1);
+            assertTrue("Deactivation is correct for recently added",
+                    names.size() == 1);
             return;
         }
         fail("Deactivation is not correct for recently added");
@@ -182,20 +186,23 @@ public class ProjectsRepositoryTest {
     public void testGetProjects() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         List<ProjectInfo> infos = repo.getProjects();
-        assertTrue("getProjects for empty", infos.size() == 1 && infos.get(0).getUniqueName().equals("demo"));
+        assertTrue("getProjects for empty", infos.size() == 1 &&
+                infos.get(0).getUniqueName().equals("demo"));
     }
 
     @Test
     public void testReturnAllProjectsIds() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         List<String> infos = repo.returnAllProjectsIds();
-        assertTrue("getProjects for empty", infos.size() == 1 && infos.get(0).equals("demo"));
+        assertTrue("getProjects for empty", infos.size() == 1 &&
+                infos.get(0).equals("demo"));
     }
 
     @Test
     public void testReturnAllActiveProjectsIds() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         List<String> infos = repo.returnAllActiveProjectsIds();
-        assertTrue("getProjects for empty", infos.size() == 1 && infos.get(0).equals("demo"));
+        assertTrue("getProjects for empty", infos.size() == 1 &&
+                infos.get(0).equals("demo"));
     }
 }

@@ -59,7 +59,8 @@ public class RserveConf implements IRConf {
      * @param host       for setting field host
      * @param port       for setting field port
      */
-    public RserveConf(final boolean activeFlag, final String host, final String port, final String name) {
+    public RserveConf(final boolean activeFlag, final String host,
+                      final String port, final String name) {
         this.name = name;
         this.activeFlag = activeFlag;
         this.host = host;

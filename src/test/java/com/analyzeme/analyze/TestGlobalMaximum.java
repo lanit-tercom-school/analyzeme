@@ -11,7 +11,7 @@ public class TestGlobalMaximum {
     /**
      * Test method of GlobalMax
      */
-    final double e = 0.001;//constant need to compare two double numbers
+    private final double e = 0.001;//constant need to compare two double numbers
 
     @Test
     public void testGlobalMax() throws Exception {
@@ -26,7 +26,8 @@ public class TestGlobalMaximum {
 
         }
         //Compare 4 and maximum of y=x
-        assertTrue("Global maximum of y=x is wrong", Math.abs(4.0 - Y_array[tester.calc(X_array, Y_array)]) < e);
+        assertTrue("Global maximum of y=x is wrong",
+                Math.abs(4.0 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
         //generate  array of  y=x^2
         for (int i = 0; i < 1001; i++) {
@@ -35,7 +36,8 @@ public class TestGlobalMaximum {
 
         }
         //Compare 16 and maximum of y=x^2
-        assertTrue("Global maximum of y=x^2 is wrong", Math.abs(16 - Y_array[tester.calc(X_array, Y_array)]) < e);
+        assertTrue("Global maximum of y=x^2 is wrong",
+                Math.abs(16 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
         //generate array of  y=sin(x^2)
         for (int i = 0; i < 1001; i++) {
@@ -44,7 +46,8 @@ public class TestGlobalMaximum {
 
         }
         //Compare 1 and maximum of y=sin(x^2)
-        assertTrue("Global maximum of y=sin(x^2) is wrong", Math.abs(1 - Y_array[tester.calc(X_array, Y_array)]) < e);
+        assertTrue("Global maximum of y=sin(x^2) is wrong",
+                Math.abs(1 - Y_array[tester.calc(X_array, Y_array)]) < e);
 
 
     }
@@ -62,6 +65,7 @@ public class TestGlobalMaximum {
             pointArray[i] = new Point(x, y);
         }
         //Compare -1 and minimum of y=sin(x^2)
-        assertTrue("Global minimum of y=sin(x^2)is wrong", Math.abs(1 - pointArray[tester.calc(pointArray)].getY()) < e);
+        assertTrue("Global minimum of y=sin(x^2)is wrong",
+                Math.abs(1 - pointArray[tester.calc(pointArray)].getY()) < e);
     }
 }

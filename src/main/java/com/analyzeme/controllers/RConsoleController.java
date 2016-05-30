@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RConsoleController {
 
-	RAnalyzer rAnalyzer = new RAnalyzer();
+	private final RAnalyzer rAnalyzer = new RAnalyzer();
 
 	/**
 	 * @param userId

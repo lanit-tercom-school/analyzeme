@@ -10,7 +10,7 @@ import java.util.Set;
  * Created by lagroffe on 27.05.2016 18:30
  */
 public class DoubleData {
-    private Map<String, Double> data;
+    private final Map<String, Double> data;
 
     public DoubleData() {
         data = new HashMap<String, Double>();

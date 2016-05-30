@@ -25,7 +25,8 @@ public class TestRConfRepository {
         //get all three RConf
         IRConf RConf1 = RConfRepository.getRepo().getRConfByName("FakeR");
         IRConf RConf2 = RConfRepository.getRepo().getRConfByName("Renjin");
-        RserveConf RConf3 = (RserveConf) RConfRepository.getRepo().getRConfByName("Rserve1");
+        RserveConf RConf3 = (RserveConf)
+                RConfRepository.getRepo().getRConfByName("Rserve1");
         //check size
         assertTrue(size == 3);
         //check first RConf
@@ -110,11 +111,14 @@ public class TestRConfRepository {
     @Test
     public void testUpdate() throws IOException, IllegalArgumentException {
         // init json string for update
-        final String data = "{\"rConfType\":\"RserveConf\",\"name\":\"Example\",\"activeFlag\":true,\"host\":\"localhost\",\"port\":\"1099\"}";
+        final String data = "{\"rConfType\":\"RserveConf\"," +
+                "\"name\":\"Example\",\"activeFlag\":true," +
+                "\"host\":\"localhost\",\"port\":\"1099\"}";
         // update RConf
         RConfRepository.getRepo().updateRConfByName("Rserve1", data);
         // get updated RConf
-        RserveConf RConf1 = (RserveConf) RConfRepository.getRepo().getRConfByName("Example");
+        RserveConf RConf1 = (RserveConf)
+                RConfRepository.getRepo().getRConfByName("Example");
         // try get old RConf
         IRConf RConf2 = RConfRepository.getRepo().getRConfByName("Rserve1");
         //test  RConf1
@@ -135,7 +139,12 @@ public class TestRConfRepository {
     @Test
     public void testAllConfigurationsToJsonString() {
 
-        assertTrue(RConfRepository.getRepo().allConfigurationsToJsonString().equals("[{\"rConfType\":\"FakeRConf\",\"name\":\"FakeR\",\"activeFlag\":true},{\"rConfType\":\"RenjinConf\",\"name\":\"Renjin\",\"activeFlag\":true},{\"port\":null,\"rConfType\":\"RserveConf\",\"name\":\"Rserve1\",\"host\":null,\"activeFlag\":true}]"));
+        assertTrue(RConfRepository.getRepo().allConfigurationsToJsonString().
+                equals("[{\"rConfType\":\"FakeRConf\",\"name\":\"FakeR\"," +
+                        "\"activeFlag\":true},{\"rConfType\":\"RenjinConf\"," +
+                        "\"name\":\"Renjin\",\"activeFlag\":true},{\"port\":null," +
+                        "\"rConfType\":\"RserveConf\",\"name\":\"Rserve1\"," +
+                        "\"host\":null,\"activeFlag\":true}]"));
     }
 
     /**
