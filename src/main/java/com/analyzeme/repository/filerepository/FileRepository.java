@@ -38,9 +38,12 @@ public class FileRepository implements IFileRepository {
      * @return nameToWrite - if succeed, exception if not
      */
     public synchronized String persist(final MultipartFile file, final String filename) throws IOException {
-        if (file == null) throw new IllegalArgumentException();
-        if (filename == null || filename.equals(""))
+        if (file == null) {
+            throw new IllegalArgumentException();
+        }
+        if (filename == null || filename.equals("")) {
             throw new IllegalArgumentException("FileRepository persist(MultipartFile): wrong filename");
+        }
         String uniqueName = filename;
         if (!isNameCorrect(uniqueName)) {
             uniqueName = createCorrectName(filename);
@@ -60,9 +63,12 @@ public class FileRepository implements IFileRepository {
      * @return uniqueName - if succeed, exception if not
      */
     public synchronized String persist(InputStream part, final String filename) throws IOException {
-        if (part == null) throw new IllegalArgumentException();
-        if (filename == null || filename.equals(""))
+        if (part == null) {
+            throw new IllegalArgumentException();
+        }
+        if (filename == null || filename.equals("")) {
             throw new IllegalArgumentException("FileRepository persist(ByteArrayInputStream): wrong filename");
+        }
         String uniqueName = filename;
         if (!isNameCorrect(uniqueName)) {
             uniqueName = createCorrectName(filename);
@@ -81,9 +87,12 @@ public class FileRepository implements IFileRepository {
      * @return uniqueName - if succeed, exception if not
      */
     public synchronized String persist(String part, final String filename) throws IOException {
-        if (part == null) throw new IllegalArgumentException();
-        if (filename == null || filename.equals(""))
+        if (part == null) {
+            throw new IllegalArgumentException();
+        }
+        if (filename == null || filename.equals("")) {
             throw new IllegalArgumentException("FileRepository persist(String): wrong filename");
+        }
         String uniqueName = filename;
         if (!isNameCorrect(uniqueName)) {
             uniqueName = createCorrectName(filename);
@@ -100,8 +109,9 @@ public class FileRepository implements IFileRepository {
      * @return created name
      */
     private synchronized String createCorrectName(final String fileName) throws IOException {
-        if (fileName == null || fileName.equals(""))
+        if (fileName == null || fileName.equals("")) {
             throw new IllegalArgumentException("FileRepository createCorrectName(): wrong filename");
+        }
         final char point = '.';
         if (fileName.indexOf(point) != -1) {
             String extension = fileName.substring(fileName.indexOf(point) + 1);
@@ -137,8 +147,9 @@ public class FileRepository implements IFileRepository {
      * @return true if free
      */
     private synchronized boolean isNameCorrect(final String fileName) throws IOException {
-        if (fileName == null || fileName.equals(""))
+        if (fileName == null || fileName.equals("")) {
             throw new IllegalArgumentException("FileRepository isNameCorrect(): wrong filename");
+        }
         for (String file : getAllWrittenNames()) {
             if (file.equals(fileName)) {
                 return false;
@@ -154,8 +165,9 @@ public class FileRepository implements IFileRepository {
      * @return true if  succeded
      */
     public synchronized boolean deleteFileByIdCompletely(final String uniqueName) throws IOException {
-        if (uniqueName == null || uniqueName.equals(""))
+        if (uniqueName == null || uniqueName.equals("")) {
             throw new IllegalArgumentException("FileRepository deleteFileByIdCompletely(): wrong fileId");
+        }
         for (int i = 0; i < files.size(); i++) {
             if (files.get(i).getUniqueName().equals(uniqueName)) {
                 files.remove(i);
@@ -172,8 +184,9 @@ public class FileRepository implements IFileRepository {
      * @return true if  succeded
      */
     public synchronized boolean deleteFileById(final String uniqueName) throws IOException {
-        if (uniqueName == null || uniqueName.equals(""))
+        if (uniqueName == null || uniqueName.equals("")) {
             throw new IllegalArgumentException("FileRepository deleteFileById(): wrong fileId");
+        }
         for (int i = 0; i < files.size(); i++) {
             if (files.get(i).getUniqueName().equals(uniqueName)) {
                 files.get(i).setIsActive(false);
@@ -215,8 +228,9 @@ public class FileRepository implements IFileRepository {
      * @return stream (or null if not found)
      */
     public synchronized ByteArrayInputStream getFileByID(final String uniqueName) throws IOException {
-        if (uniqueName == null || uniqueName.equals(""))
+        if (uniqueName == null || uniqueName.equals("")) {
             throw new IllegalArgumentException("FileRepository getByReferenceName(): wrong fileId");
+        }
         FileInfo info = findFileById(uniqueName);
         return info == null ? null : info.getData();
     }
@@ -233,8 +247,9 @@ public class FileRepository implements IFileRepository {
      * @return FileInfo with all information about the file
      */
     public synchronized FileInfo findFileById(final String uniqueName) throws IOException {
-        if (uniqueName == null || uniqueName.equals(""))
+        if (uniqueName == null || uniqueName.equals("")) {
             throw new IllegalArgumentException("FileRepository findFileById(): wrong fileId");
+        }
         for (FileInfo info : files) {
             if (info.getUniqueName().equals(uniqueName)) {
                 return info;

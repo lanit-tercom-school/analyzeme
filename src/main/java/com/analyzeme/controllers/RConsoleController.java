@@ -35,12 +35,12 @@ public class RConsoleController {
 	 */
 
 	@RequestMapping(value = "/{user_id}/{project_id}/run/script", method = RequestMethod.POST)
-	public ResponseEntity<Object> runRForNumber(@PathVariable("user_id") int userId,
-												@PathVariable("project_id") String projectId,
-												@RequestHeader("type_of_call") TypeOfCall typeOfCall,
-												@RequestHeader("type_of_result") TypeOfReturnValue typeOfResult,
-												@RequestHeader("name") String scriptName,
-												@RequestBody String scriptText) {
+	public ResponseEntity<Object> runRForNumber(@PathVariable("user_id") final int userId,
+												@PathVariable("project_id") final String projectId,
+												@RequestHeader("type_of_call") final TypeOfCall typeOfCall,
+												@RequestHeader("type_of_result") final TypeOfReturnValue typeOfResult,
+												@RequestHeader("name") final String scriptName,
+												@RequestBody final String scriptText) {
 		Object result;
 		try {
 			result = rAnalyzer.runScript(userId, projectId, scriptName, scriptText, typeOfResult, typeOfCall);
@@ -62,10 +62,10 @@ public class RConsoleController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/{user_id}/{project_id}/save/script", method = RequestMethod.POST)
-	public String saveScript(@PathVariable("user_id") int userId,
-							 @PathVariable("project_id") String projectId,
-							 @RequestHeader("name") String scriptName,
-							 @RequestBody String scriptText) throws Exception {
+	public String saveScript(@PathVariable("user_id") final int userId,
+							 @PathVariable("project_id") final String projectId,
+							 @RequestHeader("name") final String scriptName,
+							 @RequestBody final String scriptText) throws Exception {
 		UsersRepository.checkInitialization();
 		DataSet file = FileUploader.upload(scriptText, scriptName, scriptName, TypeOfFile.SCRIPT);
 		ProjectInfo project = UsersRepository.findUser(userId).getProjects().findProjectById(projectId);
@@ -85,9 +85,9 @@ public class RConsoleController {
 	 * @throws Exception
 	 */
 	@RequestMapping(value = "/{user_id}/{project_id}/get/script", method = RequestMethod.GET)
-	public String getScript(@PathVariable("user_id") int userId,
-							@PathVariable("project_id") String projectId,
-							@RequestHeader("refName") String scriptRefName) throws Exception {
+	public String getScript(@PathVariable("user_id") final int userId,
+							@PathVariable("project_id") final String projectId,
+							@RequestHeader("refName") final String scriptRefName) throws Exception {
 		UsersRepository.checkInitialization();
 		FileInfo file = UsersRepository.findByReferenceName(scriptRefName, new String[]{String.valueOf(userId), projectId});
 		if (file == null) {

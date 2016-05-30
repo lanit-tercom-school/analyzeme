@@ -29,7 +29,7 @@ public class FakeRConf implements IRConf {
      *
      * @param name what will set as field name
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -46,7 +46,7 @@ public class FakeRConf implements IRConf {
      *
      * @param activeFlag for setting field activeFlag
      */
-    public FakeRConf(boolean activeFlag, String name) {
+    public FakeRConf(final boolean activeFlag, final String name) {
         this.name = name;
         this.activeFlag = activeFlag;
     }
@@ -56,7 +56,7 @@ public class FakeRConf implements IRConf {
      *
      * @param activeFlag what will set as field activeFlag
      */
-    public void setActiveFlag(boolean activeFlag) {
+    public void setActiveFlag(final boolean activeFlag) {
         this.activeFlag = activeFlag;
 
     }
@@ -77,7 +77,7 @@ public class FakeRConf implements IRConf {
      *
      * @param RConf will be assignmented to this FakeRConf
      */
-    public void assignment(IRConf RConf) throws IllegalArgumentException {
+    public void assignment(final IRConf RConf) throws IllegalArgumentException {
         if (!(RConf instanceof FakeRConf)) throw new IllegalArgumentException();
         setName(RConf.getName());
         setActiveFlag(RConf.isActive());

@@ -27,7 +27,15 @@ public class IndexController {
     }
 
     @RequestMapping(value = "/index")
-    public String moveToIndexPage() {
+    public String moveToIndexPage() throws Exception {
+        UsersRepository.checkInitializationAndCreate();
+        try {
+            UsersRepository.findUser("guest");
+        } catch (IllegalArgumentException e) {
+            //login, email, password  (IN THIS ORDER)
+            String[] param = {"guest", "guest@mail.sth", "1234"};
+            UsersRepository.newItem(param);
+        }
         return "index";
     }
 

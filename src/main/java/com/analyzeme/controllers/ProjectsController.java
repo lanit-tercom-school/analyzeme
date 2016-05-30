@@ -21,8 +21,8 @@ public class ProjectsController {
      * @throws IOException
      */
     @RequestMapping(value = "{user_id}/project/{project_id}/filesForList", method = RequestMethod.GET)
-    public String getFilesForList(@PathVariable("user_id") int userId,
-                                  @PathVariable("project_id") String projectId)
+    public String getFilesForList(@PathVariable("user_id") final int userId,
+                                  @PathVariable("project_id") final String projectId)
             throws IOException {
         if (userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException("Incorrect userId or/and projectId");
@@ -45,8 +45,8 @@ public class ProjectsController {
      * @throws IOException
      */
     @RequestMapping(value = "{user_id}/project/new/create", method = RequestMethod.PUT)
-    public String createProject(@PathVariable("user_id") int userId,
-                                @RequestHeader("project_name") String projectName) throws IOException {
+    public String createProject(@PathVariable("user_id") final int userId,
+                                @RequestHeader("project_name") final String projectName) throws IOException {
         try {
             //when other users created, CheckInitializationAndCreate() should be called from user creator only
             //now it's possible to create a default user here
@@ -78,7 +78,7 @@ public class ProjectsController {
      * HttpStatus.BAD_REQUEST if sth went wrong
      */
     @RequestMapping(value = "{user_id}/project/{unique_name}/delete", method = RequestMethod.DELETE)
-    public HttpStatus deleteProjectById(@PathVariable("user_id") int userId, @PathVariable("unique_name") String uniqueName)
+    public HttpStatus deleteProjectById(@PathVariable("user_id") final int userId, @PathVariable("unique_name") final String uniqueName)
             throws IOException {
         try {
             try {

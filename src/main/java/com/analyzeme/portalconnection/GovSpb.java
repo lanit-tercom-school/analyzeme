@@ -10,7 +10,7 @@ import java.net.URL;
  */
 public class GovSpb {
 
-	private final String USER_AGENT = "Mozilla/5.0";
+	private final static String USER_AGENT = "Mozilla/5.0";
 
 	public static String main() throws Exception {
 

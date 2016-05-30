@@ -53,11 +53,17 @@ public class FileInfo {
      * @param data        - input stream with byte info (to extract from Part use method getInputStream)
      */
     FileInfo(final String nameForUser, final String uniqueName, final InputStream data) throws IOException {
-        if (nameForUser == null || nameForUser.equals("")) throw new IllegalArgumentException("FileInfo ctor: wrong nameForUser");
+        if (nameForUser == null || nameForUser.equals("")) {
+            throw new IllegalArgumentException("FileInfo ctor: wrong nameForUser");
+        }
         this.setNameForUser(nameForUser);
-        if (uniqueName == null || uniqueName.equals("")) throw new IllegalArgumentException("FileInfo ctor: wrong uniqueName");
+        if (uniqueName == null || uniqueName.equals("")) {
+            throw new IllegalArgumentException("FileInfo ctor: wrong uniqueName");
+        }
         this.uniqueName = uniqueName;
-        if(data == null) throw new IllegalArgumentException("FileInfo ctor: data is null");
+        if(data == null) {
+            throw new IllegalArgumentException("FileInfo ctor: data is null");
+        }
         this.setData(new ByteArrayInputStream(getBytesFromInputStream(data)));
         //default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
         uploadingDate = new Date();
@@ -68,7 +74,9 @@ public class FileInfo {
     }
 
     public void setNameForUser(String nameForUser) throws IOException {
-        if (nameForUser == null || nameForUser.equals("")) throw new IllegalArgumentException("FileInfo: impossible to set this name for user");
+        if (nameForUser == null || nameForUser.equals("")) {
+            throw new IllegalArgumentException("FileInfo: impossible to set this name for user");
+        }
         this.nameForUser = nameForUser;
     }
 
@@ -96,7 +104,9 @@ public class FileInfo {
     }
 
     public void setData(ByteArrayInputStream data) throws IOException {
-        if (data == null) throw new IllegalArgumentException("FileInfo: you should not change data to null");
+        if (data == null) {
+            throw new IllegalArgumentException("FileInfo: you should not change data to null");
+        }
         this.data = data;
     }
 

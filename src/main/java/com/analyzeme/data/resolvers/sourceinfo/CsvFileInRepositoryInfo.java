@@ -17,8 +17,9 @@ public class CsvFileInRepositoryInfo implements ISourceInfo {
     private DoubleDataArray file;
 
     public CsvFileInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException, IOException {
-        if (uniqueNameInRepository == null || uniqueNameInRepository.equals(""))
+        if (uniqueNameInRepository == null || uniqueNameInRepository.equals("")) {
             throw new IllegalArgumentException("CsvFileInRepositoryInfo ctor: wrong uniqueNameInRepository");
+        }
         this.uniqueNameInRepository = uniqueNameInRepository;
         ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
         file = CsvParserForDoubleData.parse(f);
@@ -38,8 +39,9 @@ public class CsvFileInRepositoryInfo implements ISourceInfo {
 
 
     public List<Double> getByField(final String fieldName) throws Exception {
-        if (fieldName == null || fieldName.equals(""))
+        if (fieldName == null || fieldName.equals("")) {
             throw new IllegalArgumentException("CsvFileInRepositoryInfo getByField(): fieldName cannot be null or empty");
+        }
         return file.getByKey(fieldName);
     }
 }

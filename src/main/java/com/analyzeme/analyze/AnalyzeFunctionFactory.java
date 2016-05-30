@@ -14,15 +14,17 @@ public class AnalyzeFunctionFactory {
 	 */
 	public AnalyzeFunction getFunction(final String functionType) throws IllegalArgumentException {
 
-		if (functionType == null)
+		if (functionType == null) {
 			throw new IllegalArgumentException("param ''functionType'' has illegal value.( Null is illegal value)");
+		}
 
 		if (Objects.equals(functionType, "GlobalMaximum")) {
 			return new GlobalMaximum();
 		} else if (Objects.equals(functionType, "GlobalMinimum")) {
 			return new GlobalMinimum();
-		} else
+		} else {
 			throw new IllegalArgumentException("param ''functionType'' has illegal value. ''" + functionType + "'' isn't name of real class");
+		}
 
 	}
 }

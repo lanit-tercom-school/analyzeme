@@ -17,7 +17,7 @@ public interface GetFromR<T> {
 	 * @return result
 	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
-	T runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception;
+	T runScript(final String rScriptName, ByteArrayInputStream rScript, final int userId, final String projectId) throws Exception;
 
 
 	/**
@@ -29,7 +29,7 @@ public interface GetFromR<T> {
 	 * @return result
 	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
-	T runScript(String rScriptId, int userId, String projectId) throws Exception;
+	T runScript(final String rScriptId, final int userId, final String projectId) throws Exception;
 
 	/**
 	 * calls r using r.facade
@@ -40,7 +40,7 @@ public interface GetFromR<T> {
 	 * @return result
 	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
-	T runCommand(String rCommand, int userId, String projectId) throws Exception;
+	T runCommand(final String rCommand, final int userId, final String projectId) throws Exception;
 
 	/**
 	 * calls r using r.facade
@@ -50,5 +50,5 @@ public interface GetFromR<T> {
 	 * @return result
 	 * @throws Exception if r was impossible to call or there was in error in command
 	 */
-	T runCommand(String rCommand, String jsonData) throws Exception;
+	T runCommand(final String rCommand, final String jsonData) throws Exception;
 }

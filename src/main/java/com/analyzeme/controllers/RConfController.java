@@ -22,7 +22,7 @@ public class RConfController {
      * @throws IOException
      */
     @RequestMapping(value = "/rConf/GetRConf/{rConf_name}", method = RequestMethod.GET)
-    public String getRConfiguration(@PathVariable("rConf_name") String rConfName)
+    public String getRConfiguration(@PathVariable("rConf_name") final String rConfName)
             throws IOException {
 
         IRConf RConf = RConfRepository.getRepo().getRConfByName(rConfName);
@@ -47,7 +47,7 @@ public class RConfController {
      * @throws IOException
      */
     @RequestMapping(value = "/rConf/{data}", method = RequestMethod.PUT)
-    public void addRConfiguration(@PathVariable("data") String data)
+    public void addRConfiguration(@PathVariable("data") final String data)
             throws IOException {
         RConfRepository.getRepo().addRConf(RConfFactory.getRConf(data));
 
@@ -59,7 +59,7 @@ public class RConfController {
      * @throws IOException
      */
     @RequestMapping(value = "/rConf/{RConf_Name}/{data}", method = RequestMethod.POST)
-    public void updateRConf(@PathVariable("data") String data, @PathVariable("RConf_Name") String name)
+    public void updateRConf(@PathVariable("data") final String data, @PathVariable("RConf_Name") final String name)
             throws IOException {
         RConfRepository.getRepo().updateRConfByName(name, data);
 
@@ -70,7 +70,7 @@ public class RConfController {
      * @throws IOException
      */
     @RequestMapping(value = "/rConf/{RConf_Name}", method = RequestMethod.DELETE)
-    public void updateRConf(@PathVariable("RConf_Name") String name)
+    public void updateRConf(@PathVariable("RConf_Name") final String name)
             throws IOException {
         RConfRepository.getRepo().deleteRConfByName(name);
 

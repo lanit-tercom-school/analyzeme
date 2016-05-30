@@ -57,7 +57,7 @@ public class RConfRepository {
      * add new IRConf
      * @param newConfiguration will be added to repository
      */
-    public synchronized void addRConf(IRConf newConfiguration) {
+    public synchronized void addRConf(final IRConf newConfiguration) {
         RConfigurations.add(newConfiguration);
     }
 
@@ -67,7 +67,7 @@ public class RConfRepository {
      * @return IRConf with name @param name
      * @throws IOException
      */
-    public IRConf getRConfByName(String name) throws IOException {
+    public IRConf getRConfByName(final String name) throws IOException {
         if (name == null || name.equals("")) throw new IOException();
         for (IRConf rConf : RConfigurations) {
             if (rConf.getName().equals(name)) {
@@ -83,7 +83,7 @@ public class RConfRepository {
      * @param name of RConf to delete
      * @throws IOException
      */
-    public void deleteRConfByName(String name) throws IOException {
+    public void deleteRConfByName(final String name) throws IOException {
         if (name == null || name.equals("")) throw new IOException();
         for (int i = 0; i < RConfigurations.size(); i++) {
             if (RConfigurations.get(i).getName().equals(name)) {
@@ -100,7 +100,7 @@ public class RConfRepository {
      * @throws IOException
      * @throws IllegalArgumentException
      */
-    public void updateRConfByName(String name, String data) throws IOException, IllegalArgumentException {
+    public void updateRConfByName(final String name, final String data) throws IOException, IllegalArgumentException {
 
         IRConf RConf = repo.getRConfByName(name);
         RConf.assignment(RConfFactory.getRConf(data));

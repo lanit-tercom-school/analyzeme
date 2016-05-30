@@ -37,7 +37,7 @@ public class RserveConf implements IRConf {
      *
      * @param name what will set as field name
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -59,7 +59,7 @@ public class RserveConf implements IRConf {
      * @param host       for setting field host
      * @param port       for setting field port
      */
-    public RserveConf(boolean activeFlag, String host, String port, String name) {
+    public RserveConf(final boolean activeFlag, final String host, final String port, final String name) {
         this.name = name;
         this.activeFlag = activeFlag;
         this.host = host;
@@ -71,7 +71,7 @@ public class RserveConf implements IRConf {
      *
      * @param activeFlag what will set as field flag
      */
-    public void setActiveFlag(boolean activeFlag) {
+    public void setActiveFlag(final boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
 
@@ -89,7 +89,7 @@ public class RserveConf implements IRConf {
      *
      * @param port what will set as field port
      */
-    public void setPort(String port) {
+    public void setPort(final String port) {
         this.port = port;
     }
 
@@ -107,7 +107,7 @@ public class RserveConf implements IRConf {
      *
      * @param host what will set as field host
      */
-    public void setHost(String host) {
+    public void setHost(final String host) {
         this.host = host;
     }
 
@@ -127,7 +127,7 @@ public class RserveConf implements IRConf {
      *
      * @param RConf will be assignmented to this RserveConf
      */
-    public void assignment(IRConf RConf) {
+    public void assignment(final IRConf RConf) {
         if (!(RConf instanceof RserveConf)) throw new IllegalArgumentException();
         RserveConf RConf1 = (RserveConf) RConf;
         setName(RConf1.getName());

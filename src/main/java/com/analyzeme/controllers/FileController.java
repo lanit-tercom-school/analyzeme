@@ -31,8 +31,8 @@ public class FileController {
      **/
     @RequestMapping(value = "/upload/{user_id}/{project_id}", method = RequestMethod.POST,
             headers = {"content-type= multipart/form-data"})
-    public void doPost(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectUniqueName,
-                       @RequestParam(value = "file") MultipartFile multipartFile,
+    public void doPost(@PathVariable("user_id") final int userId, @PathVariable("project_id") final String projectUniqueName,
+                       @RequestParam(value = "file") final MultipartFile multipartFile,
                        HttpServletResponse response) throws IOException {
         try {
             String fileName = multipartFile.getOriginalFilename();
@@ -69,7 +69,7 @@ public class FileController {
 
     @RequestMapping(value = "/upload/demo", method = RequestMethod.POST,
             headers = {"content-type= multipart/form-data"})
-    public void doPost(@RequestParam(value = "file") MultipartFile multipartFile,
+    public void doPost(@RequestParam(value = "file") final MultipartFile multipartFile,
                        HttpServletResponse response) throws IOException {
         try {
             String fileName = multipartFile.getOriginalFilename();
@@ -115,7 +115,7 @@ public class FileController {
      * @throws IOException
      */
     @RequestMapping(value = "/file/{user_id}/{project_id}/{reference_name}/data", method = RequestMethod.GET)
-    public String getDataByReferenceName(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference_name") String referenceName, HttpServletResponse response)
+    public String getDataByReferenceName(@PathVariable("user_id") final int userId, @PathVariable("project_id") final String projectId, @PathVariable("reference_name") final String referenceName, HttpServletResponse response)
             throws IOException {
         try {
             FileInRepositoryResolver res = new FileInRepositoryResolver();
@@ -140,7 +140,7 @@ public class FileController {
      * IOException
      */
     @RequestMapping(value = "/file/{unique_name}/delete", method = RequestMethod.DELETE)
-    public boolean doGet(@PathVariable("unique_name") String uniqueName)
+    public boolean doGet(@PathVariable("unique_name") final String uniqueName)
             throws IOException {
         try {
             //this call deactivates file
@@ -157,12 +157,14 @@ public class FileController {
      * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
      */
     @RequestMapping(value = "/file/{reference_name}/getInfo", method = RequestMethod.GET)
-    public String getFileInfo(@PathVariable("reference_name") String referenceName) throws Exception {
-        if (referenceName == null || referenceName.equals(""))
+    public String getFileInfo(@PathVariable("reference_name") final String referenceName) throws Exception {
+        if (referenceName == null || referenceName.equals("")) {
             throw new IllegalArgumentException();
+        }
         FileInfo info = FileRepository.getRepo().findFileById(referenceName);
-        if (info == null)
+        if (info == null) {
             throw new NullPointerException("File not found");
+        }
         return InfoToJson.convertFileInfo(info);
     }
 
@@ -171,12 +173,14 @@ public class FileController {
      * example : {"dataname":"0_10.json","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}]}
      */
     @RequestMapping(value = "/file/{user_id}/{project_id}/{reference}/getFields", method = RequestMethod.GET)
-    public String getFileFields(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference") String reference) throws Exception {
-        if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
+    public String getFileFields(@PathVariable("user_id") final int userId, @PathVariable("project_id") final String projectId, @PathVariable("reference") final String reference) throws Exception {
+        if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
+        }
         DataSet set = UsersRepository.findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
-        if (set == null)
+        if (set == null) {
             throw new NullPointerException("File not found");
+        }
         return InfoToJson.convertDataSet(set);
     }
 
@@ -185,12 +189,14 @@ public class FileController {
      * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
      */
     @RequestMapping(value = "/file/{user_id}/{project_id}/{reference}/getFullInfo", method = RequestMethod.GET)
-    public String getFullFileInfo(@PathVariable("user_id") int userId, @PathVariable("project_id") String projectId, @PathVariable("reference") String reference) throws Exception {
-        if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals(""))
+    public String getFullFileInfo(@PathVariable("user_id") final int userId, @PathVariable("project_id") final String projectId, @PathVariable("reference") final String reference) throws Exception {
+        if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
+        }
         DataSet set = UsersRepository.findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
-        if (set == null)
+        if (set == null) {
             throw new NullPointerException("File not found");
+        }
 
         return InfoToJson.convertInfoAboutFile(FileRepository.getRepo().findFileById(set.getFile().getToken()), set);
     }

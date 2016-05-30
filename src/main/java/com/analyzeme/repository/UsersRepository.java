@@ -63,11 +63,16 @@ public class UsersRepository {
      * @throws Exception
      */
     public static synchronized String newItem(final String[] data) throws Exception {
-        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
-        if(data.length != 3) throw new IllegalArgumentException("UsersRepository newItem(): wrong parameters");
+        if(users == null) {
+            throw new IllegalStateException("UsersRepository does not exist");
+        }
+        if(data.length != 3) {
+            throw new IllegalArgumentException("UsersRepository newItem(): wrong parameters");
+        }
         for (String str : data) {
-            if (str == null || str.equals(""))
+            if (str == null || str.equals("")) {
                 throw new IllegalArgumentException("UsersRepository newItem(): empty argument");
+            }
         }
         int id = users.size() + 1;
         UserInfo newUser = new UserInfo(data[0], id, data[1], data[2]);
@@ -82,9 +87,12 @@ public class UsersRepository {
      * @throws Exception
      */
     public static synchronized UserInfo findUser(final int id) throws Exception {
-        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
-        if (id <= 0 || id > users.size())
+        if(users == null) {
+            throw new IllegalStateException("UsersRepository does not exist");
+        }
+        if (id <= 0 || id > users.size()) {
             throw new ArrayIndexOutOfBoundsException("UsersRepository findUser(int): incorrect userId");
+        }
         return users.get(id - 1);
     }
 
@@ -95,9 +103,12 @@ public class UsersRepository {
      * @throws Exception
      */
     public static synchronized UserInfo findUser(final String username) throws Exception {
-        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
-        if (username == null || username.equals(""))
+        if(users == null) {
+            throw new IllegalStateException("UsersRepository does not exist");
+        }
+        if (username == null || username.equals("")) {
             throw new IllegalArgumentException("UsersRepository findUser(String): empty userId");
+        }
         for (UserInfo info : users) {
             if (info.getLogin().equals(username)) {
                 return info;
@@ -115,9 +126,12 @@ public class UsersRepository {
      * @throws Exception
      */
     public static synchronized String newProject(final String username, final String projectName) throws Exception {
-        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
-        if (username == null || username.equals("") || projectName == null || projectName.equals(""))
+        if(users == null) {
+            throw new IllegalStateException("UsersRepository does not exist");
+        }
+        if (username == null || username.equals("") || projectName == null || projectName.equals("")) {
             throw new IllegalArgumentException("UsersRepository newProject(String): incorrect username or projectName");
+        }
         return findUser(username).getProjects().createProject(projectName);
     }
 
@@ -130,9 +144,12 @@ public class UsersRepository {
      * @throws Exception
      */
     public static synchronized String newProject(final int userId, final String projectName) throws Exception {
-        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
-        if (userId <= 0 || projectName == null || projectName.equals(""))
+        if(users == null) {
+            throw new IllegalStateException("UsersRepository does not exist");
+        }
+        if (userId <= 0 || projectName == null || projectName.equals("")) {
             throw new IllegalArgumentException("UsersRepository newProject(int): incorrect userId or projectName");
+        }
         return findUser(userId).getProjects().createProject(projectName);
     }
 
@@ -142,7 +159,9 @@ public class UsersRepository {
      * @return list of names or null if repository is empty
      */
     public static synchronized List<String> getAllIds() {
-        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
+        if(users == null) {
+            throw new IllegalStateException("UsersRepository does not exist");
+        }
         ArrayList<String> names = new ArrayList<String>();
         for (UserInfo info : users) {
             names.add(Integer.toString(info.getId()));
@@ -159,10 +178,13 @@ public class UsersRepository {
      * @return
      */
     public static synchronized FileInfo findByReferenceName(final String referenceName, final String[] params) throws Exception {
-        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
+        if(users == null) {
+            throw new IllegalStateException("UsersRepository does not exist");
+        }
         DataSet set = getDataSetByReferenceName(referenceName, params);
-        if (set == null)
+        if (set == null) {
             throw new IllegalArgumentException("UsersRepository findByReferenceName(): impossible to find dataset");
+        }
         return FileRepository.getRepo().findFileById(set.getFile().getToken());
     }
 
@@ -175,14 +197,19 @@ public class UsersRepository {
      * @return
      */
     public static synchronized DataSet getDataSetByReferenceName(final String referenceName, final String[] params) throws Exception {
-        if(users == null) throw new IllegalStateException("UsersRepository does not exist");
-        if (referenceName == null || referenceName.equals(""))
+        if(users == null) {
+            throw new IllegalStateException("UsersRepository does not exist");
+        }
+        if (referenceName == null || referenceName.equals("")) {
             throw new IllegalArgumentException("UsersRepository findByReferenceName(): empty referenceName");
-        if(params.length != 2)
+        }
+        if(params.length != 2) {
             throw new IllegalArgumentException("UsersRepository findByReferenceName(): wrong params");
+        }
         for (String str : params) {
-            if (str == null || str.equals(""))
+            if (str == null || str.equals("")) {
                 throw new IllegalArgumentException("UsersRepository findByReferenceName(): empty projectId or userId");
+            }
         }
         int userId = Integer.parseInt(params[0]);
         UserInfo user = findUser(userId);

@@ -21,27 +21,27 @@ import java.util.List;
 //TODO: when IAnalyzers are ready, make all public functions here accessible in the package only
 
 public class RFacade {
-	private static IRCaller caller;
+    private static IRCaller caller;
 
-	static {
-		caller = new Renjin();
-	}
+    static {
+        caller = new Renjin();
+    }
 
-	public RFacade(String type) throws IllegalArgumentException {
-		if (type.equals("Rserve")) {
-			caller = new Rserve();
-		} else if (type.equals("Renjin")) {
-			caller = new Renjin();
-		} else if (type.equals("Fake")) {
-			caller = new FakeR();
-		} else {
-			throw new IllegalArgumentException();
-		}
-	}
+    public RFacade(final String type) throws IllegalArgumentException {
+        if (type.equals("Rserve")) {
+            caller = new Rserve();
+        } else if (type.equals("Renjin")) {
+            caller = new Renjin();
+        } else if (type.equals("Fake")) {
+            caller = new FakeR();
+        } else {
+            throw new IllegalArgumentException();
+        }
+    }
 
 
 	/*----------------------------------------------------------------------------------------------------------------------------
-	* Different types of command call
+    * Different types of command call
 	*
 	* Differs by:
 	* - return value:
@@ -55,141 +55,149 @@ public class RFacade {
 	*----------------------------------------------------------------------------------------------------------------------------
      */
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rCommand  - string with correct r command
-	 * @param userId    - userId of a command caller
-	 * @param projectId - id of the project with data for command
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, r was impossible to call or there was in error in command
-	 */
-	public static String runCommand(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-		String result = caller.runCommand(rCommand, files);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand  - string with correct r command
+     * @param userId    - userId of a command caller
+     * @param projectId - id of the project with data for command
+     * @return json result (mistakes are possible)
+     * @throws Exception if files not found, r was impossible to call or there was in error in command
+     */
+    public static String runCommand(final String rCommand, final int userId, final String projectId) throws Exception {
+        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
+        String result = caller.runCommand(rCommand, files);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rCommand - string with correct r command
-	 * @param jsonData - some valid data in json format for command to analyze
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, r was impossible to call or there was in error in command
-	 */
-	public static String runCommand(String rCommand, String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		String result = caller.runCommand(rCommand, jsonData);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand - string with correct r command
+     * @param jsonData - some valid data in json format for command to analyze
+     * @return json result (mistakes are possible)
+     * @throws Exception if files not found, r was impossible to call or there was in error in command
+     */
+    public static String runCommand(final String rCommand, final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        String result = caller.runCommand(rCommand, jsonData);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rCommand  - string with correct r command
-	 * @param userId    - userId of a command caller
-	 * @param projectId - id of the project with data for command
-	 * @return double result
-	 * @throws Exception if files not found, r was impossible to call or there was in error in command
-	 */
-	public static double runCommandToGetNumber(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-		double result = caller.runCommandToGetNumber(rCommand, files);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand  - string with correct r command
+     * @param userId    - userId of a command caller
+     * @param projectId - id of the project with data for command
+     * @return double result
+     * @throws Exception if files not found, r was impossible to call or there was in error in command
+     */
+    public static double runCommandToGetNumber(final String rCommand, final int userId, final String projectId) throws Exception {
+        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
+        double result = caller.runCommandToGetNumber(rCommand, files);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rCommand - string with correct r command
-	 * @param jsonData - some valid data in json format for command to analyze
-	 * @return double result
-	 * @throws Exception if r was impossible to call or there was in error in command
-	 */
-	public static double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		double result = caller.runCommandToGetNumber(rCommand, jsonData);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand - string with correct r command
+     * @param jsonData - some valid data in json format for command to analyze
+     * @return double result
+     * @throws Exception if r was impossible to call or there was in error in command
+     */
+    public static double runCommandToGetNumber(final String rCommand, final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        double result = caller.runCommandToGetNumber(rCommand, jsonData);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rCommand  - string with correct r command
-	 * @param userId    - userId of a command caller
-	 * @param projectId - id of the project with data for command
-	 * @return one point
-	 * @throws Exception if files not found, r was impossible to call or there was in error in command
-	 */
-	public static Point runCommandToGetPoint(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-		Point result = caller.runCommandToGetPoint(rCommand, files);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand  - string with correct r command
+     * @param userId    - userId of a command caller
+     * @param projectId - id of the project with data for command
+     * @return one point
+     * @throws Exception if files not found, r was impossible to call or there was in error in command
+     */
+    public static Point runCommandToGetPoint(final String rCommand, final int userId, final String projectId) throws Exception {
+        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
+        Point result = caller.runCommandToGetPoint(rCommand, files);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rCommand - string with correct r command
-	 * @param jsonData - some valid data in json format for command to analyze
-	 * @return one point
-	 * @throws Exception if r was impossible to call or there was in error in command
-	 */
-	public static Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		Point result = caller.runCommandToGetPoint(rCommand, jsonData);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand - string with correct r command
+     * @param jsonData - some valid data in json format for command to analyze
+     * @return one point
+     * @throws Exception if r was impossible to call or there was in error in command
+     */
+    public static Point runCommandToGetPoint(final String rCommand, final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        Point result = caller.runCommandToGetPoint(rCommand, jsonData);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rCommand  - string with correct r command
-	 * @param userId    - userId of a command caller
-	 * @param projectId - id of the project with data for command
-	 * @return List<Point>
-	 * @throws Exception if files not found, r was impossible to call or there was in error in command
-	 */
-	public static List<Point> runCommandToGetPoints(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-		List<Point> result = caller.runCommandToGetPoints(rCommand, files);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand  - string with correct r command
+     * @param userId    - userId of a command caller
+     * @param projectId - id of the project with data for command
+     * @return List<Point>
+     * @throws Exception if files not found, r was impossible to call or there was in error in command
+     */
+    public static List<Point> runCommandToGetPoints(final String rCommand, final int userId, final String projectId) throws Exception {
+        if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
+        List<Point> result = caller.runCommandToGetPoints(rCommand, files);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rCommand - string with correct r command
-	 * @param jsonData - some valid data in json format for command to analyze
-	 * @return List<Point>
-	 * @throws Exception if r was impossible to call or there was in error in command
-	 */
-	public static List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
-			throw new IllegalArgumentException();
-		List<Point> result = caller.runCommandToGetPoints(rCommand, jsonData);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand - string with correct r command
+     * @param jsonData - some valid data in json format for command to analyze
+     * @return List<Point>
+     * @throws Exception if r was impossible to call or there was in error in command
+     */
+    public static List<Point> runCommandToGetPoints(final String rCommand, final String jsonData) throws Exception {
+        if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        List<Point> result = caller.runCommandToGetPoints(rCommand, jsonData);
+        return result;
+    }
 
 
 	/*----------------------------------------------------------------------------------------------------------------------------
@@ -210,182 +218,190 @@ public class RFacade {
      */
 
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .r file as a stream
-	 * @param userId      - userId of a script creator
-	 * @param projectId   - id of the project with data for script
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, r was impossible to call or there was in error in script
-	 */
-	public static String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-		String result = caller.runScript(rScriptName, rScript, files);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rScriptName - name of the script to be called
+     * @param rScript     - script to call, correct .r file as a stream
+     * @param userId      - userId of a script creator
+     * @param projectId   - id of the project with data for script
+     * @return json result (mistakes are possible)
+     * @throws Exception if files not found, r was impossible to call or there was in error in script
+     */
+    public static String runScript(final String rScriptName, ByteArrayInputStream rScript, final int userId, final String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
+        String result = caller.runScript(rScriptName, rScript, files);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
-	 * @param userId    - userId of a command caller
-	 * @param projectId - id of the project with data for command
-	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, r was impossible to call or there was in error in script
-	 */
-	public static String runScript(String rScriptId, int userId, String projectId) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-		String result = caller.runScript(script.getUniqueName(), script.getData(), files);
-		return result;
-	}
-
-
-	/*******************************
-	 * To get number
-	 * *****************************
-	 */
-
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .r file as a stream
-	 * @param userId      - userId of a script creator
-	 * @param projectId   - id of the project with data for script
-	 * @return double result
-	 * @throws Exception if files not found, r was impossible to call or there was in error in script
-	 */
-	public static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-		double result = caller.runScriptToGetNumber(rScriptName, rScript, files);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
+     * @param userId    - userId of a command caller
+     * @param projectId - id of the project with data for command
+     * @return json result (mistakes are possible)
+     * @throws Exception if files not found, r was impossible to call or there was in error in script
+     */
+    public static String runScript(final String rScriptId, final int userId, final String projectId) throws Exception {
+        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
+        String result = caller.runScript(script.getUniqueName(), script.getData(), files);
+        return result;
+    }
 
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
-	 * @param userId    - userId of a command caller
-	 * @param projectId - id of the project with data for command
-	 * @return double result
-	 * @throws Exception if files not found, r was impossible to call or there was in error in script
-	 */
-	public static double runScriptToGetNumber(String rScriptId, int userId, String projectId) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-		double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), files);
-		return result;
-	}
+    /*******************************
+     * To get number
+     * *****************************
+     */
 
-	/*******************************
-	 * To get Point
-	 * *****************************
-	 */
-
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .r file as a stream
-	 * @param userId      - userId of a script creator
-	 * @param projectId   - id of the project with data for script
-	 * @return one point
-	 * @throws Exception if files not found, r was impossible to call or there was in error in script
-	 */
-	public static Point runScriptToGetPoint(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-		Point result = caller.runScriptToGetPoint(rScriptName, rScript, files);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rScriptName - name of the script to be called
+     * @param rScript     - script to call, correct .r file as a stream
+     * @param userId      - userId of a script creator
+     * @param projectId   - id of the project with data for script
+     * @return double result
+     * @throws Exception if files not found, r was impossible to call or there was in error in script
+     */
+    public static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
+        double result = caller.runScriptToGetNumber(rScriptName, rScript, files);
+        return result;
+    }
 
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
-	 * @param userId    - userId of a command caller
-	 * @param projectId - id of the project with data for command
-	 * @return one point
-	 * @throws Exception if files not found, r was impossible to call or there was in error in script
-	 */
-	public static Point runScriptToGetPoint(String rScriptId, int userId, String projectId) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-		Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), files);
-		return result;
-	}
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
+     * @param userId    - userId of a command caller
+     * @param projectId - id of the project with data for command
+     * @return double result
+     * @throws Exception if files not found, r was impossible to call or there was in error in script
+     */
+    public static double runScriptToGetNumber(final String rScriptId, final int userId, final String projectId) throws Exception {
+        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
+        double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), files);
+        return result;
+    }
+
+    /*******************************
+     * To get Point
+     * *****************************
+     */
+
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rScriptName - name of the script to be called
+     * @param rScript     - script to call, correct .r file as a stream
+     * @param userId      - userId of a script creator
+     * @param projectId   - id of the project with data for script
+     * @return one point
+     * @throws Exception if files not found, r was impossible to call or there was in error in script
+     */
+    public static Point runScriptToGetPoint(final String rScriptName, ByteArrayInputStream rScript, final int userId, final String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
+        Point result = caller.runScriptToGetPoint(rScriptName, rScript, files);
+        return result;
+    }
 
 
-	/*******************************
-	 * To get List<Point>
-	 * *****************************
-	 */
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
+     * @param userId    - userId of a command caller
+     * @param projectId - id of the project with data for command
+     * @return one point
+     * @throws Exception if files not found, r was impossible to call or there was in error in script
+     */
+    public static Point runScriptToGetPoint(final String rScriptId, final int userId, final String projectId) throws Exception {
+        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
+        Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), files);
+        return result;
+    }
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .r file as a stream
-	 * @param userId      - userId of a script creator
-	 * @param projectId   - id of the project with data for script
-	 * @return List<Point>
-	 * @throws Exception if files not found, r was impossible to call or there was in error in script
-	 */
-	public static List<Point> runScriptToGetPoints(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-		List<Point> result = caller.runScriptToGetPoints(rScriptName, rScript, files);
-		return result;
-	}
 
-	/**
-	 * calls r using some logic from r.call package
-	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
-	 * @param userId    - userId of a command caller
-	 * @param projectId - id of the project with data for command
-	 * @return List<Point>
-	 * @throws Exception if files not found, r was impossible to call or there was in error in script
-	 */
-	public static List<Point> runScriptToGetPoints(String rScriptId, int userId, String projectId) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
-			throw new IllegalArgumentException();
-		FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
-		FileInRepositoryResolver resolver = new FileInRepositoryResolver();
-		resolver.setProject(userId, projectId);
-		ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-		List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), files);
-		return result;
-	}
+    /*******************************
+     * To get List<Point>
+     * *****************************
+     */
+
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rScriptName - name of the script to be called
+     * @param rScript     - script to call, correct .r file as a stream
+     * @param userId      - userId of a script creator
+     * @param projectId   - id of the project with data for script
+     * @return List<Point>
+     * @throws Exception if files not found, r was impossible to call or there was in error in script
+     */
+    public static List<Point> runScriptToGetPoints(final String rScriptName, ByteArrayInputStream rScript, final int userId, final String projectId) throws Exception {
+        if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
+        List<Point> result = caller.runScriptToGetPoints(rScriptName, rScript, files);
+        return result;
+    }
+
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
+     * @param userId    - userId of a command caller
+     * @param projectId - id of the project with data for command
+     * @return List<Point>
+     * @throws Exception if files not found, r was impossible to call or there was in error in script
+     */
+    public static List<Point> runScriptToGetPoints(final String rScriptId, final int userId, final String projectId) throws Exception {
+        if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        FileInfo script = FileRepository.getRepo().findFileById(rScriptId);
+        FileInRepositoryResolver resolver = new FileInRepositoryResolver();
+        resolver.setProject(userId, projectId);
+        ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
+        List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), files);
+        return result;
+    }
 }

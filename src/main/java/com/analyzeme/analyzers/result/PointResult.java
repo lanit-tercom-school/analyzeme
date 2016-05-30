@@ -13,7 +13,7 @@ public class PointResult implements IResult {
     private ObjectMapper mapper = new ObjectMapper();
     private Point result;
 
-    public PointResult(Point result) {
+    public PointResult(final Point result) {
         this.result = result;
     }
 

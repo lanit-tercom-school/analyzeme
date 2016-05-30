@@ -22,8 +22,9 @@ public class PointsFromR implements GetFromR<List<Point>> {
 	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public List<Point> runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
-		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
+		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
+		}
 		List<Point> result = RScriptManager.runScriptToGetPoints(rScriptName, rScript, userId, projectId);
 		return result;
 	}
@@ -38,8 +39,9 @@ public class PointsFromR implements GetFromR<List<Point>> {
 	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public List<Point> runScript(String rScriptId, int userId, String projectId) throws Exception {
-		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
+		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
+		}
 		List<Point> result = RScriptManager.runScriptToGetPoints(rScriptId, userId, projectId);
 		return result;
 	}
@@ -55,8 +57,9 @@ public class PointsFromR implements GetFromR<List<Point>> {
 	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
 	public List<Point> runCommand(String rCommand, int userId, String projectId) throws Exception {
-		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
+		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
 			throw new IllegalArgumentException();
+		}
 		List<Point> result = RFacade.runCommandToGetPoints(rCommand, userId, projectId);
 		return result;
 	}
@@ -70,8 +73,9 @@ public class PointsFromR implements GetFromR<List<Point>> {
 	 * @throws Exception if r was impossible to call or there was in error in command
 	 */
 	public List<Point> runCommand(String rCommand, String jsonData) throws Exception {
-		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
+		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals("")) {
 			throw new IllegalArgumentException();
+		}
 		List<Point> result = RFacade.runCommandToGetPoints(rCommand, jsonData);
 		return result;
 	}

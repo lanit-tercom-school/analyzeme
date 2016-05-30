@@ -22,8 +22,9 @@ public class CsvParserForDoubleData {
     }
 
     public static DoubleDataArray parse(InputStream stream) throws IllegalArgumentException {
-        if (stream == null)
+        if (stream == null) {
             throw new IllegalArgumentException("CsvParserForDoubleData parse(): impossible to parse null");
+        }
         CsvParser parser = new CsvParser(settings);
         List<String[]> allRows = parser.parseAll(stream);
         if (!allRows.isEmpty() || allRows.size() == 1) {

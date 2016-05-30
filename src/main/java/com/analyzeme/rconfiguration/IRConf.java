@@ -18,14 +18,14 @@ public interface IRConf {
      *
      * @param name what will set as field name
      */
-    void setName(String name);
+    void setName(final String name);
 
     /**
      * set field activeFlag
      *
      * @param activeFlag what will set as field activeFlag
      */
-    void setActiveFlag(boolean activeFlag);
+    void setActiveFlag(final boolean activeFlag);
 
     /**
      * get field flag
@@ -40,7 +40,7 @@ public interface IRConf {
      *
      * @param RConf will be assignmented to this IRConf
      */
-    void assignment(IRConf RConf);
+    void assignment(final IRConf RConf);
 
     /**
      * @return this this object as JSONObject

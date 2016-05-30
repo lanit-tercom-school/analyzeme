@@ -12,7 +12,7 @@ public interface AnalyzeFunction {
 	 * @param yArray array of y-coordinate.
 	 * @return index of calculated value.
 	 */
-	int calc(double[] xArray, double[] yArray);
+	int calc(final double[] xArray, final double[] yArray);
 
 	/**
 	 * Calculate sth  using arrays of Point
@@ -20,5 +20,5 @@ public interface AnalyzeFunction {
 	 * @param pointArray array of Point.
 	 * @return index of calculated value.
 	 */
-	int calc(Point[] pointArray);
+	int calc(final Point[] pointArray);
 }

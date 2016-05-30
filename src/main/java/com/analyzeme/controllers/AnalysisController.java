@@ -32,7 +32,7 @@ public class AnalysisController {
      * @throws IOException
      */
     @RequestMapping(value = "/file/{file_name}/{function_Type}", method = RequestMethod.GET)
-    public double getMinimum(@PathVariable("file_name") String fileName, @PathVariable("function_Type") String functionType, HttpServletResponse response)
+    public double getMinimum(@PathVariable("file_name") final String fileName, @PathVariable("function_Type") final String functionType, HttpServletResponse response)
             throws IOException {
         try {
             //Analyze Factory

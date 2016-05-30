@@ -35,8 +35,9 @@ public class DataSet {
      * @throws Exception
      */
     public DataSet(final String referenceName, final ISourceInfo file) throws Exception {
-        if (referenceName == null || referenceName.equals("") || file == null)
+        if (referenceName == null || referenceName.equals("") || file == null) {
             throw new IllegalArgumentException("DataSet ctor: empty argument cannot be used");
+        }
         this.idInProject = BigInteger.ZERO;
         this.referenceName = referenceName;
         this.file = file;
@@ -83,8 +84,9 @@ public class DataSet {
      * @throws Exception
      */
     public void setReferenceName(final String referenceName) throws Exception {
-        if (referenceName == null || referenceName.equals(""))
+        if (referenceName == null || referenceName.equals("")) {
             throw new IllegalArgumentException("DataSet setReferenceName(): empty argument cannot be used");
+        }
         this.referenceName = referenceName;
     }
 
@@ -93,8 +95,9 @@ public class DataSet {
      * @throws Exception
      */
     public void addField(final String field) throws Exception {
-        if (field == null || field.equals(""))
+        if (field == null || field.equals("")) {
             throw new IllegalArgumentException("DataSet addField(): empty argument cannot be used");
+        }
         fields.put(field, field);
     }
 
@@ -104,8 +107,9 @@ public class DataSet {
      * @throws Exception
      */
     public void addField(final String field, final String fieldName) throws Exception {
-        if (field == null || field.equals("") || fieldName == null || fieldName.equals(""))
+        if (field == null || field.equals("") || fieldName == null || fieldName.equals("")) {
             throw new IllegalArgumentException("DataSet addField(): empty argument cannot be used");
+        }
         fields.put(field, fieldName);
     }
 
@@ -139,7 +143,9 @@ public class DataSet {
      * @param id - unique id in project
      */
     public void setIdInProject(BigInteger id) throws Exception {
-        if (id == null) throw new IllegalArgumentException("DataSet setIdInProject: empty id");
+        if (id == null) {
+            throw new IllegalArgumentException("DataSet setIdInProject: empty id");
+        }
         idInProject = id;
     }
 

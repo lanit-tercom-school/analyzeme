@@ -11,7 +11,7 @@ public class StringResult implements IResult {
     private ObjectMapper mapper = new ObjectMapper();
     private String result;
 
-    public StringResult(String result) {
+    public StringResult(final String result) {
         this.result = result;
     }
 

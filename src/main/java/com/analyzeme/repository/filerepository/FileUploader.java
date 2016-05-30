@@ -42,6 +42,9 @@ public class FileUploader {
                 source = new ScriptInRepositoryInfo(nameInRepo);
                 break;
             }
+            default: {
+                throw new IllegalArgumentException("FileUploader createSourceInfo(): wrong TypeOfFile");
+            }
         }
         return source;
     }

@@ -42,10 +42,13 @@ public class ProjectInfo {
      * @throws IOException
      */
     ProjectInfo(final String name, final String uniqueName) throws IOException {
-        if (name == null || name.equals("")) throw new IllegalArgumentException("ProjectInfo ctor: wrong name");
+        if (name == null || name.equals("")) {
+            throw new IllegalArgumentException("ProjectInfo ctor: wrong name");
+        }
         this.setProjectName(name);
-        if (uniqueName == null || uniqueName.equals(""))
+        if (uniqueName == null || uniqueName.equals("")) {
             throw new IllegalArgumentException("ProjectInfo ctor: wrong id");
+        }
         this.uniqueName = uniqueName;
         //default ctor fills Date with current info (number of milliseconds since the Unix epoch (first moment of 1970) in the UTC time zone)
         creationDate = new Date();
@@ -59,7 +62,9 @@ public class ProjectInfo {
      * @throws IOException
      */
     public String returnActiveFilesForList() throws Exception {
-        if (getReferenceNames().isEmpty()) return "[]";
+        if (getReferenceNames().isEmpty()) {
+            return "[]";
+        }
         JSONArray result = new JSONArray();
         for (DataSet set : datasets) {
             if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class) || set.getFile().getClass().equals(CsvFileInRepositoryInfo.class)) {
@@ -81,7 +86,9 @@ public class ProjectInfo {
      * @return
      */
     public List<String> returnAllNamesOfActiveFiles() throws Exception {
-        if (getReferenceNames().isEmpty()) return null;
+        if (getReferenceNames().isEmpty()) {
+            return null;
+        }
         ArrayList<String> names = new ArrayList<String>();
         for (String name : getReferenceNames()) {
             FileInfo info = FileRepository.getRepo().findFileById(name);
@@ -131,8 +138,9 @@ public class ProjectInfo {
      * @throws Exception
      */
     public DataSet getDataSetByReferenceName(final String referenceName) throws Exception {
-        if (referenceName == null || referenceName.equals(""))
+        if (referenceName == null || referenceName.equals("")) {
             throw new IllegalArgumentException("ProjectInfo getDataSetByReferenceName(): wrong referenceName");
+        }
         for (DataSet set : datasets) {
             if (set.getReferenceName().equals(referenceName)) {
                 return set;
@@ -171,8 +179,9 @@ public class ProjectInfo {
      * @throws IOException
      */
     public void setProjectName(String projectName) throws IOException {
-        if (projectName == null || projectName.equals(""))
+        if (projectName == null || projectName.equals("")) {
             throw new IllegalArgumentException("ProjectInfo setProjectName(): projectName should not be empty");
+        }
         this.projectName = projectName;
         lastChangeDate = new Date();
     }

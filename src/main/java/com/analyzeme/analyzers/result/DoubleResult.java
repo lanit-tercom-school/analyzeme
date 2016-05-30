@@ -12,7 +12,7 @@ public class DoubleResult implements IResult {
     private ObjectMapper mapper = new ObjectMapper();
     private Double result;
 
-    public DoubleResult(Double result) {
+    public DoubleResult(final Double result) {
         this.result = result;
     }
 

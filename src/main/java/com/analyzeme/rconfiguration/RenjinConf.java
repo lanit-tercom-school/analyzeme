@@ -29,7 +29,7 @@ public class RenjinConf implements IRConf {
      * @param activeFlag for setting field activeFlag
      * @param name       for setting field name
      */
-    public RenjinConf(boolean activeFlag, String name) {
+    public RenjinConf(final boolean activeFlag, final String name) {
         this.name = name;
         this.activeFlag = activeFlag;
     }
@@ -37,14 +37,14 @@ public class RenjinConf implements IRConf {
     /**
      * @param activeFlag what will set as field activeFlag
      */
-    public void setActiveFlag(boolean activeFlag) {
+    public void setActiveFlag(final boolean activeFlag) {
         this.activeFlag = activeFlag;
     }
 
     /**
      * @param name what will set as field name
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -72,7 +72,7 @@ public class RenjinConf implements IRConf {
      *
      * @param RConf will be assignmented to this RenjinConf
      */
-    public void assignment(IRConf RConf) {
+    public void assignment(final IRConf RConf) {
         if (!(RConf instanceof RenjinConf)) throw new IllegalArgumentException();
         setName(RConf.getName());
         setActiveFlag(RConf.isActive());

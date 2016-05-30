@@ -22,22 +22,10 @@ class RFileLinker {
 	//y_from__repo__myFile.json__
 	//y_from__webRepo__webToken__
 	//time_from__repo__0_10.json__
-	private static String regexp = "([A-Za-z]+)_from__([A-Za-z]+)__([A-Za-z0-9,_.]+)__";
-	private static int fieldGroup = 1;
-	private static int sourceGroup = 2;
-	private static int fileGroup = 3;
-
-
-	//just for developing
-	public static void testParse() {
-		ArrayList<String> result = new ArrayList<String>();
-
-		Pattern pattern = Pattern.compile(regexp);
-		Matcher m = pattern.matcher("here are some code \n {} : \n some other \n x_from_file.json_ \n y_from__repo__MyData.json__ \n y <- c(x_from__repo__MyJson.excel__)");
-		while (m.find()) {
-			System.out.println(m.group(fileGroup));
-		}
-	}
+	private final static String REGEXP = "([A-Za-z]+)_from__([A-Za-z]+)__([A-Za-z0-9,_.]+)__";
+	private final static int FIELD_GROUP = 1;
+	private final static int SOURCE_GROUP = 2;
+	private final static int FILE_GROUP = 3;
 
 	private static <T> T findInList(List<T> list, T obj) {
 		for (T item : list) {
@@ -55,26 +43,27 @@ class RFileLinker {
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
 	public static ArrayList<DataSet> parse(ByteArrayInputStream rScript, FileInRepositoryResolver resolver) throws Exception {
-		if (rScript == null || resolver == null)
+		if (rScript == null || resolver == null) {
 			throw new IllegalArgumentException();
+		}
 		ArrayList<DataSet> result = new ArrayList<DataSet>();
 
-		Pattern pattern = Pattern.compile(regexp);
+		Pattern pattern = Pattern.compile(REGEXP);
 		Matcher m = pattern.matcher(StreamToString.convertStream(rScript));
 		while (m.find()) {
 			IDataSetResolver res;
-			if (m.group(sourceGroup).equalsIgnoreCase("repo")) {
+			if (m.group(SOURCE_GROUP).equalsIgnoreCase("repo")) {
 				res = resolver;
 			} else {
 				res = DataSetResolversFactory.getDataSetResolver(null);
 			}
-			DataSet data = res.getDataSet(m.group(fileGroup));
+			DataSet data = res.getDataSet(m.group(FILE_GROUP));
 			DataSet found = findInList(result, data);
 			if (found == null) {
-				data.addField(m.group(fieldGroup));
+				data.addField(m.group(FIELD_GROUP));
 				result.add(data);
 			} else {
-				found.addField(m.group(fieldGroup));
+				found.addField(m.group(FIELD_GROUP));
 			}
 		}
 		return result;
@@ -88,14 +77,15 @@ class RFileLinker {
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
 	public static ArrayList<String> parseForTests(ByteArrayInputStream rScript) throws Exception {
-		if (rScript == null)
+		if (rScript == null) {
 			throw new IllegalArgumentException();
+		}
 		ArrayList<String> result = new ArrayList<String>();
 
-		Pattern pattern = Pattern.compile(regexp);
+		Pattern pattern = Pattern.compile(REGEXP);
 		Matcher m = pattern.matcher(StreamToString.convertStream(rScript));
 		while (m.find()) {
-			result.add(m.group(fileGroup));
+			result.add(m.group(FILE_GROUP));
 		}
 		return result;
 	}
@@ -108,27 +98,28 @@ class RFileLinker {
 	 * @return DataSets of necessary files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
-	public static ArrayList<DataSet> parse(String rCommand, FileInRepositoryResolver resolver) throws Exception {
-		if (rCommand == null || rCommand.equals("") || resolver == null)
+	public static ArrayList<DataSet> parse(final String rCommand, FileInRepositoryResolver resolver) throws Exception {
+		if (rCommand == null || rCommand.equals("") || resolver == null) {
 			throw new IllegalArgumentException();
+		}
 		ArrayList<DataSet> result = new ArrayList<DataSet>();
 
-		Pattern pattern = Pattern.compile(regexp);
+		Pattern pattern = Pattern.compile(REGEXP);
 		Matcher m = pattern.matcher(rCommand);
 		while (m.find()) {
 			IDataSetResolver res;
-			if (m.group(sourceGroup).equalsIgnoreCase("repo")) {
+			if (m.group(SOURCE_GROUP).equalsIgnoreCase("repo")) {
 				res = resolver;
 			} else {
 				res = DataSetResolversFactory.getDataSetResolver(null);
 			}
-			DataSet data = res.getDataSet(m.group(fileGroup));
+			DataSet data = res.getDataSet(m.group(FILE_GROUP));
 			DataSet found = findInList(result, data);
 			if (found == null) {
-				data.addField(m.group(fieldGroup));
+				data.addField(m.group(FIELD_GROUP));
 				result.add(data);
 			} else {
-				found.addField(m.group(fieldGroup));
+				found.addField(m.group(FIELD_GROUP));
 			}
 		}
 		return result;
@@ -141,15 +132,16 @@ class RFileLinker {
 	 * @return names of files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
-	public static ArrayList<String> parseForTests(String rCommand) throws Exception {
-		if (rCommand == null || rCommand.equals(""))
+	public static ArrayList<String> parseForTests(final String rCommand) throws Exception {
+		if (rCommand == null || rCommand.equals("")) {
 			throw new IllegalArgumentException();
+		}
 		ArrayList<String> result = new ArrayList<String>();
 
-		Pattern pattern = Pattern.compile(regexp);
+		Pattern pattern = Pattern.compile(REGEXP);
 		Matcher m = pattern.matcher(rCommand);
 		while (m.find()) {
-			result.add(m.group(fileGroup));
+			result.add(m.group(FILE_GROUP));
 		}
 		return result;
 	}

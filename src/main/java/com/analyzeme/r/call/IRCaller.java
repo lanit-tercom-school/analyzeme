@@ -26,7 +26,7 @@ public interface IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or script errored
 	 */
-	String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception;
+	String runScript(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception;
 
 	//------------------
 	//script for files
@@ -39,7 +39,7 @@ public interface IRCaller {
 	 * @return double result
 	 * @throws Exception if failed to call r or script errored
 	 */
-	double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception;
+	double runScriptToGetNumber(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception;
 
 	/**
 	 * @param scriptName - name of the script to be called
@@ -48,7 +48,7 @@ public interface IRCaller {
 	 * @return one point
 	 * @throws Exception if failed to call r or script errored
 	 */
-	Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception;
+	Point runScriptToGetPoint(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception;
 
 	/**
 	 * @param scriptName - name of the script to be called
@@ -57,7 +57,7 @@ public interface IRCaller {
 	 * @return List<Point>
 	 * @throws Exception if failed to call r or script errored
 	 */
-	List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception;
+	List<Point> runScriptToGetPoints(final String scriptName, ByteArrayInputStream rScript, final ArrayList<DataSet> dataFiles) throws Exception;
 
 	//------------------
 	//default for commands
@@ -71,7 +71,7 @@ public interface IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or command errored
 	 */
-	String runCommand(String rCommand, ArrayList<DataSet> dataFiles) throws Exception;
+	String runCommand(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception;
 
 	/**
 	 * @param rCommand - string with a command in r language
@@ -79,7 +79,7 @@ public interface IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or command errored
 	 */
-	String runCommand(String rCommand, String jsonData) throws Exception;
+	String runCommand(final String rCommand, final String jsonData) throws Exception;
 
 
 	//------------------
@@ -92,7 +92,7 @@ public interface IRCaller {
 	 * @return double result
 	 * @throws Exception if failed to call r or command errored
 	 */
-	double runCommandToGetNumber(String rCommand, ArrayList<DataSet> dataFiles) throws Exception;
+	double runCommandToGetNumber(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception;
 
 	/**
 	 * @param rCommand  - string with a command in r language
@@ -100,7 +100,7 @@ public interface IRCaller {
 	 * @return one point
 	 * @throws Exception if failed to call r or command errored
 	 */
-	Point runCommandToGetPoint(String rCommand, ArrayList<DataSet> dataFiles) throws Exception;
+	Point runCommandToGetPoint(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception;
 
 	/**
 	 * @param rCommand  - string with a command in r language
@@ -108,7 +108,7 @@ public interface IRCaller {
 	 * @return List<Point>
 	 * @throws Exception if failed to call r or command errored
 	 */
-	List<Point> runCommandToGetPoints(String rCommand, ArrayList<DataSet> dataFiles) throws Exception;
+	List<Point> runCommandToGetPoints(final String rCommand, final ArrayList<DataSet> dataFiles) throws Exception;
 
 	//------------------
 	//command for data
@@ -120,7 +120,7 @@ public interface IRCaller {
 	 * @return double result
 	 * @throws Exception if failed to call r or command errored
 	 */
-	double runCommandToGetNumber(String rCommand, String jsonData) throws Exception;
+	double runCommandToGetNumber(final String rCommand, final String jsonData) throws Exception;
 
 	/**
 	 * @param rCommand - string with a command in r language
@@ -128,7 +128,7 @@ public interface IRCaller {
 	 * @return one point
 	 * @throws Exception if failed to call r or command errored
 	 */
-	Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception;
+	Point runCommandToGetPoint(final String rCommand, final String jsonData) throws Exception;
 
 	/**
 	 * @param rCommand - string with a command in r language
@@ -136,5 +136,5 @@ public interface IRCaller {
 	 * @return List<Point>
 	 * @throws Exception if failed to call r or command errored
 	 */
-	List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception;
+	List<Point> runCommandToGetPoints(final String rCommand, final String jsonData) throws Exception;
 }

@@ -13,11 +13,12 @@ import java.util.List;
  */
 public class RAnalyzer {
 
-	public static Object runScript(int userId, String projectId, String scriptName, String scriptText,
-								   TypeOfReturnValue typeOfReturnValue, TypeOfCall typeOfCall) throws Exception {
+	public static Object runScript(final int userId, final String projectId, final String scriptName, final String scriptText,
+								   final TypeOfReturnValue typeOfReturnValue, final TypeOfCall typeOfCall) throws Exception {
 		//scriptText can be null for memory call
-		if (userId <= 0 || projectId == null || projectId.equals("") || (scriptText == null ? true : scriptText.equals("")) || typeOfReturnValue == null || typeOfCall == null)
+		if (userId <= 0 || projectId == null || projectId.equals("") || (scriptText == null ? true : scriptText.equals("")) || typeOfReturnValue == null || typeOfCall == null) {
 			throw new IllegalArgumentException();
+		}
 		switch (typeOfCall) {
 			case MEMORY_CALL:
 				GetFromR<Object> rLink = GetFromRFactory.getLinkToR(typeOfReturnValue);
@@ -25,15 +26,17 @@ public class RAnalyzer {
 			case RUN:
 				GetFromR<Object> rLinker = GetFromRFactory.getLinkToR(typeOfReturnValue);
 				return rLinker.runScript(scriptName, new ByteArrayInputStream(scriptText.getBytes()), userId, projectId);
+			default:
+				return null;
 		}
-		return null;
 	}
 
-	public static Object runScript(int userId, String projectId, String scriptName, String scriptText,
-								   String typeOfReturnValue, TypeOfCall typeOfCall) throws Exception {
+	public static Object runScript(final int userId, final String projectId, final String scriptName, final String scriptText,
+								   final String typeOfReturnValue, final TypeOfCall typeOfCall) throws Exception {
 		//scriptText can be null for memory call
-		if (userId <= 0 || projectId == null || projectId.equals("") || (scriptText == null ? true : scriptText.equals("")) || typeOfReturnValue == null || typeOfCall == null)
+		if (userId <= 0 || projectId == null || projectId.equals("") || (scriptText == null ? true : scriptText.equals("")) || typeOfReturnValue == null || typeOfCall == null) {
 			throw new IllegalArgumentException();
+		}
 		switch (typeOfCall) {
 			case MEMORY_CALL:
 				if (typeOfReturnValue.equalsIgnoreCase("Double")) {
@@ -67,8 +70,9 @@ public class RAnalyzer {
 					GetFromR<String> rLink = GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
 					return rLink.runScript(scriptName, new ByteArrayInputStream(scriptText.getBytes()), userId, projectId);
 				}
+			default:
+				return null;
 		}
-		return null;
 	}
 }
 

@@ -14,8 +14,9 @@ public class ScriptInRepositoryInfo implements ISourceInfo {
     private String uniqueNameInRepository;
 
     public ScriptInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException {
-        if (uniqueNameInRepository == null || uniqueNameInRepository.equals(""))
+        if (uniqueNameInRepository == null || uniqueNameInRepository.equals("")) {
             throw new IllegalArgumentException("ScriptInRepositoryInfo ctor: wrong uniqueNameInRepository");
+        }
         this.uniqueNameInRepository = uniqueNameInRepository;
     }
 

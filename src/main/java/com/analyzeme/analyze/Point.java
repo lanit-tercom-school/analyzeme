@@ -25,12 +25,12 @@ public class Point {
 	/**
 	 * Constructor  for two double variable
 	 *
-	 * @param x value of x coordinate
-	 * @param y value of y coordinate
+	 * @param a value of a coordinate
+	 * @param b value of b coordinate
 	 */
-	public Point(double x, double y) {
-		this.x = x;
-		this.y = y;
+	public Point(final double a, final double b) {
+		this.x = a;
+		this.y = b;
 
 	}
 
@@ -39,7 +39,7 @@ public class Point {
 	 *
 	 * @param x value of x coordinate
 	 */
-	public void setX(double x) {
+	public void setX(final double x) {
 		this.x = x;
 	}
 
@@ -48,7 +48,7 @@ public class Point {
 	 *
 	 * @param y value of x coordinate
 	 */
-	public void setY(double y) {
+	public void setY(final double y) {
 		this.y = y;
 	}
 

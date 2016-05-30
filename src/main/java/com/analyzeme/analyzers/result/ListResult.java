@@ -15,7 +15,7 @@ public class ListResult implements IResult {
     private ObjectMapper mapper = new ObjectMapper();
     private List<Point> result;
 
-    public ListResult(List<Point> result) {
+    public ListResult(final List<Point> result) {
         this.result = result;
     }
 

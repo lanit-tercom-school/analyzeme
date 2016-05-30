@@ -23,43 +23,55 @@ public class UserInfo {
     private ProjectsRepository projects;
 
     UserInfo(final String login, final int id, final String email, final String password) throws Exception {
-        if (login == null || login.equals("")) throw new IllegalArgumentException("UserInfo ctor: empty login");
+        if (login == null || login.equals("")) {
+            throw new IllegalArgumentException("UserInfo ctor: empty login");
+        }
         this.login = login;
-        if (id <= 0) throw new IllegalArgumentException("UserInfo ctor: wrong id");
+        if (id <= 0) {
+            throw new IllegalArgumentException("UserInfo ctor: wrong id");
+        }
         this.id = id;
-        if (email == null || email.equals("")) throw new IllegalArgumentException("UserInfo ctor: empty email");
+        if (email == null || email.equals("")) {
+            throw new IllegalArgumentException("UserInfo ctor: empty email");
+        }
         this.email = email;
-        if (password == null || password.equals(""))
+        if (password == null || password.equals("")) {
             throw new IllegalArgumentException("UserInfo ctor: empty password");
+        }
         this.password = password;
         this.projects = new ProjectsRepository();
     }
 
     public String getLogin() {
-        return login.toString();
+        return login;
     }
 
     public void setLogin(String login) throws IllegalArgumentException {
-        if (login == null || login.equals("")) throw new IllegalArgumentException("UserInfo setLogin(): empty login");
+        if (login == null || login.equals("")) {
+            throw new IllegalArgumentException("UserInfo setLogin(): empty login");
+        }
         this.login = login;
     }
 
     public String getEmail() {
-        return email.toString();
+        return email;
     }
 
     public void setEmail(String email) throws IllegalArgumentException {
-        if (email == null || email.equals("")) throw new IllegalArgumentException("UserInfo setEmail(): empty email");
+        if (email == null || email.equals("")) {
+            throw new IllegalArgumentException("UserInfo setEmail(): empty email");
+        }
         this.email = email;
     }
 
     public String getPassword() {
-        return password.toString();
+        return password;
     }
 
     public void setPassword(String password) throws IllegalArgumentException {
-        if (password == null || password.equals(""))
+        if (password == null || password.equals("")) {
             throw new IllegalArgumentException("UserInfo setPassword(): empty password");
+        }
         this.password = password;
     }
 

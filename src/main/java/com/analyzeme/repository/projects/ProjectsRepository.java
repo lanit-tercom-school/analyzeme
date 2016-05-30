@@ -53,8 +53,9 @@ public class ProjectsRepository {
      * @return
      */
     public ProjectInfo findProjectById(final String projectId) throws IOException {
-        if (projectId == null || projectId.equals(""))
+        if (projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException("ProjectsRepository findProjectById(): wrong id");
+        }
         for (ProjectInfo project : projects) {
             if (project.getUniqueName().equals(projectId)) {
                 return project;
@@ -78,8 +79,9 @@ public class ProjectsRepository {
      * creates empty project
      */
     public String createProject(final String projectName) throws Exception {
-        if (projectName == null || projectName.equals(""))
+        if (projectName == null || projectName.equals("")) {
             throw new IllegalArgumentException("ProjectsRepository createProject(): empty projectName");
+        }
         String uniqueName = createUniqueName();
         ProjectInfo info = new ProjectInfo(projectName, uniqueName);
         projects.add(info);
@@ -94,8 +96,9 @@ public class ProjectsRepository {
      * @return true if succeed
      */
     public synchronized boolean deactivateProjectById(final String projectId) throws Exception {
-        if (projectId == null || projectId.equals(""))
+        if (projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException("ProjectsRepository deactivateProjectById(): empty projectId");
+        }
         for (ProjectInfo info : projects) {
             if (info.getUniqueName().equals(projectId)) {
                 info.deactivateFiles();
@@ -110,12 +113,16 @@ public class ProjectsRepository {
      * @param file - dataset
      */
     public synchronized void persist(final DataSet file, final String projectId) throws Exception {
-        if (projectId == null || projectId.equals(""))
+        if (projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException("ProjectsRepository persist(): wrong projectId");
-        if (file == null) throw new IllegalArgumentException("ProjectsRepository persist(): empty entity of DataSet");
+        }
+        if (file == null) {
+            throw new IllegalArgumentException("ProjectsRepository persist(): empty entity of DataSet");
+        }
         ProjectInfo info = findProjectById(projectId);
-        if (info == null)
+        if (info == null) {
             throw new IllegalArgumentException("ProjectsRepository persist(): project with this id does not exist");
+        }
         info.persist(file);
     }
 
@@ -126,8 +133,9 @@ public class ProjectsRepository {
      * @return dataset (or null if not found)
      */
     public synchronized DataSet getByReferenceName(final String projectId, final String referenceName) throws Exception {
-        if (referenceName == null || referenceName.equals(""))
+        if (referenceName == null || referenceName.equals("")) {
             throw new IllegalArgumentException("ProjectsRepository getByReferenceName(): wrong reference name");
+        }
         return findProjectById(projectId).getDataSetByReferenceName(referenceName);
     }
 
@@ -142,7 +150,9 @@ public class ProjectsRepository {
      * @return
      */
     public List<String> returnAllProjectsIds() {
-        if (projects.isEmpty()) return null;
+        if (projects.isEmpty()) {
+            return null;
+        }
         ArrayList<String> names = new ArrayList<String>();
         for (ProjectInfo info : projects) {
             names.add(info.getUniqueName());
@@ -156,7 +166,9 @@ public class ProjectsRepository {
      * @return
      */
     public List<String> returnAllActiveProjectsIds() {
-        if (projects.isEmpty()) return null;
+        if (projects.isEmpty()) {
+            return null;
+        }
         ArrayList<String> names = new ArrayList<String>();
         for (ProjectInfo info : projects) {
             if (info.isActive()) names.add(info.getUniqueName());

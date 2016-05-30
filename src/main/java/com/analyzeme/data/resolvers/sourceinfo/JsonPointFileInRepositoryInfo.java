@@ -16,8 +16,9 @@ public class JsonPointFileInRepositoryInfo implements ISourceInfo {
     private String uniqueNameInRepository;
 
     public JsonPointFileInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException {
-        if (uniqueNameInRepository == null || uniqueNameInRepository.equals(""))
+        if (uniqueNameInRepository == null || uniqueNameInRepository.equals("")) {
             throw new IllegalArgumentException("JsonPointFileInRepositoryInfo ctor: wrong uniqueNameInRepository");
+        }
         this.uniqueNameInRepository = uniqueNameInRepository;
     }
 
@@ -38,12 +39,10 @@ public class JsonPointFileInRepositoryInfo implements ISourceInfo {
 
 
     public List<Double> getByField(final String fieldName) throws Exception {
+        if(fieldName == null || fieldName.equals("")) {
+            throw new IllegalArgumentException();
+        }
         ByteArrayInputStream stream = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
-        //Set<String> names = new HashSet<String>();
-        //names.add("x");
-        //names.add("y");
-        //JsonParser parser = new JsonParser();
-        //Map<String, List<Double>> data = parser.getPointsFromJsonWithNames(stream, names);
         JsonParser parser = new JsonParser();
         Map<String, List<Double>> data = parser.parse(stream);
         return data.get(fieldName);

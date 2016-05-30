@@ -13,9 +13,10 @@ import java.util.Map;
  * Created by lagroffe on 28.03.2016 18:31
  */
 public class InfoToJson {
-	public static JSONObject convertToJsonObject(ProjectInfo info) throws IllegalArgumentException {
-		if (info == null)
+	public static JSONObject convertToJsonObject(final ProjectInfo info) throws IllegalArgumentException {
+		if (info == null) {
 			throw new IllegalArgumentException("ProjectInfo cannot be null");
+		}
 
 		JSONObject project = new JSONObject();
 		project.put("projectName", info.getProjectName());
@@ -27,28 +28,36 @@ public class InfoToJson {
 		return project;
 	}
 
-	public static String convert(ProjectInfo info) throws IllegalArgumentException {
-		if (info == null)
+	public static String convert(final ProjectInfo info) throws IllegalArgumentException {
+		if (info == null) {
 			throw new IllegalArgumentException("ProjectInfo cannot be null");
+		}
 
 		return convertToJsonObject(info).toString();
 	}
 
-	public static String convert(ProjectInfo[] infos) {
-		if (infos.length == 0)
+	public static String convert(final ProjectInfo[] infos) {
+		if(infos == null) {
+			throw new IllegalArgumentException("InfoToJson: infos cannot be null");
+		}
+		if (infos.length == 0) {
 			return "{ \"Projects\" : []}";
+		}
 
 		JSONArray result = new JSONArray();
 		for (ProjectInfo info : infos) {
-
 			result.add(convertToJsonObject(info));
 		}
 		return "{ \"Projects\" : " + result.toString() + "}";
 	}
 
 	public static String convert(List<ProjectInfo> infos) {
-		if (infos.isEmpty())
+		if(infos == null) {
+			throw new IllegalArgumentException("InfoToJson: infos cannot be null");
+		}
+		if (infos.isEmpty()) {
 			return "{ \"Projects\" : []}";
+		}
 
 		JSONArray result = new JSONArray();
 		for (ProjectInfo info : infos) {
@@ -58,8 +67,9 @@ public class InfoToJson {
 	}
 
 	public static JSONObject convertFileInfoToJsonObject(FileInfo info) throws IllegalArgumentException {
-		if (info == null)
+		if (info == null) {
 			throw new IllegalArgumentException("FileInfo cannot be null");
+		}
 
 		JSONObject obj = new JSONObject();
 		obj.put("nameForUser", info.getNameForUser());
@@ -70,27 +80,35 @@ public class InfoToJson {
 	}
 
 	public static String convertFileInfo(FileInfo info) throws IllegalArgumentException {
-		if (info == null)
+		if (info == null) {
 			throw new IllegalArgumentException("FileInfo cannot be null");
+		}
 
 		return convertFileInfoToJsonObject(info).toString();
 	}
 
 	public static String convertFileInfo(FileInfo[] infos) {
-		if (infos.length == 0)
+		if(infos == null) {
+			throw new IllegalArgumentException("InfoToJson: infos cannot be null");
+		}
+		if (infos.length == 0) {
 			return "{ \"Files\" : []}";
+		}
 
 		JSONArray result = new JSONArray();
 		for (FileInfo info : infos) {
-
 			result.add(convertFileInfoToJsonObject(info));
 		}
 		return "{ \"Files\" : " + result.toString() + "}";
 	}
 
 	public static String convertFileInfo(List<FileInfo> infos) {
-		if (infos.isEmpty())
+		if(infos == null) {
+			throw new IllegalArgumentException("InfoToJson: infos cannot be null");
+		}
+		if (infos.isEmpty()) {
 			return "{ \"Files\" : []}";
+		}
 
 		JSONArray result = new JSONArray();
 		for (FileInfo info : infos) {
@@ -100,8 +118,9 @@ public class InfoToJson {
 	}
 
 	public static JSONObject convertDataSetToJsonObject(DataSet info) throws IllegalArgumentException {
-		if (info == null)
+		if (info == null) {
 			throw new IllegalArgumentException("DataSet cannot be null");
+		}
 
 		JSONObject obj = new JSONObject();
 
@@ -119,28 +138,35 @@ public class InfoToJson {
 	}
 
 	public static String convertDataSet(DataSet info) throws IllegalArgumentException {
-		if (info == null)
+		if (info == null) {
 			throw new IllegalArgumentException("DataSet cannot be null");
-
+		}
 		return convertDataSetToJsonObject(info).toString();
 	}
 
 
 	public static String convertDataSet(DataSet[] infos) {
-		if (infos.length == 0)
+		if(infos == null) {
+			throw new IllegalArgumentException("InfoToJson: infos cannot be null");
+		}
+		if (infos.length == 0) {
 			return "{ \"Files\" : []}";
+		}
 
 		JSONArray result = new JSONArray();
 		for (DataSet info : infos) {
-
 			result.add(convertDataSetToJsonObject(info));
 		}
 		return "{ \"Files\" : " + result.toString() + "}";
 	}
 
 	public static String convertDataSet(List<DataSet> infos) {
-		if (infos.isEmpty())
+		if(infos == null) {
+			throw new IllegalArgumentException("InfoToJson: infos cannot be null");
+		}
+		if (infos.isEmpty()) {
 			return "{ \"Files\" : []}";
+		}
 
 		JSONArray result = new JSONArray();
 		for (DataSet info : infos) {
@@ -150,8 +176,9 @@ public class InfoToJson {
 	}
 
 	public static JSONObject convertInfoAboutFileToJsonObject(FileInfo info, DataSet data) throws IllegalArgumentException {
-		if (info == null)
+		if (info == null) {
 			throw new IllegalArgumentException("ProjectInfo cannot be null");
+		}
 
 		JSONObject result = new JSONObject();
 		result.put("nameForUser", info.getNameForUser());
@@ -172,21 +199,25 @@ public class InfoToJson {
 	}
 
 	public static String convertInfoAboutFile(FileInfo info, DataSet data) throws IllegalArgumentException {
-		if (info == null)
+		if (info == null) {
 			throw new IllegalArgumentException("ProjectInfo cannot be null");
-
+		}
 		return convertInfoAboutFileToJsonObject(info, data).toString();
 	}
 
 	public static String convertInfoAboutFile(List<FileInfo> infos, List<DataSet> datas) throws IllegalArgumentException {
-		if (infos.size() != datas.size())
+		if(infos == null || datas == null) {
+			throw new IllegalArgumentException("InfoToJson: infos and datas cannot be null");
+		}
+		if (infos.size() != datas.size()) {
 			throw new IllegalArgumentException("FileInfo should have its DataSet");
-		if (infos.isEmpty())
+		}
+		if (infos.isEmpty()) {
 			return "{ \"Files Infos\" : []}";
+		}
 
 		JSONArray result = new JSONArray();
 		for (int i = 0; i < infos.size(); i++) {
-
 			result.add(convertInfoAboutFileToJsonObject(infos.get(i), datas.get(i)));
 		}
 		return "{ \"Files Infos\" : " + result.toString() + "}";

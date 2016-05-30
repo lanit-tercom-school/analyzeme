@@ -10,7 +10,7 @@ public class AnalyzerFactory {
 
     private static Map<String, IAnalyzer> analyzers = new HashMap<String, IAnalyzer>();
 
-    public static IAnalyzer getAnalyzer(String analyzerName) {
+    public static IAnalyzer getAnalyzer(final String analyzerName) {
         if (!analyzers.containsKey(analyzerName)) {
             createAnalyzer(analyzerName);
         }
@@ -19,7 +19,7 @@ public class AnalyzerFactory {
 
 
     //todo add all new analyzers here
-    private static void createAnalyzer(String name) {
+    private static void createAnalyzer(final String name) {
 //        if(name.equals("GlobalMax")) {
 //            //analyzers.put(name,new Analyzer());
 //            return;
