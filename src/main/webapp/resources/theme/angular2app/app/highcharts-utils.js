@@ -1,8 +1,8 @@
 'use strict';
 (function (app) {
     //draw graph
-    app.d3Utils = {};
-    app.d3Utils.DrawGraph = function (Data) {
+    app.HighchartsUtils = {};
+    app.HighchartsUtils.DrawGraph = function (Data) {
         var data2D=[];
        for (var i = 0; i < Data.length; i++) {
             data2D.push([parseFloat(Data[i].x),parseFloat(Data[i].y)]);

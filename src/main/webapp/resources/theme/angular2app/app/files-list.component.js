@@ -55,7 +55,7 @@
                     this._fileService.setSelectedFile(file);
                     this.getFileInfo();
                     //l.log("Got file info");
-                    app.d3Utils.DrawGraph(JSON.parse(file.content).Data);
+                    app.HighchartsUtils.DrawGraph(JSON.parse(file.content).Data);
                     this._fileService.getSelectedFile()
                         .then(data => l.dir(data));
                 },

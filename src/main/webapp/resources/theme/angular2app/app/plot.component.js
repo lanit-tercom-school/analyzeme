@@ -28,7 +28,7 @@
                 if (this.file.content != null) {
                   l.log("drawStart");
                   l.dir(this.file);
-                  app.d3Utils.DrawGraph(JSON.parse(this.file.content).Data);
+                  app.HighchartsUtils.DrawGraph(JSON.parse(this.file.content).Data);
                   l.log("drawEnd");
                 }
                 if (this._workspaceService.session.autorun) {

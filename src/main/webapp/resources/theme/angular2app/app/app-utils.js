@@ -313,7 +313,7 @@
                 l.log("success");
                 self._fileService.addFile(self.selectedFile);
                 try {
-                    app.d3Utils.DrawGraph(self.Data);
+                    app.HighchartsUtils.DrawGraph(self.Data);
                 } catch (e) {
                     l.error("can't draw graphic [possibly, wrong data]", e);
                 } finally {
