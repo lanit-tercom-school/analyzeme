@@ -1,4 +1,4 @@
-package com.analyzeme.R.call;
+package com.analyzeme.r.call;
 
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
@@ -66,7 +66,7 @@ public class FakeRTest {
 		setCorrect.addField("y");
 		correct.add(setCorrect);
 
-		correctScriptForCorrectFileName = "script.R";
+		correctScriptForCorrectFileName = "script.r";
 		correctScriptForCorrectFileString = "matrix(c(" + correctX + "[1], " + correctY + "[1], " + correctX + "[1], " + correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 		correctScriptForCorrectFile = convertStringToStream(correctScriptForCorrectFileString);
 	}

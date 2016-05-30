@@ -1,4 +1,4 @@
-package com.analyzeme.rConfiguration;
+package com.analyzeme.rconfiguration;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;

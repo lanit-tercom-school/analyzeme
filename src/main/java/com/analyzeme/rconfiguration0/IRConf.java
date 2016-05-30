@@ -1,9 +1,9 @@
-package com.analyzeme.rConfiguration;
+package com.analyzeme.rconfiguration;
 
 import org.json.simple.JSONObject;
 
 /**
- * interface for configuration of R-processor
+ * interface for configuration of r-processor
  */
 public interface IRConf {
     /**

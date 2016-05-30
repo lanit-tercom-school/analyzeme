@@ -1,4 +1,4 @@
-package com.analyzeme.R.call;
+package com.analyzeme.r.call;
 
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
@@ -22,7 +22,7 @@ import static junit.framework.Assert.assertTrue;
  * Created by lagroffe on 26.03.2016 18:53
  */
 
-@Ignore("Should usually be ignored: works only locally with configured R")
+@Ignore("Should usually be ignored: works only locally with configured r")
 public class RserveTest {
 	private static double eps = 0.00001;
 	private static IRCaller call;
@@ -102,15 +102,15 @@ public class RserveTest {
 		setIncorrect.addField("x");
 		setIncorrect.addField("y");
 		incorrect.add(setIncorrect);
-		correctScriptForCorrectFileName = "script.R";
+		correctScriptForCorrectFileName = "script.r";
 		correctScriptForCorrectFileString = "matrix(c(" + correctX + "[1], " + correctY + "[1], " + correctX + "[1], " + correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 		correctScriptForCorrectFile = convertStringToStream(correctScriptForCorrectFileString);
 
-		incorrectScriptForCorrectFileName = "incorrectScript.R";
+		incorrectScriptForCorrectFileName = "incorrectScript.r";
 		incorrectScriptForCorrectFileString = "matrix(c" + correctX + "[1], " + correctY + "[1, " + correctX + "[1], " + correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 		incorrectScriptForCorrectFile = convertStringToStream(incorrectScriptForCorrectFileString);
 
-		correctScriptForIncorrectFileName = "scriptForIncorrect.R";
+		correctScriptForIncorrectFileName = "scriptForIncorrect.r";
 		correctScriptForIncorrectFileString = "matrix(c(" + incorrectX + "[1], " + incorrectY + "[1], " + incorrectX + "[1], " + incorrectY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
 		correctScriptForIncorrectFile = convertStringToStream(correctScriptForIncorrectFileString);
 

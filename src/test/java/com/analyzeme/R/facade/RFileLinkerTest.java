@@ -1,4 +1,4 @@
-package com.analyzeme.R.facade;
+package com.analyzeme.r.facade;
 
 import org.junit.Test;
 

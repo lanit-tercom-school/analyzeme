@@ -1,6 +1,6 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.R.facade.TypeOfReturnValue;
+import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.analyzers.r.TypeOfCall;
 import com.analyzeme.data.DataSet;

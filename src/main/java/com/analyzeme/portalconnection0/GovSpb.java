@@ -1,4 +1,4 @@
-package com.analyzeme.portalConnection;
+package com.analyzeme.portalconnection;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

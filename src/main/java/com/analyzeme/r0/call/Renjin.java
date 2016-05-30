@@ -1,4 +1,4 @@
-package com.analyzeme.R.call;
+package com.analyzeme.r.call;
 
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
@@ -60,10 +60,10 @@ public class Renjin implements IRCaller {
 
     /**
      * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .R file as a stream
+     * @param rScript    - script to call, correct .r file as a stream
      * @param dataFiles  - data necessary for the script
      * @return json form of result (may be errors)
-     * @throws Exception if failed to call R or script errored
+     * @throws Exception if failed to call r or script errored
      */
     public String runScript(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -83,10 +83,10 @@ public class Renjin implements IRCaller {
 
     /**
      * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .R file as a stream
+     * @param rScript    - script to call, correct .r file as a stream
      * @param dataFiles  - data necessary for the script
      * @return double result
-     * @throws Exception if failed to call R or script errored
+     * @throws Exception if failed to call r or script errored
      */
     public double runScriptToGetNumber(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -102,10 +102,10 @@ public class Renjin implements IRCaller {
 
     /**
      * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .R file as a stream
+     * @param rScript    - script to call, correct .r file as a stream
      * @param dataFiles  - data necessary for the script
      * @return one point
-     * @throws Exception if failed to call R or script errored
+     * @throws Exception if failed to call r or script errored
      */
     public Point runScriptToGetPoint(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -127,10 +127,10 @@ public class Renjin implements IRCaller {
 
     /**
      * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .R file as a stream
+     * @param rScript    - script to call, correct .r file as a stream
      * @param dataFiles  - data necessary for the script
      * @return List<Point>
-     * @throws Exception if failed to call R or script errored
+     * @throws Exception if failed to call r or script errored
      */
     public List<Point> runScriptToGetPoints(String scriptName, ByteArrayInputStream rScript, ArrayList<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -172,10 +172,10 @@ public class Renjin implements IRCaller {
     //------------------
 
     /**
-     * @param rCommand  - string with a command in R language
+     * @param rCommand  - string with a command in r language
      * @param dataFiles - data necessary for the script
      * @return json form of result (may be errors)
-     * @throws Exception if failed to call R or command errored
+     * @throws Exception if failed to call r or command errored
      */
     public String runCommand(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -189,10 +189,10 @@ public class Renjin implements IRCaller {
     }
 
     /**
-     * @param rCommand - string with a command in R language
+     * @param rCommand - string with a command in r language
      * @param jsonData - data necessary for the script
      * @return json form of result (may be errors)
-     * @throws Exception if failed to call R or command errored
+     * @throws Exception if failed to call r or command errored
      */
     public String runCommand(String rCommand, String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
@@ -223,10 +223,10 @@ public class Renjin implements IRCaller {
     //------------------
 
     /**
-     * @param rCommand  - string with a command in R language
+     * @param rCommand  - string with a command in r language
      * @param dataFiles - data necessary for the script
      * @return double result
-     * @throws Exception if failed to call R or command errored
+     * @throws Exception if failed to call r or command errored
      */
     public double runCommandToGetNumber(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -240,10 +240,10 @@ public class Renjin implements IRCaller {
     }
 
     /**
-     * @param rCommand  - string with a command in R language
+     * @param rCommand  - string with a command in r language
      * @param dataFiles - data necessary for the script
      * @return one point
-     * @throws Exception if failed to call R or command errored
+     * @throws Exception if failed to call r or command errored
      */
     public Point runCommandToGetPoint(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -263,10 +263,10 @@ public class Renjin implements IRCaller {
     }
 
     /**
-     * @param rCommand  - string with a command in R language
+     * @param rCommand  - string with a command in r language
      * @param dataFiles - data necessary for the script
      * @return List<Point>
-     * @throws Exception if failed to call R or command errored
+     * @throws Exception if failed to call r or command errored
      */
     public List<Point> runCommandToGetPoints(String rCommand, ArrayList<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -305,10 +305,10 @@ public class Renjin implements IRCaller {
     //------------------
 
     /**
-     * @param rCommand - string with a command in R language
+     * @param rCommand - string with a command in r language
      * @param jsonData - data necessary for the script
      * @return double result
-     * @throws Exception if failed to call R or command errored
+     * @throws Exception if failed to call r or command errored
      */
     public double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
@@ -334,10 +334,10 @@ public class Renjin implements IRCaller {
     }
 
     /**
-     * @param rCommand - string with a command in R language
+     * @param rCommand - string with a command in r language
      * @param jsonData - data necessary for the script
      * @return one point
-     * @throws Exception if failed to call R or command errored
+     * @throws Exception if failed to call r or command errored
      */
     public Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
@@ -369,10 +369,10 @@ public class Renjin implements IRCaller {
     }
 
     /**
-     * @param rCommand - string with a command in R language
+     * @param rCommand - string with a command in r language
      * @param jsonData - data necessary for the script
      * @return List<Point>
-     * @throws Exception if failed to call R or command errored
+     * @throws Exception if failed to call r or command errored
      */
     public List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))

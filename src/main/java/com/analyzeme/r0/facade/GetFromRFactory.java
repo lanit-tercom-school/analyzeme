@@ -1,4 +1,4 @@
-package com.analyzeme.R.facade;
+package com.analyzeme.r.facade;
 
 /**
  * Created by lagroffe on 13.04.2016 0:25

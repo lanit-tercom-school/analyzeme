@@ -1,9 +1,9 @@
-package com.analyzeme.R.facade;
+package com.analyzeme.r.facade;
 
-import com.analyzeme.R.call.FakeR;
-import com.analyzeme.R.call.IRCaller;
-import com.analyzeme.R.call.Renjin;
-import com.analyzeme.R.call.Rserve;
+import com.analyzeme.r.call.FakeR;
+import com.analyzeme.r.call.IRCaller;
+import com.analyzeme.r.call.Renjin;
+import com.analyzeme.r.call.Rserve;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
@@ -56,13 +56,13 @@ public class RFacade {
      */
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rCommand  - string with correct R command
+	 * @param rCommand  - string with correct r command
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
 	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in command
+	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
 	public static String runCommand(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
@@ -75,12 +75,12 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rCommand - string with correct R command
+	 * @param rCommand - string with correct r command
 	 * @param jsonData - some valid data in json format for command to analyze
 	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in command
+	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
 	public static String runCommand(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
@@ -90,13 +90,13 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rCommand  - string with correct R command
+	 * @param rCommand  - string with correct r command
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
 	 * @return double result
-	 * @throws Exception if files not found, R was impossible to call or there was in error in command
+	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
 	public static double runCommandToGetNumber(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
@@ -109,12 +109,12 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rCommand - string with correct R command
+	 * @param rCommand - string with correct r command
 	 * @param jsonData - some valid data in json format for command to analyze
 	 * @return double result
-	 * @throws Exception if R was impossible to call or there was in error in command
+	 * @throws Exception if r was impossible to call or there was in error in command
 	 */
 	public static double runCommandToGetNumber(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
@@ -124,13 +124,13 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rCommand  - string with correct R command
+	 * @param rCommand  - string with correct r command
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
 	 * @return one point
-	 * @throws Exception if files not found, R was impossible to call or there was in error in command
+	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
 	public static Point runCommandToGetPoint(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
@@ -143,12 +143,12 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rCommand - string with correct R command
+	 * @param rCommand - string with correct r command
 	 * @param jsonData - some valid data in json format for command to analyze
 	 * @return one point
-	 * @throws Exception if R was impossible to call or there was in error in command
+	 * @throws Exception if r was impossible to call or there was in error in command
 	 */
 	public static Point runCommandToGetPoint(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
@@ -158,13 +158,13 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rCommand  - string with correct R command
+	 * @param rCommand  - string with correct r command
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
 	 * @return List<Point>
-	 * @throws Exception if files not found, R was impossible to call or there was in error in command
+	 * @throws Exception if files not found, r was impossible to call or there was in error in command
 	 */
 	public static List<Point> runCommandToGetPoints(String rCommand, int userId, String projectId) throws Exception {
 		if (rCommand == null || rCommand.equals("") || userId == 0 || projectId == null || projectId.equals(""))
@@ -177,12 +177,12 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rCommand - string with correct R command
+	 * @param rCommand - string with correct r command
 	 * @param jsonData - some valid data in json format for command to analyze
 	 * @return List<Point>
-	 * @throws Exception if R was impossible to call or there was in error in command
+	 * @throws Exception if r was impossible to call or there was in error in command
 	 */
 	public static List<Point> runCommandToGetPoints(String rCommand, String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") || jsonData == null || jsonData.equals(""))
@@ -211,14 +211,14 @@ public class RFacade {
 
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
 	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file as a stream
+	 * @param rScript     - script to call, correct .r file as a stream
 	 * @param userId      - userId of a script creator
 	 * @param projectId   - id of the project with data for script
 	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
+	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public static String runScript(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
@@ -231,13 +231,13 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
+	 * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
 	 * @return json result (mistakes are possible)
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
+	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public static String runScript(String rScriptId, int userId, String projectId) throws Exception {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
@@ -257,14 +257,14 @@ public class RFacade {
 	 */
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
 	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file as a stream
+	 * @param rScript     - script to call, correct .r file as a stream
 	 * @param userId      - userId of a script creator
 	 * @param projectId   - id of the project with data for script
 	 * @return double result
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
+	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public static double runScriptToGetNumber(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
@@ -278,13 +278,13 @@ public class RFacade {
 
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
+	 * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
 	 * @return double result
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
+	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public static double runScriptToGetNumber(String rScriptId, int userId, String projectId) throws Exception {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
@@ -303,14 +303,14 @@ public class RFacade {
 	 */
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
 	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file as a stream
+	 * @param rScript     - script to call, correct .r file as a stream
 	 * @param userId      - userId of a script creator
 	 * @param projectId   - id of the project with data for script
 	 * @return one point
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
+	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public static Point runScriptToGetPoint(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
@@ -324,13 +324,13 @@ public class RFacade {
 
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
+	 * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
 	 * @return one point
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
+	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public static Point runScriptToGetPoint(String rScriptId, int userId, String projectId) throws Exception {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))
@@ -350,14 +350,14 @@ public class RFacade {
 	 */
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
 	 * @param rScriptName - name of the script to be called
-	 * @param rScript     - script to call, correct .R file as a stream
+	 * @param rScript     - script to call, correct .r file as a stream
 	 * @param userId      - userId of a script creator
 	 * @param projectId   - id of the project with data for script
 	 * @return List<Point>
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
+	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScriptToGetPoints(String rScriptName, ByteArrayInputStream rScript, int userId, String projectId) throws Exception {
 		if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals(""))
@@ -370,13 +370,13 @@ public class RFacade {
 	}
 
 	/**
-	 * calls R using some logic from R.call package
+	 * calls r using some logic from r.call package
 	 *
-	 * @param rScriptId - id in repository of file with the script to call, correct .R file as a stream  (RScriptName is stored in FileInfo)
+	 * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
 	 * @param userId    - userId of a command caller
 	 * @param projectId - id of the project with data for command
 	 * @return List<Point>
-	 * @throws Exception if files not found, R was impossible to call or there was in error in script
+	 * @throws Exception if files not found, r was impossible to call or there was in error in script
 	 */
 	public static List<Point> runScriptToGetPoints(String rScriptId, int userId, String projectId) throws Exception {
 		if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals(""))

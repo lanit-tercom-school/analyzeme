@@ -1,4 +1,4 @@
-package com.analyzeme.R.facade;
+package com.analyzeme.r.facade;
 
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.DataSetResolversFactory;
@@ -50,7 +50,7 @@ class RFileLinker {
 	/**
 	 * finds out what files  are necessary for the script to run
 	 *
-	 * @param rScript - script to call, correct .R file as a stream
+	 * @param rScript - script to call, correct .r file as a stream
 	 * @return DataSets of necessary files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
@@ -83,7 +83,7 @@ class RFileLinker {
 	/**
 	 * finds out what files are necessary for the script to run
 	 *
-	 * @param rScript -script to call, correct .R file as a stream
+	 * @param rScript -script to call, correct .r file as a stream
 	 * @return names of files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
@@ -104,7 +104,7 @@ class RFileLinker {
 	/**
 	 * finds out what files are necessary for the command to run
 	 *
-	 * @param rCommand = correct R command to parse
+	 * @param rCommand = correct r command to parse
 	 * @return DataSets of necessary files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */
@@ -137,7 +137,7 @@ class RFileLinker {
 	/**
 	 * finds out what files are necessary for the command to run
 	 *
-	 * @param rCommand = correct R command to parse
+	 * @param rCommand = correct r command to parse
 	 * @return names of files
 	 * @throws Exception if there were some mistakes in parsing or there are no necessary files
 	 */

@@ -1,6 +1,5 @@
-package com.analyzeme.rConfiguration;
+package com.analyzeme.rconfiguration;
 
-import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
 

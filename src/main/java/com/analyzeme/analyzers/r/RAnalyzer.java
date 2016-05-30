@@ -1,8 +1,8 @@
 package com.analyzeme.analyzers.r;
 
-import com.analyzeme.R.facade.GetFromR;
-import com.analyzeme.R.facade.GetFromRFactory;
-import com.analyzeme.R.facade.TypeOfReturnValue;
+import com.analyzeme.r.facade.GetFromR;
+import com.analyzeme.r.facade.GetFromRFactory;
+import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.analyze.Point;
 
 import java.io.ByteArrayInputStream;

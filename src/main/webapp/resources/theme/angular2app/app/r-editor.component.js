@@ -17,7 +17,7 @@
                 this.editor = null;
                 this.isSelectExpanded = false;
                 this._workspaceService.session.autorun = false;
-                document.title = "AnalyzeMe | R-editor";
+                document.title = "AnalyzeMe | r-editor";
               }
             ],
             ngAfterViewInit: function() {

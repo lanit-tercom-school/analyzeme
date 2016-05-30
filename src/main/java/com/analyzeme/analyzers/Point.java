@@ -3,7 +3,7 @@ package com.analyzeme.analyzers;
 /**
  * Created by Ольга on 12.04.2016.
  */
-//TODO: add functions for this type of Point in R.Call
+//TODO: add functions for this type of Point in r.Call
 public class Point<T1, T2> {
 
 	/**

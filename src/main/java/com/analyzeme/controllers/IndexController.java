@@ -1,6 +1,6 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.rConfiguration.RConfRepository;
+import com.analyzeme.rconfiguration.RConfRepository;
 import com.analyzeme.repository.UsersRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
