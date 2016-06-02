@@ -242,17 +242,18 @@
         );
     };
 
-    app.AppUtils.API.analyzeFile = function (fileName, functionType) {
+    ///file/{user_id}/{project_id}/{reference_name}/{function_Type}
+    app.AppUtils.API.analyzeFile = function (userId, projectId, referenceName, functionType) {
         return app.AppUtils.makeRequest(
             "GET",
-            "file/" + fileName + "/" + functionType,
+            "file/" + userId + "/" + projectId + "/" + referenceName + "/" + functionType,
             null,
             [],
             (xhr) => xhr.status == 200,
             (xhr) => {
                 app.AppUtils.API.logger.dir(xhr);
                 app.AppUtils.API.logger.log(
-                    functionType + "(" + fileName + ") = " +
+                    functionType + "(" + referenceName + ") = " +
                     xhr.responseText
                 );
             },

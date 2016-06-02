@@ -3,9 +3,10 @@ package com.analyzeme.controllers;
 import com.analyzeme.analyze.AnalyzeFunction;
 import com.analyzeme.analyze.AnalyzeFunctionFactory;
 import com.analyzeme.analyze.Point;
+import com.analyzeme.data.DataSet;
+import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.parsers.JsonParserException;
-import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.streamreader.StreamToString;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,40 +23,35 @@ import java.io.InputStream;
  */
 @RestController
 public class AnalysisController {
-
-    //todo return HttpEntity<double>
-    //TODO: decide whether to use it with .csv or not
     /**
-     * @param fileName
-     * @return minimum in double format
+     * @return result of function in double format
      * 0 if file doesn't exist
      * @throws IOException
      */
-    @RequestMapping(value = "/file/{file_name}/{function_Type}", method = RequestMethod.GET)
-    public double getMinimum(@PathVariable("file_name") final String fileName, @PathVariable("function_Type") final String functionType, HttpServletResponse response)
-            throws IOException {
+    @RequestMapping(value = "/file/{user_id}/{project_id}/{reference_name}/{function_Type}",
+            method = RequestMethod.GET)
+    public double getResult(@PathVariable("user_id") final int userId,
+                            @PathVariable("project_id") final String projectId,
+                            @PathVariable("reference_name") final String referenceName,
+                            @PathVariable("function_Type") final String functionType, HttpServletResponse response)
+            throws Exception {
         try {
-            //Analyze Factory
-            AnalyzeFunctionFactory ServletFactory = new AnalyzeFunctionFactory();
-            //Create GlobalMinimum function
-            AnalyzeFunction ServletAnalyzeFunction = ServletFactory.getFunction(functionType);
+            AnalyzeFunctionFactory factory = new AnalyzeFunctionFactory();
+            AnalyzeFunction analyzeFunction = factory.getFunction(functionType);
 
-            Point[] Data;
-
-            ByteArrayInputStream file = FileRepository.getRepo().getFileByID(fileName);
-            String DataString = StreamToString.convertStream(file);
-
-
-            InputStream is = new ByteArrayInputStream(DataString.getBytes());
-
+            Point[] points;
+            FileInRepositoryResolver res = new FileInRepositoryResolver();
+            res.setProject(userId, projectId);
+            DataSet data = res.getDataSet(referenceName);
+            ByteArrayInputStream file = data.getData();
+            String dataString = StreamToString.convertStream(file);
+            InputStream is = new ByteArrayInputStream(dataString.getBytes());
             JsonParser jsonParser;
             jsonParser = new JsonParser();
+            points = jsonParser.getPointsFromPointJson(is);
 
-            Data = jsonParser.getPointsFromPointJson(is);
-
-            double value = Data[ServletAnalyzeFunction.calc(Data)].getY();
+            double value = points[analyzeFunction.calc(points)].getY();
             return value;
-
         } catch (JsonParserException ex) {
             ex.printStackTrace();
             return 0;

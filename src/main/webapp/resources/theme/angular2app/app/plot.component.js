@@ -73,7 +73,7 @@
                   return;
                 }
 
-                var xhr = app.AppUtils.API.analyzeFile(fileName, this.functionType);
+                var xhr = app.AppUtils.API.analyzeFile(1, wss._projectService.selectedProject.projectId, fileName, this.functionType);
                 xhr.then(
                   (xhr) => {
                     resultOutput.value =
