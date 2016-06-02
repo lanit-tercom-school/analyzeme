@@ -18,9 +18,8 @@
             componentName + ".component.html";
     };
     // BUG: Angular 2 don't allow absolute paths in cssUrls
-    // hotfix needs to be redone
     app.AppUtils.cssUrls = function (componentName) {
-        return "../" + "resources/angular2app/" + "app/css/" +
+        return "../" + app.AppUtils.pathToApp + "app/css/" +
             componentName + ".component.css";
     };
 

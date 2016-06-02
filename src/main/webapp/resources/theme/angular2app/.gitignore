@@ -1,0 +1,9 @@
+# IDEA project settings
+.idea/
+*.iml
+
+# node modules
+node_modules/
+
+# Recycle Bin used on file shares
+$RECYCLE.BIN/
