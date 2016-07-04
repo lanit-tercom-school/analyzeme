@@ -7,16 +7,12 @@
 -->
     <!-- "-->
     <div *ngIf="!isEmpty()" class="mdl-card__supporting-text">
-        Name: {{fileInfo.nameForUser}}
-        <br/> Id: {{fileInfo.uniqueName}}
-        <br/> isActive: {{fileInfo.isActive}}
-        <br/> uploadingDate: {{fileInfo.uploadingDate}}
-        <br/> Fields
-        <br/>
-        <ul>
+        <h4>{{fileInfo.uniqueName}}</h4>
+        <hr>
+        <br/> Original name: {{fileInfo.nameForUser}}
+        <br/> Data:  <ul>
             <li *ngFor="#elem of fileInfo.fields">
-                Field name: {{elem.fieldName}} field id : {{elem.fieldId}}
-                <br/>
+                {{elem.fieldId}}
             </li>
         </ul>
     </div>
