@@ -24,7 +24,7 @@ public class ExcelParserTest {
         HSSFWorkbook workbook = new HSSFWorkbook();
         HSSFSheet sheet = workbook.createSheet("Sheet");
 
-        List<Double[]> data = new ArrayList<>();
+        List<Double[]> data = new ArrayList<Double[]>();
         for (int i = 0; i < 10; i++) {
             data.add(new Double[]{(double) i, (double) (i * i)});
         }

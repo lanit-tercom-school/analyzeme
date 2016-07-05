@@ -20,7 +20,7 @@ public class ExcelParser {
         int numColumns = sheet.getRow(0).getLastCellNum();
         DoubleDataArray result = new DoubleDataArray();
         for (Row row : sheet) {
-            Map<String, Double> data = new HashMap<>();
+            Map<String, Double> data = new HashMap<String, Double>();
             for (int i = 0; i < numColumns; i++) {
                 String columnName = sheet.getRow(0).getCell(i).getStringCellValue();
                 Cell cell = row.getCell(i);
