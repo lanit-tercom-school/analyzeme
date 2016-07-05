@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by lagroffe on 04.07.2016 14:29
  */
-public interface IAnalyzer {
+public interface IAnalyzer<T> {
     //now here should be List of List<Double>(columns)
-    IResult analyze(List<List<Object>> data);
+    IResult analyze(List<List<T>> data);
 }

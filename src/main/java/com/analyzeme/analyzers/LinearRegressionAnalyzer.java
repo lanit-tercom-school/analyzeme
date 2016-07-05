@@ -10,10 +10,10 @@ import java.util.List;
 /**
  * Created by lagroffe on 04.07.2016 14:33
  */
-public class LinearRegressionAnalyzer implements IAnalyzer {
+public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
     private static final int NUMBER_OF_DECIMAL_PLACES = 3;
-    private List<Object> x;
-    private List<Object> y;
+    private List<Double> x;
+    private List<Double> y;
     private BigDecimal sumOfX = BigDecimal.ZERO;
     private BigDecimal sumOfY = BigDecimal.ZERO;
     private BigDecimal sumOfXAndY = BigDecimal.ZERO;
@@ -27,7 +27,7 @@ public class LinearRegressionAnalyzer implements IAnalyzer {
      * @return null if data is Points are inappropriate
      * otherwise StringResult like: y=a*x+b
      */
-    public IResult analyze(List<List<Object>> data) {
+    public IResult analyze(List<List<Double>> data) {
         if (data == null || data.isEmpty() || data.size() < 2) {
             throw new IllegalArgumentException(
                     "Null or empty data");

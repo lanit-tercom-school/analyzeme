@@ -23,6 +23,18 @@ public class AnalyzerFactory {
             analyzers.put(name, new LinearRegressionAnalyzer());
             return;
         }
+        if (name.equals("GlobalMaximum")) {
+            analyzers.put(name, new GlobalMaximumAnalyzer());
+            return;
+        }
+        if (name.equals("GlobalMinimum")) {
+            analyzers.put(name, new GlobalMinimumAnalyzer());
+            return;
+        }
+        if (name.equals("LinearCorrelation")) {
+            analyzers.put(name, new LinearCorrelationAnalyzer());
+            return;
+        }
         throw new IllegalArgumentException("Incorrect name");
     }
 }

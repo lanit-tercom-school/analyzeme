@@ -52,26 +52,6 @@ public class DataSet {
         return file.getFileData();
     }
 
-
-    //TODO: implement for Point from analyzers
-
-    /**
-     * @return array of Point (analyzeme.analyze.Point) from this source
-     * @throws Exception
-     */
-    public Point[] getPoints() throws Exception {
-        ByteArrayInputStream data = getData();
-        String DataString = StreamToString.convertStream(data);
-
-        InputStream is = new ByteArrayInputStream(DataString.getBytes());
-
-        JsonParser jsonParser;
-        jsonParser = new JsonParser();
-
-        Point[] Data = jsonParser.getPointsFromPointJson(is);
-        return Data;
-    }
-
     /**
      * @return name that user gave this data in the process of uploading
      */

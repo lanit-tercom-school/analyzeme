@@ -15,17 +15,17 @@ public class TestLinearCorrelationAnalyzer {
 
     @Test
     public void test1LinearCorrelationAnalyzer() {
-        List<Object> x = new ArrayList<Object>();
-        x.add(0);
-        x.add(10);
-        x.add(20);
-        x.add(30);
-        List<Object> y = new ArrayList<Object>();
-        y.add(10);
-        y.add(20);
-        y.add(30);
-        y.add(40);
-        List<List<Object>> data = new ArrayList<List<Object>>();
+        List<Double> x = new ArrayList<Double>();
+        x.add(0.);
+        x.add(10.);
+        x.add(20.);
+        x.add(30.);
+        List<Double> y = new ArrayList<Double>();
+        y.add(10.);
+        y.add(20.);
+        y.add(30.);
+        y.add(40.);
+        List<List<Double>> data = new ArrayList<List<Double>>();
         data.add(x);
         data.add(y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
@@ -36,17 +36,17 @@ public class TestLinearCorrelationAnalyzer {
 
     @Test
     public void test2LinearCorrelationAnalyzer() {
-        List<Object> x = new ArrayList<Object>();
-        x.add(0);
-        x.add(10);
-        x.add(20);
-        x.add(30);
-        List<Object> y = new ArrayList<Object>();
-        y.add(10);
-        y.add(0);
-        y.add(-10);
-        y.add(-20);
-        List<List<Object>> data = new ArrayList<List<Object>>();
+        List<Double> x = new ArrayList<Double>();
+        x.add(0.);
+        x.add(10.);
+        x.add(20.);
+        x.add(30.);
+        List<Double> y = new ArrayList<Double>();
+        y.add(10.);
+        y.add(0.);
+        y.add(-10.);
+        y.add(-20.);
+        List<List<Double>> data = new ArrayList<List<Double>>();
         data.add(x);
         data.add(y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
@@ -57,17 +57,17 @@ public class TestLinearCorrelationAnalyzer {
 
     @Test
     public void test3LinearCorrelationAnalyzer() {
-        List<Object> x = new ArrayList<Object>();
-        x.add(0);
-        x.add(10);
-        x.add(20);
-        x.add(30);
-        List<Object> y = new ArrayList<Object>();
-        y.add(10);
-        y.add(0);
-        y.add(10);
-        y.add(-20);
-        List<List<Object>> data = new ArrayList<List<Object>>();
+        List<Double> x = new ArrayList<Double>();
+        x.add(0.);
+        x.add(10.);
+        x.add(20.);
+        x.add(30.);
+        List<Double> y = new ArrayList<Double>();
+        y.add(10.);
+        y.add(0.);
+        y.add(10.);
+        y.add(-20.);
+        List<List<Double>> data = new ArrayList<List<Double>>();
         data.add(x);
         data.add(y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();

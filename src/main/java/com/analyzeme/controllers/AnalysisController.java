@@ -1,22 +1,16 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.analyze.AnalyzeFunction;
-import com.analyzeme.analyze.AnalyzeFunctionFactory;
-import com.analyzeme.analyze.Point;
+import com.analyzeme.analyzers.AnalyzerFactory;
+import com.analyzeme.analyzers.IAnalyzer;
+import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
-import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.parsers.JsonParserException;
-import com.analyzeme.streamreader.StreamToString;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Ольга on 16.03.2016.
@@ -24,40 +18,36 @@ import java.io.InputStream;
 @RestController
 public class AnalysisController {
     /**
-     * @return result of function in double format
+     * @return result of function
      * 0 if file doesn't exist
      * @throws IOException
      */
     @RequestMapping(value = "/file/{user_id}/{project_id}/{reference_name}/{function_Type}",
             method = RequestMethod.GET)
-    public double getResult(@PathVariable("user_id") final int userId,
+    public String getResult(@PathVariable("user_id") final int userId,
                             @PathVariable("project_id") final String projectId,
                             @PathVariable("reference_name") final String referenceName,
-                            @PathVariable("function_Type") final String functionType, HttpServletResponse response)
+                            @PathVariable("function_Type") final String functionType,
+                            @RequestParam(value = "fields[]", required = false) String[] fields)
             throws Exception {
         try {
-            AnalyzeFunctionFactory factory = new AnalyzeFunctionFactory();
-            AnalyzeFunction analyzeFunction = factory.getFunction(functionType);
-
-            Point[] points;
+            if (fields == null || fields.length == 0) {
+                fields = new String[]{"y"};
+            }
             FileInRepositoryResolver res = new FileInRepositoryResolver();
             res.setProject(userId, projectId);
             DataSet data = res.getDataSet(referenceName);
-            ByteArrayInputStream file = data.getData();
-            String dataString = StreamToString.convertStream(file);
-            InputStream is = new ByteArrayInputStream(dataString.getBytes());
-            JsonParser jsonParser;
-            jsonParser = new JsonParser();
-            points = jsonParser.getPointsFromPointJson(is);
-
-            double value = points[analyzeFunction.calc(points)].getY();
-            return value;
+            List<List<Double>> toAnalyze = new ArrayList<List<Double>>();
+            for (String field : fields) {
+                toAnalyze.add(data.getByField(field));
+            }
+            IAnalyzer analyzer = AnalyzerFactory.getAnalyzer(functionType);
+            IResult results = analyzer.analyze(toAnalyze);
+            return results.toJson();
         } catch (JsonParserException ex) {
-            ex.printStackTrace();
-            return 0;
+            return ex.toString();
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return 0;
+            return e.toString();
         }
 
     }

@@ -11,9 +11,9 @@ import java.util.List;
 /**
  * Created by lagroffe on 04.07.2016 14:32
  */
-public class LinearCorrelationAnalyzer implements IAnalyzer {
-    private List<Object> x;
-    private List<Object> y;
+public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
+    private List<Double> x;
+    private List<Double> y;
     private static final int NUMBER_OF_DECIMAL_PLACES = 3;
     private BigDecimal averageY = BigDecimal.ZERO;
     private BigDecimal averageX = BigDecimal.ZERO;
@@ -22,7 +22,7 @@ public class LinearCorrelationAnalyzer implements IAnalyzer {
     private BigDecimal dispersionY = BigDecimal.ZERO;
     private int size;
 
-    public IResult analyze(List<List<Object>> data) {
+    public IResult analyze(List<List<Double>> data) {
         //List<List<Point>>
         if (data == null || data.isEmpty() || data.size() < 2) {
             throw new IllegalArgumentException(
