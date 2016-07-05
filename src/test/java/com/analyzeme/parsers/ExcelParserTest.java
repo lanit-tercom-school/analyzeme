@@ -13,6 +13,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -46,7 +48,7 @@ public class ExcelParserTest {
         ExcelParser parser = new ExcelParser();
         DoubleDataArray dataArray = parser.parse(in);
 
-        Assert.assertArrayEquals(columnTitles, dataArray.getData().get(0).getKeys().toArray());
+        Assert.assertTrue(new HashSet<String>(Arrays.asList(columnTitles)).equals(dataArray.getData().get(0).getKeys()));
 
         for (int r = 0; r < data.size(); r++) {
             DoubleData doubleData = dataArray.getData().get(r);
