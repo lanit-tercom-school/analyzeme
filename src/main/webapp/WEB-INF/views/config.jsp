@@ -91,7 +91,7 @@
             <nav class="mdl-navigation" role="navigation">
                 <a href="/index" class="mdl-navigation__link">AnalyzeMe</a>
                 <a href="/app/demo" class="mdl-navigation__link">Try now</a>
-               <!-- <a href="/app" class="mdl-navigation__link">Projects</a> -->
+                <!-- <a href="/app" class="mdl-navigation__link">Projects</a> -->
                 <a href="/data/spb" class="mdl-navigation__link">Preview</a>
                 <a href="/config" class="mdl-navigation__link">R Configurations</a>
             </nav>
@@ -110,7 +110,7 @@
                            class="btn btn-primary btn-lg"><span
                                 class="network-name">Add</span></a>
 
-                    <%--Add modal--%>
+                        <%--Add modal--%>
                         <div class="modal" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                              aria-hidden="true">
                             <div class="modal-header">
@@ -123,7 +123,9 @@
                                 <table class="form">
                                     <tr>
                                         <td>Name:</td>
-                                        <td><input type="text" id="name"></td>
+                                        <td><input type="text" id="name"><span class="redStar"><span
+                                                class="glyphicon glyphicon-asterisk"></span></span></td>
+
                                     </tr>
                                     <tr>
                                         <td>Select type:</td>
@@ -145,7 +147,8 @@
                                     </tr>
                                     <tr id="addPort">
                                         <td>Port:</td>
-                                        <td><input type="text" id="port"></td>
+                                        <td><input type="text" id="port">
+                                        </td>
                                     </tr>
 
                                 </table>
@@ -173,7 +176,8 @@
                                 <table class="form">
                                     <tr>
                                         <td>Name:</td>
-                                        <td><input type="text" id="upName"></td>
+                                        <td><input type="text" id="upName"><span class="redStar"><span
+                                                class="glyphicon glyphicon-asterisk"></span></span></td>
                                     </tr>
                                     <tr>
                                         <td>Type:</td>
@@ -233,13 +237,12 @@
                         <div id="instancesData">
                             <table id="listOfInstances" border="1">
                                 <tr>
-                                    <td ><span class="network-name"><b>Name</b></span></td>
-                                    <td ><span class="network-name"><b>Type</b></span></td>
-                                    <td ><span class="network-name"><b>Status</b></span></td>
-                                    <td ><span class="network-name"><b>Settings</b></span></td>
-                                    <%--<td><span class="network-name"><b>Port</b></span></td>--%>
-                                    <td >&nbsp;</td>
-                                    <td >&nbsp;</td>
+                                    <th><b>Name</b></th>
+                                    <th><b>Type</b></th>
+                                    <th><b>Status</b></th>
+                                    <th colspan="2"><b>Settings</b></th>
+                                    <th>&nbsp;</th>
+                                    <th>&nbsp;</th>
                                 </tr>
 
                             </table>
