@@ -46,5 +46,24 @@ Cборка написана для **версии** Jetty 9.3.6.v20151106. В �
 
     * scripts\jetty.bat port - результат будет доступен по адресу localhost:port/analyzeme
 
+####Сборка проекта под Linux
+
+#####Перед использованием билд-скриптов
+
+Установить maven:
+
+sudo apt-get install maven
+
+#####Сборка с использованием tomcat
+
+1. Установить tomcat
+   https://www.digitalocean.com/community/tutorials/how-to-install-apache-tomcat-8-on-ubuntu-16-04
+
+2. Выполнить следующие команды:
+   mvn clean install -U
+   sudo $CATALINA_HOME/bin/startup.sh
+   sudo cp target/analyzeme.war $CATALINA_HOME/webapps
+
+
 analyzeme
 2015
