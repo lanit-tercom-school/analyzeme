@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 /**
  * Created by Olga on 05.11.2015.
@@ -31,11 +32,18 @@ public class FileController {
      **/
     @RequestMapping(value = "/upload/{user_id}/{project_id}", method = RequestMethod.POST,
             headers = {"content-type= multipart/form-data"})
-    public void doPost(@PathVariable("user_id") final int userId, @PathVariable("project_id") final String projectUniqueName,
+    public void doPost(@PathVariable("user_id") final int userId,
+                       @PathVariable("project_id") final String projectUniqueName,
                        @RequestParam(value = "file") final MultipartFile multipartFile,
                        HttpServletResponse response) throws IOException {
         try {
             String fileName = multipartFile.getOriginalFilename();
+            //next line is TEMPORARY (before JS is ready)
+            String referenceName = fileName;
+            if (!checkReferenceName(fileName, referenceName)) {
+                throw new IllegalArgumentException("Wrong referenceName");
+            }
+
             //TODO: now type checking is only formal, change with #202
             TypeOfFile type = null;
             if (fileName.endsWith(".json")) {
@@ -51,7 +59,8 @@ public class FileController {
             UserInfo user = UsersRepository.findUser(userId);
             ProjectInfo project = user.getProjects().findProjectById(projectUniqueName);
             if (project == null) {
-                throw new IllegalArgumentException("FileController doPost(): project does not exists");
+                throw new IllegalArgumentException(
+                        "FileController doPost(): project does not exists");
             }
 
             DataSet set = FileUploader.upload(multipartFile, fileName, fileName, type);
@@ -75,6 +84,12 @@ public class FileController {
                        HttpServletResponse response) throws IOException {
         try {
             String fileName = multipartFile.getOriginalFilename();
+            //next line is TEMPORARY (before JS is ready)
+            String referenceName = fileName;
+            if (!checkReferenceName(fileName, referenceName)) {
+                throw new IllegalArgumentException("Wrong referenceName");
+            }
+
             //TODO: now type checking is only formal, change with #202
             TypeOfFile type = null;
             if (fileName.endsWith(".json")) {
@@ -116,8 +131,12 @@ public class FileController {
      * @return String with json like  {"Data": [{"x":"1", "y":"1"}, ...]}
      * @throws IOException
      */
-    @RequestMapping(value = "/file/{user_id}/{project_id}/{reference_name}/data", method = RequestMethod.GET)
-    public String getDataByReferenceName(@PathVariable("user_id") final int userId, @PathVariable("project_id") final String projectId, @PathVariable("reference_name") final String referenceName, HttpServletResponse response)
+    @RequestMapping(value = "/file/{user_id}/{project_id}/{reference_name}/data",
+            method = RequestMethod.GET)
+    public String getDataByReferenceName(@PathVariable("user_id") final int userId,
+                                         @PathVariable("project_id") final String projectId,
+                                         @PathVariable("reference_name") final String referenceName,
+                                         HttpServletResponse response)
             throws IOException {
         try {
             FileInRepositoryResolver res = new FileInRepositoryResolver();
@@ -141,7 +160,8 @@ public class FileController {
      * false otherwise
      * IOException
      */
-    @RequestMapping(value = "/file/{unique_name}/delete", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/file/{unique_name}/delete",
+            method = RequestMethod.DELETE)
     public boolean doGet(@PathVariable("unique_name") final String uniqueName)
             throws IOException {
         try {
@@ -158,12 +178,15 @@ public class FileController {
      * returns info about file
      * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
      */
-    @RequestMapping(value = "/file/{reference_name}/getInfo", method = RequestMethod.GET)
-    public String getFileInfo(@PathVariable("reference_name") final String referenceName) throws Exception {
+    @RequestMapping(value = "/file/{reference_name}/getInfo",
+            method = RequestMethod.GET)
+    public String getFileInfo(
+            @PathVariable("reference_name") final String referenceName) throws Exception {
         if (referenceName == null || referenceName.equals("")) {
             throw new IllegalArgumentException();
         }
-        FileInfo info = FileRepository.getRepo().findFileById(referenceName);
+        FileInfo info = FileRepository.getRepo()
+                .findFileById(referenceName);
         if (info == null) {
             throw new IllegalArgumentException("File not found");
         }
@@ -174,12 +197,20 @@ public class FileController {
      * returns info about fields
      * example : {"dataname":"0_10.json","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}]}
      */
-    @RequestMapping(value = "/file/{user_id}/{project_id}/{reference}/getFields", method = RequestMethod.GET)
-    public String getFileFields(@PathVariable("user_id") final int userId, @PathVariable("project_id") final String projectId, @PathVariable("reference") final String reference) throws Exception {
-        if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals("")) {
+    @RequestMapping(
+            value = "/file/{user_id}/{project_id}/{reference}/getFields",
+            method = RequestMethod.GET)
+    public String getFileFields(@PathVariable("user_id") final int userId,
+                                @PathVariable("project_id") final String projectId,
+                                @PathVariable("reference") final String reference) throws Exception {
+        if (reference == null || reference.equals("")
+                || userId <= 0 || projectId == null
+                || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        DataSet set = UsersRepository.findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
+        DataSet set = UsersRepository.findUser(userId)
+                .getProjects().findProjectById(projectId)
+                .getDataSetByReferenceName(reference);
         if (set == null) {
             throw new IllegalArgumentException("File not found");
         }
@@ -190,16 +221,40 @@ public class FileController {
      * returns full info about file
      * example : {"uniqueName":"0_10.json","nameForUser":"0_10.json","isActive":"true","fields":[{"fieldName":"x","fieldId":"x"},{"fieldName":"y","fieldId":"y"}],"uploadingDate":"Wed Apr 20 18:25:28 MSK 2016"}
      */
-    @RequestMapping(value = "/file/{user_id}/{project_id}/{reference}/getFullInfo", method = RequestMethod.GET)
-    public String getFullFileInfo(@PathVariable("user_id") final int userId, @PathVariable("project_id") final String projectId, @PathVariable("reference") final String reference) throws Exception {
-        if (reference == null || reference.equals("") || userId <= 0 || projectId == null || projectId.equals("")) {
+    @RequestMapping(
+            value = "/file/{user_id}/{project_id}/{reference}/getFullInfo",
+            method = RequestMethod.GET)
+    public String getFullFileInfo(@PathVariable("user_id") final int userId,
+                                  @PathVariable("project_id") final String projectId,
+                                  @PathVariable("reference") final String reference) throws Exception {
+        if (reference == null || reference.equals("")
+                || userId <= 0 || projectId == null
+                || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        DataSet set = UsersRepository.findUser(userId).getProjects().findProjectById(projectId).getDataSetByReferenceName(reference);
+        DataSet set = UsersRepository.findUser(userId)
+                .getProjects().findProjectById(projectId)
+                .getDataSetByReferenceName(reference);
         if (set == null) {
             throw new IllegalArgumentException("File not found");
         }
 
-        return InfoToJson.convertInfoAboutFile(FileRepository.getRepo().findFileById(set.getFile().getToken()), set);
+        return InfoToJson.convertInfoAboutFile(
+                FileRepository.getRepo()
+                        .findFileById(set.getFile().getToken()), set);
+    }
+
+    private boolean checkReferenceName(final String fileName,
+                                       final String referenceName)
+            throws IllegalArgumentException {
+        if (fileName == null || fileName.equals("")
+                || referenceName == null || referenceName.equals("")) {
+            throw new IllegalArgumentException(
+                    "checkReferenceName: empty parameter");
+        }
+        if (Pattern.matches("[a-zA-Z.0-9_]+", referenceName)) {
+            return true;
+        }
+        return false;
     }
 }

@@ -5,9 +5,9 @@ import com.analyzeme.analyzers.result.IResult;
 import java.util.List;
 
 /**
- * Created by Ольга on 10.04.2016.
+ * Created by lagroffe on 04.07.2016 14:29
  */
-public interface IAnalyzer {
-
-	IResult analyze(List<List<Point>> data);
+public interface IAnalyzer<T> {
+    //now here should be List of List<Double>(columns)
+    IResult analyze(List<List<T>> data);
 }

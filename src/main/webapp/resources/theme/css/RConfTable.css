@@ -1,29 +1,13 @@
-.tbl-header {
-    background-color: rgba(255, 255, 255, 0.3);
-}
-
 .tbl-content {
-    height: 300px;
     overflow-x: auto;
     margin-top: 0px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
 }
-
 th {
     padding: 20px 15px;
-    text-align: left;
-    color: black;
-    text-transform: uppercase;
 }
-
 td {
     padding: 15px;
-    text-align: left;
-    vertical-align: middle;
-    color: black;
-    border-bottom: solid 1px rgba(255, 255, 255, 0.1);
 }
-
 #UpdateModal {
     background: #F0FFF0;
     margin: 0 auto; /* Выравниваем слой по центру */
@@ -33,7 +17,6 @@ td {
     /*opacity: 0.7; !* Значение прозрачности *!*/
     /*filter: alpha(Opacity=70); !* Прозрачность в IE *!*/
 }
-
 #AddModal {
     background: #F0FFF0;
     margin: 0 auto; /* Выравниваем слой по центру */
@@ -42,7 +25,6 @@ td {
     /*opacity: 0.7; !* Значение прозрачности *!*/
     /*filter: alpha(Opacity=70); !* Прозрачность в IE *!*/
 }
-
 #deleteModal{
     background: #F0FFF0;
     margin-top: 10%; /* Отступ сверху */
@@ -52,7 +34,10 @@ td {
     /*opacity: 0.7; !* Значение прозрачности *!*/
     /*filter: alpha(Opacity=70); !* Прозрачность в IE *!*/
 }
+.redStar{
 
+    color:red;
+}
 #AddButton {
     position: relative;
     right: 45%;
@@ -61,13 +46,11 @@ td {
     font-style:italic;
     color: #ff1120;
 }
-
 /*todo: найти стили которые мешают модальным окнам, а не перенести только нужные для страницы части общего стиля*/
 .mdl-navigation {
     display: flex;
     flex-wrap: nowrap;
     box-sizing: border-box; }
-
 .mdl-navigation__link {
     color: #424242;
     text-decoration: none;
@@ -79,7 +62,6 @@ td {
     opacity: 0.87; }
 .mdl-navigation__link .material-icons {
     vertical-align: middle; }
-
 .mdl-layout {
     width: 100%;
     height: 100%;
@@ -89,18 +71,14 @@ td {
     overflow-x: hidden;
     position: relative;
     -webkit-overflow-scrolling: touch; }
-
 .mdl-layout.is-small-screen .mdl-layout--large-screen-only {
     display: none; }
-
 .mdl-layout:not(.is-small-screen) .mdl-layout--small-screen-only {
     display: none; }
-
 .mdl-layout__container {
     position: absolute;
     width: 100%;
     height: 100%; }
-
 .mdl-layout__title,
 .mdl-layout-title {
     display: block;
@@ -112,10 +90,8 @@ td {
     letter-spacing: 0.02em;
     font-weight: 400;
     box-sizing: border-box; }
-
 .mdl-layout-spacer {
     flex-grow: 1; }
-
 .mdl-layout__drawer {
     display: flex;
     flex-direction: column;
@@ -172,9 +148,8 @@ td {
     background-color: black;
     color: #e0e0e0; }
 @media screen and (min-width: 1025px) {
-    .mdl-layout--fixed-drawer > .mdl-layout__drawer {
+.mdl-layout--fixed-drawer > .mdl-layout__drawer {
         transform: translateX(0); } }
-
 .mdl-layout__drawer-button {
     display: block;
     position: absolute;

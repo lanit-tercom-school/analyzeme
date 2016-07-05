@@ -221,9 +221,9 @@
             (xhr) => xhr.status == 200,
             (xhr) => app.AppUtils.API.logger.log("got file's data: " + referenceName),
             (xhr) => app.AppUtils.API.logger.log(
-            "failed to get file's data: " + referenceName
-            + ": error " + xhr.status
-        )
+                "failed to get file's data: " + referenceName
+                + ": error " + xhr.status
+            )
         );
     };
 
@@ -298,27 +298,31 @@
             (xhr) => xhr.status == 200,
             (xhr) => {
                 var extractedFile = app.AppUtils.extractFileFromXHR(xhr);
-                extractedFile.name = file.name
-                self._fileService.setSelectedFile(
-                    extractedFile
-                );
-                self._fileService.getSelectedFile()
-                    .then(sFile => self.selectedFile = sFile);
-                self._fileService.updateFileInfo();
-                if (self.selectedFile.content) {
-                    self.Data = JSON.parse(self.selectedFile.content).Data;
+                if (extractedFile.name != null) {
+                    extractedFile.name = file.name
+                    self._fileService.setSelectedFile(
+                        extractedFile
+                    );
+                    self._fileService.getSelectedFile()
+                        .then(sFile => self.selectedFile = sFile);
+
+                    self._fileService.updateFileInfo();
+                    if (self.selectedFile.content) {
+                        self.Data = JSON.parse(self.selectedFile.content).Data;
+                    }
+                    l.dir(self.selectedFile);
+                    //
+                    l.log("success");
+                    self._fileService.addFile(self.selectedFile);
+                    try {
+                        app.HighchartsUtils.DrawGraph(self.Data);
+                    } catch (e) {
+                        l.error("can't draw graphic [possibly, wrong data]", e);
+                    } finally {
+                    }
+                    ;
                 }
-                l.dir(self.selectedFile);
-                //
-                l.log("success");
-                self._fileService.addFile(self.selectedFile);
-                try {
-                    app.HighchartsUtils.DrawGraph(self.Data);
-                } catch (e) {
-                    l.error("can't draw graphic [possibly, wrong data]", e);
-                } finally {
-                }
-                ;
+
             },
             (xhr) => l.log("error " + xhr.status)
         );

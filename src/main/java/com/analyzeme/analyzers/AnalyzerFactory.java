@@ -4,11 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by Ольга on 10.04.2016.
+ * Created by lagroffe on 04.07.2016 14:31
  */
 public class AnalyzerFactory {
-
-    private static Map<String, IAnalyzer> analyzers = new HashMap<String, IAnalyzer>();
+    private static Map<String, IAnalyzer> analyzers =
+            new HashMap<String, IAnalyzer>();
 
     public static IAnalyzer getAnalyzer(final String analyzerName) {
         if (!analyzers.containsKey(analyzerName)) {
@@ -18,44 +18,23 @@ public class AnalyzerFactory {
     }
 
 
-    //todo add all new analyzers here
     private static void createAnalyzer(final String name) {
-//        if(name.equals("GlobalMax")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("GlobalMin")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("SampleMeanOfMultiplication")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("SampleCorrelationMoment")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("PPMCorrelationCoefficient")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
         if (name.equals("LinearRegression")) {
             analyzers.put(name, new LinearRegressionAnalyzer());
             return;
         }
-//        if(name.equals("TimeSeriesAnalysis")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("MovingAverage")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("ExponentialSmoothing")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
+        if (name.equals("GlobalMaximum")) {
+            analyzers.put(name, new GlobalMaximumAnalyzer());
+            return;
+        }
+        if (name.equals("GlobalMinimum")) {
+            analyzers.put(name, new GlobalMinimumAnalyzer());
+            return;
+        }
+        if (name.equals("LinearCorrelation")) {
+            analyzers.put(name, new LinearCorrelationAnalyzer());
+            return;
+        }
         throw new IllegalArgumentException("Incorrect name");
     }
 }

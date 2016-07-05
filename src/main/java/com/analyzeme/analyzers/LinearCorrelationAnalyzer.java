@@ -9,10 +9,11 @@ import java.math.RoundingMode;
 import java.util.List;
 
 /**
- *Method for calculation lineal correlation
+ * Created by lagroffe on 04.07.2016 14:32
  */
-public class LinearCorrelationAnalyzer implements IAnalyzer {
-    public List<Point> points;
+public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
+    private List<Double> x;
+    private List<Double> y;
     private static final int NUMBER_OF_DECIMAL_PLACES = 3;
     private BigDecimal averageY = BigDecimal.ZERO;
     private BigDecimal averageX = BigDecimal.ZERO;
@@ -21,16 +22,30 @@ public class LinearCorrelationAnalyzer implements IAnalyzer {
     private BigDecimal dispersionY = BigDecimal.ZERO;
     private int size;
 
-    public IResult analyze(List<List<Point>> data) {
-        if (data == null || data.isEmpty()) {
-            throw new IllegalArgumentException("Null or empty data");
+    public IResult analyze(List<List<Double>> data) {
+        //List<List<Point>>
+        if (data == null || data.isEmpty() || data.size() < 2) {
+            throw new IllegalArgumentException(
+                    "Null or empty data");
         }
-        points = data.get(0);
+        x = data.get(0);
+        y = data.get(1);
+        if (x.size() != y.size()) {
+            throw new IllegalArgumentException(
+                    "Illegal type of data (not equal length)");
+        }
         calcAverage();
         dispersion();
-        BigDecimal sqrtX = BigDecimal.valueOf(Double.parseDouble("" + FastMath.sqrt(dispersionX.doubleValue())));
-        BigDecimal sqrtY = BigDecimal.valueOf(Double.parseDouble("" + FastMath.sqrt(dispersionY.doubleValue())));
-        BigDecimal result = (averageXY.subtract(averageX.multiply(averageY))).divide(sqrtX.multiply(sqrtY), NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
+        BigDecimal sqrtX = BigDecimal.valueOf(
+                Double.parseDouble("" +
+                        FastMath.sqrt(dispersionX.doubleValue())));
+        BigDecimal sqrtY = BigDecimal.valueOf(
+                Double.parseDouble("" +
+                        FastMath.sqrt(dispersionY.doubleValue())));
+        BigDecimal result = (averageXY.subtract(
+                averageX.multiply(averageY))).
+                divide(sqrtX.multiply(sqrtY),
+                        NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
         return new DoubleResult(result.doubleValue());
     }
 
@@ -38,31 +53,45 @@ public class LinearCorrelationAnalyzer implements IAnalyzer {
         BigDecimal sumOfY = BigDecimal.ZERO;
         BigDecimal sumOfX = BigDecimal.ZERO;
         BigDecimal sumOfXY = BigDecimal.ZERO;
-        for (Point point : points) {
-            BigDecimal X = BigDecimal.valueOf(Double.parseDouble("" + point.getX()));
-            BigDecimal Y = BigDecimal.valueOf(Double.parseDouble("" + point.getY()));
+        for (int i = 0; i < x.size(); i++) {
+            BigDecimal X = BigDecimal.valueOf(
+                    Double.parseDouble("" + x.get(i)));
+            BigDecimal Y = BigDecimal.valueOf(
+                    Double.parseDouble("" + y.get(i)));
             sumOfX = sumOfX.add(X);
             sumOfY = sumOfY.add(Y);
             sumOfXY = sumOfXY.add(X.multiply(Y));
         }
-        size = points.size();
-        averageX = sumOfX.divide(BigDecimal.valueOf(size), NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
-        averageY = sumOfY.divide(BigDecimal.valueOf(size), NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
-        averageXY = sumOfXY.divide(BigDecimal.valueOf(size), NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
+        size = x.size();
+        averageX = sumOfX.divide(
+                BigDecimal.valueOf(size),
+                NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
+        averageY = sumOfY.divide(
+                BigDecimal.valueOf(size),
+                NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
+        averageXY = sumOfXY.divide(
+                BigDecimal.valueOf(size),
+                NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
     }
 
     private void dispersion() {
         BigDecimal sumOfY = BigDecimal.ZERO;
         BigDecimal sumOfX = BigDecimal.ZERO;
-        for (Point point : points) {
-            BigDecimal X = BigDecimal.valueOf(Double.parseDouble("" + point.getX()));
-            BigDecimal Y = BigDecimal.valueOf(Double.parseDouble("" + point.getY()));
-            sumOfX = sumOfX.add((X.subtract(averageX)).pow(2));
-            sumOfY = sumOfY.add((Y.subtract(averageY)).pow(2));
+        for (int i = 0; i < x.size(); i++) {
+            BigDecimal X = BigDecimal.valueOf(
+                    Double.parseDouble("" + x.get(i)));
+            BigDecimal Y = BigDecimal.valueOf(
+                    Double.parseDouble("" + y.get(i)));
+            sumOfX = sumOfX.add(
+                    (X.subtract(averageX)).pow(2));
+            sumOfY = sumOfY.add(
+                    (Y.subtract(averageY)).pow(2));
         }
-        dispersionX = sumOfX.divide(BigDecimal.valueOf(size), NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
-        dispersionY = sumOfY.divide(BigDecimal.valueOf(size), NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
+        dispersionX = sumOfX.divide(
+                BigDecimal.valueOf(size),
+                NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
+        dispersionY = sumOfY.divide(
+                BigDecimal.valueOf(size),
+                NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
     }
-
-
 }
