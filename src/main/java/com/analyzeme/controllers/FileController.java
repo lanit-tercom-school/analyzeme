@@ -42,6 +42,8 @@ public class FileController {
                 type = TypeOfFile.SIMPLE_JSON;
             } else if (fileName.endsWith(".csv")) {
                 type = TypeOfFile.CSV;
+            } else if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx") ) {
+                type = TypeOfFile.EXCEL;
             }
 
             //TODO: after users added, change next line to UsersRepository.checkInitialization();
