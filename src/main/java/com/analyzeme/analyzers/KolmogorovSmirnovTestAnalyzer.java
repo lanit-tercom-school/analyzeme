@@ -2,6 +2,7 @@ package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.BooleanResult;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
         public double getValueAt(double x) {
             int i = 0;
             while (i < data.size() && data.get(i) < x) i++;
-            return (i / data.size());//case when i==data.size() is included in this.
+            return (((double) i) / data.size());//case when i==data.size() is included in this.
         }
     }
 
@@ -34,21 +35,25 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
         EmpiricalDistributionFunction fstFun = new EmpiricalDistributionFunction(fstArray);
         //EmpiricalDistributionFunction sndFun = new EmpiricalDistributionFunction(sndArray);
             //can be used for calculations checking.
+        double fstLen = fstArray.size();
+        double sndLen = sndArray.size();
+        Collections.sort(sndArray);
 
-        double statisticPositive = 1 / sndArray.size() - fstFun.getValueAt(sndArray.get(0));
-        for (int i = 1; i < sndArray.size(); i++) {
-            double temp = (i + 1) / sndArray.size() - fstFun.getValueAt(sndArray.get(i));
+        double statisticPositive = 1.0 / sndLen - fstFun.getValueAt(sndArray.get(0));
+        for (int i = 1; i < sndLen; i++) {
+            double temp = ((double) (i + 1)) / sndLen - fstFun.getValueAt(sndArray.get(i));
             if (temp > statisticPositive) statisticPositive = temp;
         }
 
         double statisticNegative = fstFun.getValueAt(sndArray.get(0));
-        for (int i = 1; i < sndArray.size(); i++) {
-            double temp = fstFun.getValueAt(sndArray.get(i)) - i / sndArray.size();
+        for (int i = 1; i < sndLen; i++) {
+            double temp = fstFun.getValueAt(sndArray.get(i)) - ((double) i) / sndLen;
             if (temp > statisticNegative) statisticNegative = temp;
         }
 
         double statisticTrue = statisticPositive > statisticNegative ? statisticPositive : statisticNegative;
-        statisticTrue *= Math.sqrt((fstArray.size() / (fstArray.size() + sndArray.size())) * sndArray.size());
+
+        statisticTrue *= Math.sqrt((fstLen * sndLen)/ (fstLen + sndLen));
         return statisticTrue;
     }
 
