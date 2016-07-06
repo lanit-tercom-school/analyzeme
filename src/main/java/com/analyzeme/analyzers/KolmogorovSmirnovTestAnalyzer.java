@@ -1,6 +1,6 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.analyzers.result.BooleanResult;
+import com.analyzeme.analyzers.result.ScalarResult;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -57,12 +57,12 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
         return statisticTrue;
     }
 
-    public BooleanResult analyze(List<List<Double>> dataSets) throws IllegalArgumentException {
+    public ScalarResult<Boolean> analyze(List<List<Double>> dataSets) throws IllegalArgumentException {
         if (dataSets.size() != 2) throw new IllegalArgumentException("Kolmogorov-Smirnov test can only be applied " +
                 "to exactly 2 data sets. Actually got " + dataSets.size());
 
         double statistic = calcSmirnovStatistic(dataSets.get(0), dataSets.get(1));
         double coeff = getCoeff();
-        return new BooleanResult(statistic < coeff);
+        return new ScalarResult<Boolean>(statistic < coeff);
     }
 }
