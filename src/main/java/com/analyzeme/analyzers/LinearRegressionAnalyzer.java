@@ -1,7 +1,7 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.IResult;
-import com.analyzeme.analyzers.result.StringResult;
+import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -25,7 +25,7 @@ public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
     /**
      * @param data should contain two List<Double>
      * @return null if data is Points are inappropriate
-     * otherwise StringResult like: y=a*x+b
+     * otherwise NotParsedJsonStringResult like: y=a*x+b
      */
     public IResult analyze(List<List<Double>> data) {
         if (data == null || data.isEmpty() || data.size() < 2) {
@@ -44,11 +44,11 @@ public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
         calculateFirstCoef();
         calculateSecondCoef();
         if (secondCoef.compareTo(BigDecimal.ZERO) >= 0) {
-            return new StringResult(
+            return new NotParsedJsonStringResult(
                     String.format("y=%s*x+%s",
                             firstCoef, secondCoef));
         }
-        return new StringResult(
+        return new NotParsedJsonStringResult(
                 String.format("y=%s*x%s",
                         firstCoef, secondCoef));
     }

@@ -1,7 +1,7 @@
 package com.analyzeme.parsers;
 
-import com.analyzeme.data.DoubleData;
-import com.analyzeme.data.DoubleDataArray;
+import com.analyzeme.data.Data;
+import com.analyzeme.data.DataArray;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -46,12 +46,12 @@ public class ExcelParserTest {
         workbook.write(out);
         ByteArrayInputStream in = new ByteArrayInputStream(out.toByteArray());
         ExcelParser parser = new ExcelParser();
-        DoubleDataArray dataArray = parser.parse(in);
+        DataArray<Double> dataArray = parser.parse(in);
 
         Assert.assertTrue(new HashSet<String>(Arrays.asList(columnTitles)).equals(dataArray.getData().get(0).getKeys()));
 
         for (int r = 0; r < data.size(); r++) {
-            DoubleData doubleData = dataArray.getData().get(r);
+            Data<Double> doubleData = dataArray.getData().get(r);
             for (int c = 0; c < columnTitles.length; c++) {
                 Assert.assertEquals(data.get(r)[c], doubleData.getData().get(columnTitles[c]));
             }

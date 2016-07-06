@@ -3,19 +3,22 @@ package com.analyzeme.analyzers.result;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.util.List;
+
 /**
- * Created by Ольга on 28.04.2016.
+ * Use this type of result for anonymous vectors of some kind of objects
  */
-public class StringResult implements IResult {
+
+public class ColumnResult<T> implements IResult<List<T>> {
 
     private final ObjectMapper mapper = new ObjectMapper();
-    private final String result;
+    private final List<T> result;
 
-    public StringResult(final String result) {
+    public ColumnResult(final List<T> result) {
         this.result = result;
     }
 
-    public String getValue() {
+    public List<T> getValue() {
         return result;
     }
 
@@ -25,4 +28,6 @@ public class StringResult implements IResult {
         }
         return mapper.writeValueAsString(result);
     }
+
+
 }

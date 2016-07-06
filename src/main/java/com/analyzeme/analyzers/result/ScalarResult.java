@@ -3,20 +3,19 @@ package com.analyzeme.analyzers.result;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import java.util.List;
-
 /**
- * Created by lagroffe on 05.07.2016 14:58
+ * Use this type of result for scalar objects (for Lists or Maps use other types of result)
  */
-public class DoubleListResult implements IResult<List<Double>> {
-    private final ObjectMapper mapper = new ObjectMapper();
-    private final List<Double> result;
 
-    public DoubleListResult(final List<Double> result) {
+public class ScalarResult<T> implements IResult<T> {
+    private final ObjectMapper mapper = new ObjectMapper();
+    private final T result;
+
+    public ScalarResult(final T result) {
         this.result = result;
     }
 
-    public List<Double> getValue() {
+    public T getValue() {
         return result;
     }
 

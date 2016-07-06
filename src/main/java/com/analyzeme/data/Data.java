@@ -9,22 +9,22 @@ import java.util.Set;
 /**
  * Created by lagroffe on 27.05.2016 18:30
  */
-public class DoubleData {
-    private final Map<String, Double> data;
+public class Data<T> {
+    private final Map<String, T> data;
 
-    public DoubleData() {
-        data = new HashMap<String, Double>();
+    public Data() {
+        data = new HashMap<String, T>();
     }
 
-    public DoubleData(final Map<String, Double> data) {
+    public Data(final Map<String, T> data) {
         this.data = data;
     }
 
-    public Map<String, Double> getData() {
+    public Map<String, T> getData() {
         return data;
     }
 
-    public double getByKey(final String key) {
+    public T getByKey(final String key) {
         return data.get(key);
     }
 
@@ -35,7 +35,7 @@ public class DoubleData {
     //{ "x": "1","y": "1" }
     public JSONObject toJson() {
         JSONObject obj = new JSONObject();
-        for (Map.Entry<String, Double> entry : data.entrySet()) {
+        for (Map.Entry<String, T> entry : data.entrySet()) {
             obj.put(entry.getKey(), entry.getValue().toString());
         }
         return obj;
@@ -44,11 +44,11 @@ public class DoubleData {
     //1, 1
     public String toCsvWithNoHeader() {
         StringBuilder s = new StringBuilder();
-        for (Map.Entry<String, Double> entry : data.entrySet()) {
+        for (Map.Entry<String, T> entry : data.entrySet()) {
             s.append(entry.getValue().toString());
             s.append(',');
         }
-        s.deleteCharAt(s.length()-1);
+        s.deleteCharAt(s.length() - 1);
         s.append("\n");
         return s.toString();
     }

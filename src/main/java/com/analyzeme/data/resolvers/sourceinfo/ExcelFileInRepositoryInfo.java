@@ -1,6 +1,6 @@
 package com.analyzeme.data.resolvers.sourceinfo;
 
-import com.analyzeme.data.DoubleDataArray;
+import com.analyzeme.data.DataArray;
 import com.analyzeme.parsers.ExcelParser;
 import com.analyzeme.repository.filerepository.FileRepository;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -15,7 +15,6 @@ import java.util.Set;
  */
 public class ExcelFileInRepositoryInfo implements ISourceInfo {
     private final String uniqueNameInRepository;
-    private final DoubleDataArray dataArray;
 
     public ExcelFileInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException, IOException,
             InvalidFormatException {
@@ -23,15 +22,17 @@ public class ExcelFileInRepositoryInfo implements ISourceInfo {
             throw new IllegalArgumentException("ExcelFileInRepositoryInfo error: wrong uniqueNameInRepository");
         }
         this.uniqueNameInRepository = uniqueNameInRepository;
-        ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
-        dataArray = (new ExcelParser()).parse(f);
     }
 
     public ByteArrayInputStream getFileData() throws Exception {
+        ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
+        DataArray<Double> dataArray = (new ExcelParser()).parse(f);
         return new ByteArrayInputStream(dataArray.toPointJson().getBytes());
     }
 
-    public Set<String> getKeys() {
+    public Set<String> getKeys() throws Exception {
+        ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
+        DataArray<Double> dataArray = (new ExcelParser()).parse(f);
         return dataArray.getData().get(0).getKeys();
     }
 
@@ -43,6 +44,8 @@ public class ExcelFileInRepositoryInfo implements ISourceInfo {
         if (fieldName == null || fieldName.equals("")) {
             throw new IllegalArgumentException("ExcelFileInRepositoryInfo getByField(): fieldName cannot be null or empty");
         }
+        ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
+        DataArray<Double> dataArray = (new ExcelParser()).parse(f);
         return dataArray.getByKey(fieldName);
     }
 }

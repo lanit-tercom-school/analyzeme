@@ -1,8 +1,8 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.analyzers.result.DoubleListResult;
-import com.analyzeme.analyzers.result.DoubleResult;
 import com.analyzeme.analyzers.result.IResult;
+import com.analyzeme.analyzers.result.ColumnResult;
+import com.analyzeme.analyzers.result.ScalarResult;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,13 +17,13 @@ public class GlobalMinimumAnalyzer implements IAnalyzer<Double> {
             throw new IllegalArgumentException("No data to analyze");
         }
         if (data.size() == 1) {
-            return new DoubleResult(getMin(data.get(0)));
+            return new ScalarResult<Double>(getMin(data.get(0)));
         }
         List<Double> list = new ArrayList<Double>();
         for (List<Double> column : data) {
             list.add(getMin(column));
         }
-        return new DoubleListResult(list);
+        return new ColumnResult<Double>(list);
     }
 
     private Double getMin(final List<Double> column) {

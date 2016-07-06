@@ -1,7 +1,7 @@
 package com.analyzeme.parsers;
 
-import com.analyzeme.data.DoubleData;
-import com.analyzeme.data.DoubleDataArray;
+import com.analyzeme.data.Data;
+import com.analyzeme.data.DataArray;
 import com.univocity.parsers.csv.CsvParser;
 import com.univocity.parsers.csv.CsvParserSettings;
 
@@ -21,7 +21,7 @@ public class CsvParserForDoubleData {
         SETTINGS.getFormat().setLineSeparator("\n");
     }
 
-    public static DoubleDataArray parse(InputStream stream) throws IllegalArgumentException {
+    public static DataArray parse(InputStream stream) throws IllegalArgumentException {
         if (stream == null) {
             throw new IllegalArgumentException("CsvParserForDoubleData parse(): impossible to parse null");
         }
@@ -29,13 +29,13 @@ public class CsvParserForDoubleData {
         List<String[]> allRows = parser.parseAll(stream);
         if (!allRows.isEmpty() || allRows.size() == 1) {
             String[] names = allRows.get(0);
-            DoubleDataArray result = new DoubleDataArray();
+            DataArray result = new DataArray();
             for (int i = 1; i < allRows.size(); i++) {
                 Map<String, Double> data = new HashMap<String, Double>();
                 for (int j = 0; j < allRows.get(i).length; j++) {
                     data.put(names[j], Double.parseDouble(allRows.get(i)[j]));
                 }
-                DoubleData d = new DoubleData(data);
+                Data d = new Data(data);
                 result.addData(d);
             }
             return result;
