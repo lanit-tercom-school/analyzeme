@@ -32,6 +32,10 @@ mean(x)`
                    {
                        func: "GlobalMaximum",
                        name: "Global maximum"
+                   },
+                   {
+                       func: "KolmogorovSmirnovTest",
+                       name: "Kolmogorov-Smirnov Test"
                    }
                 ];
                 this.availableFunctions.push({
