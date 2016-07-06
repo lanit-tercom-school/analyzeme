@@ -3,9 +3,8 @@
 
     app.AppUtils.domens = [
         "http://localhost:8080/",
-        "http://analyzeme-dev.herokuapp.com/",
-        "http://192.168.1.126:8080/",
-        "/"
+        "http://analyzeme-master.herokuapp.com/",
+        "http://analyzeme-dev.herokuapp.com/"
     ];
     app.AppUtils.resolveUrl = function (relativePath) {
         return app.AppUtils.domens[3] + relativePath;

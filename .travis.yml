@@ -1,7 +1,7 @@
 language: java
+repo_token: 0jqxnRsOmnSrfHeNu4KFZY1NrF95nCJ3m
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
-  - mvn jacoco:report coveralls:report
-  - bash <(curl --data-binary @codecov.yml https://codecov.io/validate)
+#  - bash <(curl -s https://codecov.io/bash) -t 59bf1662-c4e9-41dc-b583-b636ffeddd92
+- bash <(curl -s https://codecov.io/bash) -J 'Analyzeme';
 notifications:
   slack: analyzeme:2nmw8U7mQ58mlNHlWnsqvYXI
