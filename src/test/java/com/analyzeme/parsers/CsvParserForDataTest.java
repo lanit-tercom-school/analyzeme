@@ -1,6 +1,6 @@
 package com.analyzeme.parsers;
 
-import com.analyzeme.data.DoubleDataArray;
+import com.analyzeme.data.DataArray;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by lagroffe on 27.05.2016 19:07
  */
-public class CsvParserForDoubleDataTest {
+public class CsvParserForDataTest {
 
     @Test
     public void testSimple() {
@@ -29,7 +29,7 @@ public class CsvParserForDoubleDataTest {
         example.append(y.get(1)); example.append('\n');
 
         InputStream is = new ByteArrayInputStream(example.toString().getBytes());
-        DoubleDataArray result = CsvParserForDoubleData.parse(is);
+        DataArray result = CsvParserForDoubleData.parse(is);
         assertTrue(result.getByKey("x").equals(x));
         assertTrue(result.getByKey("y").equals(y));
     }
@@ -55,7 +55,7 @@ public class CsvParserForDoubleDataTest {
         example.append(miles.get(2));  example.append('\n');
 
         InputStream is = new ByteArrayInputStream(example.toString().getBytes());
-        DoubleDataArray result = CsvParserForDoubleData.parse(is);
+        DataArray result = CsvParserForDoubleData.parse(is);
         assertTrue(result.getByKey("x").equals(x));
         assertTrue(result.getByKey("y").equals(y));
         assertTrue(result.getByKey("miles").equals(miles));
@@ -69,7 +69,7 @@ public class CsvParserForDoubleDataTest {
         s.append("x, y \n");
         s.append(x.get(0)); s.append("\n"); s.append(x.get(1));
         InputStream is = new ByteArrayInputStream(s.toString().getBytes());
-        DoubleDataArray result = CsvParserForDoubleData.parse(is);
+        DataArray result = CsvParserForDoubleData.parse(is);
         assertTrue(result.getByKey("x").equals(x));
     }
 

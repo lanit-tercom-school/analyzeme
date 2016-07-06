@@ -1,6 +1,6 @@
 package com.analyzeme.data.resolvers.sourceinfo;
 
-import com.analyzeme.data.DoubleDataArray;
+import com.analyzeme.data.DataArray;
 import com.analyzeme.parsers.CsvParserForDoubleData;
 import com.analyzeme.repository.filerepository.FileRepository;
 
@@ -14,22 +14,24 @@ import java.util.Set;
  */
 public class CsvFileInRepositoryInfo implements ISourceInfo {
     private final String uniqueNameInRepository;
-    private final DoubleDataArray file;
 
     public CsvFileInRepositoryInfo(final String uniqueNameInRepository) throws IllegalArgumentException, IOException {
         if (uniqueNameInRepository == null || uniqueNameInRepository.equals("")) {
             throw new IllegalArgumentException("CsvFileInRepositoryInfo ctor: wrong uniqueNameInRepository");
         }
         this.uniqueNameInRepository = uniqueNameInRepository;
-        ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
-        file = CsvParserForDoubleData.parse(f);
+
     }
 
     public ByteArrayInputStream getFileData() throws Exception {
+        ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
+        DataArray<Double> file = CsvParserForDoubleData.parse(f);
         return new ByteArrayInputStream(file.toPointJson().getBytes());
     }
 
-    public Set<String> getKeys() {
+    public Set<String> getKeys() throws Exception {
+        ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
+        DataArray<Double> file = CsvParserForDoubleData.parse(f);
         return file.getData().get(0).getKeys();
     }
 
@@ -42,6 +44,8 @@ public class CsvFileInRepositoryInfo implements ISourceInfo {
         if (fieldName == null || fieldName.equals("")) {
             throw new IllegalArgumentException("CsvFileInRepositoryInfo getByField(): fieldName cannot be null or empty");
         }
+        ByteArrayInputStream f = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
+        DataArray<Double> file = CsvParserForDoubleData.parse(f);
         return file.getByKey(fieldName);
     }
 }

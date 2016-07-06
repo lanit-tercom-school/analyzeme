@@ -1,10 +1,7 @@
 package com.analyzeme.repository.filerepository;
 
 import com.analyzeme.data.DataSet;
-import com.analyzeme.data.resolvers.sourceinfo.CsvFileInRepositoryInfo;
-import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
-import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
-import com.analyzeme.data.resolvers.sourceinfo.ScriptInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
@@ -32,6 +29,15 @@ public class FileUploader {
             }
             case CSV: {
                 source = new CsvFileInRepositoryInfo(nameInRepo);
+                Set<String> keysTemp = new HashSet<String>();
+                for(String key: source.getKeys())  {
+                    keysTemp.add(key);
+                }
+                keys = keysTemp;
+                break;
+            }
+            case EXCEL: {
+                source = new ExcelFileInRepositoryInfo(nameInRepo);
                 Set<String> keysTemp = new HashSet<String>();
                 for(String key: source.getKeys())  {
                     keysTemp.add(key);

@@ -1,7 +1,7 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.analyzers.result.DoubleResult;
 import com.analyzeme.analyzers.result.IResult;
+import com.analyzeme.analyzers.result.ScalarResult;
 import org.apache.commons.math.util.FastMath;
 
 import java.math.BigDecimal;
@@ -23,7 +23,6 @@ public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
     private int size;
 
     public IResult analyze(List<List<Double>> data) {
-        //List<List<Point>>
         if (data == null || data.isEmpty() || data.size() < 2) {
             throw new IllegalArgumentException(
                     "Null or empty data");
@@ -46,7 +45,7 @@ public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
                 averageX.multiply(averageY))).
                 divide(sqrtX.multiply(sqrtY),
                         NUMBER_OF_DECIMAL_PLACES, RoundingMode.CEILING);
-        return new DoubleResult(result.doubleValue());
+        return new ScalarResult<Double>(result.doubleValue());
     }
 
     private void calcAverage() {
