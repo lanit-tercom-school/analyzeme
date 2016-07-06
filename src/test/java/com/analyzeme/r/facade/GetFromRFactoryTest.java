@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
  * Created by lagroffe on 05.07.2016 12:19
  */
 public class GetFromRFactoryTest {
-
+     /*
     @Test
     public void testFactoryDefault() {
         GetFromR<String> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
@@ -39,5 +39,5 @@ public class GetFromRFactoryTest {
     @Test(expected = NullPointerException.class)
     public void testFactoryNull() throws Exception {
         GetFromRFactory.getLinkToR((TypeOfReturnValue)null);
-    }
+    } */
 }

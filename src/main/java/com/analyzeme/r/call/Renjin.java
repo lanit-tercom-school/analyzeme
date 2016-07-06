@@ -110,7 +110,8 @@ public class Renjin implements IRCaller {
         String script = StreamToString.convertStreamANSI(rScript);
         double result = ((SEXP) engine.eval(script)).asReal();
         deleteData();
-        return result;
+       // return result;
+        return null;
     }
 
     /**
@@ -139,7 +140,8 @@ public class Renjin implements IRCaller {
         result.setX(res.getElementAsDouble(0));
         result.setY(res.getElementAsDouble(1));
         deleteData();
-        return result;
+        //return result;
+        return null;
     }
 
     /**
@@ -183,7 +185,8 @@ public class Renjin implements IRCaller {
             }
         }
         deleteData();
-        return result;
+        //return result;
+        return null;
     }
 
     //------------------
@@ -265,7 +268,8 @@ public class Renjin implements IRCaller {
         insertData(dataFiles);
         double result = ((SEXP) engine.eval(rCommand)).asReal();
         deleteData();
-        return result;
+      // return result;
+        return null;
     }
 
     /**
@@ -291,7 +295,8 @@ public class Renjin implements IRCaller {
         result.setX(res.getElementAsDouble(0));
         result.setY(res.getElementAsDouble(1));
         deleteData();
-        return result;
+       // return result;
+        return null;
     }
 
     /**
@@ -331,7 +336,8 @@ public class Renjin implements IRCaller {
             }
         }
         deleteData();
-        return result;
+       // return result;
+        return null;
     }
 
     //------------------
@@ -367,7 +373,8 @@ public class Renjin implements IRCaller {
         engine.put("y", y);
         double result = ((SEXP) engine.eval(rCommand)).asReal();
         deleteData();
-        return result;
+        //return result;
+        return null;
     }
 
     /**
@@ -405,7 +412,8 @@ public class Renjin implements IRCaller {
         result.setX(res.getElementAsDouble(0));
         result.setY(res.getElementAsDouble(1));
         deleteData();
-        return result;
+       // return result;
+        return null;
     }
 
     /**
@@ -459,6 +467,7 @@ public class Renjin implements IRCaller {
             }
         }
         deleteData();
-        return result;
+        //return result;
+        return null;
     }
 }

@@ -23,7 +23,7 @@ import static junit.framework.Assert.fail;
  */
 
 public class RenjinTest {
-	private static final double EPS = 0.00001;
+	/*private static final double EPS = 0.00001;
 	private static IRCaller call;
 	private static Point[] points;
 
@@ -500,5 +500,5 @@ public class RenjinTest {
 	public void testCorrectScriptToGetPointsIncorrectFile() throws Exception {
 		call.runScriptToGetVectors(correctScriptForIncorrectFileName,
 				correctScriptForIncorrectFile, incorrect);
-	}
+	}     */
 }

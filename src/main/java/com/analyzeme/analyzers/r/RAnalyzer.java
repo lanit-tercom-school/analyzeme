@@ -63,17 +63,17 @@ public class RAnalyzer {
                     return rLink.runScript(scriptName, userId, projectId);
                 } else if (typeOfReturnValue.equalsIgnoreCase("Point")) {
                     GetFromR<Point> rLink =
-                            GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
+                            GetFromRFactory.getLinkToR(TypeOfReturnValue.VECTOR);
                     return rLink.runScript(scriptName, userId, projectId);
 
                 } else if (typeOfReturnValue.equalsIgnoreCase("Points")) {
                     GetFromR<List<Point>> rLink =
-                            GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
+                            GetFromRFactory.getLinkToR(TypeOfReturnValue.FILE);
                     return rLink.runScript(scriptName, userId, projectId);
 
                 } else if (typeOfReturnValue.equalsIgnoreCase("Default")) {
                     GetFromR<String> rLink =
-                            GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
+                            GetFromRFactory.getLinkToR(TypeOfReturnValue.JSON_STRING);
                     return rLink.runScript(scriptName, userId, projectId);
                 }
             case RUN:
@@ -85,21 +85,21 @@ public class RAnalyzer {
                             userId, projectId);
                 } else if (typeOfReturnValue.equalsIgnoreCase("Point")) {
                     GetFromR<Point> rLink =
-                            GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
+                            GetFromRFactory.getLinkToR(TypeOfReturnValue.VECTOR);
                     return rLink.runScript(scriptName,
                             new ByteArrayInputStream(scriptText.getBytes()),
                             userId, projectId);
 
                 } else if (typeOfReturnValue.equalsIgnoreCase("Points")) {
                     GetFromR<List<Point>> rLink =
-                            GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
+                            GetFromRFactory.getLinkToR(TypeOfReturnValue.FILE);
                     return rLink.runScript(
                             scriptName, new ByteArrayInputStream(scriptText.getBytes()),
                             userId, projectId);
 
                 } else if (typeOfReturnValue.equalsIgnoreCase("Default")) {
                     GetFromR<String> rLink =
-                            GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
+                            GetFromRFactory.getLinkToR(TypeOfReturnValue.JSON_STRING);
                     return rLink.runScript(
                             scriptName, new ByteArrayInputStream(scriptText.getBytes()),
                             userId, projectId);

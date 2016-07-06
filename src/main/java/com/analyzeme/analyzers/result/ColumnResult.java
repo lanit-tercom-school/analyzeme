@@ -23,11 +23,27 @@ public class ColumnResult<T> implements IResult<List<T>> {
     }
 
     public String toJson() throws JsonProcessingException {
-        if(result == null){
+        if (result == null) {
             return null;
         }
         return mapper.writeValueAsString(result);
     }
 
-
+    @Override
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other instanceof ColumnResult) {
+            ColumnResult that = (ColumnResult) other;
+            if (that.getValue().size() != this.getValue().size()) {
+                return result;
+            }
+            for (int i = 0; i < that.getValue().size(); i++) {
+                if (!that.getValue().get(i).equals(this.getValue().get(i))) {
+                    return result;
+                }
+            }
+            result = true;
+        }
+        return result;
+    }
 }

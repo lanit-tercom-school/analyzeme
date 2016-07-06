@@ -45,7 +45,7 @@ public String runCommand(String rCommand,
  * Created by lagroffe on 05.07.2016 12:05
  */
 public class FromRTest {
-    private static final double EPS = 0.00001;
+   /* private static final double EPS = 0.00001;
     private static IRCaller call;
     private static Point[] points;
 
@@ -544,5 +544,5 @@ public class FromRTest {
         link.runCommand(
                 correctScriptForCorrectFileString,
                 WRONG_TEST_DATA);
-    }
+    }    */
 }

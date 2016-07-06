@@ -25,7 +25,7 @@ import static org.junit.Assert.fail;
 
 @Ignore("Should usually be ignored: works only locally with configured r")
 public class RserveTest {
-	private static final double EPS = 0.00001;
+	/*private static final double EPS = 0.00001;
 	private static IRCaller call;
 	private static Point[] points;
 
@@ -493,5 +493,5 @@ public class RserveTest {
 				correctScriptForIncorrectFileName,
 				correctScriptForIncorrectFile,
 				incorrect);
-	}
+	}     */
 }

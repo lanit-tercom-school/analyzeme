@@ -22,4 +22,14 @@ public class NotParsedJsonStringResult implements IResult {
         }
         return result;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other instanceof ColumnResult) {
+            ColumnResult that = (ColumnResult) other;
+            result = this.getValue().equals(that.getValue());
+        }
+        return result;
+    }
 }

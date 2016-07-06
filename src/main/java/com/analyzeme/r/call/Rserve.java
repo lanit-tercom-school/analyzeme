@@ -105,7 +105,8 @@ public class Rserve implements IRCaller {
 		String script = StreamToString.convertStreamANSI(rScript);
 		double result = r.eval(script).asDouble();
 		deleteData();
-		return result;
+		//return result;
+		return null;
 	}
 
 	/**
@@ -131,7 +132,8 @@ public class Rserve implements IRCaller {
 		result.setX(res[0]);
 		result.setY(res[1]);
 		deleteData();
-		return result;
+		//return result;
+		return null;
 
 	}
 
@@ -162,7 +164,8 @@ public class Rserve implements IRCaller {
 			result.add(p);
 		}
 		deleteData();
-		return result;
+		//return result;
+		return null;
 	}
 
 	//------------------
@@ -243,7 +246,8 @@ public class Rserve implements IRCaller {
 		insertData(dataFiles);
 		double result = r.eval(rCommand).asDouble();
 		deleteData();
-		return result;
+		//return result;
+		return null;
 	}
 
 	/**
@@ -265,7 +269,8 @@ public class Rserve implements IRCaller {
 		result.setX(res[0]);
 		result.setY(res[1]);
 		deleteData();
-		return result;
+		//return result;
+		return null;
 	}
 
 	/**
@@ -291,7 +296,8 @@ public class Rserve implements IRCaller {
 			result.add(p);
 		}
 		deleteData();
-		return result;
+		//return result;
+		return null;
 	}
 
 	//------------------
@@ -327,7 +333,8 @@ public class Rserve implements IRCaller {
 		r.assign("y", y);
 		double result = r.eval(rCommand).asDouble();
 		deleteData();
-		return result;
+		//return result;
+		return null;
 	}
 
 	/**
@@ -362,7 +369,8 @@ public class Rserve implements IRCaller {
 		result.setX(res[0]);
 		result.setY(res[1]);
 		deleteData();
-		return result;
+		//return result;
+		return null;
 	}
 
 	/**
@@ -401,6 +409,7 @@ public class Rserve implements IRCaller {
 			result.add(p);
 		}
 		deleteData();
-		return result;
+		//return result;
+		return null;
 	}
 }
