@@ -30,8 +30,8 @@ public class RFacade {
 
 
     static {
-        //caller = new Renjin();
-        caller = new FakeR();
+        caller = new Renjin();
+        //caller = new FakeR();
     }
 
     public RFacade(final String type) throws IllegalArgumentException {

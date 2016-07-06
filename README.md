@@ -70,7 +70,5 @@ sudo apt-get install maven
 
    sudo cp target/analyzeme.war $CATALINA_HOME/webapps
 
-При возникновении ошибки 404 при заходе на страницу проекта, нужно поменять в файле pom.xml настройки jetty - установить webapp.contextPath в '/'
-
 analyzeme
 2015
