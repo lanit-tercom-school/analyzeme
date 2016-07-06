@@ -1,12 +1,14 @@
 package com.analyzeme.r.facade;
 
+import com.analyzeme.analyzers.result.ColumnResult;
+
 import java.io.ByteArrayInputStream;
 
 /**
- * Created by lagroffe on 19.03.2016 21:03
+ * Created by lagroffe on 19.03.2016 21:20
  */
 
-public class DefaultFromR implements GetFromR<String> {
+public class VectorFromR<T> implements GetFromR<ColumnResult<T>> {
 
     /**
      * calls r using r.facade
@@ -15,21 +17,21 @@ public class DefaultFromR implements GetFromR<String> {
      * @param rScript     - script to call, correct .r file as a stream
      * @param userId      - userId of a script creator
      * @param projectId   - id of the project with data for script
-     * @return auto-generated json result (mistakes are possible)
+     * @return vector of values
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public String runScript(String rScriptName,
-                            ByteArrayInputStream rScript,
-                            int userId, String projectId) throws Exception {
+    public ColumnResult<T> runScript(String rScriptName,
+                                     ByteArrayInputStream rScript, int userId,
+                                     String projectId) throws Exception {
         if (rScriptName == null || rScriptName.equals("") ||
-                rScript == null || userId == 0 ||
-                projectId == null || projectId.equals("")) {
+                rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RScriptManager.runScriptDefault(rScriptName,
-                rScript, userId, projectId);
+        ColumnResult<T> result = RScriptManager.runScriptToGetVector(
+                rScriptName, rScript, userId, projectId);
         return result;
     }
+
 
     /**
      * calls r using r.facade
@@ -37,17 +39,17 @@ public class DefaultFromR implements GetFromR<String> {
      * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return auto-generated json result (mistakes are possible)
+     * @return vector of values
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public String runScript(String rScriptId, int userId,
-                            String projectId) throws Exception {
+    public ColumnResult<T> runScript(String rScriptId, int userId,
+                                     String projectId) throws Exception {
         if (rScriptId == null || rScriptId.equals("") ||
                 userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RScriptManager.runScriptDefault(rScriptId,
-                userId, projectId);
+        ColumnResult<T> result = RScriptManager.runScriptToGetVector(
+                rScriptId, userId, projectId);
         return result;
     }
 
@@ -58,16 +60,17 @@ public class DefaultFromR implements GetFromR<String> {
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return auto-generated json result (mistakes are possible)
+     * @return vector of values
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public String runCommand(String rCommand, int userId,
-                             String projectId) throws Exception {
+    public ColumnResult<T> runCommand(String rCommand, int userId,
+                                      String projectId) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RFacade.runCommandDefault(rCommand, userId, projectId);
+        ColumnResult<T> result = RFacade.runCommandToGetVector(
+                rCommand, userId, projectId);
         return result;
     }
 
@@ -76,16 +79,15 @@ public class DefaultFromR implements GetFromR<String> {
      *
      * @param rCommand - string with correct r command
      * @param jsonData - some valid data in json format for command to analyze
-     * @return auto-generated json result (mistakes are possible)
-     * @throws Exception if files not found, r was impossible to call or there was in error in command
+     * @return vector of values
+     * @throws Exception if r was impossible to call or there was in error in command
      */
-    public String runCommand(String rCommand,
-                             String jsonData) throws Exception {
+    public ColumnResult<T> runCommand(String rCommand, String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RFacade.runCommandDefault(rCommand, jsonData);
+        ColumnResult<T> result = RFacade.runCommandToGetVector(rCommand, jsonData);
         return result;
     }
 }

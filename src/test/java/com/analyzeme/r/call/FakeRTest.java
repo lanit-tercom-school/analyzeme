@@ -96,25 +96,25 @@ public class FakeRTest {
 	//-------------------------------
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument1() throws Exception {
-		call.runCommandToGetPoints("", (String) null);
+		call.runCommandToGetVectors("", (String) null);
 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument2() throws Exception {
-		call.runCommandToGetPoint((String) null, "");
+		call.runCommandToGetVector((String) null, "");
 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument3() throws Exception {
-		call.runCommandToGetNumber("", (String) null);
+		call.runCommandToGetScalar("", (String) null);
 
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void testIllegalArgument4() throws Exception {
-		call.runScriptToGetPoint((String) null,
+		call.runScriptToGetVector((String) null,
 				(ByteArrayInputStream) null,
 				(ArrayList<DataSet>) null);
 	}
@@ -129,8 +129,8 @@ public class FakeRTest {
 	@Test
 	public void testCorrectCommandToGetNumber() {
 		try {
-			double resX = call.runCommandToGetNumber("x[1]", TEST_DATA);
-			double resY = call.runCommandToGetNumber("y[5]", TEST_DATA);
+			double resX = call.runCommandToGetScalar("x[1]", TEST_DATA);
+			double resY = call.runCommandToGetScalar("y[5]", TEST_DATA);
 			assertTrue("Double isn't returned correctly from FakeR",
 					doubleEqual(resX, 0) && doubleEqual(resY, 0));
 		} catch (Exception e) {
@@ -141,7 +141,7 @@ public class FakeRTest {
 	@Test
 	public void testCorrectCommandToGetPoint() {
 		try {
-			Point res = call.runCommandToGetPoint(
+			Point res = call.runCommandToGetVector(
 					"c(x[5], y[5])",
 					TEST_DATA);
 			assertTrue("Point isn't returned correctly from FakeR",
@@ -154,7 +154,7 @@ public class FakeRTest {
 	@Test
 	public void testCorrectCommandToGetPoints() {
 		try {
-			List<Point> res = call.runCommandToGetPoints(
+			List<Point> res = call.runCommandToGetVectors(
 					TEST_SCRIPT_FOR_POINTS,
 					TEST_DATA);
 			assertTrue("Points aren't returned correctly from FakeR",
@@ -178,10 +178,10 @@ public class FakeRTest {
 	@Test
 	public void testCorrectCommandToGetNumberCorrectFile() {
 		try {
-			double resX = call.runCommandToGetNumber(
+			double resX = call.runCommandToGetScalar(
 					correctX + "[2]",
 					correct);
-			double resY = call.runCommandToGetNumber(
+			double resY = call.runCommandToGetScalar(
 					correctY + "[9]",
 					correct);
 			assertTrue("Double isn't returned correctly from FakeR",
@@ -194,7 +194,7 @@ public class FakeRTest {
 	@Test
 	public void testCorrectCommandToGetPointCorrectFile() {
 		try {
-			Point res = call.runCommandToGetPoint(
+			Point res = call.runCommandToGetVector(
 					"c(" + correctX + "[5], " +
 					correctY + "[5])", correct);
 			assertTrue("Point isn't returned correctly from FakeR",
@@ -208,7 +208,7 @@ public class FakeRTest {
 	@Test
 	public void testCorrectCommandToGetPointsCorrectFile() {
 		try {
-			List<Point> res = call.runCommandToGetPoints(
+			List<Point> res = call.runCommandToGetVectors(
 					correctScriptForCorrectFileString,
 					correct);
 			assertTrue("Points aren't returned correctly from FakeR", res.isEmpty());
@@ -224,9 +224,9 @@ public class FakeRTest {
 	@Test
 	public void testCorrectScripToGetNumberCorrectFile() {
 		try {
-			double resX = call.runScriptToGetNumber(correctScriptForCorrectFileName,
+			double resX = call.runScriptToGetScalar(correctScriptForCorrectFileName,
 					convertStringToStream(correctX + "[2]"), correct);
-			double resY = call.runScriptToGetNumber(correctScriptForCorrectFileName,
+			double resY = call.runScriptToGetScalar(correctScriptForCorrectFileName,
 					convertStringToStream(correctY + "[3]"), correct);
 			assertTrue("Double isn't returned correctly from FakeR",
 					doubleEqual(resX, 0) &&
@@ -239,7 +239,7 @@ public class FakeRTest {
 	@Test
 	public void testCorrectScriptToGetPointCorrectFile() {
 		try {
-			Point res = call.runScriptToGetPoint(
+			Point res = call.runScriptToGetVector(
 					correctScriptForCorrectFileName,
 					convertStringToStream(
 							"c(" + correctX + "[5]," + correctY + "[5])"), correct);
@@ -254,7 +254,7 @@ public class FakeRTest {
 	@Test
 	public void testCorrectScriptToGetPointsCorrectFile() {
 		try {
-			List<Point> res = call.runScriptToGetPoints(
+			List<Point> res = call.runScriptToGetVectors(
 					correctScriptForCorrectFileName,
 					correctScriptForCorrectFile,
 					correct);

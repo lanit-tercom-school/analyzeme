@@ -1,10 +1,12 @@
 package com.analyzeme.r.facade;
 
+import com.analyzeme.analyzers.result.ColumnResult;
+import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.r.call.FakeR;
 import com.analyzeme.r.call.IRCaller;
 import com.analyzeme.r.call.Renjin;
 import com.analyzeme.r.call.Rserve;
-import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import com.analyzeme.repository.filerepository.FileInfo;
@@ -12,13 +14,12 @@ import com.analyzeme.repository.filerepository.FileRepository;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by lagroffe on 15.03.2016 21:45
  */
 
-//TODO: when IAnalyzers are ready, make all public functions here accessible in the package only
+//TODO: when IAnalyzers & ScriptManager are ready, make all public functions here accessible in the package only
 
 public class RFacade {
     private static IRCaller caller;
@@ -50,10 +51,10 @@ public class RFacade {
 	*
 	* Differs by:
 	* - return value:
-	* 		a) default - json string
-	* 		b) double
-	* 		c) Point
-	* 		d) List<Point>
+	* 		a) default - auto-generated json string
+	* 		b) scalar
+	* 		c) vector
+	* 		d) group of vectors
 	* - way to give data:
 	* 		a) as json string
 	* 		b) as files from repository
@@ -66,12 +67,12 @@ public class RFacade {
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return json result (mistakes are possible)
+     * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static String runCommand(final String rCommand,
-                                    final int userId,
-                                    final String projectId) throws Exception {
+    public static String runCommandDefault(final String rCommand,
+                                           final int userId,
+                                           final String projectId) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 userId == 0 || projectId == null ||
                 projectId.equals("")) {
@@ -80,7 +81,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-        String result = caller.runCommand(rCommand, files);
+        String result = caller.runCommandDefault(rCommand, files);
         return result;
     }
 
@@ -89,16 +90,16 @@ public class RFacade {
      *
      * @param rCommand - string with correct r command
      * @param jsonData - some valid data in json format for command to analyze
-     * @return json result (mistakes are possible)
+     * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static String runCommand(final String rCommand,
-                                    final String jsonData) throws Exception {
+    public static String runCommandDefault(final String rCommand,
+                                           final String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = caller.runCommand(rCommand, jsonData);
+        String result = caller.runCommandDefault(rCommand, jsonData);
         return result;
     }
 
@@ -108,10 +109,10 @@ public class RFacade {
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return double result
+     * @return scalar result
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static double runCommandToGetNumber(
+    public static ScalarResult runCommandToGetScalar(
             final String rCommand, final int userId,
             final String projectId) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
@@ -121,7 +122,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-        double result = caller.runCommandToGetNumber(rCommand, files);
+        ScalarResult result = caller.runCommandToGetScalar(rCommand, files);
         return result;
     }
 
@@ -130,17 +131,17 @@ public class RFacade {
      *
      * @param rCommand - string with correct r command
      * @param jsonData - some valid data in json format for command to analyze
-     * @return double result
+     * @return scalar result
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static double runCommandToGetNumber(
+    public static ScalarResult runCommandToGetScalar(
             final String rCommand, final String jsonData)
             throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        double result = caller.runCommandToGetNumber(rCommand, jsonData);
+        ScalarResult result = caller.runCommandToGetScalar(rCommand, jsonData);
         return result;
     }
 
@@ -150,11 +151,11 @@ public class RFacade {
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return one point
+     * @return one vector
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static Point runCommandToGetPoint(final String rCommand,
-                                             final int userId, final String projectId)
+    public static ColumnResult runCommandToGetVector(final String rCommand,
+                                                     final int userId, final String projectId)
             throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 userId == 0 || projectId == null || projectId.equals("")) {
@@ -163,7 +164,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-        Point result = caller.runCommandToGetPoint(rCommand, files);
+        ColumnResult result = caller.runCommandToGetVector(rCommand, files);
         return result;
     }
 
@@ -172,16 +173,16 @@ public class RFacade {
      *
      * @param rCommand - string with correct r command
      * @param jsonData - some valid data in json format for command to analyze
-     * @return one point
+     * @return one vector
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static Point runCommandToGetPoint(final String rCommand,
-                                             final String jsonData) throws Exception {
+    public static ColumnResult runCommandToGetVector(final String rCommand,
+                                                     final String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        Point result = caller.runCommandToGetPoint(rCommand, jsonData);
+        ColumnResult result = caller.runCommandToGetVector(rCommand, jsonData);
         return result;
     }
 
@@ -191,10 +192,10 @@ public class RFacade {
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return List<Point>
+     * @return group of vectors
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static List<Point> runCommandToGetPoints(final String rCommand,
+    public static FileResult runCommandToGetVectors(final String rCommand,
                                                     final int userId, final String projectId)
             throws Exception {
         if (rCommand == null || rCommand.equals("") ||
@@ -204,7 +205,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-        List<Point> result = caller.runCommandToGetPoints(rCommand, files);
+        FileResult result = caller.runCommandToGetVectors(rCommand, files);
         return result;
     }
 
@@ -213,17 +214,17 @@ public class RFacade {
      *
      * @param rCommand - string with correct r command
      * @param jsonData - some valid data in json format for command to analyze
-     * @return List<Point>
+     * @return group of vectors
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static List<Point> runCommandToGetPoints(
+    public static FileResult runCommandToGetVectors(
             final String rCommand, final String jsonData)
             throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        List<Point> result = caller.runCommandToGetPoints(rCommand, jsonData);
+        FileResult result = caller.runCommandToGetVectors(rCommand, jsonData);
         return result;
     }
 
@@ -234,14 +235,12 @@ public class RFacade {
 	* Differs by:
 	* - return value:
 	* 		a) default - json string
-	* 		b) double
-	* 		c) Point
-	* 		d) List<Point>
+	* 		b) scalar
+	* 		c) vector
+	* 		d) group of vectors
 	* - way to point to the script:
 	* 		a) as a stream
 	* 		b) as file from repository
-	* - way to give data:
-	* 		a)  as files from repository
 	*----------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -253,12 +252,12 @@ public class RFacade {
      * @param rScript     - script to call, correct .r file as a stream
      * @param userId      - userId of a script creator
      * @param projectId   - id of the project with data for script
-     * @return json result (mistakes are possible)
+     * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static String runScript(final String rScriptName,
-                                   ByteArrayInputStream rScript, final int userId,
-                                   final String projectId) throws Exception {
+    public static String runScriptDefault(final String rScriptName,
+                                          ByteArrayInputStream rScript, final int userId,
+                                          final String projectId) throws Exception {
         if (rScriptName == null || rScriptName.equals("") ||
                 rScript == null || userId == 0 ||
                 projectId == null || projectId.equals("")) {
@@ -267,7 +266,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-        String result = caller.runScript(rScriptName, rScript, files);
+        String result = caller.runScriptDefault(rScriptName, rScript, files);
         return result;
     }
 
@@ -277,11 +276,11 @@ public class RFacade {
      * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return json result (mistakes are possible)
+     * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static String runScript(final String rScriptId,
-                                   final int userId, final String projectId)
+    public static String runScriptDefault(final String rScriptId,
+                                          final int userId, final String projectId)
             throws Exception {
         if (rScriptId == null || rScriptId.equals("") ||
                 userId == 0 || projectId == null ||
@@ -292,15 +291,9 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-        String result = caller.runScript(script.getUniqueName(), script.getData(), files);
+        String result = caller.runScriptDefault(script.getUniqueName(), script.getData(), files);
         return result;
     }
-
-
-    /*******************************
-     * To get number
-     * *****************************
-     */
 
     /**
      * calls r using some logic from r.call package
@@ -309,12 +302,12 @@ public class RFacade {
      * @param rScript     - script to call, correct .r file as a stream
      * @param userId      - userId of a script creator
      * @param projectId   - id of the project with data for script
-     * @return double result
+     * @return scalar result
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static double runScriptToGetNumber(String rScriptName,
-                                              ByteArrayInputStream rScript, int userId,
-                                              String projectId) throws Exception {
+    public static ScalarResult runScriptToGetScalar(String rScriptName,
+                                                    ByteArrayInputStream rScript, int userId,
+                                                    String projectId) throws Exception {
         if (rScriptName == null || rScriptName.equals("") ||
                 rScript == null || userId == 0 ||
                 projectId == null || projectId.equals("")) {
@@ -323,7 +316,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-        double result = caller.runScriptToGetNumber(rScriptName, rScript, files);
+        ScalarResult result = caller.runScriptToGetScalar(rScriptName, rScript, files);
         return result;
     }
 
@@ -334,11 +327,11 @@ public class RFacade {
      * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return double result
+     * @return scalar result
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static double runScriptToGetNumber(final String rScriptId,
-                                              final int userId, final String projectId) throws Exception {
+    public static ScalarResult runScriptToGetScalar(final String rScriptId,
+                                                    final int userId, final String projectId) throws Exception {
         if (rScriptId == null || rScriptId.equals("") ||
                 userId == 0 || projectId == null ||
                 projectId.equals("")) {
@@ -348,14 +341,9 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-        double result = caller.runScriptToGetNumber(script.getUniqueName(), script.getData(), files);
+        ScalarResult result = caller.runScriptToGetScalar(script.getUniqueName(), script.getData(), files);
         return result;
     }
-
-    /*******************************
-     * To get Point
-     * *****************************
-     */
 
     /**
      * calls r using some logic from r.call package
@@ -364,12 +352,12 @@ public class RFacade {
      * @param rScript     - script to call, correct .r file as a stream
      * @param userId      - userId of a script creator
      * @param projectId   - id of the project with data for script
-     * @return one point
+     * @return one vector
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static Point runScriptToGetPoint(final String rScriptName,
-                                            ByteArrayInputStream rScript, final int userId,
-                                            final String projectId) throws Exception {
+    public static ColumnResult runScriptToGetVector(final String rScriptName,
+                                                    ByteArrayInputStream rScript, final int userId,
+                                                    final String projectId) throws Exception {
         if (rScriptName == null || rScriptName.equals("") ||
                 rScript == null || userId == 0 ||
                 projectId == null || projectId.equals("")) {
@@ -378,7 +366,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-        Point result = caller.runScriptToGetPoint(rScriptName, rScript, files);
+        ColumnResult result = caller.runScriptToGetVector(rScriptName, rScript, files);
         return result;
     }
 
@@ -389,11 +377,11 @@ public class RFacade {
      * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return one point
+     * @return one vector
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static Point runScriptToGetPoint(final String rScriptId,
-                                            final int userId, final String projectId)
+    public static ColumnResult runScriptToGetVector(final String rScriptId,
+                                                    final int userId, final String projectId)
             throws Exception {
         if (rScriptId == null || rScriptId.equals("") ||
                 userId == 0 || projectId == null || projectId.equals("")) {
@@ -403,15 +391,9 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-        Point result = caller.runScriptToGetPoint(script.getUniqueName(), script.getData(), files);
+        ColumnResult result = caller.runScriptToGetVector(script.getUniqueName(), script.getData(), files);
         return result;
     }
-
-
-    /*******************************
-     * To get List<Point>
-     * *****************************
-     */
 
     /**
      * calls r using some logic from r.call package
@@ -420,10 +402,10 @@ public class RFacade {
      * @param rScript     - script to call, correct .r file as a stream
      * @param userId      - userId of a script creator
      * @param projectId   - id of the project with data for script
-     * @return List<Point>
+     * @return group of vectors
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static List<Point> runScriptToGetPoints(final String rScriptName,
+    public static FileResult runScriptToGetVectors(final String rScriptName,
                                                    ByteArrayInputStream rScript, final int userId,
                                                    final String projectId) throws Exception {
         if (rScriptName == null || rScriptName.equals("") ||
@@ -434,7 +416,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-        List<Point> result = caller.runScriptToGetPoints(rScriptName, rScript, files);
+        FileResult result = caller.runScriptToGetVectors(rScriptName, rScript, files);
         return result;
     }
 
@@ -447,7 +429,7 @@ public class RFacade {
      * @return List<Point>
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static List<Point> runScriptToGetPoints(final String rScriptId,
+    public static FileResult runScriptToGetVectors(final String rScriptId,
                                                    final int userId,
                                                    final String projectId) throws Exception {
         if (rScriptId == null || rScriptId.equals("") ||
@@ -458,7 +440,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-        List<Point> result = caller.runScriptToGetPoints(script.getUniqueName(), script.getData(), files);
+        FileResult result = caller.runScriptToGetVectors(script.getUniqueName(), script.getData(), files);
         return result;
     }
 }

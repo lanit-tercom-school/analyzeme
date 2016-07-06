@@ -21,19 +21,19 @@ public class GetFromRFactoryTest {
     @Test
     public void testFactoryDouble() {
         GetFromR<Double> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
-        assertTrue(link instanceof NumberFromR);
+        assertTrue(link instanceof ScalarFromR);
     }
 
     @Test
     public void testFactoryPoint() {
         GetFromR<Point> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
-        assertTrue(link instanceof PointFromR);
+        assertTrue(link instanceof VectorFromR);
     }
 
     @Test
     public void testFactoryPoints() {
         GetFromR<List<Point>> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
-        assertTrue(link instanceof PointsFromR);
+        assertTrue(link instanceof FileFromR);
     }
 
     @Test(expected = NullPointerException.class)
