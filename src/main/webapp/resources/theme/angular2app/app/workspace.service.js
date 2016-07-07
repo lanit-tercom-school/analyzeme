@@ -1,5 +1,5 @@
 'use strict';
-(function(app) {
+(function (app) {
     /* global ng */
     var l = app.AppUtils.logger("workspace.service");
 
@@ -7,10 +7,9 @@
         .Class({
             constructor: [app.ProjectService, app.FileService, function WorkspaceService(projectService, fileService) {
                 this.session = {
-                  autorun: false,
-                  returnType: "DOUBLE",
-                  script:
-`# Define a variable.
+                    autorun: false,
+                    returnType: "DOUBLE",
+                    script: `# Define a variable.
 x <- rnorm(10)
 
 # calculate the mean of x
@@ -18,21 +17,22 @@ mean(x)`
                 };
 
                 this.returnTypes = [
-                  "DOUBLE",
-                  "STRING",
-                  "POINT",
-                  "POINTS"
+                    "DOUBLE",
+                    "SCALAR",
+                    "JSON_STRING",
+                    "VECTOR",
+                    "FILE"
                 ];
 
                 this.availableFunctions = [
-                   {
-                      func: "GlobalMinimum",
-                      name: "Global minimum"
-                   },
-                   {
-                       func: "GlobalMaximum",
-                       name: "Global maximum"
-                   }
+                    {
+                        func: "GlobalMinimum",
+                        name: "Global minimum"
+                    },
+                    {
+                        func: "GlobalMaximum",
+                        name: "Global maximum"
+                    }
                 ];
                 this.availableFunctions.push({
                     func: "UserScript",
