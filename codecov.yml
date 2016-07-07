@@ -1,7 +1,3 @@
-codecov:
-  token: 59bf1662-c4e9-41dc-b583-b636ffeddd92
-  branch: master
-  bot: null
 comment:
   layout: header, changes, diff, sunburst
 coverage:
