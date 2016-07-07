@@ -15,7 +15,7 @@ public class ParserFactory {
             case CSV:
                 return new CsvParser();
             default:
-                return null;
+                throw new IllegalArgumentException("Bad type of file!");
         }
     }
 }
