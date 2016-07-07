@@ -1,6 +1,7 @@
 package com.analyzeme.parsers.jsonParser;
 
 import com.analyzeme.analyze.Point;
+import com.analyzeme.parsers.InvalidFileException;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.parsers.JsonParserException;
 import org.junit.Assert;
@@ -19,11 +20,11 @@ public class TestGetPointsFromPointJson {
     @Test(expected = NullPointerException.class)
     public void testNullArgumentInConstructor() throws Exception {
         jsonParser = new JsonParser();
-        jsonParser.getPointsFromPointJson((InputStream)null);
+        jsonParser.parse(null);
     }
 
     @Test
-    public void testIncorrectFile() throws JsonParserException {
+    public void testIncorrectFile() throws InvalidFileException {
         String s = join("\n", new String[]{
                 "{",
                 "\"x\":"
@@ -32,7 +33,7 @@ public class TestGetPointsFromPointJson {
         InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser();
         try {
-            points = jsonParser.getPointsFromPointJson(is);
+            points = jsonParser.parse(is).toPointArray();
             Assert.fail();
         } catch (JsonParserException ex) {
             Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
@@ -44,14 +45,14 @@ public class TestGetPointsFromPointJson {
 
 
     @Test
-    public void testPointsDoubleWithInteger() throws JsonParserException {
+    public void testPointsDoubleWithInteger() throws InvalidFileException {
         String s = join("\n", new String[]{
                 "{\"Data\":[{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"20\",\"y\": \"20\"}]}"
         });
 
         InputStream is = new ByteArrayInputStream(s.getBytes());
         jsonParser = new JsonParser();
-        points = jsonParser.getPointsFromPointJson(is);
+        points = jsonParser.parse(is).toPointArray();
         Assert.assertArrayEquals(new Point[]{new Point(1.0, 1.0),
                 new Point(20.0, 20.0)},
                 points);

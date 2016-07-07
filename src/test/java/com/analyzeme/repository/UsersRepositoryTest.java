@@ -6,8 +6,9 @@ package com.analyzeme.repository;
 
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
-import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.repository.filerepository.FileInfo;
+import com.analyzeme.repository.filerepository.TypeOfFile;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -195,7 +196,7 @@ public class UsersRepositoryTest {
                 new String[]{"sth", "sth", "sth"});
         String id = UsersRepository.newProject(
                 Integer.parseInt(user), "sth");
-        ISourceInfo info = new JsonPointFileInRepositoryInfo("sth");
+        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         UsersRepository.findUser("sth").
                 getProjects().findProjectById(id).persist(set);
@@ -275,7 +276,7 @@ public class UsersRepositoryTest {
          String id = UsersRepository.newProject(
                  Integer.parseInt(user), "sth");
          ISourceInfo info =
-                 new JsonPointFileInRepositoryInfo("sth");
+                 new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
          DataSet set = new DataSet("sth", info);
          UsersRepository.findUser("sth").
                  getProjects().findProjectById(id).persist(set);
