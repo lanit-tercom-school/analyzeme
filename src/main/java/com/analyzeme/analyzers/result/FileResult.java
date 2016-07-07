@@ -40,8 +40,8 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
     @Override
     public boolean equals(Object other) {
         boolean result = false;
-        if (other instanceof ColumnResult) {
-            ColumnResult that = (ColumnResult) other;
+        if (other instanceof FileResult) {
+            FileResult that = (FileResult) other;
             result = that.getValue().equals(this.getValue());
         }
         return result;

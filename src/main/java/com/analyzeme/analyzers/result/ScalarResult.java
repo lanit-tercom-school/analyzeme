@@ -29,8 +29,8 @@ public class ScalarResult<T> implements IResult<T> {
     @Override
     public boolean equals(Object other) {
         boolean result = false;
-        if (other instanceof ColumnResult) {
-            ColumnResult that = (ColumnResult) other;
+        if (other instanceof ScalarResult) {
+            ScalarResult that = (ScalarResult) other;
             result = this.getValue().equals(that.getValue());
         }
         return result;
