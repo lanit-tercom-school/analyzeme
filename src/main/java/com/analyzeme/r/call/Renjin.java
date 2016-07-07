@@ -1,6 +1,5 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyze.Point;
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.ScalarResult;
@@ -16,6 +15,7 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,13 +37,45 @@ public class Renjin implements IRCaller {
         return result;
     }
 
+    private static Map<String, List<Double>> renjinVectorToFile(final Vector res) {
+        if (res == null) {
+            throw new IllegalArgumentException("Impossible to evaluate");
+        }
+        if (res.hasAttributes()) {
+            AttributeMap attributes = res.getAttributes();
+            Vector dim = attributes.getDim();
+            if (dim == null || dim.length() == 1) {
+                throw new IllegalArgumentException("Wrong type of command");
+            } else if (dim.length() == 2) {
+                Matrix m = new Matrix(res);
+                //TODO: refactor to work not only with double
+                List<List<Double>> result = new ArrayList<List<Double>>();
+                for(int i = 0; i < m.getNumCols(); i++) {
+                    result.add(new ArrayList<Double>());
+                }
+                for (int i = 0; i < m.getNumRows(); i++) {
+                    for(int j = 0; j < m.getNumCols(); j++) {
+                        result.get(j).add(m.getElementAsDouble(i, j));
+                    }
+                }
+                Map<String, List<Double>> r = new HashMap<String, List<Double>>();
+                for(int i = 0; i < result.size(); i++) {
+                    r.put("col"+(int)i, result.get(i));
+                }
+                return r;
+            } else {
+                throw new IllegalArgumentException("Wrong type of command");
+            }
+        }
+        return null;
+    }
+
     private static void initialize() {
         if (engine == null) {
             manager = new ScriptEngineManager();
             engine = manager.getEngineByName("Renjin");
         }
     }
-
 
     private static void insertData(final List<DataSet> dataFiles)
             throws Exception {
@@ -158,7 +190,6 @@ public class Renjin implements IRCaller {
         return new ColumnResult(renjinVectorToList(res));
     }
 
-    //TODO: refactor
     /**
      * @param scriptName - name of the script to be called
      * @param rScript    - script to call, correct .r file as a stream
@@ -178,30 +209,13 @@ public class Renjin implements IRCaller {
         insertData(dataFiles);
         String script = StreamToString.convertStreamANSI(rScript);
         Vector res = ((Vector) engine.eval(script));
-        if (res == null) {
-            throw new IllegalArgumentException("Impossible to evaluate");
-        }
-        List<Point> result = new ArrayList<Point>();
-        if (res.hasAttributes()) {
-            AttributeMap attributes = res.getAttributes();
-            Vector dim = attributes.getDim();
-            if (dim == null || dim.length() == 1) {
-                throw new IllegalArgumentException("Wrong type of command");
-            } else if (dim.length() == 2) {
-                Matrix m = new Matrix(res);
-                for (int i = 0; i < m.getNumRows(); i++) {
-                    Point p = new Point();
-                    p.setX(m.getElementAsDouble(i, 0));
-                    p.setY(m.getElementAsDouble(i, 1));
-                    result.add(p);
-                }
-            } else {
-                throw new IllegalArgumentException("Wrong type of command");
-            }
-        }
         deleteData();
-        //return result;
-        return null;
+        try {
+            Map<String, List<Double>> r = renjinVectorToFile(res);
+            return new FileResult(r);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     /**
@@ -286,7 +300,6 @@ public class Renjin implements IRCaller {
         return new ColumnResult(renjinVectorToList(res));
     }
 
-    //TODO: refactor
     /**
      * @param rCommand  - string with a command in r language
      * @param dataFiles - data necessary for the script
@@ -302,29 +315,13 @@ public class Renjin implements IRCaller {
         initialize();
         insertData(dataFiles);
         Vector res = ((Vector) engine.eval(rCommand));
-        if (res == null) {
-            throw new IllegalArgumentException("Impossible to evaluate");
-        }
-        List<Point> result = new ArrayList<Point>();
-        if (res.hasAttributes()) {
-            AttributeMap attributes = res.getAttributes();
-            Vector dim = attributes.getDim();
-            if (dim == null || dim.length() == 1) {
-                throw new IllegalArgumentException("Wrong type of command");
-            } else if (dim.length() == 2) {
-                Matrix m = new Matrix(res);
-                for (int i = 0; i < m.getNumRows(); i++) {
-                    Point p = new Point();
-                    p.setX(m.getElementAsDouble(i, 0));
-                    p.setY(m.getElementAsDouble(i, 1));
-                    result.add(p);
-                }
-            } else {
-                throw new IllegalArgumentException("Wrong type of command");
-            }
-        }
         deleteData();
-        return null;
+        try {
+            Map<String, List<Double>> r = renjinVectorToFile(res);
+            return new FileResult(r);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     /**
@@ -369,7 +366,6 @@ public class Renjin implements IRCaller {
         return new ColumnResult(renjinVectorToList(res));
     }
 
-    //TODO: refactor
     /**
      * @param rCommand - string with a command in r language
      * @param jsonData - data necessary for the script
@@ -386,28 +382,12 @@ public class Renjin implements IRCaller {
         initialize();
         insertDataFromJson(jsonData);
         Vector res = ((Vector) engine.eval(rCommand));
-        List<Point> result = new ArrayList<Point>();
-        if (res == null) {
-            throw new IllegalArgumentException("Impossible to evaluate");
-        }
-        if (res.hasAttributes()) {
-            AttributeMap attributes = res.getAttributes();
-            Vector dim = attributes.getDim();
-            if (dim == null || dim.length() == 1) {
-                throw new IllegalArgumentException("Wrong type of command");
-            } else if (dim.length() == 2) {
-                Matrix m = new Matrix(res);
-                for (int i = 0; i < m.getNumRows(); i++) {
-                    Point p = new Point();
-                    p.setX(m.getElementAsDouble(i, 0));
-                    p.setY(m.getElementAsDouble(i, 1));
-                    result.add(p);
-                }
-            } else {
-                throw new IllegalArgumentException("Wrong type of command");
-            }
-        }
         deleteData();
-        return null;
+        try {
+            Map<String, List<Double>> r = renjinVectorToFile(res);
+            return new FileResult(r);
+        } catch (Exception e) {
+            throw e;
+        }
     }
 }
