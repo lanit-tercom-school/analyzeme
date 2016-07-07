@@ -25,4 +25,14 @@ public class ScalarResult<T> implements IResult<T> {
         }
         return mapper.writeValueAsString(result);
     }
+
+    @Override
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other instanceof ColumnResult) {
+            ColumnResult that = (ColumnResult) other;
+            result = this.getValue().equals(that.getValue());
+        }
+        return result;
+    }
 }

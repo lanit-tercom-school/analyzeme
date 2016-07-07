@@ -15,7 +15,7 @@ public class DefaultFromR implements GetFromR<String> {
      * @param rScript     - script to call, correct .r file as a stream
      * @param userId      - userId of a script creator
      * @param projectId   - id of the project with data for script
-     * @return json result (mistakes are possible)
+     * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
     public String runScript(String rScriptName,
@@ -26,7 +26,7 @@ public class DefaultFromR implements GetFromR<String> {
                 projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RScriptManager.runScript(rScriptName,
+        String result = RScriptManager.runScriptDefault(rScriptName,
                 rScript, userId, projectId);
         return result;
     }
@@ -37,7 +37,7 @@ public class DefaultFromR implements GetFromR<String> {
      * @param rScriptId - id in repository of file with the script to call, correct .r file as a stream  (RScriptName is stored in FileInfo)
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return json result (mistakes are possible)
+     * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
     public String runScript(String rScriptId, int userId,
@@ -46,7 +46,7 @@ public class DefaultFromR implements GetFromR<String> {
                 userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RScriptManager.runScript(rScriptId,
+        String result = RScriptManager.runScriptDefault(rScriptId,
                 userId, projectId);
         return result;
     }
@@ -58,7 +58,7 @@ public class DefaultFromR implements GetFromR<String> {
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
-     * @return json result (mistakes are possible)
+     * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
     public String runCommand(String rCommand, int userId,
@@ -67,7 +67,7 @@ public class DefaultFromR implements GetFromR<String> {
                 userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RFacade.runCommand(rCommand, userId, projectId);
+        String result = RFacade.runCommandDefault(rCommand, userId, projectId);
         return result;
     }
 
@@ -76,7 +76,7 @@ public class DefaultFromR implements GetFromR<String> {
      *
      * @param rCommand - string with correct r command
      * @param jsonData - some valid data in json format for command to analyze
-     * @return json result (mistakes are possible)
+     * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
     public String runCommand(String rCommand,
@@ -85,7 +85,7 @@ public class DefaultFromR implements GetFromR<String> {
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RFacade.runCommand(rCommand, jsonData);
+        String result = RFacade.runCommandDefault(rCommand, jsonData);
         return result;
     }
 }

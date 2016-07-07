@@ -36,4 +36,14 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
         }
         return temp.toPointJson();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other instanceof ColumnResult) {
+            ColumnResult that = (ColumnResult) other;
+            result = that.getValue().equals(this.getValue());
+        }
+        return result;
+    }
 }
