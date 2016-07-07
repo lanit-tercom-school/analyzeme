@@ -1,5 +1,6 @@
 package com.analyzeme.data;
 
+import com.analyzeme.analyze.Point;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -32,6 +33,14 @@ public class DataArray<T> {
         return result;
     }
 
+    public Point[] toPointArray() {
+        Point[] result = new Point[data.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = new Point((Double) data.get(i).getByKey("x"), (Double) data.get(i).getByKey("y"));
+        }
+        return result;
+    }
+
     //{"Data":[{ "x": "1","y": "1" },{"x": "20","y": "20"}]}
     public String toPointJson() {
         JSONArray result = new JSONArray();
@@ -55,5 +64,18 @@ public class DataArray<T> {
             s.append(d.toCsvWithNoHeader());
         }
         return s.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[\n");
+        for (Data<T> d : data) {
+            builder.append("   ");
+            builder.append(d);
+            builder.append(",\n");
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

@@ -3,7 +3,7 @@ package com.analyzeme.parsers;
 /**
  * Created by ������ ������� on 07.12.2015.
  */
-public class JsonParserException extends Exception {
+public class JsonParserException extends InvalidFileException {
 	private final ExceptionType exType;
 
 	public ExceptionType getExType() {

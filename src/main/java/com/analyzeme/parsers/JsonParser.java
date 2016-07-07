@@ -17,6 +17,10 @@ import java.util.Map;
 
 public class JsonParser implements IParser {
     public DataArray<Double> parse(InputStream input) throws InvalidFileException {
+        if (input == null) {
+            throw new NullPointerException();
+        }
+
         DataArray<Double> result = new DataArray<Double>();
         try {
             JSONParser parser = new JSONParser();
@@ -32,8 +36,8 @@ public class JsonParser implements IParser {
                 }
                 result.addData(new Data<Double>(data));
             }
-        }catch (Exception e) {
-            throw new InvalidFileException("JSON file is not valid!");
+        } catch (Exception e) {
+            throw new JsonParserException(JsonParserException.ExceptionType.PARSE_FILE);
         }
         return result;
     }

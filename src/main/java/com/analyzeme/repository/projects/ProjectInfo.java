@@ -1,8 +1,7 @@
 package com.analyzeme.repository.projects;
 
 import com.analyzeme.data.DataSet;
-import com.analyzeme.data.resolvers.sourceinfo.CsvFileInRepositoryInfo;
-import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
@@ -69,8 +68,7 @@ public class ProjectInfo {
         JSONArray result = new JSONArray();
         for (DataSet set : datasets) {
             if (set.getFile().getClass().
-                    equals(JsonPointFileInRepositoryInfo.class) ||
-                    set.getFile().getClass().equals(CsvFileInRepositoryInfo.class)) {
+                    equals(DataRepositoryInfo.class)) {
                 FileInfo info = FileRepository.getRepo().
                         findFileById(set.getFile().getToken());
                 if (info != null && info.isActive()) {
@@ -160,8 +158,7 @@ public class ProjectInfo {
      */
     public void deactivateFiles() throws Exception {
         for (DataSet set : datasets) {
-            if (set.getFile().getClass().equals(JsonPointFileInRepositoryInfo.class) ||
-                    set.getFile().getClass().equals(CsvFileInRepositoryInfo.class)) {
+            if (set.getFile().getClass().equals(DataRepositoryInfo.class))  {
                 FileInfo info = FileRepository.getRepo().findFileById(set.getFile().getToken());
                 if (info != null) {
                     info.setIsActive(false);

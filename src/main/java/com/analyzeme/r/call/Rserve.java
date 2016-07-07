@@ -204,7 +204,7 @@ public class Rserve implements IRCaller {
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
 		jsonParser = new JsonParser();
-		Point[] data = jsonParser.getPointsFromPointJson(is);
+		Point[] data = jsonParser.parse(is).toPointArray();
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
@@ -312,7 +312,7 @@ public class Rserve implements IRCaller {
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
 		jsonParser = new JsonParser();
-		Point[] data = jsonParser.getPointsFromPointJson(is);
+		Point[] data = jsonParser.parse(is).toPointArray();
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
@@ -344,7 +344,7 @@ public class Rserve implements IRCaller {
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
 		jsonParser = new JsonParser();
-		Point[] data = jsonParser.getPointsFromPointJson(is);
+		Point[] data = jsonParser.parse(is).toPointArray();
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
@@ -379,7 +379,7 @@ public class Rserve implements IRCaller {
 		InputStream is = new ByteArrayInputStream(jsonData.getBytes());
 		JsonParser jsonParser;
 		jsonParser = new JsonParser();
-		Point[] data = jsonParser.getPointsFromPointJson(is);
+		Point[] data = jsonParser.parse(is).toPointArray();
 
 		double[] x = new double[data.length];
 		double[] y = new double[data.length];
