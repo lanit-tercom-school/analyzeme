@@ -2,6 +2,7 @@ package com.analyzeme.r.call;
 
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
 
@@ -22,9 +23,9 @@ public interface IRCaller {
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or script errored
      */
-    String runScriptDefault(final String scriptName,
-                            ByteArrayInputStream rScript,
-                            final ArrayList<DataSet> dataFiles) throws Exception;
+    NotParsedJsonStringResult runScriptDefault(final String scriptName,
+                                               ByteArrayInputStream rScript,
+                                               final ArrayList<DataSet> dataFiles) throws Exception;
 
     /**
      * @param scriptName - name of the script to be called
@@ -70,8 +71,8 @@ public interface IRCaller {
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or command errored
      */
-    String runCommandDefault(final String rCommand,
-                             final ArrayList<DataSet> dataFiles) throws Exception;
+    NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                final ArrayList<DataSet> dataFiles) throws Exception;
 
     /**
      * @param rCommand  - string with a command in r language
@@ -110,8 +111,8 @@ public interface IRCaller {
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or command errored
      */
-    String runCommandDefault(final String rCommand,
-                             final String jsonData) throws Exception;
+    NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                final String jsonData) throws Exception;
 
 
     /**

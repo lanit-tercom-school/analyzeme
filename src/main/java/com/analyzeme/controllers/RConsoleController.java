@@ -1,5 +1,6 @@
 package com.analyzeme.controllers;
 
+import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.analyzers.r.RAnalyzer;
 import com.analyzeme.analyzers.r.TypeOfCall;
@@ -29,25 +30,21 @@ public class RConsoleController {
 	 * @param typeOfResult
 	 * @param scriptName
 	 * @param scriptText
-	 * @return ResponseEntity<> with
-	 * HttpStatus.Conflict if there was an exception during running the script
-	 * HttpStatus.Accepted and result if ran successfully
+	 * @return json version of result
 	 */
 
 	@RequestMapping(value = "/{user_id}/{project_id}/run/script", method = RequestMethod.POST)
-	public ResponseEntity<Object> runRForNumber(@PathVariable("user_id") final int userId,
-												@PathVariable("project_id") final String projectId,
-												@RequestHeader("type_of_call") final TypeOfCall typeOfCall,
-												@RequestHeader("type_of_result") final TypeOfReturnValue typeOfResult,
-												@RequestHeader("name") final String scriptName,
-												@RequestBody final String scriptText) {
-		Object result;
-		try {
-			result = rAnalyzer.runScript(userId, projectId, scriptName, scriptText, typeOfResult, typeOfCall);
-		} catch (Exception e) {
-			return new ResponseEntity<Object>(HttpStatus.CONFLICT);
-		}
-		return new ResponseEntity<Object>(result, HttpStatus.ACCEPTED);
+	public ResponseEntity<String> runRForNumber(@PathVariable("user_id") final int userId,
+												 @PathVariable("project_id") final String projectId,
+												 @RequestHeader("type_of_call") final TypeOfCall typeOfCall,
+												 @RequestHeader("type_of_result") final TypeOfReturnValue typeOfResult,
+												 @RequestHeader("name") final String scriptName,
+												 @RequestBody final String scriptText) throws Exception {
+        try {
+            return new ResponseEntity<String>(rAnalyzer.runScript(userId, projectId, scriptName, scriptText, typeOfResult, typeOfCall).toJson(), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+             return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 	}
 
 

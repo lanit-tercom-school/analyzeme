@@ -2,6 +2,7 @@ package com.analyzeme.r.facade;
 
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.r.call.FakeR;
 import com.analyzeme.r.call.IRCaller;
@@ -71,9 +72,9 @@ public class RFacade {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static String runCommandDefault(final String rCommand,
-                                           final int userId,
-                                           final String projectId) throws Exception {
+    public static NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                              final int userId,
+                                                              final String projectId) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 userId == 0 || projectId == null ||
                 projectId.equals("")) {
@@ -82,8 +83,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
-        String result = caller.runCommandDefault(rCommand, files);
-        return result;
+        return caller.runCommandDefault(rCommand, files);
     }
 
     /**
@@ -94,14 +94,13 @@ public class RFacade {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static String runCommandDefault(final String rCommand,
-                                           final String jsonData) throws Exception {
+    public static NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                              final String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = caller.runCommandDefault(rCommand, jsonData);
-        return result;
+        return caller.runCommandDefault(rCommand, jsonData);
     }
 
     /**
@@ -256,9 +255,9 @@ public class RFacade {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static String runScriptDefault(final String rScriptName,
-                                          ByteArrayInputStream rScript, final int userId,
-                                          final String projectId) throws Exception {
+    public static NotParsedJsonStringResult runScriptDefault(final String rScriptName,
+                                                             ByteArrayInputStream rScript, final int userId,
+                                                             final String projectId) throws Exception {
         if (rScriptName == null || rScriptName.equals("") ||
                 rScript == null || userId == 0 ||
                 projectId == null || projectId.equals("")) {
@@ -267,8 +266,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rScript, resolver);
-        String result = caller.runScriptDefault(rScriptName, rScript, files);
-        return result;
+        return caller.runScriptDefault(rScriptName, rScript, files);
     }
 
     /**
@@ -280,8 +278,8 @@ public class RFacade {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static String runScriptDefault(final String rScriptId,
-                                          final int userId, final String projectId)
+    public static NotParsedJsonStringResult runScriptDefault(final String rScriptId,
+                                                             final int userId, final String projectId)
             throws Exception {
         if (rScriptId == null || rScriptId.equals("") ||
                 userId == 0 || projectId == null ||
@@ -292,8 +290,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-        String result = caller.runScriptDefault(script.getUniqueName(), script.getData(), files);
-        return result;
+       return caller.runScriptDefault(script.getUniqueName(), script.getData(), files);
     }
 
     /**

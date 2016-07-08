@@ -1,12 +1,14 @@
 package com.analyzeme.r.facade;
 
+import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
+
 import java.io.ByteArrayInputStream;
 
 /**
  * Created by lagroffe on 19.03.2016 21:03
  */
 
-public class DefaultFromR implements GetFromR<String> {
+public class DefaultFromR implements GetFromR<NotParsedJsonStringResult> {
 
     /**
      * calls r using r.facade
@@ -18,7 +20,7 @@ public class DefaultFromR implements GetFromR<String> {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public String runScript(String rScriptName,
+    public NotParsedJsonStringResult runScript(String rScriptName,
                             ByteArrayInputStream rScript,
                             int userId, String projectId) throws Exception {
         if (rScriptName == null || rScriptName.equals("") ||
@@ -26,9 +28,8 @@ public class DefaultFromR implements GetFromR<String> {
                 projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RScriptManager.runScriptDefault(rScriptName,
+        return RScriptManager.runScriptDefault(rScriptName,
                 rScript, userId, projectId);
-        return result;
     }
 
     /**
@@ -40,15 +41,14 @@ public class DefaultFromR implements GetFromR<String> {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public String runScript(String rScriptId, int userId,
+    public NotParsedJsonStringResult runScript(String rScriptId, int userId,
                             String projectId) throws Exception {
         if (rScriptId == null || rScriptId.equals("") ||
                 userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RScriptManager.runScriptDefault(rScriptId,
+        return RScriptManager.runScriptDefault(rScriptId,
                 userId, projectId);
-        return result;
     }
 
 
@@ -61,14 +61,13 @@ public class DefaultFromR implements GetFromR<String> {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public String runCommand(String rCommand, int userId,
+    public NotParsedJsonStringResult runCommand(String rCommand, int userId,
                              String projectId) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RFacade.runCommandDefault(rCommand, userId, projectId);
-        return result;
+        return RFacade.runCommandDefault(rCommand, userId, projectId);
     }
 
     /**
@@ -79,13 +78,12 @@ public class DefaultFromR implements GetFromR<String> {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public String runCommand(String rCommand,
+    public NotParsedJsonStringResult runCommand(String rCommand,
                              String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        String result = RFacade.runCommandDefault(rCommand, jsonData);
-        return result;
+        return RFacade.runCommandDefault(rCommand, jsonData);
     }
 }

@@ -3,6 +3,7 @@ package com.analyzeme.r.call;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.parsers.JsonParser;
@@ -64,9 +65,9 @@ public class Rserve implements IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or script errored
 	 */
-	public String runScriptDefault(final String scriptName,
-								   ByteArrayInputStream rScript,
-								   final ArrayList<DataSet> dataFiles) throws Exception {
+	public NotParsedJsonStringResult runScriptDefault(final String scriptName,
+													  ByteArrayInputStream rScript,
+													  final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
 		if (scriptName == null || scriptName.equals("") ||
 				rScript == null || dataFiles == null) {
@@ -77,7 +78,7 @@ public class Rserve implements IRCaller {
 		String script = StreamToString.convertStreamANSI(rScript);
 		REXP result = r.eval(script);
 		deleteData();
-		return result.toString();
+		return new NotParsedJsonStringResult(result.toString());
 	}
 
 
@@ -180,8 +181,8 @@ public class Rserve implements IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public String runCommandDefault(final String rCommand,
-									final ArrayList<DataSet> dataFiles) throws Exception {
+	public NotParsedJsonStringResult runCommandDefault(final String rCommand,
+													   final ArrayList<DataSet> dataFiles) throws Exception {
 		//dataFiles can be empty for simple commands
 		if (rCommand == null || rCommand.equals("") || dataFiles == null) {
 			throw new IllegalArgumentException();
@@ -190,7 +191,7 @@ public class Rserve implements IRCaller {
 		insertData(dataFiles);
 		REXP result = r.eval(rCommand);
 		deleteData();
-		return result.toString();
+		return new NotParsedJsonStringResult(result.toString());
 	}
 
 	/**
@@ -199,8 +200,8 @@ public class Rserve implements IRCaller {
 	 * @return json form of result (may be errors)
 	 * @throws Exception if failed to call r or command errored
 	 */
-	public String runCommandDefault(final String rCommand,
-									final String jsonData) throws Exception {
+	public NotParsedJsonStringResult runCommandDefault(final String rCommand,
+													   final String jsonData) throws Exception {
 		if (rCommand == null || rCommand.equals("") ||
 				jsonData == null || jsonData.equals("")) {
 			throw new IllegalArgumentException();
@@ -222,7 +223,7 @@ public class Rserve implements IRCaller {
 		r.assign("y", y);
 		REXP result = r.eval(rCommand);
 		deleteData();
-		return result.toString();
+		return new NotParsedJsonStringResult(result.toString());
 	}
 
 
