@@ -11,7 +11,7 @@ import java.util.List;
  * Created by lagroffe on 05.07.2016 15:07
  */
 public class GlobalMinimumAnalyzer implements IAnalyzer<Double> {
-    private static final int NUMBER_OF_PARAMS = 1;
+    private static final int NUMBER_OF_PARAMS = 0;
 
     public int getNumberOfParams() {
         return NUMBER_OF_PARAMS;
@@ -22,25 +22,26 @@ public class GlobalMinimumAnalyzer implements IAnalyzer<Double> {
             throw new IllegalArgumentException("No data to analyze");
         }
         if (data.size() == 1) {
-            return new ScalarResult<Double>(getMin(data.get(0)));
+            return new ScalarResult<Double>(data.get(0).get(getMinInd(data.get(0))));
         }
-        List<Double> list = new ArrayList<Double>();
-        for (List<Double> column : data) {
-            list.add(getMin(column));
+        List<Double> result = new ArrayList<Double>();
+        int minInd = getMinInd(data.get(data.size() - 1));
+        for (int i = 0; i < data.size(); i++) {
+            result.add(data.get(i).get(minInd));
         }
-        return new ColumnResult<Double>(list);
+        return new ColumnResult(result);
     }
 
-    private Double getMin(final List<Double> column) {
-        if(column.get(0) == null) {
+    private int getMinInd(final List<Double> column) {
+        if (column.get(0) == null) {
             throw new IllegalArgumentException("No data to analyze");
         }
-        Double minEl = column.get(0);
-        for (Double obj : column) {
-            if (minEl > obj) {
-                minEl = obj;
+        int minInd = 0;
+        for (int i = 0; i < column.size(); i++) {
+            if (column.get(minInd) > column.get(i)) {
+                minInd = i;
             }
         }
-        return minEl;
+        return minInd;
     }
 }

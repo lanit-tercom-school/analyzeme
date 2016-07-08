@@ -52,6 +52,11 @@ public class AnalysisController {
                 for (int i = 0; i < analyzer.getNumberOfParams(); i++) {
                     f.add(iterator.next());
                 }
+                if (analyzer.getNumberOfParams() == 0) {
+                    while (iterator.hasNext()) {
+                        f.add(iterator.next());
+                    }
+                }
             }
 
             List<List<Double>> toAnalyze = new ArrayList<List<Double>>();
