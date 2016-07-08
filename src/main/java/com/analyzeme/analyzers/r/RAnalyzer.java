@@ -4,10 +4,8 @@ import com.analyzeme.analyzers.result.*;
 import com.analyzeme.r.facade.GetFromR;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
-import com.analyzeme.analyze.Point;
 
 import java.io.ByteArrayInputStream;
-import java.util.List;
 
 /**
  * Created by Ольга on 10.04.2016.

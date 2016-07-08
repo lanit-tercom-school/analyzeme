@@ -1,6 +1,5 @@
 package com.analyzeme.data;
 
-import com.analyzeme.analyze.Point;
 import org.json.JSONArray;
 
 import java.util.*;
@@ -33,23 +32,15 @@ public class DataArray<T> {
 
     public Map<String, List<T>> getMap() {
         Map<String, List<T>> result = new HashMap<String, List<T>>();
-        for(Data<T> d: this.getData()) {
-           for(String key: d.getKeys()) {
-               if(!result.containsKey(key)) {
-                   result.put(key, new ArrayList<T>());
-                   result.get(key).add(d.getByKey(key));
-               } else {
-                   result.get(key).add(d.getByKey(key));
-               }
-           }
-        }
-        return result;
-    }
-
-    public Point[] toPointArray() {
-        Point[] result = new Point[data.size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = new Point((Double) data.get(i).getByKey("x"), (Double) data.get(i).getByKey("y"));
+        for (Data<T> d : this.getData()) {
+            for (String key : d.getKeys()) {
+                if (!result.containsKey(key)) {
+                    result.put(key, new ArrayList<T>());
+                    result.get(key).add(d.getByKey(key));
+                } else {
+                    result.get(key).add(d.getByKey(key));
+                }
+            }
         }
         return result;
     }
@@ -98,5 +89,20 @@ public class DataArray<T> {
         }
         builder.append("]");
         return builder.toString();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other instanceof DataArray) {
+            DataArray that = (DataArray) other;
+            for (int i = 0; i < data.size(); i++) {
+                if (this.getData().get(i).equals(that.getData().get(i))) {
+                    return result;
+                }
+            }
+            result = true;
+        }
+        return result;
     }
 }

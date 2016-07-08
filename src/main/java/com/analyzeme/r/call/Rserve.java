@@ -1,6 +1,5 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyze.Point;
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
@@ -127,11 +126,11 @@ public class Rserve implements IRCaller {
 		}
 		initialize();
 		insertData(dataFiles);
-		String script = StreamToString.convertStreamANSI(rScript);
+		/*String script = StreamToString.convertStreamANSI(rScript);
 		double[] res = r.eval(script).asDoubles();
 		Point result = new Point();
 		result.setX(res[0]);
-		result.setY(res[1]);
+		result.setY(res[1]);*/
 		deleteData();
 		//return result;
 		return null;
@@ -157,13 +156,13 @@ public class Rserve implements IRCaller {
 		insertData(dataFiles);
 		String script = StreamToString.convertStreamANSI(rScript);
 		double[][] res = r.eval(script).asDoubleMatrix();
-		ArrayList<Point> result = new ArrayList<Point>();
+		/*ArrayList<Point> result = new ArrayList<Point>();
 		for (int i = 0; i < res.length; i++) {
 			Point p = new Point();
 			p.setX(res[i][0]);
 			p.setY(res[i][1]);
 			result.add(p);
-		}
+		}                    */
 		deleteData();
 		//return result;
 		return null;
@@ -265,10 +264,10 @@ public class Rserve implements IRCaller {
 		}
 		initialize();
 		insertData(dataFiles);
-		double[] res = r.eval(rCommand).asDoubles();
+		/*double[] res = r.eval(rCommand).asDoubles();
 		Point result = new Point();
 		result.setX(res[0]);
-		result.setY(res[1]);
+		result.setY(res[1]);      */
 		deleteData();
 		//return result;
 		return null;
@@ -288,14 +287,14 @@ public class Rserve implements IRCaller {
 		}
 		initialize();
 		insertData(dataFiles);
-		double[][] res = r.eval(rCommand).asDoubleMatrix();
+		/*double[][] res = r.eval(rCommand).asDoubleMatrix();
 		ArrayList<Point> result = new ArrayList<Point>();
 		for (int i = 0; i < res.length; i++) {
 			Point p = new Point();
 			p.setX(res[i][0]);
 			p.setY(res[i][1]);
 			result.add(p);
-		}
+		}                */
 		deleteData();
 		//return result;
 		return null;

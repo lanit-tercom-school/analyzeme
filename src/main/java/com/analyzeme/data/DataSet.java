@@ -1,12 +1,8 @@
 package com.analyzeme.data;
 
-import com.analyzeme.analyze.Point;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
-import com.analyzeme.parsers.JsonParser;
-import com.analyzeme.streamreader.StreamToString;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +104,7 @@ public class DataSet {
         return fields.keySet();
     }
 
-    public List<Double>  getByField(final String field) throws Exception {
+    public List<Double> getByField(final String field) throws Exception {
         return file.getByField(field);
     }
 

@@ -57,4 +57,14 @@ public class Data<T> {
     public String toString() {
         return toJson().toJSONString();
     }
+
+    @Override
+    public boolean equals(Object other) {
+        boolean result = false;
+        if (other instanceof Data) {
+            Data that = (Data) other;
+            result = this.getData().equals(that.getData());
+        }
+        return result;
+    }
 }

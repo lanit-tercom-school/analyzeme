@@ -1,6 +1,5 @@
 package com.analyzeme.r.facade;
 
-import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;

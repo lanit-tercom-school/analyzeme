@@ -1,6 +1,5 @@
 package com.analyzeme.r.facade;
 
-import com.analyzeme.analyze.Point;
 import org.junit.Test;
 
 import java.util.List;

@@ -1,9 +1,9 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyze.Point;
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.data.DataArray;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
@@ -28,11 +28,10 @@ import static junit.framework.Assert.fail;
  * Created by lagroffe on 26.03.2016 18:53
  */
 
-//TODO: refactor to not use Points
 public class RenjinTest {
     private static final double EPS = 0.00001;
     private static IRCaller call;
-    private static Point[] points;
+    private static DataArray<Double> dataArray;
 
     private static final String TEST_DATA = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" }," +
             "{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" }," +
@@ -94,7 +93,7 @@ public class RenjinTest {
         InputStream is = new ByteArrayInputStream(TEST_DATA.getBytes());
         JsonParser jsonParser;
         jsonParser = new JsonParser();
-        points = jsonParser.parse(is).toPointArray();
+        dataArray = jsonParser.parse(is);
         call = new Renjin();
 
         correctFile = convertStringToStream(TEST_DATA);
@@ -191,14 +190,14 @@ public class RenjinTest {
         try {
             ScalarResult<Double> resX;
             ScalarResult<Double> resY;
-            for (int i = 0; i < points.length; i++) {
+            for (int i = 0; i < dataArray.getData().size(); i++) {
                 resX = call.runCommandToGetScalar("x[" +
                         (int) (i + 1) + "]", TEST_DATA);
                 resY = call.runCommandToGetScalar("y[" +
                         (int) (i + 1) + "]", TEST_DATA);
                 assertTrue("Scalar isn't returned correctly from Renjin",
-                        doubleEqual(resX.getValue(), points[i].getX()) &&
-                                doubleEqual(resY.getValue(), points[i].getY()));
+                        doubleEqual(resX.getValue(), dataArray.getData().get(i).getByKey("x")) &&
+                                doubleEqual(resY.getValue(), dataArray.getData().get(i).getByKey("y")));
             }
         } catch (Exception e) {
             fail("Scalar isn't returned correctly from Renjin");
@@ -212,8 +211,8 @@ public class RenjinTest {
                     "c(x[5], y[5])",
                     TEST_DATA);
             assertTrue("Vector isn't returned correctly from Renjin",
-                    doubleEqual(points[4].getX(), res.getValue().get(0)) &&
-                            doubleEqual(points[4].getY(), res.getValue().get(1)));
+                    doubleEqual(dataArray.getData().get(4).getByKey("x"), res.getValue().get(0)) &&
+                            doubleEqual(dataArray.getData().get(4).getByKey("y"), res.getValue().get(1)));
         } catch (Exception e) {
             fail("Vector isn't returned correctly from Renjin");
         }
@@ -289,14 +288,14 @@ public class RenjinTest {
         try {
             ScalarResult<Double> resX;
             ScalarResult<Double> resY;
-            for (int i = 0; i < points.length; i++) {
+            for (int i = 0; i < dataArray.getData().size(); i++) {
                 resX = call.runCommandToGetScalar(correctX + "[" +
                         (int) (i + 1) + "]", correct);
                 resY = call.runCommandToGetScalar(correctY + "[" +
                         (int) (i + 1) + "]", correct);
                 assertTrue("Scalar isn't returned correctly from Renjin",
-                        doubleEqual(resX.getValue(), points[i].getX()) &&
-                                doubleEqual(resY.getValue(), points[i].getY()));
+                        doubleEqual(resX.getValue(), dataArray.getData().get(i).getByKey("x")) &&
+                                doubleEqual(resY.getValue(), dataArray.getData().get(i).getByKey("y")));
             }
         } catch (Exception e) {
             fail("Scalar isn't returned  correctly from Renjin");
@@ -309,8 +308,8 @@ public class RenjinTest {
             ColumnResult<Double> res = call.runCommandToGetVector("c(" + correctX +
                     "[5], " + correctY + "[5])", correct);
             assertTrue("Vector isn't returned correctly from Renjin",
-                    doubleEqual(points[4].getX(), res.getValue().get(0)) &&
-                            doubleEqual(points[4].getY(), res.getValue().get(1)));
+                    doubleEqual(dataArray.getData().get(4).getByKey("x"), res.getValue().get(0)) &&
+                            doubleEqual(dataArray.getData().get(4).getByKey("y"), res.getValue().get(1)));
         } catch (Exception e) {
             fail("Vector isn't returned correctly from Renjin");
         }
@@ -343,7 +342,7 @@ public class RenjinTest {
         try {
             ScalarResult<Double> resX;
             ScalarResult<Double> resY;
-            for (int i = 0; i < points.length; i++) {
+            for (int i = 0; i < dataArray.getData().size(); i++) {
                 resX = call.runScriptToGetScalar(
                         correctScriptForCorrectFileName,
                         convertStringToStream(correctX + "[" + (int) (i + 1) + "]"), correct);
@@ -351,8 +350,8 @@ public class RenjinTest {
                         correctScriptForCorrectFileName,
                         convertStringToStream(correctY + "[" + (int) (i + 1) + "]"), correct);
                 assertTrue("Scalar isn't returned correctly from Renjin",
-                        doubleEqual(resX.getValue(), points[i].getX()) &&
-                                doubleEqual(resY.getValue(), points[i].getY()));
+                        doubleEqual(resX.getValue(), dataArray.getData().get(i).getByKey("x")) &&
+                                doubleEqual(resY.getValue(), dataArray.getData().get(i).getByKey("y")));
             }
         } catch (Exception e) {
             fail("Scalar isn't returned correctly from Renjin");
@@ -367,8 +366,8 @@ public class RenjinTest {
                             convertStringToStream("c(" + correctX + "[5]," + correctY + "[5])"),
                             correct);
             assertTrue("Vector isn't returned correctly from Renjin",
-                    doubleEqual(points[4].getX(), res.getValue().get(0)) &&
-                            doubleEqual(points[4].getY(), res.getValue().get(1)));
+                    doubleEqual(dataArray.getData().get(4).getByKey("x"), res.getValue().get(0)) &&
+                            doubleEqual(dataArray.getData().get(4).getByKey("y"), res.getValue().get(1)));
         } catch (Exception e) {
             fail("Vector isn't returned correctly from Renjin");
         }
