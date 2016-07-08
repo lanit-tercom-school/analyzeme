@@ -35,6 +35,10 @@ public class AnalyzerFactory {
             analyzers.put(name, new LinearCorrelationAnalyzer());
             return;
         }
+        if (name.equals("KolmogorovSmirnovTest")) {
+            analyzers.put(name, new KolmogorovSmirnovTestAnalyzer());
+            return;
+        }
         throw new IllegalArgumentException("Incorrect name");
     }
 }

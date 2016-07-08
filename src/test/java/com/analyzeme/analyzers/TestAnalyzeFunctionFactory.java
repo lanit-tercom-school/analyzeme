@@ -16,6 +16,8 @@ public class TestAnalyzeFunctionFactory {
         assertTrue(functionLinearCorrelation instanceof LinearCorrelationAnalyzer);
         IAnalyzer functionLinearRegression = AnalyzerFactory.getAnalyzer("LinearRegression");
         assertTrue(functionLinearRegression instanceof LinearRegressionAnalyzer);
+        IAnalyzer kolmogorovSmirnovTest = AnalyzerFactory.getAnalyzer("KolmogorovSmirnovTest");
+        assertTrue(kolmogorovSmirnovTest instanceof  KolmogorovSmirnovTestAnalyzer);
     }
 
 }
