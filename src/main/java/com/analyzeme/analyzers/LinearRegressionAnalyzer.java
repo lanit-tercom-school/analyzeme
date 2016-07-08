@@ -11,6 +11,7 @@ import java.util.List;
  * Created by lagroffe on 04.07.2016 14:33
  */
 public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
+    private static final int NUMBER_OF_PARAMS = 2;
     private static final int NUMBER_OF_DECIMAL_PLACES = 3;
     private List<Double> x;
     private List<Double> y;
@@ -21,6 +22,10 @@ public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
     private BigDecimal size;
     private BigDecimal firstCoef;
     private BigDecimal secondCoef;
+
+    public int getNumberOfParams() {
+        return NUMBER_OF_PARAMS;
+    }
 
     /**
      * @param data should contain two List<Double>
@@ -77,10 +82,10 @@ public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
                         valueOf(Double.parseDouble("" + y.get(i))));
                 sumOfXAndY = sumOfXAndY.add(BigDecimal.
                         valueOf(Double.parseDouble("" + x.get(i))
-                        * Double.parseDouble("" + y.get(i))));
+                                * Double.parseDouble("" + y.get(i))));
                 sumOfPoweredX = sumOfPoweredX.
                         add(BigDecimal.valueOf(Double.parseDouble("" + x.get(i))
-                        * Double.parseDouble("" + x.get(i))));
+                                * Double.parseDouble("" + x.get(i))));
             }
         } catch (NumberFormatException e) {
             return false;

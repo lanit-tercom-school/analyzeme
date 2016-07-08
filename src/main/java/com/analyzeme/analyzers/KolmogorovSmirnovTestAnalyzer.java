@@ -8,6 +8,7 @@ import java.util.List;
  * Created by Alexander on 05.07.2016.
  */
 public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
+    private static final int NUMBER_OF_PARAMS = 2;
 
     private double getCoefficient() {
         final double alpha = 0.05;
@@ -56,11 +57,15 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
     }
 
     public ScalarResult<Boolean> analyze(List<List<Double>> dataSets) throws IllegalArgumentException {
-        if (dataSets.size() != 2) throw new IllegalArgumentException("Kolmogorov-Smirnov test can only be applied " +
+        if (dataSets.size() != NUMBER_OF_PARAMS) throw new IllegalArgumentException("Kolmogorov-Smirnov test can only be applied " +
                 "to exactly 2 data sets. Actually got " + dataSets.size());
 
         double statistic = calcSmirnovStatistic(dataSets.get(0), dataSets.get(1));
         double coefficient = getCoefficient();
         return new ScalarResult<Boolean>(statistic < coefficient);
+    }
+
+    public int getNumberOfParams() {
+        return NUMBER_OF_PARAMS;
     }
 }

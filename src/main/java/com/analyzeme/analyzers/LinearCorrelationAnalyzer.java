@@ -12,6 +12,7 @@ import java.util.List;
  * Created by lagroffe on 04.07.2016 14:32
  */
 public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
+    private static final int NUMBER_OF_PARAMS = 2;
     private List<Double> x;
     private List<Double> y;
     private static final int NUMBER_OF_DECIMAL_PLACES = 3;
@@ -22,8 +23,12 @@ public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
     private BigDecimal dispersionY = BigDecimal.ZERO;
     private int size;
 
+    public int getNumberOfParams() {
+        return NUMBER_OF_PARAMS;
+    }
+
     public IResult analyze(List<List<Double>> data) {
-        if (data == null || data.isEmpty() || data.size() < 2) {
+        if (data == null || data.isEmpty() || data.size() < NUMBER_OF_PARAMS) {
             throw new IllegalArgumentException(
                     "Null or empty data");
         }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface IAnalyzer<T> {
     //now here should be List of List<Double>(columns)
     IResult analyze(List<List<T>> data);
+
+    int getNumberOfParams();
 }

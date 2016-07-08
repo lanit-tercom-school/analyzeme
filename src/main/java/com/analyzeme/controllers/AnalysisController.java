@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Ольга on 16.03.2016.
@@ -31,17 +33,32 @@ public class AnalysisController {
                             @RequestParam(value = "fields[]", required = false) String[] fields)
             throws Exception {
         try {
-            if (fields == null || fields.length == 0) {
-                fields = new String[]{"y"};
+            List<String> f = new ArrayList<String>();
+            if (fields != null) {
+                for (String s : fields) {
+                    f.add(s);
+                }
             }
+
             FileInRepositoryResolver res = new FileInRepositoryResolver();
             res.setProject(userId, projectId);
             DataSet data = res.getDataSet(referenceName);
+
+            IAnalyzer analyzer = AnalyzerFactory.getAnalyzer(functionType);
+            //TODO: this is a temporary if, change when js is ready
+            if (f.isEmpty()) {
+                Set<String> inFile = data.getFields();
+                Iterator<String> iterator = inFile.iterator();
+                for (int i = 0; i < analyzer.getNumberOfParams(); i++) {
+                    f.add(iterator.next());
+                }
+            }
+
             List<List<Double>> toAnalyze = new ArrayList<List<Double>>();
-            for (String field : fields) {
+            for (String field : f) {
                 toAnalyze.add(data.getByField(field));
             }
-            IAnalyzer analyzer = AnalyzerFactory.getAnalyzer(functionType);
+
             IResult results = analyzer.analyze(toAnalyze);
             return results.toJson();
         } catch (InvalidFileException ex) {

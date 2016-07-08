@@ -11,6 +11,11 @@ import java.util.List;
  * Created by lagroffe on 05.07.2016 15:07
  */
 public class GlobalMinimumAnalyzer implements IAnalyzer<Double> {
+    private static final int NUMBER_OF_PARAMS = 1;
+
+    public int getNumberOfParams() {
+        return NUMBER_OF_PARAMS;
+    }
 
     public IResult analyze(List<List<Double>> data) {
         if (data == null || data.isEmpty() || data.get(0).isEmpty()) {
