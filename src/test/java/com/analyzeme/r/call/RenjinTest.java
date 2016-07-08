@@ -30,7 +30,7 @@ import static junit.framework.Assert.fail;
 
 //TODO: refactor to not use Points
 public class RenjinTest {
-   /* private static final double EPS = 0.00001;
+    private static final double EPS = 0.00001;
     private static IRCaller call;
     private static Point[] points;
 
@@ -469,5 +469,5 @@ public class RenjinTest {
     public void testCorrectScriptToGetVectorsIncorrectFile() throws Exception {
         call.runScriptToGetVectors(correctScriptForIncorrectFileName,
                 correctScriptForIncorrectFile, incorrect);
-    }  */
+    }
 }

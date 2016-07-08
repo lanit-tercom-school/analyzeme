@@ -38,6 +38,8 @@ public class DataArray<T> {
                if(!result.containsKey(key)) {
                    result.put(key, new ArrayList<T>());
                    result.get(key).add(d.getByKey(key));
+               } else {
+                   result.get(key).add(d.getByKey(key));
                }
            }
         }
