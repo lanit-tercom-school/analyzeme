@@ -25,6 +25,7 @@ mean(x)`
                 ];
 
                 this.availableFunctions = [
+                   
                     {
                         func: "GlobalMinimum",
                         name: "Global minimum"
@@ -32,7 +33,11 @@ mean(x)`
                     {
                         func: "GlobalMaximum",
                         name: "Global maximum"
-                    }
+                   },
+                   {
+                       func: "KolmogorovSmirnovTest",
+                       name: "Kolmogorov-Smirnov Test"
+                   }
                 ];
                 this.availableFunctions.push({
                     func: "UserScript",
