@@ -1,13 +1,14 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyze.Point;
+
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
-import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
+import com.analyzeme.repository.filerepository.TypeOfFile;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -15,8 +16,6 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -76,7 +75,7 @@ public class FakeRTest {
         correctY = "y_from__repo__" + correctFileId + "__";
         correct = new ArrayList<DataSet>();
         ISourceInfo correctInfo =
-                new JsonPointFileInRepositoryInfo(correctFileId);
+                new DataRepositoryInfo(correctFileId, TypeOfFile.SIMPLE_JSON);
         DataSet setCorrect = new DataSet(CORRECT_FILENAME, correctInfo);
         setCorrect.addField("x");
         setCorrect.addField("y");

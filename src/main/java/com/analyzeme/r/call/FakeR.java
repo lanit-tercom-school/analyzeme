@@ -1,8 +1,8 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyze.Point;
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
 
@@ -22,14 +22,14 @@ public class FakeR implements IRCaller {
      * @return auto-generated json form of result (may be errors)
      * @throws Exception if failed to call r or script errored
      */
-    public String runScriptDefault(final String scriptName,
-                                   ByteArrayInputStream rScript,
-                                   final ArrayList<DataSet> dataFiles) throws Exception {
+    public NotParsedJsonStringResult runScriptDefault(final String scriptName,
+                                                      ByteArrayInputStream rScript,
+                                                      final ArrayList<DataSet> dataFiles) throws Exception {
         if (scriptName == null || rScript == null ||
                 scriptName.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
-        return "";
+        return new NotParsedJsonStringResult("");
     }
 
     /**
@@ -89,12 +89,12 @@ public class FakeR implements IRCaller {
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public String runCommandDefault(final String rCommand,
-                                    final ArrayList<DataSet> dataFiles) throws Exception {
+    public NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                       final ArrayList<DataSet> dataFiles) throws Exception {
         if (rCommand == null || rCommand.equals("") || dataFiles == null) {
             throw new IllegalArgumentException();
         }
-        return "";
+        return new NotParsedJsonStringResult("");
     }
 
     /**
@@ -103,13 +103,13 @@ public class FakeR implements IRCaller {
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public String runCommandDefault(final String rCommand,
-                                    final String jsonData) throws Exception {
+    public NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                       final String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-        return "";
+        return new NotParsedJsonStringResult("");
     }
 
     /**

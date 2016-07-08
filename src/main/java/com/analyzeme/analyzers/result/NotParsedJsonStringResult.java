@@ -26,8 +26,8 @@ public class NotParsedJsonStringResult implements IResult {
     @Override
     public boolean equals(Object other) {
         boolean result = false;
-        if (other instanceof ColumnResult) {
-            ColumnResult that = (ColumnResult) other;
+        if (other instanceof NotParsedJsonStringResult) {
+            NotParsedJsonStringResult that = (NotParsedJsonStringResult) other;
             result = this.getValue().equals(that.getValue());
         }
         return result;

@@ -1,10 +1,9 @@
 package com.analyzeme.data;
 
+import com.analyzeme.analyze.Point;
 import org.json.JSONArray;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by lagroffe on 27.05.2016 18:34
@@ -22,6 +21,35 @@ public class DataArray<T> {
 
     public List<Data<T>> getData() {
         return data;
+    }
+
+    public Set<String> getKeys() {
+        if (!data.isEmpty()) {
+            return data.get(0).getKeys();
+        } else {
+            return new HashSet<String>();
+        }
+    }
+
+    public Map<String, List<T>> getMap() {
+        Map<String, List<T>> result = new HashMap<String, List<T>>();
+        for(Data<T> d: this.getData()) {
+           for(String key: d.getKeys()) {
+               if(!result.containsKey(key)) {
+                   result.put(key, new ArrayList<T>());
+                   result.get(key).add(d.getByKey(key));
+               }
+           }
+        }
+        return result;
+    }
+
+    public Point[] toPointArray() {
+        Point[] result = new Point[data.size()];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = new Point((Double) data.get(i).getByKey("x"), (Double) data.get(i).getByKey("y"));
+        }
+        return result;
     }
 
     public List<T> getByKey(final String key) {
@@ -55,5 +83,18 @@ public class DataArray<T> {
             s.append(d.toCsvWithNoHeader());
         }
         return s.toString();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder builder = new StringBuilder();
+        builder.append("[\n");
+        for (Data<T> d : data) {
+            builder.append("   ");
+            builder.append(d);
+            builder.append(",\n");
+        }
+        builder.append("]");
+        return builder.toString();
     }
 }

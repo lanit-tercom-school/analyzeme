@@ -3,6 +3,7 @@ package com.analyzeme.r.facade;
 
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 
 import java.io.ByteArrayInputStream;
@@ -45,9 +46,9 @@ public class RScriptManager {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    static String runScriptDefault(final String rScriptName,
-                                   ByteArrayInputStream rScript, final int userId,
-                                   final String projectId) throws Exception {
+    static NotParsedJsonStringResult runScriptDefault(final String rScriptName,
+                                                      ByteArrayInputStream rScript, final int userId,
+                                                      final String projectId) throws Exception {
         if (rScriptName == null || rScriptName.equals("") || rScript == null || userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
@@ -63,7 +64,7 @@ public class RScriptManager {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    static String runScriptDefault(final String rScriptId, final int userId,
+    static NotParsedJsonStringResult runScriptDefault(final String rScriptId, final int userId,
                                    final String projectId) throws Exception {
         if (rScriptId == null || rScriptId.equals("") || userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();

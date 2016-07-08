@@ -12,47 +12,23 @@ import java.util.Set;
  * Created by lagroffe on 20.05.2016 21:27
  */
 public class FileUploader {
-    private static Set<String> keys;
 
     private static ISourceInfo createSourceInfo(
             final String nameInRepo, TypeOfFile typeOfFile) throws Exception {
-        ISourceInfo source = null;
+        ISourceInfo source;
         switch (typeOfFile) {
-            case SIMPLE_JSON: {
-                source = new JsonPointFileInRepositoryInfo(nameInRepo);
-                Set<String> keysTemp = new HashSet<String>();
-                for(String key: source.getKeys())  {
-                    keysTemp.add(key);
-                }
-                keys = keysTemp;
+            case SIMPLE_JSON:
+            case CSV:
+            case EXCEL:
+                source = new DataRepositoryInfo(nameInRepo, typeOfFile);
                 break;
-            }
-            case CSV: {
-                source = new CsvFileInRepositoryInfo(nameInRepo);
-                Set<String> keysTemp = new HashSet<String>();
-                for(String key: source.getKeys())  {
-                    keysTemp.add(key);
-                }
-                keys = keysTemp;
-                break;
-            }
-            case EXCEL: {
-                source = new ExcelFileInRepositoryInfo(nameInRepo);
-                Set<String> keysTemp = new HashSet<String>();
-                for(String key: source.getKeys())  {
-                    keysTemp.add(key);
-                }
-                keys = keysTemp;
-                break;
-            }
-            case SCRIPT: {
+            case SCRIPT:
                 source = new ScriptInRepositoryInfo(nameInRepo);
                 break;
-            }
-            default: {
+            default:
                 throw new IllegalArgumentException(
                         "FileUploader createSourceInfo(): wrong TypeOfFile");
-            }
+
         }
         return source;
     }
@@ -66,7 +42,7 @@ public class FileUploader {
             throw new IllegalArgumentException(
                     "FileUploader upload(MultipartFile): empty argument");
         }
-        if(typeOfFile == null) {
+        if (typeOfFile == null) {
             throw new IllegalArgumentException("null type of file");
         }
         String nameInRepo = FileRepository.getRepo().persist(file, filename);
@@ -76,10 +52,9 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        for(String key: keys) {
+        for (String key : source.getKeys()) {
             result.addField(key);
         }
-        keys.clear();
         //next line should be deprecated when real referenceName is ready
         result.setReferenceName(nameInRepo);
         return result;
@@ -94,7 +69,7 @@ public class FileUploader {
             throw new IllegalArgumentException(
                     "FileUploader upload(String): empty argument");
         }
-        if(typeOfFile == null) {
+        if (typeOfFile == null) {
             throw new IllegalArgumentException("null type of file");
         }
         String nameInRepo = FileRepository.getRepo().persist(file, filename);
@@ -104,10 +79,9 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        for(String key: keys) {
+        for (String key : source.getKeys()) {
             result.addField(key);
         }
-        keys.clear();
         //next line should be deprecated when real referenceName is ready
         result.setReferenceName(nameInRepo);
         return result;
@@ -121,7 +95,7 @@ public class FileUploader {
             throw new IllegalArgumentException(
                     "FileUploader upload(ByteArrayInputStream): empty argument");
         }
-        if(typeOfFile == null) {
+        if (typeOfFile == null) {
             throw new IllegalArgumentException("null type of file");
         }
         String nameInRepo = FileRepository.getRepo().persist(part, filename);
@@ -131,10 +105,9 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        for(String key: keys) {
+        for (String key : source.getKeys()) {
             result.addField(key);
         }
-        keys.clear();
         //next line should be deprecated when real referenceName is ready
         result.setReferenceName(nameInRepo);
         return result;
