@@ -2,7 +2,7 @@ package com.analyzeme.repository.projects;
 
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
-import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.repository.filerepository.FileUploader;
 import com.analyzeme.repository.filerepository.TypeOfFile;
 import org.junit.Test;
@@ -181,7 +181,7 @@ public class ProjectInfoTest {
     @Test
     public void testPersist() throws Exception {
         ProjectInfo project = new ProjectInfo("sth", "sth");
-        ISourceInfo info = new JsonPointFileInRepositoryInfo("sth");
+        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         project.persist(set);
     }

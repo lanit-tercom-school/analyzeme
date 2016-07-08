@@ -52,4 +52,9 @@ public class Data<T> {
         s.append("\n");
         return s.toString();
     }
+
+    @Override
+    public String toString() {
+        return toJson().toJSONString();
+    }
 }
