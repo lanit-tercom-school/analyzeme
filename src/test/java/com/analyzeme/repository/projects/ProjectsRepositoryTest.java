@@ -6,7 +6,8 @@ package com.analyzeme.repository.projects;
 
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
-import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
+import com.analyzeme.repository.filerepository.TypeOfFile;
 import org.junit.Test;
 
 import java.util.List;
@@ -115,7 +116,7 @@ public class ProjectsRepositoryTest {
     @Test(expected = IllegalArgumentException.class)
     public void nullIdForPersist() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
-        ISourceInfo info = new JsonPointFileInRepositoryInfo("sth");
+        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         repo.persist(set, null);
     }
@@ -123,7 +124,7 @@ public class ProjectsRepositoryTest {
     @Test(expected = IllegalArgumentException.class)
     public void emptyIdForPersist() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
-        ISourceInfo info = new JsonPointFileInRepositoryInfo("sth");
+        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         repo.persist(set, "");
     }
@@ -137,7 +138,7 @@ public class ProjectsRepositoryTest {
     @Test(expected = IllegalArgumentException.class)
     public void nonExistingProjectForPersist() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
-        ISourceInfo info = new JsonPointFileInRepositoryInfo("sth");
+        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         repo.persist(set, "sth");
     }
@@ -175,7 +176,7 @@ public class ProjectsRepositoryTest {
     @Test
     public void testRecentlyAddedForGetByReferenceName() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
-        ISourceInfo info = new JsonPointFileInRepositoryInfo("sth");
+        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         repo.persist(set, "demo");
         DataSet res = repo.getByReferenceName("demo", "sth");

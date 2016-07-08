@@ -5,7 +5,7 @@ import com.analyzeme.analyzers.IAnalyzer;
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
-import com.analyzeme.parsers.JsonParserException;
+import com.analyzeme.parsers.InvalidFileException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -44,7 +44,7 @@ public class AnalysisController {
             IAnalyzer analyzer = AnalyzerFactory.getAnalyzer(functionType);
             IResult results = analyzer.analyze(toAnalyze);
             return results.toJson();
-        } catch (JsonParserException ex) {
+        } catch (InvalidFileException ex) {
             return ex.toString();
         } catch (IllegalArgumentException e) {
             return e.toString();

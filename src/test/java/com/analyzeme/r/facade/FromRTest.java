@@ -3,11 +3,12 @@ package com.analyzeme.r.facade;
 import com.analyzeme.analyze.Point;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
-import com.analyzeme.data.resolvers.sourceinfo.JsonPointFileInRepositoryInfo;
+import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.r.call.IRCaller;
 import com.analyzeme.r.call.Renjin;
 import com.analyzeme.repository.filerepository.FileRepository;
+import com.analyzeme.repository.filerepository.TypeOfFile;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -137,7 +138,7 @@ public class FromRTest {
                         TEST_DATA.getBytes());
         JsonParser jsonParser;
         jsonParser = new JsonParser();
-        points = jsonParser.getPointsFromPointJson(is);
+        points = jsonParser.parse(is).toPointArray();
         call = new Renjin();
 
         correctFile = convertStringToStream(TEST_DATA);
@@ -155,8 +156,8 @@ public class FromRTest {
                 + correctFileId + "__";
         correct = new ArrayList<DataSet>();
         ISourceInfo correctInfo =
-                new JsonPointFileInRepositoryInfo(
-                        correctFileId);
+                new DataRepositoryInfo(
+                        correctFileId, TypeOfFile.SIMPLE_JSON);
         DataSet setCorrect =
                 new DataSet(CORRECT_FILENAME,
                         correctInfo);
@@ -176,8 +177,8 @@ public class FromRTest {
                 + incorrectFileId + "__";
         incorrect = new ArrayList<DataSet>();
         ISourceInfo incorrectInfo =
-                new JsonPointFileInRepositoryInfo(
-                        incorrectFileId);
+                new DataRepositoryInfo(
+                        incorrectFileId, TypeOfFile.SIMPLE_JSON);
         DataSet setIncorrect = new DataSet(
                 INCORRECT_FILENAME,
                 incorrectInfo);

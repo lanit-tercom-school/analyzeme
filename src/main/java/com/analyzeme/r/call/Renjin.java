@@ -4,6 +4,7 @@ import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.data.DataArray;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.streamreader.StreamToString;
@@ -98,7 +99,8 @@ public class Renjin implements IRCaller {
     private static void insertDataFromJson(final String jsonData) throws Exception {
         JsonParser jsonParser = new JsonParser();
         //TODO: refactor to work with other types, not only double
-        Map<String, List<Double>> data = jsonParser.parse(jsonData);
+        DataArray<Double> parsed = jsonParser.parse(new ByteArrayInputStream(jsonData.getBytes()));
+        Map<String, List<Double>> data = parsed.getMap();
         for (Map.Entry<String, List<Double>> entry : data.entrySet()) {
             double[] array = new double[entry.getValue().size()];
             for(int i = 0; i < entry.getValue().size(); i++) {
