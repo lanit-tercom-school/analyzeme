@@ -2,12 +2,25 @@
 (function (app) {
     //draw graph
     app.HighchartsUtils = {};
-    app.HighchartsUtils.DrawGraph = function (Data) {
-        var data2D=[];
-       for (var i = 0; i < Data.length; i++) {
-            data2D.push([parseFloat(Data[i].x),parseFloat(Data[i].y)]);
+    app.HighchartsUtils.DrawGraph = function (data) {
+        var series = [];
+        if (data.length!= 0) {
+            var xAxis;
+            if (data[0].hasOwnProperty("x"))
+                xAxis = "x";
+            else
+                xAxis = Object.keys(data[0])[0];// First property
+            console.log(xAxis);
+            Object.keys(data[0]).forEach(function (key) {
+                if (key != xAxis) {
+                    var data2D = [];
+                    for (var i = 0; i < data.length; i++) {
+                        data2D.push([parseFloat(data[i][xAxis]), parseFloat(data[i][key])]);
+                    }
+                    series.push({data: data2D, name: key});
+                }
+            });
         }
-
         $('#svgVisualize').highcharts({
             chart: {
                 zoomType: 'x'
@@ -36,24 +49,24 @@
 
                 }]
             },
-            //
+
             //legend: {
             //    layout: 'vertical',
             //    align: 'right',
             //    verticalAlign: 'middle',
             //    borderWidth: 0
             //},
+
             plotOptions: {
                 line: {
                     allowPointSelect: true
                 },
-                series: {
-                    color: '#2e7d32'
-                }
+
             },
-            series: [{
-                data: data2D
-            }]
+
+
+            series: series
+
         });
     };
 })(window.app || (window.app = {}));
