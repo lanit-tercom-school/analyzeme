@@ -7,6 +7,7 @@ package com.analyzeme.controllers;
 import org.junit.Test;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 
@@ -17,7 +18,9 @@ public class TestFileController {
     @Test
     public void testContentOfFileControllerjSon() throws Exception {
         FileController fileController = new FileController();
-        InputStream is = new BufferedInputStream(new FileInputStream("src\\test\\java\\com\\analyzeme\\controllers\\x.json"));
+
+        InputStream is = new BufferedInputStream(new FileInputStream
+                (new File(this.getClass().getResource("/test_data/x.json").getFile())));
         String mimeType = fileController.controlContentOfFile("x.json", is);
         assertTrue(mimeType.equals("application/json"));
     }
@@ -25,7 +28,8 @@ public class TestFileController {
     @Test
     public void testContentOfFileControllerCSV() throws Exception {
         FileController fileController = new FileController();
-        InputStream is = new BufferedInputStream(new FileInputStream("src\\test\\java\\com\\analyzeme\\controllers\\y.csv"));
+        InputStream is = new BufferedInputStream(new FileInputStream
+                (new File(this.getClass().getResource("/test_data/y.csv").getFile())));
         String mimeType = fileController.controlContentOfFile("y.csv", is);
         assertTrue(mimeType.equals("text/csv"));
     }
@@ -33,7 +37,8 @@ public class TestFileController {
     @Test
     public void testContentOfFileControllerXls() throws Exception {
         FileController fileController = new FileController();
-        InputStream is = new BufferedInputStream(new FileInputStream("src\\test\\java\\com\\analyzeme\\controllers\\z.xlsx"));
+        InputStream is = new BufferedInputStream(new FileInputStream
+                (new File(this.getClass().getResource("/test_data/z.xlsx").getFile())));
         String mime = fileController.controlContentOfFile("z.xlsx", is);
         assertTrue(mime.equals("application/vnd.ms-excel") ||
                 mime.equals("application/msexcel") ||
@@ -50,7 +55,8 @@ public class TestFileController {
     @Test
     public void testContentOfFileControllerExceXlsx() throws Exception {
         FileController fileController = new FileController();
-        InputStream is = new BufferedInputStream(new FileInputStream("src\\test\\java\\com\\analyzeme\\controllers\\a.xls"));
+        InputStream is = new BufferedInputStream(new FileInputStream
+                (new File(this.getClass().getResource("/test_data/a.xls").getFile())));
         String mime = fileController.controlContentOfFile("a.xls", is);
         assertTrue(mime.equals("application/vnd.ms-excel") ||
                 mime.equals("application/msexcel") ||
