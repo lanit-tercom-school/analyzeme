@@ -4,6 +4,7 @@ import com.analyzeme.data.Data;
 import com.analyzeme.data.DataArray;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -23,16 +24,22 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
     }
 
     public String toJson() {
-        if (result == null || result.get(0) == null) {
+        if (result == null) {
             return null;
         }
         DataArray<T> temp = new DataArray<T>();
-        for(int i = 0; i < result.get(0).size(); i++) {
+        Iterator<String> it = result.keySet().iterator();
+        int length = 0;
+        if (it.hasNext()) {
+            length = result.get(it.next()).size();
+        }
+        for (int i = 0; i < length; i++) {
             Map<String, T> tempMap = new HashMap<String, T>();
-            for(Map.Entry<String, List<T>> entry : result.entrySet()) {
+            for (Map.Entry<String, List<T>> entry : result.entrySet()) {
                 tempMap.put(entry.getKey(), entry.getValue().get(i));
             }
-            temp.addData(new Data<T>(tempMap));
+            Data<T> d = new Data<T>(tempMap);
+            temp.addData(d);
         }
         return temp.toPointJson();
     }
