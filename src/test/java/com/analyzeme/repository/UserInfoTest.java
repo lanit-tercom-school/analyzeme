@@ -1,13 +1,11 @@
 package com.analyzeme.repository;
 
-
 import org.junit.Test;
 
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotNull;
 
-/**
- * Created by lagroffe on 21.05.2016 17:47
- */
 public class UserInfoTest {
 
     @Test(expected = IllegalArgumentException.class)
@@ -48,38 +46,41 @@ public class UserInfoTest {
     @Test
     public void testGetLogin() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct",
-                info.getLogin() != null &&
-                        !info.getLogin().equals(""));
+        assertNotNull("getLogin is not correct",
+                info.getLogin());
+        assertNotEquals("getLogin is not correct", "",
+                info.getLogin());
     }
 
     @Test
     public void testGetEmail() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct",
-                info.getEmail() != null &&
-                        !info.getEmail().equals(""));
+        assertNotNull("getEmail is not correct",
+                info.getEmail());
+        assertNotEquals("getEmail is not correct", "",
+                info.getEmail());
     }
 
     @Test
     public void testGetPassword() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct",
-                info.getPassword() != null &&
-                        !info.getPassword().equals(""));
+        assertNotNull("getPassword is not correct",
+                info.getPassword());
+        assertNotEquals("getPassword is not correct", "",
+                info.getPassword());
     }
 
     @Test
     public void testGetId() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct", info.getId() > 0);
+        assertTrue("getId is not correct", info.getId() > 0);
     }
 
     @Test
     public void testGetProjects() throws Exception {
         UserInfo info = new UserInfo("sth", 1, "sth", "sth");
-        assertTrue("getLogin is not correct",
-                info.getProjects() != null);
+        assertNotNull("getProjects is not correct",
+                info.getProjects());
     }
 
     @Test(expected = IllegalArgumentException.class)

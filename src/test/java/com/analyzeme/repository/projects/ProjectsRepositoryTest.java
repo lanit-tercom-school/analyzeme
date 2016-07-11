@@ -1,9 +1,5 @@
 package com.analyzeme.repository.projects;
 
-/**
- * Created by lagroffe on 21.05.2016 10:54
- */
-
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
@@ -12,9 +8,7 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-import static junit.framework.Assert.fail;
+import static junit.framework.Assert.*;
 
 public class ProjectsRepositoryTest {
 
@@ -28,32 +22,42 @@ public class ProjectsRepositoryTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void nullArgumentsForFindProjectById() throws Exception {
+    public void nullArgumentsForFindProjectById()
+            throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         repo.findProjectById(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void emptyArgumentsForFindProjectById() throws Exception {
+    public void emptyArgumentsForFindProjectById()
+            throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         repo.findProjectById("");
     }
 
     @Test
-    public void testEmptyForFindProjectById() throws Exception {
+    public void testEmptyForFindProjectById()
+            throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         ProjectInfo info = repo.findProjectById("sth");
-        assertTrue("Empty project repository does not work correctly", info == null);
+        assertNull(
+                "Empty project repository does not work correctly",
+                info);
     }
 
     @Test
-    public void testRecentlyAddedForFindProjectById() throws Exception {
+    public void testRecentlyAddedForFindProjectById()
+            throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         String testProjectName = "new";
         String id = repo.createProject(testProjectName);
         ProjectInfo info = repo.findProjectById(id);
-        assertTrue("FindProjectById for recently added does not work correctly",
-                info.getProjectName().equals(testProjectName) && info.getUniqueName().equals(id));
+        assertEquals(
+                "FindProjectById for recently added does not work correctly",
+                id, info.getUniqueName());
+        assertEquals(
+                "FindProjectById for recently added does not work correctly",
+                testProjectName, info.getProjectName());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -73,7 +77,7 @@ public class ProjectsRepositoryTest {
         try {
             ProjectsRepository repo = new ProjectsRepository();
             String id = repo.createProject("new");
-            assertTrue("Wrong id of first project", id.equals("project"));
+            assertEquals("Wrong id of first project", "project", id);
         } catch (Exception e) {
             fail("Something went wrong in createProject");
         }
@@ -95,7 +99,8 @@ public class ProjectsRepositoryTest {
     public void testEmptyForDeactivateProjectById() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         boolean deactivated = repo.deactivateProjectById("sth");
-        assertFalse("Empty repository works correctly for deactivation",
+        assertFalse(
+                "Empty repository works correctly for deactivation",
                 deactivated);
     }
 
@@ -103,10 +108,13 @@ public class ProjectsRepositoryTest {
     public void testRecentlyAddedForDeactivateProjectById() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
         String id = repo.createProject("new");
-        boolean deactivated = repo.deactivateProjectById(id);
-        if(deactivated) {
-            List<String> names = repo.returnAllActiveProjectsIds();
-            assertTrue("Deactivation is correct for recently added",
+        boolean deactivated =
+                repo.deactivateProjectById(id);
+        if (deactivated) {
+            List<String> names =
+                    repo.returnAllActiveProjectsIds();
+            assertTrue(
+                    "Deactivation is correct for recently added",
                     names.size() == 1);
             return;
         }
@@ -116,7 +124,9 @@ public class ProjectsRepositoryTest {
     @Test(expected = IllegalArgumentException.class)
     public void nullIdForPersist() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
-        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
+        ISourceInfo info =
+                new DataRepositoryInfo("sth",
+                        TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         repo.persist(set, null);
     }
@@ -124,7 +134,9 @@ public class ProjectsRepositoryTest {
     @Test(expected = IllegalArgumentException.class)
     public void emptyIdForPersist() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
-        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
+        ISourceInfo info =
+                new DataRepositoryInfo("sth",
+                        TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         repo.persist(set, "");
     }
@@ -138,7 +150,8 @@ public class ProjectsRepositoryTest {
     @Test(expected = IllegalArgumentException.class)
     public void nonExistingProjectForPersist() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
-        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
+        ISourceInfo info = new DataRepositoryInfo(
+                "sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         repo.persist(set, "sth");
     }
@@ -176,11 +189,15 @@ public class ProjectsRepositoryTest {
     @Test
     public void testRecentlyAddedForGetByReferenceName() throws Exception {
         ProjectsRepository repo = new ProjectsRepository();
-        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
+        ISourceInfo info = new DataRepositoryInfo(
+                "sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         repo.persist(set, "demo");
-        DataSet res = repo.getByReferenceName("demo", "sth");
-        assertTrue("getByReferenceName works correctly for recently added", res!=null);
+        DataSet res = repo.getByReferenceName(
+                "demo", "sth");
+        assertNotNull(
+                "getByReferenceName works correctly for recently added",
+                res);
     }
 
     @Test

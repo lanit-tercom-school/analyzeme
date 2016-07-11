@@ -10,11 +10,8 @@ import org.junit.Test;
 import java.util.Date;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
-/**
- * Created by lagroffe on 21.05.2016 17:59
- */
 public class ProjectInfoTest {
 
     @Test(expected = IllegalArgumentException.class)
@@ -38,29 +35,35 @@ public class ProjectInfoTest {
     }
 
     @Test
-    public void testEmptyForReturnActiveFilesForList() throws Exception {
+    public void testEmptyForReturnActiveFilesForList()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         String list = info.returnActiveFilesForList();
-        assertTrue(
+        assertEquals(
                 "returnActiveFilesForList incorrect for empty project",
-                list.equals("[]"));
+                "[]", list);
     }
 
     @Test
-    public void testRecentlyAddedForReturnActiveFilesForList() throws Exception {
+    public void testRecentlyAddedForReturnActiveFilesForList()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         DataSet set = FileUploader.upload(
                 "{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}",
                 "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         String list = info.returnActiveFilesForList();
-        assertTrue(
+        assertNotNull(
                 "returnActiveFilesForList incorrect for recently added",
-                list != null && !list.equals("[]"));
+                list);
+        assertNotEquals(
+                "returnActiveFilesForList incorrect for recently added",
+                "[]", list);
     }
 
     @Test
-    public void testRecentlyDeletedForReturnActiveFilesForList() throws Exception {
+    public void testRecentlyDeletedForReturnActiveFilesForList()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         DataSet set = FileUploader.upload(
                 "{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}",
@@ -68,13 +71,14 @@ public class ProjectInfoTest {
         info.persist(set);
         info.deactivateFiles();
         String list = info.returnActiveFilesForList();
-        assertTrue(
+        assertEquals(
                 "returnActiveFilesForList incorrect for recently deleted",
-                list.equals("[]"));
+                "[]", list);
     }
 
     @Test
-    public void testEmptyForReturnAllNamesOfActiveFiles() throws Exception {
+    public void testEmptyForReturnAllNamesOfActiveFiles()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         List<String> list = info.returnAllNamesOfActiveFiles();
         assertTrue(
@@ -83,20 +87,25 @@ public class ProjectInfoTest {
     }
 
     @Test
-    public void testRecentlyAddedForReturnAllNamesOfActiveFiles() throws Exception {
+    public void testRecentlyAddedForReturnAllNamesOfActiveFiles()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         DataSet set = FileUploader.upload(
                 "{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}",
                 "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         List<String> list = info.returnAllNamesOfActiveFiles();
-        assertTrue(
+        assertNotNull(
                 "returnAllNamesOfActiveFiles incorrect for recently added",
-                list != null && !list.isEmpty());
+                list);
+        assertFalse(
+                "returnAllNamesOfActiveFiles incorrect for recently added",
+                list.isEmpty());
     }
 
     @Test
-    public void testRecentlyDeletedForReturnAllNamesOfActiveFiles() throws Exception {
+    public void testRecentlyDeletedForReturnAllNamesOfActiveFiles()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         DataSet set = FileUploader.upload(
                 "{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}",
@@ -119,57 +128,69 @@ public class ProjectInfoTest {
     }
 
     @Test
-    public void testRecentlyAddedForGetReferenceNames() throws Exception {
+    public void testRecentlyAddedForGetReferenceNames()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         DataSet set = FileUploader.upload(
                 "{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}",
                 "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         List<String> list = info.getReferenceNames();
-        assertTrue(
+        assertNotNull(
                 "returnAllNamesOfActiveFiles incorrect for recently added",
-                list != null && !list.isEmpty());
+                list);
+        assertFalse(
+                "returnAllNamesOfActiveFiles incorrect for recently added",
+                list.isEmpty());
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void nullArgumentGetDataSetByReferenceName() throws Exception {
+    public void nullArgumentGetDataSetByReferenceName()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         info.getDataSetByReferenceName(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void emptyArgumentGetDataSetByReferenceName() throws Exception {
+    public void emptyArgumentGetDataSetByReferenceName()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         info.getDataSetByReferenceName("");
     }
 
     @Test
-    public void testEmptyForGetDataSetByReferenceName() throws Exception {
+    public void testEmptyForGetDataSetByReferenceName()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         DataSet set = info.getDataSetByReferenceName("sth");
-        assertTrue(set == null);
+        assertNull(set);
     }
 
     @Test
-    public void testNonExistingForGetDataSetByReferenceName() throws Exception {
+    public void testNonExistingForGetDataSetByReferenceName()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         DataSet set = FileUploader.upload(
                 "{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}",
                 "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
         DataSet set2 = info.getDataSetByReferenceName("sth2");
-        assertTrue(set2 == null);
+        assertNull(set2);
     }
 
     @Test
-    public void testRecentlyAddedForGetDataSetByReferenceName() throws Exception {
+    public void testRecentlyAddedForGetDataSetByReferenceName()
+            throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         DataSet set = FileUploader.upload(
                 "{\"Data\":[{\"x\":\"1\", \"y\":\"1\"}]}",
                 "sth", "sth", TypeOfFile.SIMPLE_JSON);
         info.persist(set);
-        DataSet set2 = info.getDataSetByReferenceName(set.getReferenceName());
-        assertTrue(set2 != null && set2.getReferenceName().equals(set.getReferenceName()));
+        DataSet set2 = info.getDataSetByReferenceName(
+                set.getReferenceName());
+        assertNotNull(set2);
+        assertEquals(set.getReferenceName(),
+                set2.getReferenceName());
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -181,7 +202,8 @@ public class ProjectInfoTest {
     @Test
     public void testPersist() throws Exception {
         ProjectInfo project = new ProjectInfo("sth", "sth");
-        ISourceInfo info = new DataRepositoryInfo("sth", TypeOfFile.SIMPLE_JSON);
+        ISourceInfo info = new DataRepositoryInfo(
+                "sth", TypeOfFile.SIMPLE_JSON);
         DataSet set = new DataSet("sth", info);
         project.persist(set);
     }
@@ -202,34 +224,37 @@ public class ProjectInfoTest {
     public void testGetProjectName() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         String name = info.getProjectName();
-        assertTrue("getProjectName incorrect", name != null && !name.equals(""));
+        assertNotNull("getProjectName incorrect", name);
+        assertNotEquals("getProjectName incorrect", "", name);
     }
 
     @Test
     public void testGetUniqueName() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         String id = info.getUniqueName();
-        assertTrue("getUniqueName incorrect", id != null && !id.equals(""));
+        assertNotNull("getUniqueName incorrect", id);
+        assertNotEquals("getUniqueName incorrect", "", id);
     }
 
     @Test
     public void testLastChangeDate() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         Date date = info.getLastChangeDate();
-        assertTrue("getLastChangeDate incorrect", date != null);
+        assertNotNull("getLastChangeDate incorrect", date);
     }
 
     @Test
     public void testCreationDate() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         Date date = info.getCreationDate();
-        assertTrue("getCreationDate incorrect", date != null);
+        assertNotNull("getCreationDate incorrect", date);
     }
 
     @Test
     public void testGetDatasets() throws Exception {
         ProjectInfo info = new ProjectInfo("sth", "sth");
         List<DataSet> sets = info.getDatasets();
-        assertTrue("getDatasets incorrect", sets != null && sets.isEmpty());
+        assertNotNull("getDatasets incorrect", sets);
+        assertTrue("getDatasets incorrect", sets.isEmpty());
     }
 }
