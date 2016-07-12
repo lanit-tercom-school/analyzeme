@@ -3,18 +3,24 @@ package com.analyzeme.controllers;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import com.analyzeme.parsers.InfoToJson;
-import com.analyzeme.repository.*;
+import com.analyzeme.repository.UserInfo;
+import com.analyzeme.repository.UsersRepository;
 import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.FileUploader;
 import com.analyzeme.repository.filerepository.TypeOfFile;
 import com.analyzeme.repository.projects.ProjectInfo;
 import com.analyzeme.streamreader.StreamToString;
+import org.apache.tika.detect.Detector;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.mime.MediaType;
+import org.apache.tika.parser.AutoDetectParser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Pattern;
 
 /**
@@ -40,17 +46,28 @@ public class FileController {
             String fileName = multipartFile.getOriginalFilename();
             //next line is TEMPORARY (before JS is ready)
             String referenceName = fileName;
+            InputStream inputStream = multipartFile.getInputStream();
+            String mime = controlContentOfFile(fileName, inputStream);
             if (!checkReferenceName(fileName, referenceName)) {
                 throw new IllegalArgumentException("Wrong referenceName");
             }
 
             //TODO: now type checking is only formal, change with #202
             TypeOfFile type = null;
-            if (fileName.endsWith(".json")) {
+
+            if (mime.equals("application/json")) {
                 type = TypeOfFile.SIMPLE_JSON;
-            } else if (fileName.endsWith(".csv")) {
+            } else if (mime.equals("text/csv")) {
                 type = TypeOfFile.CSV;
-            } else if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx") ) {
+            } else if (mime.equals("application/vnd.ms-excel") ||
+                    mime.equals("application/msexcel") ||
+                    mime.equals("application/x-msexcel") ||
+                    mime.equals("application/x-ms-excel") ||
+                    mime.equals("application/x-excel") ||
+                    mime.equals("application/x-dos_ms_excel") ||
+                    mime.equals("application/xls") ||
+                    mime.equals("application/x-xlsl") ||
+                    mime.equals("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")) {
                 type = TypeOfFile.EXCEL;
             }
 
@@ -256,5 +273,13 @@ public class FileController {
             return true;
         }
         return false;
+    }
+    public String controlContentOfFile(final String fileName, InputStream inputStream) throws IOException {
+        AutoDetectParser parser = new AutoDetectParser();
+        Detector detector = parser.getDetector();
+        Metadata metodata = new Metadata();
+        metodata.add(Metadata.RESOURCE_NAME_KEY, fileName);
+        MediaType mediaType = detector.detect(inputStream, metodata);
+        return mediaType.toString();
     }
 }

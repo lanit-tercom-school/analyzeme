@@ -142,6 +142,12 @@
             <artifactId>renjin-script-engine</artifactId>
             <version>RELEASE</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.5</version>
+        </dependency>
     </dependencies>
 
     <repositories>
@@ -228,7 +234,7 @@
                 <version>${jetty.version}</version>
                 <configuration>
                     <webApp>
-                        <contextPath>/analyzeme</contextPath>
+                        <contextPath>/</contextPath>
                     </webApp>
                     <stopPort>9999</stopPort>
                     <stopKey>foo</stopKey>
