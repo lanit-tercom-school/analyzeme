@@ -3,16 +3,16 @@ package com.analyzeme.analyzers.result;
 import com.analyzeme.data.Data;
 import com.analyzeme.data.DataArray;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static java.lang.Math.abs;
 
 /**
  * Use this type of result for groups of vectors with names
  */
 
 public class FileResult<T> implements IResult<Map<String, List<T>>> {
+    private static final double EPS_FOR_DOUBLE = 0.0001;
     private final Map<String, List<T>> result;
 
     public FileResult(final Map<String, List<T>> result) {
@@ -48,8 +48,29 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
     public boolean equals(Object other) {
         boolean result = false;
         if (other instanceof FileResult) {
-            FileResult that = (FileResult) other;
-            result = that.getValue().equals(this.getValue());
+            FileResult<T> that = (FileResult) other;
+            result = that.getValue().keySet().equals(this.getValue().keySet());
+            if (result) {
+                Set<String> names = this.getValue().keySet();
+                for (String name : names) {
+                    List<T> tempThis = this.getValue().get(name);
+                    List<T> tempThat = that.getValue().get(name);
+                    if (tempThis.size() != tempThat.size()) {
+                        return false;
+                    }
+                    for (int i = 0; i < tempThis.size(); i++) {
+                        T objThis = tempThis.get(i);
+                        T objThat = tempThat.get(i);
+                        //TODO: rewrite here to work not with double only
+                        if (abs((Double) objThis - (Double) objThat) > EPS_FOR_DOUBLE) {
+                            return false;
+                        }
+                    }
+                    /*if(!tempThis.equals(tempThat)) {
+                        return false;
+                    }  */
+                }
+            }
         }
         return result;
     }
