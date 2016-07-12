@@ -244,7 +244,7 @@ public class RenjinTest {
     }
 
     @Test
-    public void testCorrectCommandToGetVectorsCorrectJsonData() {
+    public void testCorrectCommandToGetVectorsCorrectJsonDataFromDataFrame() {
         try {
             Map<String, List<Double>> w = new HashMap<String, List<Double>>();
             w.put("new X name", new ArrayList<Double>());
@@ -342,7 +342,7 @@ public class RenjinTest {
     }
 
     @Test
-    public void testCorrectCommandToGetVectorsCorrectFile() {
+    public void testCorrectCommandToGetVectorsCorrectFileFromDataFrame() {
         try {
             Map<String, List<Double>> w = new HashMap<String, List<Double>>();
             w.put("new X name", new ArrayList<Double>());
@@ -401,7 +401,7 @@ public class RenjinTest {
     }
 
     @Test
-    public void testCorrectScriptToGetVectorsCorrectFile() {
+    public void testCorrectScriptToGetVectorsCorrectFileFromDataFrame() {
         try {
             Map<String, List<Double>> w = new HashMap<String, List<Double>>();
             w.put("new X name", new ArrayList<Double>());

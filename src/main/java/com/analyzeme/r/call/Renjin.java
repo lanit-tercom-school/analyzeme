@@ -9,12 +9,14 @@ import com.analyzeme.data.DataSet;
 import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.streamreader.StreamToString;
 import org.renjin.sexp.*;
-import org.renjin.sexp.Vector;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.io.ByteArrayInputStream;
 import java.util.*;
+
+import static com.analyzeme.r.call.RenjinResultHandler.renjinNotNamedVectorToList;
+import static com.analyzeme.r.call.RenjinResultHandler.resultToFile;
 
 /**
  * Created by lagroffe on 25.03.2016 2:57
@@ -24,40 +26,6 @@ public class Renjin implements IRCaller {
     private static ScriptEngineManager manager = null;
     private static ScriptEngine engine = null;
 
-
-    private static List renjinNotNamedVectorToList(final Vector v) {
-        if (v == null) {
-            throw new IllegalArgumentException("Renjin to get ColumnResult: impossible to evaluate; cause: null result");
-        }
-        List<Double> result = new ArrayList<Double>();
-        for (int i = 0; i < v.length(); i++) {
-            //TODO: refactor not for double only
-            result.add(v.getElementAsDouble(i));
-        }
-        return result;
-    }
-
-    static Map<String, List<Double>> renjinDataFrameToFile(final SEXP result) throws Exception {
-        if (result == null) {
-            throw new IllegalArgumentException("Renjin to get FileResult: impossible to evaluate; cause: null result");
-        }
-        ListVector res = (ListVector) result;
-        if (res.hasAttributes()) {
-            AtomicVector names = res.getNames();
-            //TODO: refactor not for double only
-            Map<String, List<Double>> toReturn = new HashMap<>();
-            for (int i = 0; i < names.length(); i++) {
-                Vector tempVector = res.getElementAsVector(names.getElementAsString(i));
-                List<Double> tempList = new ArrayList<>();
-                for (int j = 0; j < tempVector.length(); j++) {
-                    tempList.add(tempVector.getElementAsDouble(j));
-                }
-                toReturn.put(names.getElementAsString(i), tempList);
-            }
-            return toReturn;
-        }
-        return null;
-    }
 
     private static void initialize() {
         if (engine == null) {
@@ -103,15 +71,11 @@ public class Renjin implements IRCaller {
     }
 
     private SEXP runCommand(final String script) throws Exception {
-        try {
-            SEXP result = (SEXP) engine.eval(script);
-            if (result == null) {
-                throw new IllegalArgumentException("Incorrect script with null result");
-            } else {
-                return result;
-            }
-        } catch (Exception e) {
-            throw e;
+        SEXP result = (SEXP) engine.eval(script);
+        if (result == null) {
+            throw new IllegalArgumentException("Renjin run: incorrect script; cause: null result");
+        } else {
+            return result;
         }
     }
 
@@ -187,11 +151,8 @@ public class Renjin implements IRCaller {
         }
         initialize();
         insertData(dataFiles);
-        Vector res = (Vector) runScript(rScript);
+        SEXP res = runScript(rScript);
         deleteData();
-        if (res == null) {
-            throw new IllegalArgumentException("Impossible to evaluate");
-        }
         return new ColumnResult(renjinNotNamedVectorToList(res));
     }
 
@@ -212,14 +173,9 @@ public class Renjin implements IRCaller {
         }
         initialize();
         insertData(dataFiles);
-        Vector res = (Vector) runScript(rScript);
+        SEXP res = runScript(rScript);
         deleteData();
-        try {
-            Map<String, List<Double>> r = renjinDataFrameToFile(res);
-            return new FileResult(r);
-        } catch (Exception e) {
-            throw e;
-        }
+        return new FileResult(resultToFile(res));
     }
 
     /**
@@ -296,10 +252,7 @@ public class Renjin implements IRCaller {
         }
         initialize();
         insertData(dataFiles);
-        Vector res = (Vector) runCommand(rCommand);
-        if (res == null) {
-            throw new IllegalArgumentException("Impossible to evaluate");
-        }
+        SEXP res = runCommand(rCommand);
         deleteData();
         return new ColumnResult(renjinNotNamedVectorToList(res));
     }
@@ -318,14 +271,9 @@ public class Renjin implements IRCaller {
         }
         initialize();
         insertData(dataFiles);
-        Vector res = (Vector) runCommand(rCommand);
+        SEXP res = runCommand(rCommand);
         deleteData();
-        try {
-            Map<String, List<Double>> r = renjinDataFrameToFile(res);
-            return new FileResult(r);
-        } catch (Exception e) {
-            throw e;
-        }
+        return new FileResult(resultToFile(res));
     }
 
     /**
@@ -362,10 +310,7 @@ public class Renjin implements IRCaller {
         }
         initialize();
         insertDataFromJson(jsonData);
-        Vector res = (Vector) runCommand(rCommand);
-        if (res == null) {
-            throw new IllegalArgumentException("Impossible to evaluate");
-        }
+        SEXP res = runCommand(rCommand);
         deleteData();
         return new ColumnResult(renjinNotNamedVectorToList(res));
     }
@@ -382,16 +327,10 @@ public class Renjin implements IRCaller {
                 jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
-
         initialize();
         insertDataFromJson(jsonData);
-        Vector res = (Vector) runCommand(rCommand);
+        SEXP res = runCommand(rCommand);
         deleteData();
-        try {
-            Map<String, List<Double>> r = renjinDataFrameToFile(res);
-            return new FileResult(r);
-        } catch (Exception e) {
-            throw e;
-        }
+        return new FileResult(resultToFile(res));
     }
 }
