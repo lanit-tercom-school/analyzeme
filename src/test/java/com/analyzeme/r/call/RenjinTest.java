@@ -33,20 +33,26 @@ public class RenjinTest {
     private static IRCaller call;
     private static DataArray<Double> dataArray;
 
-    private static final String TEST_DATA = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" }," +
-            "{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" }," +
-            "{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" }," +
-            "{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" }," +
-            "{ \"x\": \"10\",\"y\": \"10\" }]}";
-    private static final String WRONG_TEST_DATA = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" ," +
-            "{ \"x\": \"1\",\"y\": \"1\" },{\"x\": \"2\",\"y\": \"2\"},{ \"x\": \"3\",\"y\": \"3\" }," +
-            "{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" }," +
-            "{ \"x\": \"7\",\"y\": \"7\" },{ \"x\" \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"\": \"9\" }," +
-            "{ \"x\": \"10\",\"y\": \"10\" }]}";
+    private static final String TEST_DATA =
+            "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" }, " +
+                    "{ \"x\": \"1\",\"y\": \"1\" }, {\"x\": \"2\",\"y\": \"2\"}," +
+                    "{ \"x\": \"3\",\"y\": \"3\" }, { \"x\": \"4\",\"y\": \"4\" }," +
+                    "{ \"x\": \"5\",\"y\": \"5\" }, { \"x\": \"6\",\"y\": \"6\" }," +
+                    "{ \"x\": \"7\",\"y\": \"7\" }, { \"x\": \"8\",\"y\": \"8\" }," +
+                    "{ \"x\": \"9\",\"y\": \"9\" }, { \"x\": \"10\",\"y\": \"10\" }]}";
+    private static final String WRONG_TEST_DATA =
+            "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" ," +
+                    "{ \"x\": \"1\",\"y\": \"1\" }, {\"x\": \"2\",\"y\": \"2\"}," +
+                    "{ \"x\": \"3\",\"y\": \"3\" }, { \"x\": \"4\",\"y\": \"4\" }," +
+                    "{ \"x\": \"5\",\"y\": \"5\" }, { \"x\": \"6\",\"y\": \"6\" }," +
+                    "{ \"x\": \"7\",\"y\": \"7\" },{ \"x\" \"8\",\"y\": \"8\" }," +
+                    "{ \"x\": \"9\",\"\": \"9\" }, { \"x\": \"10\",\"y\": \"10\" }]}";
 
     private static final String TEST_SCRIPT_FOR_VECTORS =
-            "matrix(c(x[1], y[1], x[2], y[2]), nrow = 2, ncol = 2, byrow=TRUE)";
-
+            "x<-c(0, 1, 2); y<-c(0, 1, 2); " +
+                    "z<-data.frame(x, y); " +
+                    "names(z) <- c(\"new X name\", \"new Y name\"); " +
+                    "z";
     private static ByteArrayInputStream correctFile;
     private static final String CORRECT_FILENAME =
             "fileRenjin.json";
@@ -77,6 +83,7 @@ public class RenjinTest {
 
 
     public static boolean doubleEqual(double a, double b) {
+
         return Math.abs(a - b) < EPS;
     }
 
@@ -90,7 +97,8 @@ public class RenjinTest {
 
     @BeforeClass
     public static void beforeClass() throws Exception {
-        InputStream is = new ByteArrayInputStream(TEST_DATA.getBytes());
+        InputStream is = new ByteArrayInputStream(
+                TEST_DATA.getBytes());
         JsonParser jsonParser;
         jsonParser = new JsonParser();
         dataArray = jsonParser.parse(is);
@@ -98,15 +106,19 @@ public class RenjinTest {
 
         correctFile = convertStringToStream(TEST_DATA);
         correctFileId =
-                FileRepository.getRepo().persist(correctFile, CORRECT_FILENAME);
+                FileRepository.getRepo().persist(
+                        correctFile,
+                        CORRECT_FILENAME);
         if (correctFileId == null) {
-            throw new IllegalArgumentException("Repository doesn't work");
+            throw new IllegalArgumentException(
+                    "Repository doesn't work");
         }
         correctX = "x_from__repo__" + correctFileId + "__";
         correctY = "y_from__repo__" + correctFileId + "__";
         correct = new ArrayList<DataSet>();
         ISourceInfo correctInfo =
-                new DataRepositoryInfo(correctFileId, TypeOfFile.SIMPLE_JSON);
+                new DataRepositoryInfo(correctFileId,
+                        TypeOfFile.SIMPLE_JSON);
         DataSet setCorrect =
                 new DataSet(CORRECT_FILENAME, correctInfo);
         setCorrect.addField("x");
@@ -115,12 +127,14 @@ public class RenjinTest {
 
         incorrectFile = convertStringToStream(WRONG_TEST_DATA);
         incorrectFileId =
-                FileRepository.getRepo().persist(incorrectFile, INCORRECT_FILENAME);
+                FileRepository.getRepo().persist(
+                        incorrectFile, INCORRECT_FILENAME);
         incorrectX = "x_from__repo__" + incorrectFileId + "__";
         incorrectY = "y_from__repo__" + incorrectFileId + "__";
         incorrect = new ArrayList<DataSet>();
         ISourceInfo incorrectInfo =
-                new DataRepositoryInfo(incorrectFileId, TypeOfFile.SIMPLE_JSON);
+                new DataRepositoryInfo(incorrectFileId,
+                        TypeOfFile.SIMPLE_JSON);
         DataSet setIncorrect = new DataSet(
                 INCORRECT_FILENAME,
                 incorrectInfo);
@@ -129,26 +143,32 @@ public class RenjinTest {
         incorrect.add(setIncorrect);
         correctScriptForCorrectFileName = "script.r";
         correctScriptForCorrectFileString =
-                "matrix(c(" + correctX + "[1], " +
-                        correctY + "[1], " + correctX + "[2], " +
-                        correctY + "[2]), nrow = 2, ncol = 2, byrow=TRUE)";
+                "x<-c(" + correctX + "[1], " + correctX + "[2], "
+                        + correctX + "[3]); y<-c(" + correctY + "[1], "
+                        + correctY + "[2], " + correctY
+                        + "[3]); z<-data.frame(x, y); " +
+                        "names(z) <- c(\"new X name\", \"new Y name\"); z";
         correctScriptForCorrectFile =
                 convertStringToStream(correctScriptForCorrectFileString);
 
         incorrectScriptForCorrectFileName =
                 "incorrectScript.r";
         incorrectScriptForCorrectFileString =
-                "matrix(c" + correctX + "[1], "
-                        + correctY + "[1, " + correctX + "[1], " +
-                        correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
+                "x<-c(" + correctX + "[1], " + correctX
+                        + "[2], " + correctX + "[3]); y<c("
+                        + correctY + "[1], " + correctY + "[2], "
+                        + correctY + "[3]); z<-data.frame(x, y); " +
+                        "names(z <- c(\"new X name\", \"new Y name\"); z";
         incorrectScriptForCorrectFile =
                 convertStringToStream(incorrectScriptForCorrectFileString);
 
         correctScriptForIncorrectFileName = "scriptForIncorrect.r";
         correctScriptForIncorrectFileString =
-                "matrix(c(" + incorrectX + "[1], " +
-                        incorrectY + "[1], " + incorrectX + "[2], " +
-                        incorrectY + "[2]), nrow = 2, ncol = 2, byrow=TRUE)";
+                "x<-c(" + incorrectX + "[1], "
+                        + incorrectX + "[2], " + incorrectX + "[3]); y<-c("
+                        + incorrectY + "[1], " + incorrectY + "[2], "
+                        + incorrectY + "[3]); z<-data.frame(x, y); " +
+                        "names(z) <- c(\"new X name\", \"new Y name\"); z";
         correctScriptForIncorrectFile =
                 convertStringToStream(correctScriptForIncorrectFileString);
 
@@ -196,8 +216,10 @@ public class RenjinTest {
                 resY = call.runCommandToGetScalar("y[" +
                         (int) (i + 1) + "]", TEST_DATA);
                 assertTrue("Scalar isn't returned correctly from Renjin",
-                        doubleEqual(resX.getValue(), dataArray.getData().get(i).getByKey("x")) &&
-                                doubleEqual(resY.getValue(), dataArray.getData().get(i).getByKey("y")));
+                        doubleEqual(resX.getValue(),
+                                dataArray.getData().get(i).getByKey("x")) &&
+                                doubleEqual(resY.getValue(),
+                                        dataArray.getData().get(i).getByKey("y")));
             }
         } catch (Exception e) {
             fail("Scalar isn't returned correctly from Renjin");
@@ -211,8 +233,11 @@ public class RenjinTest {
                     "c(x[5], y[5])",
                     TEST_DATA);
             assertTrue("Vector isn't returned correctly from Renjin",
-                    doubleEqual(dataArray.getData().get(4).getByKey("x"), res.getValue().get(0)) &&
-                            doubleEqual(dataArray.getData().get(4).getByKey("y"), res.getValue().get(1)));
+                    doubleEqual(dataArray.getData().get(4).getByKey("x"),
+                            res.getValue().get(0)) &&
+                            doubleEqual(
+                                    dataArray.getData().get(4).getByKey("y"),
+                                    res.getValue().get(1)));
         } catch (Exception e) {
             fail("Vector isn't returned correctly from Renjin");
         }
@@ -222,11 +247,12 @@ public class RenjinTest {
     public void testCorrectCommandToGetVectorsCorrectJsonData() {
         try {
             Map<String, List<Double>> w = new HashMap<String, List<Double>>();
-            w.put("col0", new ArrayList<Double>());
-            w.put("col1", new ArrayList<Double>());
+            w.put("new X name", new ArrayList<Double>());
+            w.put("new Y name", new ArrayList<Double>());
             for (Map.Entry<String, List<Double>> entry : w.entrySet()) {
                 entry.getValue().add(0.);
                 entry.getValue().add(1.);
+                entry.getValue().add(2.);
             }
             FileResult<Double> was = new FileResult<Double>(w);
             FileResult<Double> res = call.runCommandToGetVectors(
@@ -319,11 +345,12 @@ public class RenjinTest {
     public void testCorrectCommandToGetVectorsCorrectFile() {
         try {
             Map<String, List<Double>> w = new HashMap<String, List<Double>>();
-            w.put("col0", new ArrayList<Double>());
-            w.put("col1", new ArrayList<Double>());
+            w.put("new X name", new ArrayList<Double>());
+            w.put("new Y name", new ArrayList<Double>());
             for (Map.Entry<String, List<Double>> entry : w.entrySet()) {
                 entry.getValue().add(0.);
                 entry.getValue().add(1.);
+                entry.getValue().add(2.);
             }
             FileResult<Double> was = new FileResult<Double>(w);
             FileResult<Double> res =
@@ -377,11 +404,12 @@ public class RenjinTest {
     public void testCorrectScriptToGetVectorsCorrectFile() {
         try {
             Map<String, List<Double>> w = new HashMap<String, List<Double>>();
-            w.put("col0", new ArrayList<Double>());
-            w.put("col1", new ArrayList<Double>());
+            w.put("new X name", new ArrayList<Double>());
+            w.put("new Y name", new ArrayList<Double>());
             for (Map.Entry<String, List<Double>> entry : w.entrySet()) {
                 entry.getValue().add(0.);
                 entry.getValue().add(1.);
+                entry.getValue().add(2.);
             }
             FileResult<Double> was = new FileResult<Double>(w);
             FileResult<Double> res =
@@ -394,6 +422,7 @@ public class RenjinTest {
             fail("Vectors aren't returned correctly from Renjin");
         }
     }
+
 
     @Test(expected = Exception.class)
     public void testIncorrectCommandToGetScalarCorrectFile() throws Exception {
