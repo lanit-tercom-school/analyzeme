@@ -5,11 +5,10 @@ import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by lagroffe on 04.07.2016 14:33
- */
 public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
     private static final int NUMBER_OF_PARAMS = 2;
     private static final int NUMBER_OF_DECIMAL_PLACES = 3;
@@ -32,13 +31,14 @@ public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
      * @return null if data is Points are inappropriate
      * otherwise NotParsedJsonStringResult like: y=a*x+b
      */
-    public IResult analyze(List<List<Double>> data) {
+    public IResult analyze(Map<String, List<Double>> data) {
         if (data == null || data.isEmpty() || data.size() < 2) {
             throw new IllegalArgumentException(
                     "Null or empty data");
         }
-        x = data.get(0);
-        y = data.get(1);
+        Iterator<String> iterator = data.keySet().iterator();
+        x = data.get(iterator.next());
+        y = data.get(iterator.next());
         if (x.size() != y.size()) {
             throw new IllegalArgumentException(
                     "Illegal type of data (not equal length)");

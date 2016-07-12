@@ -3,7 +3,9 @@ package com.analyzeme.analyzers;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -25,9 +27,9 @@ public class TestLinearCorrelationAnalyzer {
         y.add(20.);
         y.add(30.);
         y.add(40.);
-        List<List<Double>> data = new ArrayList<List<Double>>();
-        data.add(x);
-        data.add(y);
+        Map<String, List<Double>> data = new HashMap();
+        data.put("x", x);
+        data.put("y", y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
         assertTrue("Linear correlation of y=10+x is wrong",
                 Math.abs(1.0 - (Double) Analyze.analyze(data).getValue()) < E);
@@ -46,9 +48,9 @@ public class TestLinearCorrelationAnalyzer {
         y.add(0.);
         y.add(-10.);
         y.add(-20.);
-        List<List<Double>> data = new ArrayList<List<Double>>();
-        data.add(x);
-        data.add(y);
+        Map<String, List<Double>> data = new HashMap();
+        data.put("x", x);
+        data.put("y", y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
         assertTrue("Linear correlation of y=10-x is wrong",
                 Math.abs(-0.999 - (Double) Analyze.analyze(data).getValue()) < E);
@@ -67,9 +69,9 @@ public class TestLinearCorrelationAnalyzer {
         y.add(0.);
         y.add(10.);
         y.add(-20.);
-        List<List<Double>> data = new ArrayList<List<Double>>();
-        data.add(x);
-        data.add(y);
+        Map<String, List<Double>> data = new HashMap();
+        data.put("x", x);
+        data.put("y", y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
         assertTrue("Linear correlation of not lineal data is wrong",
                 Math.abs(-0.730 - (Double) Analyze.analyze(data).getValue()) < E);

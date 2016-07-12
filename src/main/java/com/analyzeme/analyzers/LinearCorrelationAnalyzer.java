@@ -6,7 +6,9 @@ import org.apache.commons.math.util.FastMath;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lagroffe on 04.07.2016 14:32
@@ -27,13 +29,14 @@ public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
         return NUMBER_OF_PARAMS;
     }
 
-    public IResult analyze(List<List<Double>> data) {
+    public IResult analyze(Map<String, List<Double>> data) {
         if (data == null || data.isEmpty() || data.size() < NUMBER_OF_PARAMS) {
             throw new IllegalArgumentException(
                     "Null or empty data");
         }
-        x = data.get(0);
-        y = data.get(1);
+        Iterator<String> iterator = data.keySet().iterator();
+        x = data.get(iterator.next());
+        y = data.get(iterator.next());
         if (x.size() != y.size()) {
             throw new IllegalArgumentException(
                     "Illegal type of data (not equal length)");

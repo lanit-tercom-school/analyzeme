@@ -9,10 +9,7 @@ import com.analyzeme.parsers.InvalidFileException;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Ольга on 16.03.2016.
@@ -59,9 +56,9 @@ public class AnalysisController {
                 }
             }
 
-            List<List<Double>> toAnalyze = new ArrayList<List<Double>>();
+            Map<String, List<Double>> toAnalyze = new HashMap<>();
             for (String field : f) {
-                toAnalyze.add(data.getByField(field));
+                toAnalyze.put(field, data.getByField(field));
             }
 
             IResult results = analyzer.analyze(toAnalyze);

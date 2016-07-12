@@ -1,13 +1,16 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.ScalarResult;
+
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Alexander on 05.07.2016.
  */
-public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
+public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double> {
     private static final int NUMBER_OF_PARAMS = 2;
 
     private double getCoefficient() {
@@ -19,10 +22,12 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
 
     private class EmpiricalDistributionFunction {
         private List<Double> data;
+
         EmpiricalDistributionFunction(List<Double> dataIn) {
             Collections.sort(dataIn);//in ascending order.
             data = dataIn;
         }
+
         public double getValueAt(double x) {
             int i = 0;
             while (i < data.size() && data.get(i) < x) i++;
@@ -30,10 +35,10 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
         }
     }
 
-    private double calcSmirnovStatistic(List<Double>firstArray, List<Double> secondArray) {
+    private double calcSmirnovStatistic(List<Double> firstArray, List<Double> secondArray) {
         EmpiricalDistributionFunction firstFun = new EmpiricalDistributionFunction(firstArray);
         //EmpiricalDistributionFunction sndFun = new EmpiricalDistributionFunction(secondArray);
-            //can be used for calculations checking.
+        //can be used for calculations checking.
         double firstSize = firstArray.size();
         double secondSize = secondArray.size();
         Collections.sort(secondArray);
@@ -52,17 +57,18 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double>{
 
         double statisticTrue = statisticPositive > statisticNegative ? statisticPositive : statisticNegative;
 
-        statisticTrue *= Math.sqrt((firstSize * secondSize)/ (firstSize + secondSize));
+        statisticTrue *= Math.sqrt((firstSize * secondSize) / (firstSize + secondSize));
         return statisticTrue;
     }
 
-    public ScalarResult<Boolean> analyze(List<List<Double>> dataSets) throws IllegalArgumentException {
-        if (dataSets.size() != NUMBER_OF_PARAMS) throw new IllegalArgumentException("Kolmogorov-Smirnov test can only be applied " +
-                "to exactly 2 data sets. Actually got " + dataSets.size());
-
-        double statistic = calcSmirnovStatistic(dataSets.get(0), dataSets.get(1));
+    public ScalarResult<Boolean> analyze(Map<String, List<Double>> dataSets) throws IllegalArgumentException {
+        if (dataSets.size() != NUMBER_OF_PARAMS)
+            throw new IllegalArgumentException("Kolmogorov-Smirnov test can only be applied " +
+                    "to exactly 2 data sets. Actually got " + dataSets.size());
+        Iterator<String> iterator = dataSets.keySet().iterator();
+        double statistic = calcSmirnovStatistic(dataSets.get(iterator.next()), dataSets.get(iterator.next()));
         double coefficient = getCoefficient();
-        return new ScalarResult<Boolean>(statistic < coefficient);
+        return new ScalarResult<>(statistic < coefficient);
     }
 
     public int getNumberOfParams() {

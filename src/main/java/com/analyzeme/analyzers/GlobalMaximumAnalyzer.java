@@ -1,18 +1,11 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-/**
- * Created by lagroffe on 05.07.2016 14:57
- */
 public class GlobalMaximumAnalyzer implements IAnalyzer<Double> {
     private static final int NUMBER_OF_PARAMS = 0;
 
@@ -20,23 +13,26 @@ public class GlobalMaximumAnalyzer implements IAnalyzer<Double> {
         return NUMBER_OF_PARAMS;
     }
 
-    public IResult analyze(List<List<Double>> data) {
-        if (data == null || data.isEmpty() || data.get(0).isEmpty()) {
+    public IResult analyze(Map<String, List<Double>> data) {
+        if (data == null || data.isEmpty()) {
             throw new IllegalArgumentException("No data to analyze");
         }
         if (data.size() == 1) {
-            return new ScalarResult<Double>(data.get(0).get(getMaxInd(data.get(0))));
+            List<Double> list = data.values().iterator().next();
+            return new ScalarResult<>(list.get(getMaxInd(list)));
         }
         List<Double> result = new ArrayList<Double>();
-        int maxInd = getMaxInd(data.get(data.size() - 1));
-        for (int i = 0; i < data.size(); i++) {
-            result.add(data.get(i).get(maxInd));
+        Set<String> keys = data.keySet();
+        int maxInd = getMaxInd(data.get(keys.iterator().next()));
+        Iterator<String> iterator = keys.iterator();
+        while(iterator.hasNext()) {
+            result.add(data.get(iterator.next()).get(maxInd));
         }
         return new ColumnResult(result);
     }
 
     private int getMaxInd(final List<Double> column) {
-        if (column.get(0) == null) {
+        if (column == null || column.get(0) == null) {
             throw new IllegalArgumentException("No data to analyze");
         }
         int maxInd = 0;

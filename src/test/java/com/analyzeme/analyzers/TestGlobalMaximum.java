@@ -3,7 +3,9 @@ package com.analyzeme.analyzers;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static junit.framework.Assert.assertTrue;
 
@@ -18,10 +20,10 @@ public class TestGlobalMaximum {
             x = 4 - i * 0.008;
             y.add(Math.sin(x * x));
         }
-        List<List<Double>> toAnalyze = new ArrayList<List<Double>>();
-        toAnalyze.add(y);
+        Map<String, List<Double>> data = new HashMap();
+        data.put("y", y);
         IAnalyzer tester = AnalyzerFactory.getAnalyzer("GlobalMaximum");
         assertTrue("Global maximum of y=sin(x^2)is wrong",
-                Math.abs(1 - (Double) tester.analyze(toAnalyze).getValue()) < e);
+                Math.abs(1 - (Double) tester.analyze(data).getValue()) < e);
     }
 }
