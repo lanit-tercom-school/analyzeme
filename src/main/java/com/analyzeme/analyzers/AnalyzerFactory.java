@@ -27,6 +27,10 @@ public class AnalyzerFactory {
             analyzers.put(name, new GlobalMaximumAnalyzer());
             return;
         }
+        if (name.equals("GlobalMaximumR")) {
+            analyzers.put(name, new GlobalMaximumAnalyzerR());
+            return;
+        }
         if (name.equals("GlobalMinimum")) {
             analyzers.put(name, new GlobalMinimumAnalyzer());
             return;

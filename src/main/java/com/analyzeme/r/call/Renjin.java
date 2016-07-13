@@ -22,6 +22,8 @@ import static com.analyzeme.r.call.RenjinResultHandler.resultToFile;
  * Created by lagroffe on 25.03.2016 2:57
  */
 
+
+//TODO: deprecate jsonData
 public class Renjin implements IRCaller {
     private static ScriptEngineManager manager = null;
     private static ScriptEngine engine = null;
@@ -56,10 +58,15 @@ public class Renjin implements IRCaller {
         //TODO: refactor to work with other types, not only double
         DataArray<Double> parsed = jsonParser.parse(new ByteArrayInputStream(jsonData.getBytes()));
         Map<String, List<Double>> data = parsed.getMap();
-        for (Map.Entry<String, List<Double>> entry : data.entrySet()) {
+        insertDataFromMap(data);
+    }
+
+    private static <T> void insertDataFromMap(final Map<String, List<T>> data) throws Exception {
+        for (Map.Entry<String, List<T>> entry : data.entrySet()) {
+            //TODO: refactor to work with other types, not only double
             double[] array = new double[entry.getValue().size()];
             for (int i = 0; i < entry.getValue().size(); i++) {
-                array[i] = entry.getValue().get(i);
+                array[i] = (double)((Double) entry.getValue().get(i));
             }
             engine.put(entry.getKey(), array);
         }
@@ -329,6 +336,85 @@ public class Renjin implements IRCaller {
         }
         initialize();
         insertDataFromJson(jsonData);
+        SEXP res = runCommand(rCommand);
+        deleteData();
+        return new FileResult(resultToFile(res));
+    }
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data     - data necessary for the script
+     * @return json form of result (may be errors, auto-generated)
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                           final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        initialize();
+        insertDataFromMap(data);
+        SEXP result = runCommand(rCommand);
+        deleteData();
+        return new NotParsedJsonStringResult(result.toString());
+    }
+
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data     - data necessary for the script
+     * @return scalar result
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> ScalarResult runCommandToGetScalar(final String rCommand,
+                                                  final Map<String, List<T>> data) throws Exception {
+        //dataFiles can be empty for simple commands
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        initialize();
+        insertDataFromMap(data);
+        SEXP result = runCommand(rCommand);
+        deleteData();
+        //TODO: refactor to work with other types of ScalarResult (not only double)
+        return new ScalarResult<Double>(result.asReal());
+    }
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data     - data necessary for the script
+     * @return vector (~column)
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> ColumnResult runCommandToGetVector(final String rCommand,
+                                                  final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        initialize();
+        insertDataFromMap(data);
+        SEXP res = runCommand(rCommand);
+        deleteData();
+        return new ColumnResult(renjinNotNamedVectorToList(res));
+    }
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data     - data necessary for the script
+     * @return group of vectors (~columns)
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> FileResult runCommandToGetVectors(final String rCommand,
+                                                 final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        initialize();
+        insertDataFromMap(data);
         SEXP res = runCommand(rCommand);
         deleteData();
         return new FileResult(resultToFile(res));

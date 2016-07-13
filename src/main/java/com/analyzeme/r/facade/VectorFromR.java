@@ -3,6 +3,8 @@ package com.analyzeme.r.facade;
 import com.analyzeme.analyzers.result.ColumnResult;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lagroffe on 19.03.2016 21:20
@@ -88,6 +90,23 @@ public class VectorFromR<T> implements GetFromR<ColumnResult<T>> {
             throw new IllegalArgumentException();
         }
         ColumnResult<T> result = RFacade.runCommandToGetVector(rCommand, jsonData);
+        return result;
+    }
+
+    /**
+     * calls r using r.facade
+     *
+     * @param rCommand - string with correct r command
+     * @param data     - some valid data for command to analyze
+     * @return result
+     * @throws Exception if r was impossible to call or there was in error in command
+     */
+    public <U> ColumnResult<T> runCommand(final String rCommand, final Map<String, List<U>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        ColumnResult<T> result = RFacade.runCommandToGetVector(rCommand, data);
         return result;
     }
 }

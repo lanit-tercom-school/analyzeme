@@ -13,6 +13,8 @@ import java.util.*;
  * Created by lagroffe on 25.03.2016 1:14
  */
 
+
+//TODO: deprecate jsonData
 public class FakeR implements IRCaller {
 
     /**
@@ -113,6 +115,21 @@ public class FakeR implements IRCaller {
     }
 
     /**
+     * @param rCommand - string with a command in r language
+     * @param data     - data necessary for the script
+     * @return json form of result (may be errors)
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                           final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null || data.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        return new NotParsedJsonStringResult("");
+    }
+
+    /**
      * @param rCommand  - string with a command in r language
      * @param dataFiles - data necessary for the script
      * @return scalar result
@@ -194,6 +211,51 @@ public class FakeR implements IRCaller {
                                              final String jsonData) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 jsonData == null || jsonData.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        return new FileResult(new HashMap<String, List>());
+    }
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data     - data necessary for the script
+     * @return scalar result
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> ScalarResult runCommandToGetScalar(final String rCommand,
+                                                  final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null || data.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        return new ScalarResult<Double>(0.);
+    }
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data     - data necessary for the script
+     * @return one vector
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> ColumnResult runCommandToGetVector(final String rCommand,
+                                                  final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null || data.equals("")) {
+            throw new IllegalArgumentException();
+        }
+        return new ColumnResult(new ArrayList());
+    }
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data     - data necessary for the script
+     * @return group of vectors
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> FileResult runCommandToGetVectors(final String rCommand,
+                                                 final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null || data.equals("")) {
             throw new IllegalArgumentException();
         }
         return new FileResult(new HashMap<String, List>());

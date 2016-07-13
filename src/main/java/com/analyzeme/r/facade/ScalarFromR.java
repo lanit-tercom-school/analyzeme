@@ -3,6 +3,8 @@ package com.analyzeme.r.facade;
 import com.analyzeme.analyzers.result.ScalarResult;
 
 import java.io.ByteArrayInputStream;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lagroffe on 19.03.2016 21:19
@@ -84,6 +86,23 @@ public class ScalarFromR<T> implements GetFromR<ScalarResult<T>> {
             throw new IllegalArgumentException();
         }
         ScalarResult<T> result = RFacade.runCommandToGetScalar(rCommand, jsonData);
+        return result;
+    }
+
+    /**
+     * calls r using r.facade
+     *
+     * @param rCommand - string with correct r command
+     * @param data     - some valid data for command to analyze
+     * @return result
+     * @throws Exception if r was impossible to call or there was in error in command
+     */
+    public <U> ScalarResult<T> runCommand(final String rCommand, final Map<String, List<U>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        ScalarResult<T> result = RFacade.runCommandToGetScalar(rCommand, data);
         return result;
     }
 }

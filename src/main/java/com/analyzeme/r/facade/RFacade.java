@@ -15,13 +15,15 @@ import com.analyzeme.repository.filerepository.FileRepository;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lagroffe on 15.03.2016 21:45
  */
 
 //TODO: when IAnalyzers & ScriptManager are ready, make all public functions here accessible in the package only
-
+//TODO: deprecate jsonData
 public class RFacade {
     private static IRCaller caller;
     //temporary until rconf is finished
@@ -60,6 +62,7 @@ public class RFacade {
 	* - way to give data:
 	* 		a) as json string
 	* 		b) as files from repository
+	* 	    c) Map<String, List<Double>
 	*----------------------------------------------------------------------------------------------------------------------------
      */
 
@@ -106,6 +109,23 @@ public class RFacade {
     /**
      * calls r using some logic from r.call package
      *
+     * @param rCommand - string with correct r command
+     * @param data     - some valid data for command to analyze
+     * @return auto-generated json result (mistakes are possible)
+     * @throws Exception if files not found, r was impossible to call or there was in error in command
+     */
+    public static <T> NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                                  final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        return caller.runCommandDefault(rCommand, data);
+    }
+
+    /**
+     * calls r using some logic from r.call package
+     *
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
@@ -130,7 +150,26 @@ public class RFacade {
      * calls r using some logic from r.call package
      *
      * @param rCommand - string with correct r command
-     * @param jsonData - some valid data in json format for command to analyze
+     * @param data     - some valid data in json format for command to analyze
+     * @return scalar result
+     * @throws Exception if r was impossible to call or there was in error in command
+     */
+    public static <T> ScalarResult runCommandToGetScalar(
+            final String rCommand, final Map<String, List<T>> data)
+            throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        ScalarResult result = caller.runCommandToGetScalar(rCommand, data);
+        return result;
+    }
+
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand - string with correct r command
+     * @param jsonData - some valid data for command to analyze
      * @return scalar result
      * @throws Exception if r was impossible to call or there was in error in command
      */
@@ -189,6 +228,24 @@ public class RFacade {
     /**
      * calls r using some logic from r.call package
      *
+     * @param rCommand - string with correct r command
+     * @param data     - some valid data for command to analyze
+     * @return one vector
+     * @throws Exception if r was impossible to call or there was in error in command
+     */
+    public static <T> ColumnResult runCommandToGetVector(final String rCommand,
+                                                         final Map<String, List<T>> data) throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        ColumnResult result = caller.runCommandToGetVector(rCommand, data);
+        return result;
+    }
+
+    /**
+     * calls r using some logic from r.call package
+     *
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
@@ -228,9 +285,28 @@ public class RFacade {
         return result;
     }
 
+    /**
+     * calls r using some logic from r.call package
+     *
+     * @param rCommand - string with correct r command
+     * @param data     - some valid data for command to analyze
+     * @return group of vectors
+     * @throws Exception if r was impossible to call or there was in error in command
+     */
+    public static <T> FileResult runCommandToGetVectors(
+            final String rCommand, final Map<String, List<T>> data)
+            throws Exception {
+        if (rCommand == null || rCommand.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        FileResult result = caller.runCommandToGetVectors(rCommand, data);
+        return result;
+    }
+
 
 	/*----------------------------------------------------------------------------------------------------------------------------
-	* Different types of script call
+    * Different types of script call
 	*
 	* Differs by:
 	* - return value:
@@ -290,7 +366,7 @@ public class RFacade {
         FileInRepositoryResolver resolver = new FileInRepositoryResolver();
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(script.getData(), resolver);
-       return caller.runScriptDefault(script.getUniqueName(), script.getData(), files);
+        return caller.runScriptDefault(script.getUniqueName(), script.getData(), files);
     }
 
     /**

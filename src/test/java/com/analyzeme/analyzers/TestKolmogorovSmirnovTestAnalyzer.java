@@ -12,7 +12,7 @@ import static junit.framework.Assert.assertTrue;
  */
 public class TestKolmogorovSmirnovTestAnalyzer {
     @Test
-    public void simpleTest() {
+    public void simpleTest() throws Exception {
         //for this data sets Smirnov Statistic should equal to approx. 0.66 (valuable info for debugging)
         IAnalyzer ks = AnalyzerFactory.getAnalyzer("KolmogorovSmirnovTest");
         double[] a = {17, 22, 3, 5, 15, 2, 0, 7, 13, 97, 66, 14};

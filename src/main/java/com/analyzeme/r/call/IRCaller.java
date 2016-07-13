@@ -8,8 +8,11 @@ import com.analyzeme.data.DataSet;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 
+//TODO: deprecate jsonData
 public interface IRCaller {
 
     //------------------
@@ -141,4 +144,46 @@ public interface IRCaller {
      */
     FileResult runCommandToGetVectors(final String rCommand,
                                       final String jsonData) throws Exception;
+
+    //------------------
+    //command for data
+    //------------------
+
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data - data necessary for the script
+     * @return json form of result (may be errors, auto-generated)
+     * @throws Exception if failed to call r or command errored
+     */
+    <T> NotParsedJsonStringResult runCommandDefault(final String rCommand,
+                                                    final Map<String, List<T>> data) throws Exception;
+
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data - data necessary for the script
+     * @return scalar result
+     * @throws Exception if failed to call r or command errored
+     */
+    <T> ScalarResult runCommandToGetScalar(final String rCommand,
+                                           final Map<String, List<T>> data) throws Exception;
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data - data necessary for the script
+     * @return vector (~column)
+     * @throws Exception if failed to call r or command errored
+     */
+    <T> ColumnResult runCommandToGetVector(final String rCommand,
+                                           final Map<String, List<T>> data) throws Exception;
+
+    /**
+     * @param rCommand - string with a command in r language
+     * @param data - data necessary for the script
+     * @return group of vectors (~columns)
+     * @throws Exception if failed to call r or command errored
+     */
+    <T> FileResult runCommandToGetVectors(final String rCommand,
+                                          final Map<String, List<T>> data) throws Exception;
 }

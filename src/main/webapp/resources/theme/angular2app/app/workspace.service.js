@@ -35,6 +35,10 @@ mean(x)`
                         name: "Global maximum"
                     },
                     {
+                        func: "GlobalMaximumR",
+                        name: "Global maximum R"
+                    },
+                    {
                         func: "LinearCorrelation",
                         name: "Linear Correlation"
                     },
