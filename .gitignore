@@ -49,3 +49,6 @@ fabric.properties
 
 # folder with binary files
 target/*
+
+# R history
+*.Rhistory

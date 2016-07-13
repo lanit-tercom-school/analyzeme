@@ -1,8 +1,7 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.r.facade.TypeOfReturnValue;
-import com.analyzeme.analyzers.r.RAnalyzer;
+import com.analyzeme.analyzers.r.UserScriptAnalyzer;
 import com.analyzeme.analyzers.r.TypeOfCall;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.repository.filerepository.FileInfo;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RConsoleController {
 
-	private final RAnalyzer rAnalyzer = new RAnalyzer();
+	private final UserScriptAnalyzer userScriptAnalyzer = new UserScriptAnalyzer();
 
 	/**
 	 * @param userId
@@ -41,7 +40,7 @@ public class RConsoleController {
 												 @RequestHeader("name") final String scriptName,
 												 @RequestBody final String scriptText) throws Exception {
         try {
-            return new ResponseEntity<String>(rAnalyzer.runScript(userId, projectId, scriptName, scriptText, typeOfResult, typeOfCall).toJson(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<String>(userScriptAnalyzer.runScript(userId, projectId, scriptName, scriptText, typeOfResult, typeOfCall).toJson(), HttpStatus.ACCEPTED);
         } catch (Exception e) {
              return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }

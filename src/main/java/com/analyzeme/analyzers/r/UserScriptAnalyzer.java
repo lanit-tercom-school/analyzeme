@@ -10,7 +10,7 @@ import java.io.ByteArrayInputStream;
 /**
  * Created by Ольга on 10.04.2016.
  */
-public class RAnalyzer {
+public class UserScriptAnalyzer {
 
     public static IResult runScript(final int userId,
                                     final String projectId,
