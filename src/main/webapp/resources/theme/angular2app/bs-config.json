@@ -1,5 +1,0 @@
-{
-  "port": 8000,
-  "files": ["./lib/**/*.{html,htm,css,js}", "./dev/**/*.{html,htm,css,js}", "./app/**/*.{html,htm,css,js}"],
-  "server": { "baseDir": "./" }
-}

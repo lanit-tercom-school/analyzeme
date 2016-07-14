@@ -1,15 +1,13 @@
-"use strict";
-var HighchartsUtils = (function () {
-    function HighchartsUtils() {
-    }
-    HighchartsUtils.DrawGraph = function (data) {
+export class HighchartsUtils {
+
+    static DrawGraph  (data) {
         var series = [];
         if (data.length != 0) {
             var xAxis;
             if (data[0].hasOwnProperty("x"))
                 xAxis = "x";
             else
-                xAxis = Object.keys(data[0])[0]; // First property
+                xAxis = Object.keys(data[0])[0];// First property
             console.log(xAxis);
             Object.keys(data[0]).forEach(function (key) {
                 if (key != xAxis) {
@@ -17,7 +15,7 @@ var HighchartsUtils = (function () {
                     for (var i = 0; i < data.length; i++) {
                         data2D.push([parseFloat(data[i][xAxis]), parseFloat(data[i][key])]);
                     }
-                    series.push({ data: data2D, name: key });
+                    series.push({data: data2D, name: key});
                 }
             });
         }
@@ -65,8 +63,5 @@ var HighchartsUtils = (function () {
         //     },
         //     series: series
         // });
-    };
-    return HighchartsUtils;
-}());
-exports.HighchartsUtils = HighchartsUtils;
-//# sourceMappingURL=highcharts-utils.js.map
+    }
+}
