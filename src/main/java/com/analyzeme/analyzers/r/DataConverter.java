@@ -1,5 +1,8 @@
 package com.analyzeme.analyzers.r;
 
+import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.IResult;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -101,6 +104,24 @@ public class DataConverter {
             }
         }
         return result;
+    }
+
+    /**
+     * translates column names of data using keys (get by getKeysForR()) after R script execution
+     *
+     * @param result - FileResult (an object that contains Map<String, List<T>> alias of column -> data in it)
+     * @param keys   - Map<String, String>, where the first String is the name of column in the given data, and the second - alias that is used in script
+     * @param <T>    - now only Double is supported
+     * @return FileResult (an object that contains Map<String, List<Double>> with aliases changed to column names from keys map)
+     */
+    public static <T> IResult translateFromR(final FileResult<T> result, final Map<String, String> keys) {
+        if (result == null) {
+            throw new IllegalArgumentException(
+                    "DataConverter translateFromR: null argument");
+        }
+        Map<String, List<T>> map = result.getValue();
+        Map<String, List<T>> resultMap = translateFromR(map, keys);
+        return new FileResult(resultMap);
     }
 
     private static Map<String, String> revertKeyMap(final Map<String, String> keys) {

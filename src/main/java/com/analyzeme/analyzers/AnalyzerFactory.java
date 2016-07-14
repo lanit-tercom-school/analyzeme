@@ -43,6 +43,10 @@ public class AnalyzerFactory {
             analyzers.put(name, new KolmogorovSmirnovTestAnalyzer());
             return;
         }
+        if (name.equals("TestFileResult")) {
+            analyzers.put(name, new TestFileResultAnalyzerR());
+            return;
+        }
         throw new IllegalArgumentException("Incorrect name");
     }
 }

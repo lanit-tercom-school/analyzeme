@@ -49,6 +49,10 @@ mean(x)`
                     {
                         func: "KolmogorovSmirnovTest",
                         name: "Kolmogorov-Smirnov Test"
+                    },
+                    {
+                        func: "TestFileResult",
+                        name: "Test File Result Analyzer R"
                     }
                 ];
                 this.availableFunctions.push({
