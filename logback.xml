@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration>
+
+    <appender name="PAPERTRAIL" class="com.papertrailapp.logback.Syslog4jAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{MMM dd HH:mm:ss} ANALYZEME: %-5level %logger{35}: %m%n%xEx</pattern>
+        </layout>
+
+        <syslogConfig class="org.productivity.java.syslog4j.impl.net.tcp.ssl.SSLTCPNetSyslogConfig">
+            <sendLocalTimestamp>false</sendLocalTimestamp>
+            <sendLocalName>false</sendLocalName>
+            <host>http://analyzeme-dev.herokuapp.com/</host>
+            <ident>AnalyzeMe</ident>
+            <maxMessageLength>128000</maxMessageLength>
+        </syslogConfig>
+    </appender>
+
+    <root level="DEBUG">
+        <appender-ref ref="SYSLOG-TLS"/>
+    </root>
+
+</configuration>
