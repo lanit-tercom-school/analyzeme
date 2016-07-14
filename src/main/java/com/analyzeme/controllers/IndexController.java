@@ -10,18 +10,33 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class IndexController {
-    private String returnIndex() throws Exception {
-        Logger logger = LoggerFactory.getLogger(
-                "com.analyzeme.controllers.IndexController");
-        logger.debug("Index page");
+    private static final Logger LOGGER;
+    private static boolean isGuestActive = false;
 
-        UsersRepository.checkInitializationAndCreate();
-        try {
-            UsersRepository.findUser("guest");
-        } catch (IllegalArgumentException e) {
-            //login, email, password  (IN THIS ORDER)
-            String[] param = {"guest", "guest@mail.sth", "1234"};
-            UsersRepository.newItem(param);
+    static {
+        LOGGER = LoggerFactory.getLogger(
+                "com.analyzeme.controllers.IndexController");
+    }
+
+    private String returnIndex() throws Exception {
+        LOGGER.debug("Index page");
+
+        if (!isGuestActive) {
+            UsersRepository.checkInitializationAndCreate();
+            try {
+                LOGGER.trace(
+                        "Attempt to find a guest user");
+                UsersRepository.findUser("guest");
+                LOGGER.trace("Guest user found");
+            } catch (IllegalArgumentException e) {
+                LOGGER.trace("Create a guest user");
+                //login, email, password  (IN THIS ORDER)
+                String[] param = {"guest",
+                        "guest@mail.sth", "1234"};
+                UsersRepository.newItem(param);
+                LOGGER.debug("Guest user created");
+            }
+            isGuestActive = true;
         }
         return "index";
     }
@@ -38,19 +53,16 @@ public class IndexController {
 
     @RequestMapping(value = "/data/spb")
     public String moveToPreviewPage() {
-        Logger logger = LoggerFactory.getLogger(
-                "com.analyzeme.controllers.IndexController");
-        logger.debug("Prewiew page");
+        LOGGER.debug("Preview page");
         return "preview";
     }
 
     @RequestMapping(value = "/config")
     public ModelAndView moveToRConfPage() {
-        Logger logger = LoggerFactory.getLogger(
-                "com.analyzeme.controllers.IndexController");
-        logger.debug("Configs page");
+        LOGGER.debug("Configs page");
         String RConfList = RConfRepository.getRepo()
                 .allConfigurationsToJsonString();
+        LOGGER.trace("R configurations are found");
         return new ModelAndView("config",
                 "RConfList", RConfList);
 
@@ -58,9 +70,7 @@ public class IndexController {
 
     @RequestMapping(value = "/help")
     public String moveToHelp() {
-        Logger logger = LoggerFactory.getLogger(
-                "com.analyzeme.controllers.IndexController");
-        logger.debug("Help page");
+        LOGGER.debug("Help page");
         return "help";
     }
 

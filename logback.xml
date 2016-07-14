@@ -4,7 +4,7 @@
 
     <appender name="PAPERTRAIL" class="com.papertrailapp.logback.Syslog4jAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{MMM dd HH:mm:ss} ANALYZEME: %-5level %logger{35}: %m%n%xEx</pattern>
+            <pattern>%d{MMM dd HH:mm:ss} HEROKU ANALYZEME: %-5level %logger{35}: %m%n%xEx</pattern>
         </layout>
 
         <syslogConfig class="org.productivity.java.syslog4j.impl.net.tcp.ssl.SSLTCPNetSyslogConfig">
