@@ -19,22 +19,22 @@ public class IndexController {
     }
 
     private String returnIndex() throws Exception {
-        LOGGER.debug("Index page");
+        LOGGER.debug("returnIndex(): index page");
 
         if (!isGuestActive) {
             UsersRepository.checkInitializationAndCreate();
             try {
                 LOGGER.trace(
-                        "Attempt to find a guest user");
+                        "returnIndex(): attempt to find a guest user");
                 UsersRepository.findUser("guest");
-                LOGGER.trace("Guest user found");
+                LOGGER.trace("returnIndex(): guest user found");
             } catch (IllegalArgumentException e) {
-                LOGGER.trace("Create a guest user");
+                LOGGER.trace("returnIndex(): creation of a guest user");
                 //login, email, password  (IN THIS ORDER)
                 String[] param = {"guest",
                         "guest@mail.sth", "1234"};
                 UsersRepository.newItem(param);
-                LOGGER.debug("Guest user created");
+                LOGGER.debug("returnIndex(): guest user is created");
             }
             isGuestActive = true;
         }
@@ -53,16 +53,16 @@ public class IndexController {
 
     @RequestMapping(value = "/data/spb")
     public String moveToPreviewPage() {
-        LOGGER.debug("Preview page");
+        LOGGER.debug("moveToPreviewPage(): preview page");
         return "preview";
     }
 
     @RequestMapping(value = "/config")
     public ModelAndView moveToRConfPage() {
-        LOGGER.debug("Configs page");
+        LOGGER.debug("moveToRConfPage(): configs page");
         String RConfList = RConfRepository.getRepo()
                 .allConfigurationsToJsonString();
-        LOGGER.trace("R configurations are found");
+        LOGGER.trace("moveToRConfPage(): R configurations are found");
         return new ModelAndView("config",
                 "RConfList", RConfList);
 
@@ -70,7 +70,7 @@ public class IndexController {
 
     @RequestMapping(value = "/help")
     public String moveToHelp() {
-        LOGGER.debug("Help page");
+        LOGGER.debug("moveToHelp(): help page");
         return "help";
     }
 

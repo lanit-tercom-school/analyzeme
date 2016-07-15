@@ -21,7 +21,7 @@ public class TestFileController {
 
         InputStream is = new BufferedInputStream(new FileInputStream
                 (new File(this.getClass().getResource("/test_data/x.json").getFile())));
-        String mimeType = fileController.controlContentOfFile("x.json", is);
+        String mimeType = fileController.checkContentOfFile("x.json", is);
         assertTrue(mimeType.equals("application/json"));
     }
 
@@ -30,7 +30,7 @@ public class TestFileController {
         FileController fileController = new FileController();
         InputStream is = new BufferedInputStream(new FileInputStream
                 (new File(this.getClass().getResource("/test_data/y.csv").getFile())));
-        String mimeType = fileController.controlContentOfFile("y.csv", is);
+        String mimeType = fileController.checkContentOfFile("y.csv", is);
         assertTrue(mimeType.equals("text/csv"));
     }
 
@@ -39,7 +39,7 @@ public class TestFileController {
         FileController fileController = new FileController();
         InputStream is = new BufferedInputStream(new FileInputStream
                 (new File(this.getClass().getResource("/test_data/z.xlsx").getFile())));
-        String mime = fileController.controlContentOfFile("z.xlsx", is);
+        String mime = fileController.checkContentOfFile("z.xlsx", is);
         assertTrue(mime.equals("application/vnd.ms-excel") ||
                 mime.equals("application/msexcel") ||
                 mime.equals("application/x-msexcel") ||
@@ -57,7 +57,7 @@ public class TestFileController {
         FileController fileController = new FileController();
         InputStream is = new BufferedInputStream(new FileInputStream
                 (new File(this.getClass().getResource("/test_data/a.xls").getFile())));
-        String mime = fileController.controlContentOfFile("a.xls", is);
+        String mime = fileController.checkContentOfFile("a.xls", is);
         assertTrue(mime.equals("application/vnd.ms-excel") ||
                 mime.equals("application/msexcel") ||
                 mime.equals("application/x-msexcel") ||

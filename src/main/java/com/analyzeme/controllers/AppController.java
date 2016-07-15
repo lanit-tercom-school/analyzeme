@@ -12,12 +12,12 @@ public class AppController {
 
     static {
         LOGGER = LoggerFactory.getLogger(
-                "com.analyzeme.controllers.IndexController");
+                "com.analyzeme.controllers.AppController");
     }
 
     @RequestMapping(value = "/app/**")
     public ModelAndView moveToAppPage() {
-        LOGGER.debug("Angular app");
+        LOGGER.debug("moveToAppPage(): method started");
         return new ModelAndView("app");
     }
 }

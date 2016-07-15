@@ -5,7 +5,6 @@ import com.analyzeme.analyzers.IAnalyzer;
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.data.DataSet;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
-import com.analyzeme.parsers.InvalidFileException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +36,7 @@ public class AnalysisController {
                             @RequestParam(value = "fields[]",
                                     required = false) String[] fields)
             throws Exception {
-        LOGGER.debug("getResult called");
+        LOGGER.debug("getResult(): method started");
         try {
             List<String> f = new ArrayList<String>();
             if (fields != null) {
@@ -46,16 +45,24 @@ public class AnalysisController {
                 }
             }
 
-            LOGGER.trace("Attempt to find file to analyze "
+            LOGGER.trace("getResult(): attempt to find dataset to analyze "
                     + referenceName + " for project "
                     + projectId + " for user " + userId);
             FileInRepositoryResolver res = new FileInRepositoryResolver();
             res.setProject(userId, projectId);
             DataSet data = res.getDataSet(referenceName);
-            LOGGER.trace("Got DataSet for " + referenceName);
+            if (data == null) {
+                LOGGER.info("getResult(): dataset is not found");
+                throw new IllegalArgumentException();
+            }
+            LOGGER.debug("getResult(): dataset is found");
 
             IAnalyzer analyzer = AnalyzerFactory.getAnalyzer(functionType);
-            LOGGER.trace("Got Analyzer " + functionType);
+            if(analyzer == null) {
+                LOGGER.info("getResult(): analyzer is not found");
+                throw new IllegalArgumentException();
+            }
+            LOGGER.trace("getResult(): analyzer is found", functionType);
 
             //TODO: this is a temporary if, change when js is ready
             if (f.isEmpty()) {
@@ -70,25 +77,20 @@ public class AnalysisController {
                     }
                 }
             }
-            LOGGER.trace("Keys for data is ready (from "
-                    + referenceName + ")");
+            LOGGER.trace("getResult(): keys for data is ready");
 
             Map<String, List<Double>> toAnalyze = new HashMap<>();
             for (String field : f) {
                 toAnalyze.put(field, data.getByField(field));
             }
-            LOGGER.trace("Data to analyze is ready (from "
-                    + referenceName + ")");
+            LOGGER.trace("getResult(): data to analyze is ready");
 
             IResult results = analyzer.analyze(toAnalyze);
-            LOGGER.debug("Got result of analysis: analyzer "
-                    + functionType + " for "
-                    + referenceName + " for project "
-                    + projectId + " for user " + userId);
+            LOGGER.debug("getResult(): analysis finished");
             return results.toJson();
 
         } catch (Exception ex) {
-            LOGGER.info(ex.toString());
+            LOGGER.info("getResult(): " + ex.toString());
             return ex.toString();
         }
     }
