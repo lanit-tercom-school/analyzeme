@@ -2,6 +2,8 @@ package com.analyzeme.analyzers.result;
 
 import com.analyzeme.data.Data;
 import com.analyzeme.data.DataArray;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
@@ -12,8 +14,14 @@ import static java.lang.Math.abs;
  */
 
 public class FileResult<T> implements IResult<Map<String, List<T>>> {
+    private static final Logger LOGGER;
     private static final double EPS_FOR_DOUBLE = 0.0001;
     private final Map<String, List<T>> result;
+
+    static {
+        LOGGER = LoggerFactory.getLogger(
+                "com.analyzeme.analyzers.result.FileResult");
+    }
 
     public FileResult(final Map<String, List<T>> result) {
         this.result = result;
@@ -24,6 +32,7 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
     }
 
     public String toJson() {
+        LOGGER.debug("toJson(): method started");
         if (result == null) {
             return null;
         }
@@ -36,11 +45,13 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
         for (int i = 0; i < length; i++) {
             Map<String, T> tempMap = new HashMap<String, T>();
             for (Map.Entry<String, List<T>> entry : result.entrySet()) {
-                tempMap.put(entry.getKey(), entry.getValue().get(i));
+                tempMap.put(entry.getKey(),
+                        entry.getValue().get(i));
             }
             Data<T> d = new Data<T>(tempMap);
             temp.addData(d);
         }
+        LOGGER.debug("toJson(): DataArray created");
         return temp.toPointJson();
     }
 
@@ -49,7 +60,8 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
         boolean result = false;
         if (other instanceof FileResult) {
             FileResult<T> that = (FileResult) other;
-            result = that.getValue().keySet().equals(this.getValue().keySet());
+            result = that.getValue().keySet().equals(
+                    this.getValue().keySet());
             if (result) {
                 Set<String> names = this.getValue().keySet();
                 for (String name : names) {
@@ -62,13 +74,11 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
                         T objThis = tempThis.get(i);
                         T objThat = tempThat.get(i);
                         //TODO: rewrite here to work not with double only
-                        if (abs((Double) objThis - (Double) objThat) > EPS_FOR_DOUBLE) {
+                        if (abs((Double) objThis - (Double) objThat)
+                                > EPS_FOR_DOUBLE) {
                             return false;
                         }
                     }
-                    /*if(!tempThis.equals(tempThat)) {
-                        return false;
-                    }  */
                 }
             }
         }

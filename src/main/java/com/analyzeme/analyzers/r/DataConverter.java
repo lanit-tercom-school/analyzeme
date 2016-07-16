@@ -2,6 +2,8 @@ package com.analyzeme.analyzers.r;
 
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.IResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,9 +15,14 @@ import java.util.Map;
  * {@value COL_FROM_R} prefix for column name that is used in R.call when the name of the column is unknown
  */
 public class DataConverter {
-
+    private static final Logger LOGGER;
     private static final String COL_TO_R = "col_";
     private static final String COL_FROM_R = "col";
+
+    static {
+        LOGGER = LoggerFactory.getLogger(
+                "com.analyzeme.analyzers.r.DataConverter");
+    }
 
     /**
      * translates column names of data to standard form (for script execution)
@@ -25,7 +32,9 @@ public class DataConverter {
      */
     public static <T> Map<String, String> getKeysForR(
             final Map<String, List<T>> data) {
+        LOGGER.debug("getKeysForR(): method started");
         if (data == null) {
+            LOGGER.info("getKeysForR(): null argument");
             throw new IllegalArgumentException(
                     "DataConverter getKeysForR: null argument");
         }
@@ -35,6 +44,7 @@ public class DataConverter {
         while (iterator.hasNext()) {
             result.put(iterator.next(), COL_TO_R + (int) i++);
         }
+        LOGGER.debug("getKeysForR(): method finished");
         return result;
     }
 
@@ -49,7 +59,9 @@ public class DataConverter {
     public static <T> Map<String, List<T>> translateForR(
             final Map<String, List<T>> data,
             final Map<String, String> keys) {
+        LOGGER.debug("translateForR(): method started");
         if (data == null || keys == null) {
+            LOGGER.info("translateForR(): null argument");
             throw new IllegalArgumentException(
                     "DataConverter translateForR: null argument");
         }
@@ -61,6 +73,7 @@ public class DataConverter {
             temp = iterator.next();
             result.put(keys.get(temp), data.get(temp));
         }
+        LOGGER.info("translateForR(): method finished");
         return result;
     }
 
@@ -75,13 +88,16 @@ public class DataConverter {
     public static <T> Map<String, List<T>> translateFromR(
             final Map<String, List<T>> data,
             final Map<String, String> keys) {
+        LOGGER.debug("translateFromR(Map): method started");
         if (data == null || keys == null) {
+            LOGGER.info("translateFromR(): null argument");
             throw new IllegalArgumentException(
                     "DataConverter translateFromR: null argument");
         }
         Map<String, List<T>> result =
                 new HashMap<String, List<T>>();
         Map<String, String> tempKeyMap = revertKeyMap(keys);
+        LOGGER.debug("translateFromR(): keys map reverted");
         Iterator<String> iterator = tempKeyMap.keySet().iterator();
         String temp;
         while (iterator.hasNext()) {
@@ -94,15 +110,21 @@ public class DataConverter {
                 temp = it.next();
                 if (!result.keySet().contains(tempKeyMap.get(temp))) {
                     if (temp.startsWith(COL_FROM_R) && !temp.startsWith(COL_TO_R)) {
+                        LOGGER.debug(
+                                "translateFromR(): column with auto formed name",
+                                temp);
                         result.put(temp, data.get(temp));
                     } else {
+                        LOGGER.info("translateFromR(): impossible to convert",
+                                temp);
                         throw new IllegalArgumentException(
-                                "DataConverter translateFromR: impossible to convert this name "
+                                "DataConverter translateFromR: impossible to convert "
                                         + temp);
                     }
                 }
             }
         }
+        LOGGER.debug("translateFromR(Map): method finished");
         return result;
     }
 
@@ -114,18 +136,25 @@ public class DataConverter {
      * @param <T>    - now only Double is supported
      * @return FileResult (an object that contains Map<String, List<Double>> with aliases changed to column names from keys map)
      */
-    public static <T> IResult translateFromR(final FileResult<T> result, final Map<String, String> keys) {
+    public static <T> IResult translateFromR(final FileResult<T> result,
+                                             final Map<String, String> keys) {
+        LOGGER.debug("translateFromR(FileResult): method started");
         if (result == null) {
+            LOGGER.info("translateFromR(): null argument");
             throw new IllegalArgumentException(
                     "DataConverter translateFromR: null argument");
         }
         Map<String, List<T>> map = result.getValue();
         Map<String, List<T>> resultMap = translateFromR(map, keys);
+        LOGGER.debug("translateFromR(FileResult): method finished");
         return new FileResult(resultMap);
     }
 
-    private static Map<String, String> revertKeyMap(final Map<String, String> keys) {
+    private static Map<String, String> revertKeyMap(
+            final Map<String, String> keys) {
+        LOGGER.debug("revertKeyMap(): method started");
         if (keys == null) {
+            LOGGER.info("revertKeyMap(): null argument");
             throw new IllegalArgumentException(
                     "DataConverter revertKeyMap: null argument");
         }
@@ -136,6 +165,7 @@ public class DataConverter {
             temp = iterator.next();
             result.put(keys.get(temp), temp);
         }
+        LOGGER.debug("revertKeyMap(): method finished");
         return result;
     }
 }

@@ -2,6 +2,8 @@ package com.analyzeme.analyzers.result;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -10,6 +12,12 @@ import java.util.List;
  */
 
 public class ColumnResult<T> implements IResult<List<T>> {
+    private static final Logger LOGGER;
+
+    static {
+        LOGGER = LoggerFactory.getLogger(
+                "com.analyzeme.analyzers.result.ColumnResult");
+    }
 
     private final ObjectMapper mapper = new ObjectMapper();
     private final List<T> result;
@@ -23,6 +31,7 @@ public class ColumnResult<T> implements IResult<List<T>> {
     }
 
     public String toJson() throws JsonProcessingException {
+        LOGGER.debug("toJson(): method started");
         if (result == null) {
             return null;
         }
@@ -34,11 +43,13 @@ public class ColumnResult<T> implements IResult<List<T>> {
         boolean result = false;
         if (other instanceof ColumnResult) {
             ColumnResult that = (ColumnResult) other;
-            if (that.getValue().size() != this.getValue().size()) {
+            if (that.getValue().size()
+                    != this.getValue().size()) {
                 return result;
             }
             for (int i = 0; i < that.getValue().size(); i++) {
-                if (!that.getValue().get(i).equals(this.getValue().get(i))) {
+                if (!that.getValue().get(i).equals(
+                        this.getValue().get(i))) {
                     return result;
                 }
             }
