@@ -2,6 +2,9 @@ package com.analyzeme.parsers;
 
 import com.analyzeme.data.Data;
 import com.analyzeme.data.DataArray;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataWithType;
+import com.analyzeme.data.dataWithType.DataWithTypeArray;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -10,10 +13,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
+import java.time.LocalTime;
+import java.util.*;
 
 /**
  * Created by ilya on 7/5/16.
@@ -38,6 +39,28 @@ public class ExcelParserTest {
         }
         String[] columnTitles = new String[]{"x", "y"};
         testExcelFile("/test_data/2.xls", data, columnTitles, 2);
+    }
+
+    @Test
+    public void testFileWithDifferentTypes() throws FileNotFoundException, InvalidFileException {
+        final String filepath = "/test_data/with_types.xlsx";
+        FileInputStream file = new FileInputStream(new File(this.getClass().getResource(filepath).getFile()));
+        ExcelParser parser = new ExcelParser();
+        DataWithTypeArray result = parser.parseWithType(file);
+
+        DataWithTypeArray expected = new DataWithTypeArray();
+        expected.addData(new DataWithType(new HashMap<String, DataEntry>() {{
+            put("some_double", new DataEntry(1d));
+            put("some_string", new DataEntry("hello"));
+            put("some_time", new DataEntry(LocalTime.of(10, 30, 10)));
+        }}));
+        expected.addData(new DataWithType(new HashMap<String, DataEntry>() {{
+            put("some_double", new DataEntry(2d));
+            put("some_string", new DataEntry("bye"));
+            put("some_time", new DataEntry(LocalTime.of(7, 40)));
+        }}));
+
+        Assert.assertEquals(expected, result);
     }
 
     private void testExcelFile(String filepath, List<Double[]> data, String[] columnTitles, int rowSize)
