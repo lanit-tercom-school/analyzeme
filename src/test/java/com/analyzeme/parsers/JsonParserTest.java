@@ -2,11 +2,14 @@ package com.analyzeme.parsers;
 
 import com.analyzeme.data.Data;
 import com.analyzeme.data.DataArray;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataWithType;
+import com.analyzeme.data.dataWithType.DataWithTypeArray;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,5 +79,27 @@ public class JsonParserTest {
             sb.append(item);
         }
         return sb.toString();
+    }
+
+    @Test
+    public void testFileWithDifferentTypes() throws FileNotFoundException, InvalidFileException {
+        final String filepath = "/test_data/with_types.json";
+        FileInputStream file = new FileInputStream(new File(this.getClass().getResource(filepath).getFile()));
+        JsonParser parser = new JsonParser();
+        DataWithTypeArray result = parser.parseWithType(file);
+
+        DataWithTypeArray expected = new DataWithTypeArray();
+        expected.addData(new DataWithType(new HashMap<String, DataEntry>() {{
+            put("some_double", new DataEntry(1d));
+            put("some_string", new DataEntry("hello"));
+            put("some_time", new DataEntry(LocalTime.of(10, 30, 10)));
+        }}));
+        expected.addData(new DataWithType(new HashMap<String, DataEntry>() {{
+            put("some_double", new DataEntry(2d));
+            put("some_string", new DataEntry("bye"));
+            put("some_time", new DataEntry(LocalTime.of(7, 40)));
+        }}));
+
+        Assert.assertEquals(expected, result);
     }
 }
