@@ -1,6 +1,7 @@
 package com.analyzeme.parsers;
 
 import com.analyzeme.data.DataArray;
+import com.analyzeme.data.dataWithType.DataWithTypeArray;
 
 import java.io.InputStream;
 
@@ -10,4 +11,6 @@ import java.io.InputStream;
  */
 public interface IParser {
     DataArray<Double> parse(InputStream input) throws InvalidFileException;
+
+    DataWithTypeArray parseWithType(InputStream input) throws InvalidFileException;
 }
