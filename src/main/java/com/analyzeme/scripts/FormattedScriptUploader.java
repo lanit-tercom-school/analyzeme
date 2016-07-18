@@ -2,12 +2,15 @@ package com.analyzeme.scripts;
 
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.repository.filerepository.FileRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ScriptFromDiskUploader {
+public class FormattedScriptUploader {
     private final static String REGEXP =
             "(#minN = (\\d+))?(( |\\n)?)+" +
                     "(#n = (\\d+))?(( |\\n)?)+" +
@@ -20,6 +23,12 @@ public class ScriptFromDiskUploader {
     //private static final int INPUT_GROUP = 10;
     private static final int OUTPUT_GROUP = 14;
     private static final int SCRIPT_START_GROUP = 17;
+    private static final Logger LOGGER;
+
+    static {
+        LOGGER = LoggerFactory.getLogger(
+                "com.analyzeme.scripts.FormattedScriptUploader");
+    }
 
     private static int getInt(final Matcher m,
                               final int group) {
@@ -43,41 +52,52 @@ public class ScriptFromDiskUploader {
     }
 
     private static String trimScript(final String script, final Matcher m) {
+        LOGGER.debug("trimScript(): method started");
         int index = m.start(SCRIPT_START_GROUP);
         return script.substring(index);
     }
 
     private static String uploadScriptToRepo(final String script,
                                              final String scriptName) throws IOException {
+        LOGGER.debug("uploadScriptToRepo(): method started");
         return FileRepository.getRepo().persist(script,
                 scriptName);
     }
 
     private static TypeOfReturnValue toTypeOfReturnValue(
             final String type) throws IllegalArgumentException {
+        LOGGER.debug("toTypeOfReturnValue(): method started");
         if (type.equalsIgnoreCase("DOUBLE")) {
             return TypeOfReturnValue.DOUBLE;
         }
         if (type.equalsIgnoreCase("JSON_STRING")) {
             return TypeOfReturnValue.JSON_STRING;
         }
-        if (type.equalsIgnoreCase("SCALAR")) {
+        if (type.equalsIgnoreCase("SCALAR_DOUBLE")) {
             return TypeOfReturnValue.SCALAR;
         }
-        if (type.equalsIgnoreCase("VECTOR")) {
+        if (type.equalsIgnoreCase("VECTOR_DOUBLE")) {
             return TypeOfReturnValue.VECTOR;
         }
-        if (type.equalsIgnoreCase("FILE")) {
+        if (type.equalsIgnoreCase("VECTORS_DOUBLE")) {
             return TypeOfReturnValue.FILE;
         }
+        LOGGER.info("toTypeOfReturnValue(): not supported argument");
         throw new IllegalArgumentException(
                 "This type of return value is not supported");
     }
 
     public static Script upload(final String script,
                                 final String scriptName) throws IOException {
-        Matcher m = PATTERN.matcher(script);
+        LOGGER.debug(script);
+        LOGGER.debug("upload(): method started");
+        String scriptTransformed = script.replaceAll("\n", new String(new char[]{(char)32}));
+        scriptTransformed = scriptTransformed.replaceAll("\r", new String(new char[]{(char)32}));
+        LOGGER.debug("upload(): \\n removed ");
+        System.out.println(scriptTransformed);
+        Matcher m = PATTERN.matcher(scriptTransformed);
         if (m.matches()) {
+            LOGGER.debug("upload(): script matches pattern");
             int minN = getInt(m, MIN_N_GROUP);
             int n = getInt(m, N_GROUP);
             int num = chooseNum(n, minN);
@@ -85,14 +105,15 @@ public class ScriptFromDiskUploader {
             //String input = m.group(INPUT_GROUP);
             String output = m.group(OUTPUT_GROUP);
 
-            String s = trimScript(script, m);
+            String s = trimScript(scriptTransformed, m);
             String id = uploadScriptToRepo(s, scriptName);
-
             Script result = new Script(scriptName,
                     id, num, toTypeOfReturnValue(output),
                     ScriptSource.DISK_DEFAULT);
+            LOGGER.debug("upload(): script is uploaded and ready");
             return result;
         }
+        LOGGER.info("upload(): impossible to upload script");
         throw new IOException("Impossible to upload script");
     }
 }

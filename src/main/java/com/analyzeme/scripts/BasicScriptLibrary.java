@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BasicScriptLibrary implements ILibrary {
-    private static final String DEFAULT_FOLDER = "./r";
+    private static final String DEFAULT_FOLDER = "E:\\Projects\\analyzeme\\src\\main\\java\\com\\analyzeme\\scripts\\r";
     private List<Script> scripts = new ArrayList<Script>();
     private final File rootFolder;
     private static final Logger LOGGER;
@@ -21,21 +21,26 @@ public class BasicScriptLibrary implements ILibrary {
 
     BasicScriptLibrary(final String rootFolder) throws Exception {
         this.rootFolder = new File(rootFolder);
+        this.rootFolder.mkdir();
         loadScriptsFromDisk();
     }
 
     BasicScriptLibrary() throws Exception {
         rootFolder = new File(DEFAULT_FOLDER);
+        this.rootFolder.mkdir();
         loadScriptsFromDisk();
     }
 
     private void loadScriptsFromDisk() throws Exception {
+        LOGGER.debug("loadScriptsFromDisk(): method started");
         for (File file : rootFolder.listFiles()) {
+            LOGGER.debug("loadScriptsFromDisk(): file in folder");
             String name = file.getName();
             InputStream stream = new FileInputStream(file);
             String script = IOUtils.toString(stream);
             addScriptFromDisk(name, script);
         }
+        LOGGER.debug("loadScriptsFromDisk(): method finished");
     }
 
     /**
@@ -46,11 +51,11 @@ public class BasicScriptLibrary implements ILibrary {
 
     private void addScriptFromDisk(final String name,
                                    final String script) throws Exception {
-        LOGGER.debug("addScript(): method started");
-        Script s = ScriptFromDiskUploader.upload(script, name);
-        LOGGER.debug("addScript(): script parsed");
+        LOGGER.debug("addScriptFromDisk(): method started");
+        Script s = FormattedScriptUploader.upload(script, name);
+        LOGGER.debug("addScriptFromDisk(): script parsed");
         scripts.add(s);
-        LOGGER.debug("addScript(): method finished");
+        LOGGER.debug("addScriptFromDisk(): method finished");
     }
 
     /**
@@ -93,6 +98,7 @@ public class BasicScriptLibrary implements ILibrary {
 
     public void addScript(
             final Script script) throws Exception {
+        LOGGER.info("addScript(): method is not supported");
         throw new IllegalArgumentException(
                 "This method is not supported in this library");
     }
