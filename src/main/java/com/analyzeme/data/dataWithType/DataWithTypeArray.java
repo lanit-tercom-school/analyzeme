@@ -15,6 +15,11 @@ public class DataWithTypeArray {
     }
 
     public void addData(DataWithType d) {
+        if (!data.isEmpty()) {
+            if (!d.hasSameTypesAndKeySets(data.get(0))) {
+                throw new IllegalArgumentException("Types should be same");
+            }
+        }
         data.add(d);
     }
 

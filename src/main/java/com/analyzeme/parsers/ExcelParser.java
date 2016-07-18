@@ -80,7 +80,7 @@ public class ExcelParser implements IParser {
                     result.addData(new DataWithType(data));
                 }
             }
-        } catch (IOException | InvalidFormatException | EncryptedDocumentException e) {
+        } catch (IOException | InvalidFormatException | EncryptedDocumentException |IllegalArgumentException e) {
             throw new InvalidFileException("Excel file is not valid!");
         }
         return result;

@@ -19,12 +19,19 @@ public class DataWithType {
     public DataWithType(final Map<String, DataEntry> data) {
         this.data = data;
     }
-//    public Data(final Map<String, Object> data) {
-//        this.data = new HashMap<>();
-//        for (Map.Entry<String, Object> entry: data.entrySet()) {
-//            this.data.put(entry.getKey(), new DataEntry(entry.getValue()));
-//        }
-//    }
+
+    public boolean hasSameTypesAndKeySets(DataWithType other) {
+        if (!this.data.keySet().equals(other.data.keySet())) {
+            return false;
+        }
+
+        for(Map.Entry<String, DataEntry> entry : this.data.entrySet()){
+            if (other.data.get(entry.getKey()).getType() != entry.getValue().getType()){
+                return false;
+            }
+        }
+        return true;
+    }
 
     public Map<String, DataEntry> getData() {
         return data;
