@@ -6,7 +6,9 @@ package com.analyzeme.data.dataWithType;
 public enum DataEntryType {
     DOUBLE(Double.class),
     STRING(String.class),
-    TIME(java.time.LocalTime.class);
+    TIME(java.time.LocalTime.class),
+    DATE(java.time.LocalDate.class),
+    DATE_TIME(java.time.LocalDateTime.class);
 
     private Class<?> javaClass;
 

@@ -25,7 +25,7 @@ public class CsvParser implements IParser{
 
     public  DataArray<Double> parse(InputStream stream) throws InvalidFileException{
         if (stream == null) {
-            throw new InvalidFileException("CsvParser parse(): impossible to parse null");
+            throw new InvalidFileException("CsvParser parseTime(): impossible to parseTime null");
         }
         com.univocity.parsers.csv.CsvParser parser = new com.univocity.parsers.csv.CsvParser(SETTINGS);
         List<String[]> allRows = parser.parseAll(stream);
@@ -42,14 +42,14 @@ public class CsvParser implements IParser{
             }
             return result;
         } else {
-            throw new InvalidFileException("CsvParser parse(): empty or incorrect data to parse");
+            throw new InvalidFileException("CsvParser parseTime(): empty or incorrect data to parseTime");
         }
     }
 
     @Override
     public DataWithTypeArray parseWithType(InputStream input) throws InvalidFileException {
         if (input == null) {
-            throw new InvalidFileException("CsvParser parse(): impossible to parse null");
+            throw new InvalidFileException("CsvParser parseTime(): impossible to parseTime null");
         }
         com.univocity.parsers.csv.CsvParser parser = new com.univocity.parsers.csv.CsvParser(SETTINGS);
         List<String[]> allRows = parser.parseAll(input);
@@ -65,7 +65,7 @@ public class CsvParser implements IParser{
             }
             return result;
         } else {
-            throw new InvalidFileException("CsvParser parse(): empty or incorrect data to parse");
+            throw new InvalidFileException("CsvParser parseTime(): empty or incorrect data to parseTime");
         }
     }
 }

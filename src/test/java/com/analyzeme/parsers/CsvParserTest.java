@@ -8,7 +8,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.Month;
 import java.util.*;
 
 import static org.junit.Assert.assertTrue;
@@ -132,11 +135,15 @@ public class CsvParserTest {
             put("some_double", new DataEntry(1d));
             put("some_string", new DataEntry("hello"));
             put("some_time", new DataEntry(LocalTime.of(10, 30, 10)));
+            put("some_date", new DataEntry(LocalDate.of(2010, Month.OCTOBER, 10)));
+            put("some_datetime", new DataEntry(LocalDateTime.of(2010, Month.OCTOBER, 10, 10, 30, 10)));
         }}));
         expected.addData(new DataWithType(new HashMap<String, DataEntry>() {{
             put("some_double", new DataEntry(2d));
             put("some_string", new DataEntry("bye"));
             put("some_time", new DataEntry(LocalTime.of(7, 40)));
+            put("some_date", new DataEntry(LocalDate.of(2010, Month.NOVEMBER, 1)));
+            put("some_datetime", new DataEntry(LocalDateTime.of(2010, Month.NOVEMBER, 1, 7, 40)));
         }}));
 
         Assert.assertEquals(expected, result);
