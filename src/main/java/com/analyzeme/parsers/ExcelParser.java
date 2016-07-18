@@ -3,6 +3,7 @@ package com.analyzeme.parsers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.SynchronousQueue;
 
 import com.analyzeme.data.Data;
 import com.analyzeme.data.DataArray;
@@ -92,9 +93,14 @@ public class ExcelParser implements IParser {
         if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
             if (ExcelUtils.isCellTimeFormatted(cell)) {
                 return new DataEntry(DataEntryType.TIME, ExcelUtils.getTimeFromExcelCell(cell));
+            } else if (ExcelUtils.isCellDateFormated(cell)) {
+                return new DataEntry(DataEntryType.DATE, ExcelUtils.getDateFormCell(cell));
+            } else if (ExcelUtils.isCellDateTimeFormatted(cell)) {
+                return new DataEntry(DataEntryType.DATE_TIME, ExcelUtils.getDateTimeFormCell(cell));
             } else {
                 return new DataEntry(DataEntryType.DOUBLE, cell.getNumericCellValue());
             }
+
         } else if (cell.getCellType() == Cell.CELL_TYPE_FORMULA &&
                 cell.getCachedFormulaResultType() == Cell.CELL_TYPE_NUMERIC) {
             return new DataEntry(DataEntryType.DOUBLE, cell.getNumericCellValue());
