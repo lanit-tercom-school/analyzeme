@@ -57,12 +57,14 @@ public class AnalysisController {
             }
             LOGGER.debug("getResult(): dataset is found");
 
-            IAnalyzer analyzer = AnalyzerFactory.getAnalyzer(functionType);
-            if(analyzer == null) {
+            IAnalyzer analyzer = AnalyzerFactory.getAnalyzer(
+                    functionType);
+            if (analyzer == null) {
                 LOGGER.info("getResult(): analyzer is not found");
                 throw new IllegalArgumentException();
             }
-            LOGGER.trace("getResult(): analyzer is found", functionType);
+            LOGGER.trace("getResult(): analyzer is found",
+                    functionType);
 
             //TODO: this is a temporary if, change when js is ready
             if (f.isEmpty()) {
@@ -77,13 +79,15 @@ public class AnalysisController {
                     }
                 }
             }
-            LOGGER.trace("getResult(): keys for data is ready");
+            LOGGER.trace(
+                    "getResult(): keys for data is ready");
 
             Map<String, List<Double>> toAnalyze = new HashMap<>();
             for (String field : f) {
                 toAnalyze.put(field, data.getByField(field));
             }
-            LOGGER.trace("getResult(): data to analyze is ready");
+            LOGGER.trace(
+                    "getResult(): data to analyze is ready");
 
             IResult results = analyzer.analyze(toAnalyze);
             LOGGER.debug("getResult(): analysis finished");
@@ -93,5 +97,29 @@ public class AnalysisController {
             LOGGER.info("getResult(): " + ex.toString());
             return ex.toString();
         }
+    }
+
+    @RequestMapping(value = "/functions",
+            method = RequestMethod.GET)
+    public List<String> getGivenFunctions() {
+        LOGGER.debug(
+                "getGivenFunctions(): method started");
+        return AnalyzerFactory.getSupportedAnalyzers();
+    }
+
+    @RequestMapping(value = "/functions/{user_id}",
+            method = RequestMethod.GET)
+    public String getUserFunctions(
+            @PathVariable("user_id") final int userId) {
+        LOGGER.debug("getUserFunctions(): method started");
+        if (userId <= 0) {
+            LOGGER.info(
+                    "getUserFunctions(): incorrect userId");
+            throw new IllegalArgumentException(
+                    "Incorrect userId");
+        }
+
+        //TODO: implement UserScriptLibrary in scripts and use it here
+        return null;
     }
 }

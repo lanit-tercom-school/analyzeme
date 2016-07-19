@@ -19,13 +19,13 @@ public class BasicScriptLibrary implements ILibrary {
                 "com.analyzeme.scripts.BasicScriptLibrary");
     }
 
-    BasicScriptLibrary(final String rootFolder) throws Exception {
+    public BasicScriptLibrary(final String rootFolder) throws Exception {
         this.rootFolder = new File(rootFolder);
         this.rootFolder.mkdir();
         loadScriptsFromDisk();
     }
 
-    BasicScriptLibrary() throws Exception {
+    public BasicScriptLibrary() throws Exception {
         rootFolder = new File(DEFAULT_FOLDER);
         this.rootFolder.mkdir();
         loadScriptsFromDisk();

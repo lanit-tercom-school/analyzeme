@@ -75,5 +75,5 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer<Double> {
         return NUMBER_OF_PARAMS;
     }
 
-    abstract String getScript();
+    abstract String getScript() throws Exception ;
 }
