@@ -3,13 +3,16 @@ package com.analyzeme.scripts;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.ResourceUtils;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BasicScriptLibrary implements ILibrary {
-    private static final String DEFAULT_FOLDER = "E:\\Projects\\analyzeme\\src\\main\\java\\com\\analyzeme\\scripts\\r";
+    private static final String DEFAULT_FOLDER = "src/main/java/com/analyzeme/scripts/r";
     private List<Script> scripts = new ArrayList<Script>();
     private final File rootFolder;
     private static final Logger LOGGER;
@@ -20,13 +23,17 @@ public class BasicScriptLibrary implements ILibrary {
     }
 
     public BasicScriptLibrary(final String rootFolder) throws Exception {
-        this.rootFolder = new File(rootFolder);
+        if (rootFolder == null) {
+            this.rootFolder = ResourceUtils.getFile(DEFAULT_FOLDER);
+        } else {
+            this.rootFolder = ResourceUtils.getFile(rootFolder);
+        }
         this.rootFolder.mkdir();
         loadScriptsFromDisk();
     }
 
     public BasicScriptLibrary() throws Exception {
-        rootFolder = new File(DEFAULT_FOLDER);
+        rootFolder = ResourceUtils.getFile(DEFAULT_FOLDER);
         this.rootFolder.mkdir();
         loadScriptsFromDisk();
     }

@@ -16,6 +16,7 @@ public class AnalyzerFactory {
     private static ILibrary lib;
     private static List<String> scripts;
     private static final Logger LOGGER;
+    private static String rootFolder;
 
     static {
         LOGGER = LoggerFactory.getLogger(
@@ -26,7 +27,7 @@ public class AnalyzerFactory {
                 "LinearCorrelation",
                 "KolmogorovSmirnovTest", "TestFileResult"});
         try {
-            lib = new BasicScriptLibrary();
+            lib = new BasicScriptLibrary(rootFolder);
             scripts = lib.getAllScriptsNames();
         } catch (Exception e) {
             LOGGER.info(
@@ -34,10 +35,18 @@ public class AnalyzerFactory {
         }
     }
 
+    public static void setRootFolder(final String folder) {
+        rootFolder = folder;
+    }
+
     public static List<String> getSupportedAnalyzers() {
         List<String> result = new ArrayList<String>();
-        result.addAll(supportedAnalyzers);
-        result.addAll(scripts);
+        if (supportedAnalyzers != null) {
+            result.addAll(supportedAnalyzers);
+        }
+        if (scripts != null) {
+            result.addAll(scripts);
+        }
         return result;
     }
 
