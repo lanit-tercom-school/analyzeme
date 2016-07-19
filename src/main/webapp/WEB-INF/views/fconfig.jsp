@@ -1,19 +1,14 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: asus
-  Date: 17.04.2016
-  Time: 14:20
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Configuration</title>
     <spring:url value="/resources/angular2app/" var="angularPath"/>
-    <spring:url value="/resources/js/rConfig.js" var="rConfJs"/>
-    <script type="text/javascript" src="${rConfJs}"></script>
+    <spring:url value="/resources/js/fConfig.js" var="fConfJs"/>
+    <script type="text/javascript" src="${fConfJs}"></script>
+    <!-- jQuery -->
     <spring:url value="/resources/js/jquery.js" var="jqueryJs"/>
     <script type="text/javascript" src="${jqueryJs}"></script>
 
@@ -55,24 +50,19 @@
 
     <script>
         jQuery(document).ready(function () {
-            $("#addRType").on('change', function () {
+            $("#addFType").on('change', function () {
                 switch ($(this).val()) {
-                    case 'FakeRConf':
-                        $('#addHost').css('visibility', 'hidden');
-                        $('#addPort').css('visibility', 'hidden');
-                        document.getElementById("host").value = '-----';
-                        document.getElementById("port").value = '-----';
+                    case 'TestFConf':
+                        $('#addServiceAccount').css('visibility', 'hidden');
+                        $('#addDatabaseUrl').css('visibility', 'hidden');
+                        document.getElementById("serviceAccount").value = '-----';
+                        document.getElementById("databaseUrl").value = '-----';
                         break;
-                    case 'RserveConf':
-                        $('#addHost').css('visibility', 'visible');
-                        $('#addPort').css('visibility', 'visible');
+                    case 'FirebaseConf':
+                        $('#addServiceAccount').css('visibility', 'visible');
+                        $('#addDatabaseUrl').css('visibility', 'visible');
                         break;
-                    case 'RenjinConf':
-                        $('#addHost').css('visibility', 'hidden');
-                        $('#addPort').css('visibility', 'hidden');
-                        document.getElementById("host").value = '-----';
-                        documentF.getElementById("port").value = '-----';
-                        break;
+
                 }
             });
 
@@ -105,37 +95,38 @@
             <div class="intro-header2">
                 <div class="container">
                     <div class="row">
-                        <div id="getdata" style="display: none;"> ${RConfList}</div>
-                        <h3> R configuration </h3>
+                    </div>
+                    <div class="row">
+                        <div id="getdataf" style="display: none;"> ${FConfList}</div>
+                        <h3> File configuration </h3>
 
-                        <a href="#AddModal" role="button" data-toggle="modal"
+                        <a href="#AddModalF" role="button" data-toggle="modal"
                            class="btn btn-primary btn-lg"><span
                                 class="network-name">Add</span></a>
 
-                        <%--Add modal--%>
-                        <div class="modal" id="AddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                        <%--Add modalF--%>
+                        <div class="modal" id="AddModalF" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                              aria-hidden="true">
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal"
                                         aria-hidden="true">&times;</button>
-                                <h3 class="modal-title">Add new R Configuration</h3>
+                                <h3 class="modal-title">Add new File Configuration</h3>
                             </div>
 
                             <div class="modal-body">
                                 <table class="form">
                                     <tr>
                                         <td>Name:</td>
-                                        <td><input type="text" id="name"><span class="redStar"><span
+                                        <td><input type="text" id="namef"><span class="redStar"><span
                                                 class="glyphicon glyphicon-asterisk"></span></span></td>
 
                                     </tr>
                                     <tr>
                                         <td>Select type:</td>
                                         <td>
-                                            <select id="addRType">
-                                                <option value="RserveConf">Rserve</option>
-                                                <option value="FakeRConf">FakeR</option>
-                                                <option value="RenjinConf">Renjin</option>
+                                            <select id="addFType">
+                                                <option value="FirebaseConf">Firebase</option>
+                                                <option value="TestRConf">TestR</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -143,13 +134,13 @@
                                         <td>Turned on:</td>
                                         <td><input type="checkbox" id="enabledField" checked></td>
                                     </tr>
-                                    <tr id="addHost">
-                                        <td>Host:</td>
-                                        <td><input type="text" id="host"></td>
+                                    <tr id="addServiceAccount">
+                                        <td>serviceAccount:</td>
+                                        <td><input type="text" id="serviceAccount"></td>
                                     </tr>
-                                    <tr id="addPort">
-                                        <td>Port:</td>
-                                        <td><input type="text" id="port">
+                                    <tr id="addDatabaseUrl">
+                                        <td>databaseUrl:</td>
+                                        <td><input type="text" id="databaseUrl">
                                         </td>
                                     </tr>
 
@@ -157,7 +148,7 @@
 
                             </div>
                             <div class="modal-footer">
-                                <a onclick="addRConf()" data-dismiss="modal" role="button" data-toggle="modal"
+                                <a onclick="addFConf()" data-dismiss="modal" role="button" data-toggle="modal"
                                    class="btn btn-primary btn-lg"><span
                                         class="network-name">Add </span></a>
                                 <a data-dismiss="modal" role="button" data-toggle="modal"
@@ -166,13 +157,13 @@
 
                             </div>
                         </div>
-                        <%--update modal--%>
-                        <div class="modal" id="UpdateModal" tabindex="-1" role="dialog"
+                        <%--update modalF--%>
+                        <div class="modal" id="UpdateModalf" tabindex="-1" role="dialog"
                              aria-labelledby="updateModalLabel"
                              aria-hidden="true">
                             <div class="modal-header">
-                                <button onclick="closeUpdateForm()" type="button" class="close">&times;</button>
-                                <h3 class="modal-title">Update R Configuration</h3>
+                                <button onclick="closeUpdateFormF()" type="button" class="close">&times;</button>
+                                <h3 class="modal-title">Update File Configuration</h3>
                             </div>
                             <div class="modal-body">
                                 <table class="form">
@@ -184,7 +175,7 @@
                                     <tr>
                                         <td>Type:</td>
                                         <td>
-                                            <span id="upType" class="network-name"><b>Rserve</b></span>
+                                            <span id="upType" class="network-name"><b>Firebase</b></span>
                                         </td>
                                     </tr>
 
@@ -193,13 +184,13 @@
                                         <td><input type="checkbox" id="upEnabledField" checked></td>
                                     </tr>
 
-                                    <tr id="hostRow">
-                                        <td>Host:</td>
-                                        <td><input type="text" id="upHost"></td>
+                                    <tr id="serviceAccountRow">
+                                        <td>ServiceAccount:</td>
+                                        <td><input type="text" id="upServiceAccount"></td>
                                     </tr>
-                                    <tr id="portRow">
-                                        <td>Port:</td>
-                                        <td><input type="text" id="upPort"></td>
+                                    <tr id="databaseUrlRow">
+                                        <td>DatabaseUrl:</td>
+                                        <td><input type="text" id="upDatabaseUrl"></td>
                                     </tr>
 
                                 </table>
@@ -207,37 +198,37 @@
                             </div>
                             <div class="modal-footer">
 
-                                <a onclick="update(upObj)" class="btn btn-primary btn-lg"><span
+                                <a onclick="updateF(upObj)" class="btn btn-primary btn-lg"><span
                                         class="network-name" aria-hidden="true">Ok</span></a>
 
-                                <a onclick="closeUpdateForm()" role="button" class="btn btn-primary btn-lg"><span
+                                <a onclick="closeUpdateFormF()" role="button" class="btn btn-primary btn-lg"><span
                                         class="network-name">Cancel</span></a>
 
                             </div>
                         </div>
-                        <%--delete modal--%>
-                        <div id="deleteModal" class="modal" tabindex="-1" role="dialog"
+                        <%--delete modalF--%>
+                        <div id="deleteModalf" class="modal" tabindex="-1" role="dialog"
                              aria-labelledby="mySmallModalLabel">
                             <div class="modal-header">
-                                <button onclick="closeDeleteForm()" type="button" class="close">&times;</button>
-                                <h3 class="modal-title" id="myModalLabel">Delete R Configuration?</h3>
+                                <button onclick="closeDeleteFormF()" type="button" class="close">&times;</button>
+                                <h3 class="modal-title" id="myModalLabel">Delete File Configuration?</h3>
                             </div>
                             <div class="modal-body">
                                 <div class="modal-content">
-                                    Are you really want delete <span id="delName">R Configuration</span>?
+                                    Are you really want delete <span id="delNamef">File Configuration</span>?
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <a onclick="deleteRconf(delObj)" class="btn btn-primary btn-lg"><span
+                                <a onclick="deleteFconf(delObj)" class="btn btn-primary btn-lg"><span
                                         class="network-name" aria-hidden="true">Yes</span></a>
 
-                                <a onclick="closeDeleteForm()" role="button" class="btn btn-primary btn-lg"><span
+                                <a onclick="closeDeleteFormF()" role="button" class="btn btn-primary btn-lg"><span
                                         class="network-name">No</span></a>
                             </div>
                         </div>
-                        <%--main table--%>
+                        <%--main tablef--%>
                         <div id="instancesData">
-                            <table id="listOfInstances" border="1">
+                            <table id="listOfInstancesf" border="1">
                                 <tr>
                                     <th><b>Name</b></th>
                                     <th><b>Type</b></th>
@@ -251,6 +242,9 @@
 
                         </div>
 
+
+                    </div>
+                </div>
                 <!-- /.container -->
 
             </div>

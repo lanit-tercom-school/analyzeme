@@ -1,5 +1,6 @@
 package com.analyzeme.controllers;
 
+import com.analyzeme.filestorageconfiguration.FileStorageConfRepository;
 import com.analyzeme.rconfiguration.RConfRepository;
 import com.analyzeme.repository.UsersRepository;
 import org.slf4j.Logger;
@@ -57,6 +58,7 @@ public class IndexController {
         return "preview";
     }
 
+
     @RequestMapping(value = "/config")
     public ModelAndView moveToRConfPage() {
         LOGGER.debug("moveToRConfPage(): configs page");
@@ -67,6 +69,18 @@ public class IndexController {
                 "RConfList", RConfList);
 
     }
+
+    @RequestMapping(value = "/fconfig")
+    public ModelAndView moveToFConfPage() {
+        LOGGER.debug("moveToFConfPage(): configs page");
+        String FConfList = FileStorageConfRepository.getRepo()
+                .allConfigurationsToJsonString();
+        LOGGER.trace("moveToFConfPage(): File configurations are found");
+        return new ModelAndView("fconfig",
+                "FConfList", FConfList);
+
+    }
+
 
     @RequestMapping(value = "/help")
     public String moveToHelp() {
