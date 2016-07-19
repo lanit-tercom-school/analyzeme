@@ -15,9 +15,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by ilya on 7/6/16.
+ * Parses JSON file in format like:
+ * <pre>{"Data":[{ "x": "0","y": "0"}, { "x": "1","y": "1"}]}</pre>
  */
-
 public class JsonParser implements IParser {
     public DataArray<Double> parse(InputStream input) throws InvalidFileException {
         if (input == null) {

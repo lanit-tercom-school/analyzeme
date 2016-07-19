@@ -6,8 +6,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+
 /**
- * Created by lagroffe on 27.05.2016 18:30
+ * Represents vector of {@link DataEntry}
  */
 public class DataWithType {
     private final Map<String, DataEntry> data;
@@ -20,13 +21,19 @@ public class DataWithType {
         this.data = data;
     }
 
+    /**
+     * Checks if entries in {@code other} has the same format as in current object
+     *
+     * @param other other object
+     * @return true if has, false otherwise
+     */
     public boolean hasSameTypesAndKeySets(DataWithType other) {
         if (!this.data.keySet().equals(other.data.keySet())) {
             return false;
         }
 
-        for(Map.Entry<String, DataEntry> entry : this.data.entrySet()){
-            if (other.data.get(entry.getKey()).getType() != entry.getValue().getType()){
+        for (Map.Entry<String, DataEntry> entry : this.data.entrySet()) {
+            if (other.data.get(entry.getKey()).getType() != entry.getValue().getType()) {
                 return false;
             }
         }
@@ -37,6 +44,11 @@ public class DataWithType {
         return data;
     }
 
+    /**
+     * Gets entry by its key
+     *
+     * @param key
+     */
     public DataEntry getByKey(final String key) {
         return data.get(key);
     }
@@ -45,7 +57,11 @@ public class DataWithType {
         return data.keySet();
     }
 
-    //{ "x": "1","y": "1" }
+    /**
+     * Gets JSON representation
+     *
+     * @return An object with given format <i>{ "x": "1","y": "1" }</i>
+     */
     public JSONObject toJson() {
         JSONObject obj = new JSONObject();
         for (Map.Entry<String, DataEntry> entry : data.entrySet()) {
@@ -54,7 +70,13 @@ public class DataWithType {
         return obj;
     }
 
-    //1, 1
+
+    /**
+     * Gets CSV representation without header
+     *
+     * @return An object with given format
+     * <i>1, 1</i>
+     */
     public String toCsvWithNoHeader() {
         StringBuilder s = new StringBuilder();
         for (Map.Entry<String, DataEntry> entry : data.entrySet()) {

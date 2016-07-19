@@ -1,7 +1,7 @@
 package com.analyzeme.data.dataWithType;
 
 /**
- * Created by ilya on 7/14/16.
+ * Types of {@link DataEntry}
  */
 public enum DataEntryType {
     DOUBLE(Double.class),
@@ -12,6 +12,11 @@ public enum DataEntryType {
 
     private Class<?> javaClass;
 
+    /**
+     * Creates {@link DataEntryType} which will store object of {@code javaClass} class
+     *
+     * @param javaClass - class of object to be stored
+     */
     DataEntryType(Class<?> javaClass) {
         this.javaClass = javaClass;
     }

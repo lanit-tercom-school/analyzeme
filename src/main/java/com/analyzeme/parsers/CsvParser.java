@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by lagroffe on 27.05.2016 18:23
+ * Parses CSV file in default format
  */
 public class CsvParser implements IParser {
     private final static com.univocity.parsers.csv.CsvParserSettings SETTINGS;

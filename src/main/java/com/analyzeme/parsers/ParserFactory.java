@@ -2,10 +2,14 @@ package com.analyzeme.parsers;
 
 import com.analyzeme.repository.filerepository.TypeOfFile;
 
-/**
- * Created by ilya on 7/6/16.
- */
+
 public class ParserFactory {
+    /**
+     * Gets parser for specified type
+     * @param fileType type for parser
+     * @return
+     * @throws IllegalArgumentException if type is not supported
+     */
     public static IParser createParser(TypeOfFile fileType) {
         switch (fileType) {
             case SIMPLE_JSON:

@@ -5,14 +5,22 @@ import com.analyzeme.parsers.DateAndTimeUtils;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
+
 /**
- * Created by ilya on 7/14/16.
+ * Represents one cell in data matrix
  */
 public class DataEntry {
     private static final double EPS_FOR_DOUBLE = .0001;
-    private DataEntryType type;
-    private Object value;
+    private final DataEntryType type;
+    private final Object value;
 
+    /**
+     * Creates {@link DataEntry} using given value and given type
+     *
+     * @param type  type of object
+     * @param value object to be stored
+     * @throws IllegalArgumentException if  {@code object} type is not equals to {@code type}
+     */
     public DataEntry(DataEntryType type, Object value) {
         if (!value.getClass().isAssignableFrom(type.getJavaClass())) {
             throw new IllegalArgumentException("DataEntryType's class and object's class should be equal");
@@ -21,6 +29,12 @@ public class DataEntry {
         this.value = value;
     }
 
+    /**
+     * Creates {@link DataEntry} using given value and automatically determines its type
+     *
+     * @param value - object to be stored
+     * @throws IllegalArgumentException if type of {@code object} is not supported
+     */
     public DataEntry(Object value) {
         this.value = value;
 
@@ -42,6 +56,11 @@ public class DataEntry {
         }
     }
 
+    /**
+     * Constructs new {@link DataEntry}. Automatically determines its type by given string
+     * @param value string representation of object
+     * @return created {@link DataEntry}
+     */
     public static DataEntry fromString(String value) {
         if (isValidDouble(value)) {
             return new DataEntry(Double.parseDouble(value));

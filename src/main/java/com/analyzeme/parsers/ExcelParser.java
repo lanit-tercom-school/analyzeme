@@ -3,7 +3,6 @@ package com.analyzeme.parsers;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.concurrent.SynchronousQueue;
 
 import com.analyzeme.data.Data;
 import com.analyzeme.data.DataArray;
@@ -16,7 +15,16 @@ import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.*;
 
 /**
- * Created by ilya on 7/5/16.
+ * Parses Excel file in format:
+ * <pre>
+ * +---+---+---+
+ * |   | A | B |
+ * +---+---+---+
+ * | 1 | x | y |
+ * | 2 | 1 | 1 |
+ * | 3 | 2 | 2 |
+ * +---+---+---+
+ * </pre>
  */
 public class ExcelParser implements IParser {
 
@@ -80,7 +88,7 @@ public class ExcelParser implements IParser {
                     result.addData(new DataWithType(data));
                 }
             }
-        } catch (IOException | InvalidFormatException | EncryptedDocumentException |IllegalArgumentException e) {
+        } catch (IOException | InvalidFormatException | EncryptedDocumentException | IllegalArgumentException e) {
             throw new InvalidFileException("Excel file is not valid!");
         }
         return result;
@@ -92,8 +100,8 @@ public class ExcelParser implements IParser {
         }
         if (cell.getCellType() == Cell.CELL_TYPE_NUMERIC) {
             if (ExcelUtils.isCellTimeFormatted(cell)) {
-                return new DataEntry(DataEntryType.TIME, ExcelUtils.getTimeFromExcelCell(cell));
-            } else if (ExcelUtils.isCellDateFormated(cell)) {
+                return new DataEntry(DataEntryType.TIME, ExcelUtils.getTimeFromCell(cell));
+            } else if (ExcelUtils.isCellDateFormatted(cell)) {
                 return new DataEntry(DataEntryType.DATE, ExcelUtils.getDateFormCell(cell));
             } else if (ExcelUtils.isCellDateTimeFormatted(cell)) {
                 return new DataEntry(DataEntryType.DATE_TIME, ExcelUtils.getDateTimeFormCell(cell));

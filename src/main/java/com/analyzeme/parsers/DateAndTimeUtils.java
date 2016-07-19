@@ -1,5 +1,6 @@
 package com.analyzeme.parsers;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -8,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by ilya on 7/14/16.
+ * Helper class for working with time and date in specific format
  */
 public class DateAndTimeUtils {
 
@@ -46,6 +47,7 @@ public class DateAndTimeUtils {
         put("^\\d{1,2}\\.\\d{1,2}\\.\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}$", "dd.MM.yyyy HH:mm:ss");
     }};
 
+
     private static String determineFormat(String dateString, Map<String, String> regexps) {
         for (String regexp : regexps.keySet()) {
             if (dateString.toLowerCase().matches(regexp)) {
@@ -55,8 +57,11 @@ public class DateAndTimeUtils {
         return null;
     }
 
-    /*
-     * For time
+    /**
+     * Checks if given string is valid time.
+     *
+     * @param time the string to be checked
+     * @return true if valid, false otherwise
      */
     public static boolean isValidTime(String time) {
         try {
@@ -67,6 +72,14 @@ public class DateAndTimeUtils {
         }
     }
 
+
+    /**
+     * Tries to parse given string as a time
+     *
+     * @param time time to be parsed
+     * @return parses time as {@link LocalTime}
+     * @throws IllegalArgumentException if {@code time} is not valid time
+     */
     public static LocalTime parseTime(String time) throws IllegalArgumentException {
         String format = determineFormat(time, TIME_REGEXPS);
         if (format == null) {
@@ -81,8 +94,12 @@ public class DateAndTimeUtils {
         }
     }
 
-    /*
-     * For date
+
+    /**
+     * Checks if given string is valid date.
+     *
+     * @param date the string to be checked
+     * @return true if valid, false otherwise
      */
     public static boolean isValidDate(String date) {
         try {
@@ -93,6 +110,13 @@ public class DateAndTimeUtils {
         }
     }
 
+    /**
+     * Tries to parse given string as a ate
+     *
+     * @param date date to be parsed
+     * @return parses time as {@link LocalDate}
+     * @throws IllegalArgumentException if {@code time} is not valid date
+     */
     public static LocalDate parseDate(String date) throws IllegalArgumentException {
         String format = determineFormat(date, DATE_REGEXPS);
         if (format == null) {
@@ -108,8 +132,11 @@ public class DateAndTimeUtils {
     }
 
 
-    /*
-     * For dateTime
+    /**
+     * Checks if given string is valid dateTime.
+     *
+     * @param dateTime the string to be checked
+     * @return true if valid, false otherwise
      */
     public static boolean isValidDateTime(String dateTime) {
         try {
@@ -120,6 +147,13 @@ public class DateAndTimeUtils {
         }
     }
 
+    /**
+     * Tries to parse given string as a dateTime
+     *
+     * @param dateTime dateTime to be parsed
+     * @return parses date as {@link LocalDateTime}
+     * @throws IllegalArgumentException if {@code time} is not valid dateTime
+     */
     public static LocalDateTime parseDateTime(String dateTime) throws IllegalArgumentException {
         String format = determineFormat(dateTime, DATE_TIME_REGEXPS);
         if (format == null) {
