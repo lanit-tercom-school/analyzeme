@@ -18,7 +18,7 @@ public class FirebaseConf implements IFileStorageConf {
         databaseUrl = null;
     }
 
-    public FirebaseConf(String name, boolean activeFlag, String serviceAccount, String databaseUrl) {
+    public FirebaseConf(final String name,final boolean activeFlag,final String serviceAccount,final String databaseUrl) {
         this.name = name;
         this.activeFlag = activeFlag;
         this.serviceAccount = serviceAccount;
@@ -59,13 +59,13 @@ public class FirebaseConf implements IFileStorageConf {
     }
 
     @Override
-    public void assignment(IFileStorageConf FirebaseConfiguration) {
-        if (!(FirebaseConfiguration instanceof FirebaseConf)) throw new IllegalArgumentException();
-        FirebaseConf FileS = (FirebaseConf) FirebaseConfiguration;
-        setName(FileS.getName());
-        setActiveFlag(FileS.isActive());
-        setServiceAccount(FileS.getServiceAccount());
-        setDatabaseUrl(FileS.getDataBaseUrl());
+    public void assignment(IFileStorageConf FirebaseConf) {
+        if (!(FirebaseConf instanceof FirebaseConf)) throw new IllegalArgumentException();
+        FirebaseConf FirebaseConf1 = (FirebaseConf) FirebaseConf;
+        setName(FirebaseConf1.getName());
+        setActiveFlag(FirebaseConf1.isActive());
+        setServiceAccount(FirebaseConf1.getServiceAccount());
+        setDatabaseUrl(FirebaseConf1.getDataBaseUrl());
 
     }
 

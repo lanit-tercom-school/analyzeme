@@ -38,7 +38,7 @@ public class RConfController {
             throw new IllegalArgumentException();
         }
         IRConf RConf = RConfRepository.getRepo().getRConfByName(rConfName);
-        LOGGER.debug("getRConfiguration(): config is found");
+        LOGGER.debug("getRConfiguration(): rconfig is found");
         return RConf.toJSONObject().toString();
     }
 

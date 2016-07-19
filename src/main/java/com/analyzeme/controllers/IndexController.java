@@ -59,13 +59,13 @@ public class IndexController {
     }
 
 
-    @RequestMapping(value = "/config")
+    @RequestMapping(value = "/rconfig")
     public ModelAndView moveToRConfPage() {
-        LOGGER.debug("moveToRConfPage(): configs page");
+        LOGGER.debug("moveToRConfPage(): rconfigs page");
         String RConfList = RConfRepository.getRepo()
                 .allConfigurationsToJsonString();
         LOGGER.trace("moveToRConfPage(): R configurations are found");
-        return new ModelAndView("config",
+        return new ModelAndView("rconfig",
                 "RConfList", RConfList);
 
     }

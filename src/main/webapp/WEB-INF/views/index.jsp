@@ -56,7 +56,7 @@
                 <a href="/app/demo" class="mdl-navigation__link">Try now</a>
                 <!--<a href="/app" class="mdl-navigation__link">Projects</a> -->
                 <a href="/data/spb" class="mdl-navigation__link">Preview</a>
-                <a href="/config" class="mdl-navigation__link">RConfigurations</a>
+                <a href="/rconfig" class="mdl-navigation__link">RConfigurations</a>
                 <a href="/fconfig" class="mdl-navigation__link">FileConfigurations</a>
             </nav>
         </div>

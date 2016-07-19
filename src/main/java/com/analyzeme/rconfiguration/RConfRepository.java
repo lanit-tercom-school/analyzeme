@@ -30,7 +30,7 @@ public class RConfRepository {
         FakeRConf RConf1 = new FakeRConf(true, "FakeR");
         RenjinConf RConf2 = new RenjinConf(true, "Renjin");
         RserveConf RConf3 = new RserveConf();
-        RConf3.setName("Rserve4");
+        RConf3.setName("Rserve1");
         //add new RConf
         RConfigurations.add(RConf1);
         RConfigurations.add(RConf2);

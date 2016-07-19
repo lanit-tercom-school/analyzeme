@@ -41,7 +41,7 @@ public class FileStorageConfFactory {
                 //get param activeFlag from Json String
                 Boolean activeFlag = (Boolean) jsonObject.get("activeFlag");
 
-                return new TestFConf(name, activeFlag);
+                return new TestFConf(name,activeFlag);
 
             } else {
                 throw new IllegalArgumentException(

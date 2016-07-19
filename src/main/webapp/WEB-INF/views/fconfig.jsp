@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Configuration</title>
+    <title>File Configuration</title>
     <spring:url value="/resources/angular2app/" var="angularPath"/>
     <spring:url value="/resources/js/fConfig.js" var="fConfJs"/>
     <script type="text/javascript" src="${fConfJs}"></script>
@@ -61,6 +61,8 @@
                     case 'FirebaseConf':
                         $('#addServiceAccount').css('visibility', 'visible');
                         $('#addDatabaseUrl').css('visibility', 'visible');
+                        document.getElementById("serviceAccount").value = '-----';
+                        document.getElementById("databaseUrl").value = '-----';
                         break;
 
                 }
@@ -83,7 +85,7 @@
                 <a href="/app/demo" class="mdl-navigation__link">Try now</a>
                 <!-- <a href="/app" class="mdl-navigation__link">Projects</a> -->
                 <a href="/data/spb" class="mdl-navigation__link">Preview</a>
-                <a href="/config" class="mdl-navigation__link">RConfigurations</a>
+                <a href="/rconfig" class="mdl-navigation__link">RConfigurations</a>
                 <a href="/fconfig" class="mdl-navigation__link">FileConfigurations</a>
             </nav>
         </div>

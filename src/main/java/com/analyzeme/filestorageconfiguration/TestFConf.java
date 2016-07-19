@@ -9,12 +9,12 @@ public class TestFConf implements IFileStorageConf {
     private String name;
     private boolean activeFlag;
 
-    public TestFConf() {
+    TestFConf() {
         name = "testName";
         activeFlag = true;
     }
 
-    public TestFConf(String name, boolean activeFlag) {
+    public TestFConf(final String name,final boolean activeFlag) {
         this.name = name;
         this.activeFlag = activeFlag;
     }
@@ -23,7 +23,7 @@ public class TestFConf implements IFileStorageConf {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -36,16 +36,15 @@ public class TestFConf implements IFileStorageConf {
     }
 
 
-    public void assignment(IFileStorageConf FirebaseConfiguration) {
-        if (!(FirebaseConfiguration instanceof FirebaseConf)) throw new IllegalArgumentException();
-        FirebaseConf FileS = (FirebaseConf) FirebaseConfiguration;
-        setName(FileS.getName());
-        setActiveFlag(FileS.isActive());
+    public void assignment(final IFileStorageConf TestFConf) throws IllegalArgumentException {
+        if (!(TestFConf instanceof TestFConf)) throw new IllegalArgumentException();
+        setName(TestFConf.getName());
+        setActiveFlag(TestFConf.isActive());
     }
 
     public JSONObject toJSONObject() {
         JSONObject obj = new JSONObject();
-        obj.put("fConfType", "FirebaseConf");
+        obj.put("fConfType", "TestFConf");
         obj.put("name", name);
         obj.put("activeFlag", activeFlag);
         return obj;

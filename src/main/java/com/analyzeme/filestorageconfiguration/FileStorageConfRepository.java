@@ -11,13 +11,14 @@ import java.util.List;
  * Created by Kirill Zubov on 7/13/2016.
  */
 public class FileStorageConfRepository {
-    private static FileStorageConfRepository repoFile = new FileStorageConfRepository();
+    private static FileStorageConfRepository repo = new FileStorageConfRepository();
     private static List<IFileStorageConf> FileStorageConfigurations;
 
 
     private FileStorageConfRepository() {
         FileStorageConfigurations = new ArrayList<IFileStorageConf>();
-        FirebaseConf FireConf = new FirebaseConf("FireConf", true,"serviceAccount", "databaseUrl");
+        FirebaseConf FireConf = new FirebaseConf();
+        FireConf.setName("FireConf1");
         TestFConf TestFConf = new TestFConf("TestFConf", true);
 
         FileStorageConfigurations.add(FireConf);
@@ -30,7 +31,7 @@ public class FileStorageConfRepository {
      * @return field repoFile
      */
     public static FileStorageConfRepository getRepo() {
-        return repoFile;
+        return repo;
     }
 
     /**
@@ -92,9 +93,8 @@ public class FileStorageConfRepository {
     public void updateFileStorageConfByName(final String name, final String data)
             throws IOException, IllegalArgumentException {
 
-        IFileStorageConf FConf = repoFile.getFileStorageConfByName(name);
+        IFileStorageConf FConf = repo.getFileStorageConfByName(name);
         FConf.assignment(FileStorageConfFactory.getFileStorageConf(data));
-
     }
 
     /**
@@ -126,8 +126,8 @@ public class FileStorageConfRepository {
     }
 
     /**
-     * get first active FakeRConf
-     * @return first active FakeRConf
+     * get first active TestFConf
+     * @return first active TestFConf
      */
     public IFileStorageConf getDefaultTestConfiguration() {
         for (IFileStorageConf fConf : FileStorageConfigurations) {

@@ -72,6 +72,10 @@ td {
     font-style:italic;
     color: #ff1120;
 }
+#delNamef{
+    font-style:italic;
+    color: #ff1120;
+}
 /*todo: найти стили которые мешают модальным окнам, а не перенести только нужные для страницы части общего стиля*/
 .mdl-navigation {
     display: flex;

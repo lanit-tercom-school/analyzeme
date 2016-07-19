@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Configuration</title>
+    <title>R Configuration</title>
     <spring:url value="/resources/angular2app/" var="angularPath"/>
     <spring:url value="/resources/js/rConfig.js" var="rConfJs"/>
     <script type="text/javascript" src="${rConfJs}"></script>
@@ -93,7 +93,7 @@
                 <a href="/app/demo" class="mdl-navigation__link">Try now</a>
                 <!-- <a href="/app" class="mdl-navigation__link">Projects</a> -->
                 <a href="/data/spb" class="mdl-navigation__link">Preview</a>
-                <a href="/config" class="mdl-navigation__link">RConfigurations</a>
+                <a href="/rconfig" class="mdl-navigation__link">RConfigurations</a>
                 <a href="/fconfig" class="mdl-navigation__link">FileConfigurations</a>
             </nav>
         </div>
