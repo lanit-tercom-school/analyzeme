@@ -11,7 +11,7 @@ public class TestFormattedScriptUploader {
             "#n = 2 #Input: TIME_ONE_DIM #Output: VECTOR_DOUBLE  " +
                     "a <- col_0[5];  b <- mean(col_1); r <- c(a, b)";
     private static final String TEST_SCRIPT_NAME =
-            "test";
+            "test.r";
     private static final String TEST_SCRIPT_MULTI_LINE =
             "#minN = 2\n" +
                     "#Output: VECTOR_DOUBLE\n" +

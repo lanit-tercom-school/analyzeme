@@ -51,10 +51,21 @@ public class FormattedScriptUploader {
         }
     }
 
-    private static String trimScript(final String script, final Matcher m) {
+    private static String trimScript(final String script,
+                                     final Matcher m) {
         LOGGER.debug("trimScript(): method started");
         int index = m.start(SCRIPT_START_GROUP);
         return script.substring(index);
+    }
+
+    private static String trimName(final String name) {
+        LOGGER.debug("trimName(): method started");
+        if(name.contains(".R")) {
+            return name.substring(0, name.indexOf(".R"));
+        } else if(name.contains(".r")) {
+            return name.substring(0, name.indexOf(".r"));
+        }
+        return name;
     }
 
     private static String uploadScriptToRepo(final String script,
@@ -107,7 +118,7 @@ public class FormattedScriptUploader {
 
             String s = trimScript(scriptTransformed, m);
             String id = uploadScriptToRepo(s, scriptName);
-            Script result = new Script(scriptName,
+            Script result = new Script(trimName(scriptName),
                     id, num, toTypeOfReturnValue(output),
                     ScriptSource.DISK_DEFAULT);
             LOGGER.debug("upload(): script is uploaded and ready");
