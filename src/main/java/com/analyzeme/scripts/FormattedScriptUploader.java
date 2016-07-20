@@ -6,23 +6,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class FormattedScriptUploader {
-    private final static String REGEXP =
-            "(#minN = (\\d+))?(( |\\n)?)+" +
+    private static final int WRONG_VALUE = -1;
+    private static final String REGEXP =
+            "((#Name: ((\\w| )+))(( |\\n))+)?" +
+                    "(#minN = (\\d+))?(( |\\n)?)+" +
                     "(#n = (\\d+))?(( |\\n)?)+" +
                     "(#Input: (\\w+))?(( |\\n)?)+" +
                     "(#Output: (\\w+))?(( |\\n)?)+(.*)";
     private static final Pattern PATTERN =
             Pattern.compile(REGEXP);
-    private static final int MIN_N_GROUP = 2;
-    private static final int N_GROUP = 6;
-    //private static final int INPUT_GROUP = 10;
-    private static final int OUTPUT_GROUP = 14;
-    private static final int SCRIPT_START_GROUP = 17;
+    private static final int NAME_GROUP = 3;
+    private static final int MIN_N_GROUP = 8;
+    private static final int N_GROUP = 12;
+    //private static final int INPUT_GROUP = 16;
+    private static final int OUTPUT_GROUP = 20;
+    private static final int SCRIPT_START_GROUP = 23;
     private static final Logger LOGGER;
 
     static {
@@ -30,11 +32,21 @@ public class FormattedScriptUploader {
                 "com.analyzeme.scripts.FormattedScriptUploader");
     }
 
+    private static String getName(final Matcher m,
+                                  final String name) {
+        final String res = m.group(NAME_GROUP);
+        if (res == null || res.isEmpty()) {
+            return name;
+        } else {
+            return res;
+        }
+    }
+
     private static int getInt(final Matcher m,
                               final int group) {
-        String res = m.group(group);
+        final String res = m.group(group);
         if (res == null || res.isEmpty()) {
-            return -1;
+            return WRONG_VALUE;
         } else {
             return Integer.parseInt(res);
         }
@@ -42,9 +54,9 @@ public class FormattedScriptUploader {
 
     private static int chooseNum(final int n,
                                  final int minN) throws IllegalArgumentException {
-        if (n == -1 && minN == -1) {
+        if (n == WRONG_VALUE && minN == WRONG_VALUE) {
             throw new IllegalArgumentException();
-        } else if (n != -1) {
+        } else if (n != WRONG_VALUE) {
             return n;
         } else {
             return minN;
@@ -60,9 +72,9 @@ public class FormattedScriptUploader {
 
     private static String trimName(final String name) {
         LOGGER.debug("trimName(): method started");
-        if(name.contains(".R")) {
+        if (name.contains(".R")) {
             return name.substring(0, name.indexOf(".R"));
-        } else if(name.contains(".r")) {
+        } else if (name.contains(".r")) {
             return name.substring(0, name.indexOf(".r"));
         }
         return name;
@@ -102,11 +114,11 @@ public class FormattedScriptUploader {
                                 final String scriptName) throws IOException {
         LOGGER.debug("upload(): method started");
         String scriptTransformed = script.replaceAll(
-                "\n", new String(new char[]{(char)32}));
+                "\n", new String(new char[]{(char) 32}));
         scriptTransformed = scriptTransformed.replaceAll(
-                "\r", new String(new char[]{(char)32}));
+                "\r", new String(new char[]{(char) 32}));
         LOGGER.debug("upload(): \\n removed ");
-        Matcher m = PATTERN.matcher(scriptTransformed);
+        final Matcher m = PATTERN.matcher(scriptTransformed);
         if (m.matches()) {
             LOGGER.debug("upload(): script matches pattern");
             int minN = getInt(m, MIN_N_GROUP);
@@ -116,9 +128,13 @@ public class FormattedScriptUploader {
             //String input = m.group(INPUT_GROUP);
             String output = m.group(OUTPUT_GROUP);
 
+            String trimmedName = trimName(scriptName);
+            String name = getName(m, trimmedName);
+
             String s = trimScript(scriptTransformed, m);
             String id = uploadScriptToRepo(s, scriptName);
-            Script result = new Script(trimName(scriptName),
+
+            Script result = new Script(name,
                     id, num, toTypeOfReturnValue(output),
                     ScriptSource.DISK_DEFAULT);
             LOGGER.debug("upload(): script is uploaded and ready");
