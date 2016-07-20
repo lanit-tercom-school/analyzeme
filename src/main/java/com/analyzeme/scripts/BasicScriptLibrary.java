@@ -3,18 +3,19 @@ package com.analyzeme.scripts;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 
-import java.io.File;
-import java.io.FileInputStream;
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BasicScriptLibrary implements ILibrary {
-    private static final String DEFAULT_FOLDER = "src/main/java/com/analyzeme/scripts/r";
+    private static final String CONFIGS = "rscripts_info.txt";
+    private static final String FOLDER = "r/";
     private List<Script> scripts = new ArrayList<Script>();
-    private final File rootFolder;
     private static final Logger LOGGER;
 
     static {
@@ -22,32 +23,19 @@ public class BasicScriptLibrary implements ILibrary {
                 "com.analyzeme.scripts.BasicScriptLibrary");
     }
 
-    public BasicScriptLibrary(final String rootFolder) throws Exception {
-        if (rootFolder == null) {
-            this.rootFolder = ResourceUtils.getFile(DEFAULT_FOLDER);
-        } else {
-            this.rootFolder = ResourceUtils.getFile(rootFolder);
-        }
-        this.rootFolder.mkdir();
-        loadScriptsFromDisk();
-    }
-
     public BasicScriptLibrary() throws Exception {
-        rootFolder = ResourceUtils.getFile(DEFAULT_FOLDER);
-        this.rootFolder.mkdir();
-        loadScriptsFromDisk();
-    }
-
-    private void loadScriptsFromDisk() throws Exception {
-        LOGGER.debug("loadScriptsFromDisk(): method started");
-        for (File file : rootFolder.listFiles()) {
-            LOGGER.debug("loadScriptsFromDisk(): file in folder");
-            String name = file.getName();
-            InputStream stream = new FileInputStream(file);
-            String script = IOUtils.toString(stream);
+        Resource res = new FileSystemResource(CONFIGS);
+        InputStream stream = res.getInputStream();
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(stream));
+        String name;
+        Resource temp;
+        while ((name = reader.readLine()) != null) {
+            temp = new FileSystemResource(FOLDER + name);
+            String script = IOUtils.toString(
+                    temp.getInputStream());
             addScriptFromDisk(name, script);
         }
-        LOGGER.debug("loadScriptsFromDisk(): method finished");
     }
 
     /**
@@ -59,7 +47,8 @@ public class BasicScriptLibrary implements ILibrary {
     private void addScriptFromDisk(final String name,
                                    final String script) throws Exception {
         LOGGER.debug("addScriptFromDisk(): method started");
-        Script s = FormattedScriptUploader.upload(script, name);
+        Script s = FormattedScriptUploader.upload(
+                script, name);
         LOGGER.debug("addScriptFromDisk(): script parsed");
         scripts.add(s);
         LOGGER.debug("addScriptFromDisk(): method finished");

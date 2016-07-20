@@ -89,12 +89,12 @@ public class FormattedScriptUploader {
 
     public static Script upload(final String script,
                                 final String scriptName) throws IOException {
-        LOGGER.debug(script);
         LOGGER.debug("upload(): method started");
-        String scriptTransformed = script.replaceAll("\n", new String(new char[]{(char)32}));
-        scriptTransformed = scriptTransformed.replaceAll("\r", new String(new char[]{(char)32}));
+        String scriptTransformed = script.replaceAll(
+                "\n", new String(new char[]{(char)32}));
+        scriptTransformed = scriptTransformed.replaceAll(
+                "\r", new String(new char[]{(char)32}));
         LOGGER.debug("upload(): \\n removed ");
-        System.out.println(scriptTransformed);
         Matcher m = PATTERN.matcher(scriptTransformed);
         if (m.matches()) {
             LOGGER.debug("upload(): script matches pattern");

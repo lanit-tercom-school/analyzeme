@@ -16,7 +16,6 @@ public class AnalyzerFactory {
     private static ILibrary lib;
     private static List<String> scripts;
     private static final Logger LOGGER;
-    private static String rootFolder;
 
     static {
         LOGGER = LoggerFactory.getLogger(
@@ -27,16 +26,12 @@ public class AnalyzerFactory {
                 "LinearCorrelation",
                 "KolmogorovSmirnovTest", "TestFileResult"});
         try {
-            lib = new BasicScriptLibrary(rootFolder);
+            lib = new BasicScriptLibrary();
             scripts = lib.getAllScriptsNames();
         } catch (Exception e) {
             LOGGER.info(
                     "static block: impossible to use BasicScriptLibrary");
         }
-    }
-
-    public static void setRootFolder(final String folder) {
-        rootFolder = folder;
     }
 
     public static List<String> getSupportedAnalyzers() {
