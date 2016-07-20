@@ -2,6 +2,9 @@ package com.analyzeme.scripts;
 
 import org.junit.Test;
 
+/**
+ * not a real test (for manual testing)
+ */
 public class TestBasicScriptLibrary {
 
     @Test

@@ -3,8 +3,6 @@ package com.analyzeme.scripts;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -24,17 +22,14 @@ public class BasicScriptLibrary implements ILibrary {
     }
 
     public BasicScriptLibrary() throws Exception {
-        Resource res = new FileSystemResource(CONFIGS);
-        InputStream stream = res.getInputStream();
+        InputStream stream = GithubDownloader.download(CONFIGS);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(stream));
         String name;
-        Resource temp;
+        InputStream tempStream;
         while ((name = reader.readLine()) != null) {
-            temp = new FileSystemResource(FOLDER + name);
-            String script = IOUtils.toString(
-                    temp.getInputStream());
-            addScriptFromDisk(name, script);
+            tempStream = GithubDownloader.download(FOLDER + name);
+            addScriptFromDisk(name, IOUtils.toString(tempStream));
         }
     }
 

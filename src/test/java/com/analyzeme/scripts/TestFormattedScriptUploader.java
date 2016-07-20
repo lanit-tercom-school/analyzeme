@@ -3,6 +3,9 @@ package com.analyzeme.scripts;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 
+/**
+ * not a real test (for manual testing)
+ */
 public class TestFormattedScriptUploader {
     private static final String TEST_SCRIPT =
             "#n = 2 #Input: TIME_ONE_DIM #Output: VECTOR_DOUBLE  " +
