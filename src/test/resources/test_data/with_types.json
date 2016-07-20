@@ -1,0 +1,18 @@
+{
+  "Data": [
+    {
+      "some_double": "1",
+      "some_string": "hello",
+      "some_time": "10:30:10",
+      "some_date": "10-10-2010",
+      "some_datetime": "10-10-2010 10:30:10"
+    },
+    {
+      "some_double": "2",
+      "some_string": "bye",
+      "some_time": "07:40",
+      "some_date": "01-11-2010",
+      "some_datetime": "01-11-2010 07:40"
+    }
+  ]
+}
