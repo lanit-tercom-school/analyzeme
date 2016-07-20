@@ -1,3 +1,4 @@
+#Name: some kind of name
 #minN = 2
 #Output: VECTOR_DOUBLE
 a <- col_0[5];
