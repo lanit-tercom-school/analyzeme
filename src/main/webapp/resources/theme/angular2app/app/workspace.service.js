@@ -24,45 +24,41 @@ mean(x)`
                     "FILE"
                 ];
 
-                this.availableFunctions = [
+                this.availableFunctions = [];
+                this.getFunctions();
 
-                    {
-                        func: "GlobalMinimum",
-                        name: "Global minimum"
-                    },
-                    {
-                        func: "GlobalMaximum",
-                        name: "Global maximum"
-                    },
-                    {
-                        func: "GlobalMaximumR",
-                        name: "Global maximum R"
-                    },
-                    {
-                        func: "LinearCorrelation",
-                        name: "Linear Correlation"
-                    },
-                    {
-                        func: "LinearRegression",
-                        name: "Linear Regression"
-                    },
-                    {
-                        func: "KolmogorovSmirnovTest",
-                        name: "Kolmogorov-Smirnov Test"
-                    },
-                    {
-                        func: "TestFileResult",
-                        name: "Test File Result Analyzer R"
-                    }
-                ];
                 this.availableFunctions.push({
-                    func: "UserScript",
-                    name: "Your script"
+                    func: "UserScript"
                 });
 
                 this._projectService = projectService;
                 this._fileService = fileService;
-            }]
-        });
+            }],
+            getFunctions: function () {
+                l.log("getFunctions()");
+                var functions = null;
+                app.AppUtils.API.getFunctions()
+                    .then(
+                        (xhr) => {
+                            return xhr.responseText ? JSON.parse(xhr.responseText) : [];
+                        },
+                        (err) => {
+                            l.log("Failed load functions: " + err);
+                        }
+                    )
+                    .then(
+                        (functions) => {
+                            l.dir(functions);
+                            if (functions) {
+                                for (let func of functions) {
+                                    if (func) {
+                                        l.log("func in functions");
+                                        this.availableFunctions.push({"func": func});
+                                    }
+                                }
+                            }
+                        });
+            }
+        })
 
 })(window.app || (window.app = {}));

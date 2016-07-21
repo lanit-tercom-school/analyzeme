@@ -16,15 +16,6 @@
                 this.selectedProject = {};
 
                 this.data = null;
-                //this.updateProjects();
-                /*
-                creationDate: "Thu Apr 07 14:29:39 UTC 2016"
-                isActive: true
-                lastChangeDate: "Thu Apr 07 14:29:39 UTC 2016"
-                login: "guest"
-                projectId: "project_1"
-                projectName: "default"
-                */
             },
             getSelectedProject: function() {
                 return Promise.resolve(this.selectedProject);
@@ -39,11 +30,6 @@
                     request.onload = request.onerror = function(event) {
                       if (request.status == 200) {
                           var response = request.responseText ? JSON.parse(request.responseText) : [];
-                          // if (!this.data) this.data = [];
-                          // for (var i = 0; i < this.data.length; i++) {
-                          //   delete this.data[i];
-                          // };
-                          // app.AppUtils.copyObj(response.Projects, this.data);//
                           this.data = response.Projects;
                           l.dir(this.data);
                           resolve(this.data);
@@ -75,7 +61,7 @@
             getProject: function(id) {
                 return new Promise((resolve, reject) => {
                     this.getProjects()
-                        .then(projects => {
+                        .then((projects) => {
                                 l.log("projects");
                                 l.dir(projects);
                                 var filtered = app.AppUtils.findByKey("projectId", projects, id);

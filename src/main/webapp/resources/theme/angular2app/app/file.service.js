@@ -85,7 +85,6 @@
                             l.log("filesList");
                             l.dir(filesList);
                             if (filesList && filesList.Files) {
-                                //{"uniqueName": ..., "nameForUser": ..., "isActive": ...}
                                 for (let file of filesList.Files) {
                                     if (file) {
                                         l.log("file in filelist");
@@ -97,25 +96,10 @@
                                                     };
                                                     downloadedFile.serverName = file.uniqueName;
                                                     downloadedFile.name = file.nameForUser;
-                                                    // downloadedFile.isActive = file.isActive;
                                                     this.data.push(downloadedFile);
                                                 },
                                                 err => l.log("Failed to load " + file.nameForUser + " file: " + err)
                                             )
-                                        /*
-                                        app.AppUtils.API.getFileData(file.uniqueName)
-                                            .then(
-                                                xhr => {
-                                                    var downloadedFile = {
-                                                        "content": xhr.responseText
-                                                    };
-                                                    downloadedFile.serverName = file.uniqueName;
-                                                    downloadedFile.name = file.nameForUser;
-                                                   // downloadedFile.isActive = file.isActive;
-                                                    this.data.push(downloadedFile);
-                                                },
-                                                err => l.log("Failed to load " + file.nameForUser + " file: " + err)
-                                            )    */
                                     }
                                 }
                             }

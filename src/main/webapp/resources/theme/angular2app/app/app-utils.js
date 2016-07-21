@@ -241,8 +241,27 @@
             )
         );
     };
+    
+    // /functions
+    app.AppUtils.API.getFunctions = function () {
+        return app.AppUtils.makeRequest(
+            "GET",
+            "functions/",
+            null,
+            [],
+            (xhr) => xhr.status == 200,
+            (xhr) => {
+                app.AppUtils.API.logger.dir(xhr);
+                app.AppUtils.API.logger.log(
+                    "available functions: " +
+                    xhr.responseText
+                );
+            },
+            (xhr) => app.AppUtils.API.logger.log("Error: " + xhr.status)
+        );
+    };
 
-    ///file/{user_id}/{project_id}/{reference_name}/{function_Type}
+    // /file/{user_id}/{project_id}/{reference_name}/{function_Type}
     app.AppUtils.API.analyzeFile = function (userId, projectId, referenceName, functionType) {
         return app.AppUtils.makeRequest(
             "GET",

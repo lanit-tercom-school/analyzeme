@@ -21,10 +21,10 @@ public class AnalyzerFactory {
         LOGGER = LoggerFactory.getLogger(
                 "com.analyzeme.analyzers.AnalyzerFactory");
         supportedAnalyzers = Arrays.asList(new String[]{
-                "LinearRegression", "GlobalMaximum",
-                "GlobalMaximumR", "GlobalMinimum",
-                "LinearCorrelation",
-                "KolmogorovSmirnovTest", "TestFileResult"});
+                "Linear Regression", "Global Maximum",
+                "Global Maximum R", "Global Minimum",
+                "Linear Correlation",
+                "Kolmogorov Smirnov Test", "Test File Result"});
         try {
             lib = new BasicScriptLibrary();
             scripts = lib.getAllScriptsNames();
@@ -68,37 +68,37 @@ public class AnalyzerFactory {
     }
 
     private static void createAnalyzer(final String name) {
-        if (name.equals("LinearRegression")) {
+        if (name.equals("Linear Regression")) {
             analyzers.put(name,
                     new LinearRegressionAnalyzer());
             return;
         }
-        if (name.equals("GlobalMaximum")) {
+        if (name.equals("Global Maximum")) {
             analyzers.put(name,
                     new GlobalMaximumAnalyzer());
             return;
         }
-        if (name.equals("GlobalMaximumR")) {
+        if (name.equals("Global Maximum R")) {
             analyzers.put(name,
                     new GlobalMaximumAnalyzerR());
             return;
         }
-        if (name.equals("GlobalMinimum")) {
+        if (name.equals("Global Minimum")) {
             analyzers.put(name,
                     new GlobalMinimumAnalyzer());
             return;
         }
-        if (name.equals("LinearCorrelation")) {
+        if (name.equals("Linear Correlation")) {
             analyzers.put(name,
                     new LinearCorrelationAnalyzer());
             return;
         }
-        if (name.equals("KolmogorovSmirnovTest")) {
+        if (name.equals("Kolmogorov Smirnov Test")) {
             analyzers.put(name,
                     new KolmogorovSmirnovTestAnalyzer());
             return;
         }
-        if (name.equals("TestFileResult")) {
+        if (name.equals("Test File Result")) {
             analyzers.put(name,
                     new TestFileResultAnalyzerR());
             return;

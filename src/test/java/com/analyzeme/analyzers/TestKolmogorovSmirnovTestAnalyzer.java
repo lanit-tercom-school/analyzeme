@@ -14,7 +14,7 @@ public class TestKolmogorovSmirnovTestAnalyzer {
     @Test
     public void simpleTest() throws Exception {
         //for this data sets Smirnov Statistic should equal to approx. 0.66 (valuable info for debugging)
-        IAnalyzer ks = AnalyzerFactory.getAnalyzer("KolmogorovSmirnovTest");
+        IAnalyzer ks = AnalyzerFactory.getAnalyzer("Kolmogorov Smirnov Test");
         double[] a = {17, 22, 3, 5, 15, 2, 0, 7, 13, 97, 66, 14};
         List<Double> first = new ArrayList<Double>(a.length);
         for (double d : a) first.add(d);

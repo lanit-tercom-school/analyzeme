@@ -21,7 +21,7 @@ public class TestGlobalMinimum {
 			y.add(Math.sin(x * x));
 		}Map<String, List<Double>> data = new HashMap();
 		data.put("y", y);
-		IAnalyzer tester = AnalyzerFactory.getAnalyzer("GlobalMinimum");
+		IAnalyzer tester = AnalyzerFactory.getAnalyzer("Global Minimum");
 		assertTrue("Global minimum of y=sin(x^2)is wrong",
 				Math.abs(-1 - (Double) tester.analyze(data).getValue()) < e);
 	}

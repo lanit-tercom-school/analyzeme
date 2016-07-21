@@ -22,7 +22,7 @@ public class TestGlobalMaximum {
         }
         Map<String, List<Double>> data = new HashMap();
         data.put("y", y);
-        IAnalyzer tester = AnalyzerFactory.getAnalyzer("GlobalMaximum");
+        IAnalyzer tester = AnalyzerFactory.getAnalyzer("Global Maximum");
         assertTrue("Global maximum of y=sin(x^2)is wrong",
                 Math.abs(1 - (Double) tester.analyze(data).getValue()) < e);
     }
