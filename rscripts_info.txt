@@ -2,3 +2,6 @@ check.R
 simple_anon_vector.R
 simple_scalar.R
 simple_vectors.R
+UnidimensionalTSRandom.R
+UnidimensionalTSSeasonal.R
+UnidimensionalTSTrend.R
