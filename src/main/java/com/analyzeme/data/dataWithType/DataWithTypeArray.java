@@ -1,5 +1,6 @@
 package com.analyzeme.data.dataWithType;
 
+import com.analyzeme.repository.storage.serialization.DataArrayModel;
 import org.json.JSONArray;
 
 import java.util.*;
@@ -13,6 +14,10 @@ public class DataWithTypeArray {
 
     public DataWithTypeArray() {
         dataList = new ArrayList<>();
+    }
+
+    public DataWithTypeArray(List<DataWithType> dataList) {
+        this.dataList = dataList;
     }
 
     /**
@@ -101,6 +106,10 @@ public class DataWithTypeArray {
             s.append(d.toCsvWithNoHeader());
         }
         return s.toString();
+    }
+
+    public DataArrayModel serialize() {
+        return new DataArrayModel(dataList.stream().map(DataWithType::serialize).collect(Collectors.toList()));
     }
 
     /**

@@ -1,13 +1,14 @@
 package com.analyzeme.data.dataWithType;
 
 import com.analyzeme.parsers.DateAndTimeUtils;
+import com.analyzeme.repository.storage.serialization.DataEntryModel;
 
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 
 /**
- * Represents one cell in data matrix
+ * Represents one cell of data matrix
  */
 public class DataEntry {
     private static final double EPS_FOR_DOUBLE = .0001;
@@ -99,11 +100,15 @@ public class DataEntry {
         return type;
     }
 
+    public DataEntryModel serialize() {
+        return new DataEntryModel(this);
+    }
+
     @Override
     public String toString() {
         final String timeFormat = "HH:mm:ss";
-        final String dateFormat = "dd-MM-yyyy";
-        final String dateTimeFormat = "dd-MM-yyyy HH:mm:ss";
+        final String dateFormat = "dd.MM.yyy";
+        final String dateTimeFormat = "dd.MM.yyyy HH:mm:ss";
         switch (type) {
             case DOUBLE:
             case STRING:
@@ -138,5 +143,9 @@ public class DataEntry {
             default:
                 throw new IllegalArgumentException();
         }
+    }
+
+    public Object getValue() {
+        return value;
     }
 }

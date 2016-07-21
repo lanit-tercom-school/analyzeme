@@ -1,10 +1,13 @@
 package com.analyzeme.data.dataWithType;
 
+import com.analyzeme.repository.storage.serialization.DataEntryModel;
+import com.analyzeme.repository.storage.serialization.DataModel;
 import org.json.simple.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 
 /**
@@ -86,6 +89,14 @@ public class DataWithType {
         s.deleteCharAt(s.length() - 1);
         s.append("\n");
         return s.toString();
+    }
+
+    public DataModel serialize() {
+        return new DataModel(data.entrySet().stream()
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        e -> new DataEntryModel(e.getValue())))
+        );
     }
 
     @Override
