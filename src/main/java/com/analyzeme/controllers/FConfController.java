@@ -94,11 +94,11 @@ public class FConfController {
      * @throws IOException
      */
     @RequestMapping(value = "/fConf/{FConf_Name}", method = RequestMethod.DELETE)
-    public void updateFConf(@PathVariable("FConf_Name") final String name)
+    public void deleteFConf(@PathVariable("FConf_Name") final String name)
             throws IOException {
-        LOGGER.debug("updateFConf(): method started");
+        LOGGER.debug("deleteFConf(): method started");
         if (name == null || name.equals("")) {
-            LOGGER.info("updateFConf(): empty argument");
+            LOGGER.info("deleteFConf(): empty argument");
             throw new IllegalArgumentException();
         }
         FileStorageConfRepository.getRepo().deleteFConfByName(name);

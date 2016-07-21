@@ -19,10 +19,10 @@ function createDefaultTableF() {
             databaseUrl: item.databaseUrl
         };
         if (newFConf.serviceAccount === undefined) {
-            newFConf.serviceAccount = '-----';
+           newFConf.serviceAccount = '-----';
         }
         if (newFConf.databaseUrl === undefined) {
-            newFConf.databaseUrl = '-----';
+           newFConf.databaseUrl = '-----';
         }
         addRowF(newFConf);
     });

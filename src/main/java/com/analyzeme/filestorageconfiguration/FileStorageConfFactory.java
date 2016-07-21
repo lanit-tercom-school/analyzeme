@@ -5,15 +5,23 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 /**
- * Created by Kirill Zubov on 7/13/2016.
+ * factory of FileStorageConfiguration
  */
 public class FileStorageConfFactory {
 
+    /**
+     * private constructor to prevent initialization other factory
+     */
     private FileStorageConfFactory() {
 
     }
 
     /**
+     * Example of json string
+     * {"rConfType":"TestConf","name":"Example1","activeFlag":true}
+     * {"rConfType":"FirestorageConf","name":"Example2","activeFlag":true,
+     *                              "serviceAccount":"testserviceAccount","databaseUrl":"testUrl"}
+     *
      * @param data json string what will be used get param for FileStoragConfigurations
      * @return FConf
      * @throws IllegalArgumentException

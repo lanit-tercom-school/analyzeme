@@ -94,11 +94,11 @@ public class RConfController {
      * @throws IOException
      */
     @RequestMapping(value = "/rConf/{RConf_Name}", method = RequestMethod.DELETE)
-    public void updateRConf(@PathVariable("RConf_Name") final String name)
+    public void deleteRConf(@PathVariable("RConf_Name") final String name)
             throws IOException {
-        LOGGER.debug("updateRConf(): method started");
+        LOGGER.debug("deleteRConf(): method started");
         if (name == null || name.equals("")) {
-            LOGGER.info("updateRConf(): empty argument");
+            LOGGER.info("deleteRConf(): empty argument");
             throw new IllegalArgumentException();
         }
         RConfRepository.getRepo().deleteRConfByName(name);

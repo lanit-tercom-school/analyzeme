@@ -6,10 +6,12 @@ import org.json.simple.JSONObject;
  *
  */
 public class FakeRConf implements IRConf {
+
     /**
      * field what save name of RConfigurations
      */
     private String name;
+
     /**
      * field what show is processor active
      */

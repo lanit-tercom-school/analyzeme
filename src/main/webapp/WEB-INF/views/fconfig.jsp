@@ -64,10 +64,8 @@
                         document.getElementById("serviceAccount").value = '-----';
                         document.getElementById("databaseUrl").value = '-----';
                         break;
-
                 }
             });
-
         });
     </script>
 </head>

@@ -8,19 +8,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * repository of FileStorageConfiguration
  * Created by Kirill Zubov on 7/13/2016.
  */
 public class FileStorageConfRepository {
     private static FileStorageConfRepository repo = new FileStorageConfRepository();
     private static List<IFileStorageConf> FileStorageConfigurations;
 
-
+    /**
+     * private default constructor
+     * initialize repository with active TestFConf, FirebaseConf configuration
+     * name of  FirebaseConf if FireConf1
+     * FireConf1 serviceAccount and databaseUrl is null
+     * name of TestFConf is TestFConf
+     */
     private FileStorageConfRepository() {
         FileStorageConfigurations = new ArrayList<IFileStorageConf>();
+        //init new FConf
         FirebaseConf FireConf = new FirebaseConf();
         FireConf.setName("FireConf1");
         TestFConf TestFConf = new TestFConf("TestFConf", true);
-
+        //add new FConf
         FileStorageConfigurations.add(FireConf);
         FileStorageConfigurations.add(TestFConf);
     }
@@ -28,7 +36,7 @@ public class FileStorageConfRepository {
 
     /**
      * get repository
-     * @return field repoFile
+     * @return field repo
      */
     public static FileStorageConfRepository getRepo() {
         return repo;
@@ -36,7 +44,7 @@ public class FileStorageConfRepository {
 
     /**
      * get list of all FConf
-     * @return field FConfigurations
+     * @return field FileStorageConfigurations
      */
     public static List<IFileStorageConf> getAllFileStorageConfigurations() {
         return FileStorageConfigurations;
@@ -54,7 +62,7 @@ public class FileStorageConfRepository {
     /**
      * get RConf by name
      * @param name of FConf
-     * @return IRConf with name @param name
+     * @return IFileStorageConf with name @param name
      * @throws IOException
      */
     public IFileStorageConf getFileStorageConfByName(final String name) throws IOException {
@@ -112,8 +120,8 @@ public class FileStorageConfRepository {
     }
 
     /**
-     * get first active non Fake FConf
-     * @return active Rseve or Renjin FConf
+     * get first active non TestF FConf
+     * @return active FirebaseConf  FConf
      */
     public IFileStorageConf getDefaultConfiguration() {
         for (IFileStorageConf fConf : FileStorageConfigurations) {
@@ -134,7 +142,6 @@ public class FileStorageConfRepository {
             if ((fConf instanceof TestFConf) && fConf.isActive()) {
                 return fConf;
             }
-
         }
         return null;
     }
