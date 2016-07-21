@@ -34,10 +34,14 @@ public class FormattedScriptUploader {
 
     private static String getName(final Matcher m,
                                   final String name) {
-        final String res = m.group(NAME_GROUP);
+        LOGGER.debug("getName(): method started");
+        String res = m.group(NAME_GROUP);
         if (res == null || res.isEmpty()) {
             return name;
         } else {
+            while(res.endsWith(" ")) {
+                res = res.substring(0, (res.length() - 1));
+            }
             return res;
         }
     }

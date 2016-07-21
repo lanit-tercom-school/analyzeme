@@ -102,24 +102,25 @@ public class DataConverter {
         String temp;
         while (iterator.hasNext()) {
             temp = iterator.next();
-            result.put(tempKeyMap.get(temp), data.get(temp));
+            if (data.containsKey(temp)) {
+                result.put(tempKeyMap.get(temp), data.get(temp));
+            }
         }
         if (data.size() != result.size()) {
             Iterator<String> it = data.keySet().iterator();
             while (it.hasNext()) {
                 temp = it.next();
                 if (!result.keySet().contains(tempKeyMap.get(temp))) {
-                    if (temp.startsWith(COL_FROM_R) && !temp.startsWith(COL_TO_R)) {
+                    if (temp.startsWith(COL_FROM_R)) {
                         LOGGER.debug(
                                 "translateFromR(): column with auto formed name",
                                 temp);
                         result.put(temp, data.get(temp));
                     } else {
-                        LOGGER.info("translateFromR(): impossible to convert",
+                        LOGGER.debug(
+                                "translateFromR(): column with new name",
                                 temp);
-                        throw new IllegalArgumentException(
-                                "DataConverter translateFromR: impossible to convert "
-                                        + temp);
+                        result.put(temp, data.get(temp));
                     }
                 }
             }

@@ -13,7 +13,7 @@ public class TestFormattedScriptUploader {
     private static final String TEST_SCRIPT_NAME =
             "test.r";
     private static final String TEST_SCRIPT_MULTI_LINE =
-            "#Name: Some name\n" +
+            "#Name: Some name   \n" +
                     "#minN = 2\n" +
                     "#Output: VECTOR_DOUBLE\n" +
                     "a <- col_0[5];\n" +
