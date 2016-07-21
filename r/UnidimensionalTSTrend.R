@@ -1,6 +1,6 @@
 #Name: Uniidimensional Time Series Analysis (getting trend)
-#Input VECTOR_DOUBLE
-#Output: VECTORs_DOUBLE
++#Input VECTOR_DOUBLE
++#Output: VECTORs_DOUBLE
 data <- col_0 #or the URL of data from database
 coefficientOfFrequency <- data[length(data)-2]
 startPoint <- data[length(data)-1]
