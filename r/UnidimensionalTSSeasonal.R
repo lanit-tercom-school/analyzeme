@@ -5,7 +5,7 @@
 data <- col_0 #or the URL of data from database
 coefficientOfFrequency <- data[length(data)-2]
 startPoint <- data[length(data)-1]
-startPointFrequency <- data[length(data)-2]
+startPointFrequency <- data[length(data)]
 data <- data[-c(length(data)-2, length(data)-1, length(data))]
 dataTimeSeries <- ts(data, frequency = coefficientOfFrequency, start=c(startPoint, startPointFrequency))
 MAseasonal <- as.vector(decompose(dataTimeSeries)$seasonal)
