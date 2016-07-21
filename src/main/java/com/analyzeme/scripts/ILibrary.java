@@ -7,7 +7,7 @@ public interface ILibrary {
     /**
      * @return list with all scripts' names in the library
      */
-    List<String> getAllScriptsNames();
+    List<String> getAllScriptsNames() throws Exception;
 
     /**
      * @param name - name of script given by user

@@ -12,6 +12,7 @@ import java.util.List;
 
 public class BasicScriptLibrary implements ILibrary {
     private static final String CONFIGS = "rscripts_info.txt";
+    private List<String> names = new ArrayList<String>();
     private static final String FOLDER = "r/";
     private List<Script> scripts = new ArrayList<Script>();
     private static final Logger LOGGER;
@@ -28,6 +29,7 @@ public class BasicScriptLibrary implements ILibrary {
         String name;
         InputStream tempStream;
         while ((name = reader.readLine()) != null) {
+            names.add(name);
             tempStream = GithubDownloader.download(FOLDER + name);
             addScriptFromDisk(name, IOUtils.toString(tempStream));
         }
@@ -49,10 +51,26 @@ public class BasicScriptLibrary implements ILibrary {
         LOGGER.debug("addScriptFromDisk(): method finished");
     }
 
+    private void checkUpdates() throws Exception {
+        InputStream stream = GithubDownloader.download(CONFIGS);
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(stream));
+        String name;
+        InputStream tempStream;
+        while ((name = reader.readLine()) != null) {
+            if (!names.contains(name)) {
+                names.add(name);
+                tempStream = GithubDownloader.download(FOLDER + name);
+                addScriptFromDisk(name, IOUtils.toString(tempStream));
+            }
+        }
+    }
+
     /**
      * @return list with all scripts' names in the library
      */
-    public List<String> getAllScriptsNames() {
+    public List<String> getAllScriptsNames() throws Exception {
+        checkUpdates();
         List<String> result = new ArrayList<>();
         for (Script script : this.scripts) {
             result.add(script.getName());

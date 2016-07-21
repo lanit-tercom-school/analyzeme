@@ -14,7 +14,6 @@ public class AnalyzerFactory {
     private static Map<String, IAnalyzer> analyzers =
             new HashMap<String, IAnalyzer>();
     private static ILibrary lib;
-    private static List<String> scripts;
     private static final Logger LOGGER;
 
     static {
@@ -27,7 +26,6 @@ public class AnalyzerFactory {
                 "Kolmogorov Smirnov Test", "Test File Result"});
         try {
             lib = new BasicScriptLibrary();
-            scripts = lib.getAllScriptsNames();
         } catch (Exception e) {
             LOGGER.info(
                     "static block: impossible to use BasicScriptLibrary");
@@ -39,8 +37,15 @@ public class AnalyzerFactory {
         if (supportedAnalyzers != null) {
             result.addAll(supportedAnalyzers);
         }
-        if (scripts != null) {
-            result.addAll(scripts);
+        try {
+            List<String> scripts = lib.getAllScriptsNames();
+            if (scripts != null) {
+                result.addAll(scripts);
+            }
+        } catch (Exception e) {
+            LOGGER.info(
+                    "getSupportedAnalyzers(): problem in BasicScriptLibrary",
+                    e.toString());
         }
         return result;
     }
@@ -56,12 +61,21 @@ public class AnalyzerFactory {
                     "getAnalyzer(): analyzer created");
             return analyzers.get(analyzerName);
         }
-        if (scripts.contains(analyzerName)) {
+        List<String> scripts = null;
+        try {
+            scripts = lib.getAllScriptsNames();
+        } catch (Exception e) {
+            LOGGER.info(
+                    "getAnalyzer(): impossible to check R analyzers",
+                    e.toString());
+        }
+        if (scripts != null && scripts.contains(analyzerName)) {
             createRAnalyzer(analyzerName);
             LOGGER.debug(
                     "getAnalyzer(): r analyzer created");
             return analyzers.get(analyzerName);
         }
+
         LOGGER.info("getAnalyzer(): this analyzer is not supported",
                 analyzerName);
         throw new IllegalArgumentException("not supported");
@@ -110,12 +124,11 @@ public class AnalyzerFactory {
     }
 
 
-    public static void createRAnalyzer(final String name) throws Exception {
+    private static void createRAnalyzer(final String name) throws Exception {
         LOGGER.debug("createRAnalyzer(): method started");
         Script script = lib.getScript(name);
         IAnalyzer analyzer = new RScriptAnalyzer(script);
         analyzers.put(name, analyzer);
         LOGGER.debug("createRAnalyzer(): method finished");
-        return;
     }
 }

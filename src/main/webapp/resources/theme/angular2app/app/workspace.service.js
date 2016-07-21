@@ -50,6 +50,10 @@ mean(x)`
                         (functions) => {
                             l.dir(functions);
                             if (functions) {
+                                this.availableFunctions = [];
+                                this.availableFunctions.push({
+                                    func: "UserScript"
+                                });
                                 for (let func of functions) {
                                     if (func) {
                                         l.log("func in functions");

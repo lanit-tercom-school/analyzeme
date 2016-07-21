@@ -19,6 +19,7 @@
             }],
             ngOnInit: function() {
               l.log("ngOnInit");
+                this._workspaceService.getFunctions();
               var self = this;
               this._workspaceService._fileService.getSelectedFile()
               .then(f => {

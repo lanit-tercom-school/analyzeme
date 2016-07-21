@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 public class GithubDownloader {
-    private static final String LINK = "https://raw.githubusercontent.com/lagroffe/rscriptsForAnalyzeme/master/";
+    private static final String LINK = "https://raw.githubusercontent.com/lanit-tercom-school/analyzeme/dev/";
 
     private static boolean isRedirected(Map<String, List<String>> header) {
         for (String hv : header.get(null)) {
