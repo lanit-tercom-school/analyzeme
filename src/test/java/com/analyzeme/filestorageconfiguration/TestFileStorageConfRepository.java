@@ -129,7 +129,7 @@ public class TestFileStorageConfRepository {
                         "\"fConfType\":\"FirebaseConf\",\"name\":\"Firebase11\"," +
                         "\"databaseUrl\":null,\"activeFlag\":true}]"));
     }
-
+    @Ignore
     @Test
     public void testGetDefaultTestConfiguration() throws IOException {
         //add inactive TestFConf
