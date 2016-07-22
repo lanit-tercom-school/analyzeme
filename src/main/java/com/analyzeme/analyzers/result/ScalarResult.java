@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 public class ScalarResult<T> implements IResult<T> {
     private final ObjectMapper mapper = new ObjectMapper();
+    private final JsonWriter writer = new JsonWriter();
     private final T result;
     private static final Logger LOGGER;
 
@@ -31,6 +32,9 @@ public class ScalarResult<T> implements IResult<T> {
         LOGGER.debug("toJson(): method started");
         if (result == null) {
             return null;
+        }
+        if (result instanceof Double) {
+            return writer.toJson((Double) result);
         }
         return mapper.writeValueAsString(result);
     }

@@ -13,6 +13,7 @@ import java.util.List;
 
 public class ColumnResult<T> implements IResult<List<T>> {
     private static final Logger LOGGER;
+    private final JsonWriter writer = new JsonWriter();
 
     static {
         LOGGER = LoggerFactory.getLogger(
@@ -32,8 +33,11 @@ public class ColumnResult<T> implements IResult<List<T>> {
 
     public String toJson() throws JsonProcessingException {
         LOGGER.debug("toJson(): method started");
-        if (result == null) {
+        if (result == null || result.isEmpty()) {
             return null;
+        }
+        if (result.get(0) instanceof Double) {
+            return writer.toJson(result);
         }
         return mapper.writeValueAsString(result);
     }

@@ -17,6 +17,7 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
     private static final Logger LOGGER;
     private static final double EPS_FOR_DOUBLE = 0.0001;
     private final Map<String, List<T>> result;
+    private final JsonWriter writer = new JsonWriter();
 
     static {
         LOGGER = LoggerFactory.getLogger(
@@ -40,7 +41,11 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
         Iterator<String> it = result.keySet().iterator();
         int length = 0;
         if (it.hasNext()) {
-            length = result.get(it.next()).size();
+            String tempS = it.next();
+            if (result.get(tempS).get(0) instanceof Double) {
+                return writer.toJson(result);
+            }
+            length = result.get(tempS).size();
         }
         for (int i = 0; i < length; i++) {
             Map<String, T> tempMap = new HashMap<String, T>();
