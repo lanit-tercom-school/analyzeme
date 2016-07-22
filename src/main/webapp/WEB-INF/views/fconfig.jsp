@@ -219,7 +219,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <a onclick="deleteFconf(delObj)" class="btn btn-primary btn-lg"><span
+                                <a onclick="deleteFConf(delObj)" class="btn btn-primary btn-lg"><span
                                         class="network-name" aria-hidden="true">Yes</span></a>
 
                                 <a onclick="closeDeleteFormF()" role="button" class="btn btn-primary btn-lg"><span

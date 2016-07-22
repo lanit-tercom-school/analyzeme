@@ -128,7 +128,6 @@ public class FileStorageConfRepository {
             if (!(fConf instanceof TestFConf) && fConf.isActive()) {
                 return fConf;
             }
-
         }
         return null;
     }

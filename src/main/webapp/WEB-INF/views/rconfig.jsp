@@ -71,7 +71,7 @@
                         $('#addHost').css('visibility', 'hidden');
                         $('#addPort').css('visibility', 'hidden');
                         document.getElementById("host").value = '-----';
-                        documentF.getElementById("port").value = '-----';
+                        document.getElementById("port").value = '-----';
                         break;
                 }
             });
