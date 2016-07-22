@@ -1,14 +1,14 @@
-package com.analyzeme.rconfiguration;
+package com.analyzeme.filestorageconfiguration;
 
 import org.json.simple.JSONObject;
 
 /**
  *
  */
-public class FakeRConf implements IRConf {
+public class TestFConf implements IFileStorageConf {
 
     /**
-     * field what save name of RConfigurations
+     * field what save name of FileStorageConfigurations
      */
     private String name;
 
@@ -38,8 +38,8 @@ public class FakeRConf implements IRConf {
     /**
      * default constructor
      */
-    FakeRConf() {
-        name = "newFake";
+    TestFConf() {
+        name = "testName";
         activeFlag = true;
     }
 
@@ -48,10 +48,11 @@ public class FakeRConf implements IRConf {
      *
      * @param activeFlag for setting field activeFlag
      */
-    public FakeRConf(final boolean activeFlag, final String name) {
+    public TestFConf(final String name,final boolean activeFlag) {
         this.name = name;
         this.activeFlag = activeFlag;
     }
+
 
     /**
      * set field flag
@@ -60,7 +61,6 @@ public class FakeRConf implements IRConf {
      */
     public void setActiveFlag(final boolean activeFlag) {
         this.activeFlag = activeFlag;
-
     }
 
     /**
@@ -75,26 +75,25 @@ public class FakeRConf implements IRConf {
 
     /**
      * assignment value of param to this object
-     * this object will become equal to RConf
+     * this object will become equal to FConf
      *
-     * @param RConf will be assignmented to this FakeRConf
+     * @param FConf will be assignmented to this TestFRConf
      */
-    public void assignment(final IRConf RConf) throws IllegalArgumentException {
-        if (!(RConf instanceof FakeRConf)) throw new IllegalArgumentException();
-        setName(RConf.getName());
-        setActiveFlag(RConf.isActive());
+
+    public void assignment(final IFileStorageConf FConf) throws IllegalArgumentException {
+        if (!(FConf instanceof TestFConf)) throw new IllegalArgumentException();
+        setName(FConf.getName());
+        setActiveFlag(FConf.isActive());
     }
 
     /**
      * @return this this object as JSONObject
      */
     public JSONObject toJSONObject() {
-
         JSONObject obj = new JSONObject();
-        obj.put("rConfType", "FakeRConf");
+        obj.put("fConfType", "TestFConf");
         obj.put("name", name);
         obj.put("activeFlag", activeFlag);
         return obj;
     }
-
 }

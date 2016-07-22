@@ -132,7 +132,6 @@ public class JsonWriter<T> {
         setUp();
         start();
         addType("VECTORS_DOUBLE");
-        //addColumnsDescription(value);
         addData(value);
         end();
         return builder.toString();

@@ -10,11 +10,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>RConfiguration</title>
+    <title>R Configuration</title>
     <spring:url value="/resources/angular2app/" var="angularPath"/>
     <spring:url value="/resources/js/rConfig.js" var="rConfJs"/>
     <script type="text/javascript" src="${rConfJs}"></script>
-    <!-- jQuery -->
     <spring:url value="/resources/js/jquery.js" var="jqueryJs"/>
     <script type="text/javascript" src="${jqueryJs}"></script>
 
@@ -83,6 +82,7 @@
 
 <body onload="load()">
 
+
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
@@ -93,7 +93,8 @@
                 <a href="/app/demo" class="mdl-navigation__link">Try now</a>
                 <!-- <a href="/app" class="mdl-navigation__link">Projects</a> -->
                 <a href="/data/spb" class="mdl-navigation__link">Preview</a>
-                <a href="/config" class="mdl-navigation__link">R Configurations</a>
+                <a href="/rconfig" class="mdl-navigation__link">RConfigurations</a>
+                <a href="/fconfig" class="mdl-navigation__link">FileConfigurations</a>
             </nav>
         </div>
     </header>
@@ -105,6 +106,7 @@
                 <div class="container">
                     <div class="row">
                         <div id="getdata" style="display: none;"> ${RConfList}</div>
+                        <h3> R configuration </h3>
 
                         <a href="#AddModal" role="button" data-toggle="modal"
                            class="btn btn-primary btn-lg"><span
@@ -182,7 +184,7 @@
                                     <tr>
                                         <td>Type:</td>
                                         <td>
-                                            <span id="upType" class="network-name"><b>Rserve1</b></span>
+                                            <span id="upType" class="network-name"><b>Rserve</b></span>
                                         </td>
                                     </tr>
 
@@ -249,9 +251,6 @@
 
                         </div>
 
-
-                    </div>
-                </div>
                 <!-- /.container -->
 
             </div>
