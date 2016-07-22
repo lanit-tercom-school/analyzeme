@@ -60,7 +60,6 @@ public class RFacade {
 	* 		c) vector
 	* 		d) group of vectors
 	* - way to give data:
-	* 		a) as json string
 	* 		b) as files from repository
 	* 	    c) Map<String, List<Double>
 	*----------------------------------------------------------------------------------------------------------------------------
@@ -87,23 +86,6 @@ public class RFacade {
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
         return caller.runCommandDefault(rCommand, files);
-    }
-
-    /**
-     * calls r using some logic from r.call package
-     *
-     * @param rCommand - string with correct r command
-     * @param jsonData - some valid data in json format for command to analyze
-     * @return auto-generated json result (mistakes are possible)
-     * @throws Exception if files not found, r was impossible to call or there was in error in command
-     */
-    public static NotParsedJsonStringResult runCommandDefault(final String rCommand,
-                                                              final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        return caller.runCommandDefault(rCommand, jsonData);
     }
 
     /**
@@ -168,25 +150,6 @@ public class RFacade {
     /**
      * calls r using some logic from r.call package
      *
-     * @param rCommand - string with correct r command
-     * @param jsonData - some valid data for command to analyze
-     * @return scalar result
-     * @throws Exception if r was impossible to call or there was in error in command
-     */
-    public static ScalarResult runCommandToGetScalar(
-            final String rCommand, final String jsonData)
-            throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        ScalarResult result = caller.runCommandToGetScalar(rCommand, jsonData);
-        return result;
-    }
-
-    /**
-     * calls r using some logic from r.call package
-     *
      * @param rCommand  - string with correct r command
      * @param userId    - userId of a command caller
      * @param projectId - id of the project with data for command
@@ -204,24 +167,6 @@ public class RFacade {
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
         ColumnResult result = caller.runCommandToGetVector(rCommand, files);
-        return result;
-    }
-
-    /**
-     * calls r using some logic from r.call package
-     *
-     * @param rCommand - string with correct r command
-     * @param jsonData - some valid data in json format for command to analyze
-     * @return one vector
-     * @throws Exception if r was impossible to call or there was in error in command
-     */
-    public static ColumnResult runCommandToGetVector(final String rCommand,
-                                                     final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        ColumnResult result = caller.runCommandToGetVector(rCommand, jsonData);
         return result;
     }
 
@@ -263,25 +208,6 @@ public class RFacade {
         resolver.setProject(userId, projectId);
         ArrayList<DataSet> files = RFileLinker.parse(rCommand, resolver);
         FileResult result = caller.runCommandToGetVectors(rCommand, files);
-        return result;
-    }
-
-    /**
-     * calls r using some logic from r.call package
-     *
-     * @param rCommand - string with correct r command
-     * @param jsonData - some valid data in json format for command to analyze
-     * @return group of vectors
-     * @throws Exception if r was impossible to call or there was in error in command
-     */
-    public static FileResult runCommandToGetVectors(
-            final String rCommand, final String jsonData)
-            throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        FileResult result = caller.runCommandToGetVectors(rCommand, jsonData);
         return result;
     }
 

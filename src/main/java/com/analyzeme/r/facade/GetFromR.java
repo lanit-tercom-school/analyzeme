@@ -51,16 +51,6 @@ public interface GetFromR<T> {
      * calls r using r.facade
      *
      * @param rCommand - string with correct r command
-     * @param jsonData - some valid data in json format for command to analyze
-     * @return result
-     * @throws Exception if r was impossible to call or there was in error in command
-     */
-    T runCommand(final String rCommand, final String jsonData) throws Exception;
-
-    /**
-     * calls r using r.facade
-     *
-     * @param rCommand - string with correct r command
      * @param data     - some valid data for command to analyze
      * @return result
      * @throws Exception if r was impossible to call or there was in error in command

@@ -47,12 +47,6 @@ public class RenjinTest {
                     "{ \"x\": \"5\",\"y\": \"5\" }, { \"x\": \"6\",\"y\": \"6\" }," +
                     "{ \"x\": \"7\",\"y\": \"7\" },{ \"x\" \"8\",\"y\": \"8\" }," +
                     "{ \"x\": \"9\",\"\": \"9\" }, { \"x\": \"10\",\"y\": \"10\" }]}";
-
-    private static final String TEST_SCRIPT_FOR_VECTORS =
-            "x<-c(0, 1, 2); y<-c(0, 1, 2); " +
-                    "z<-data.frame(x, y); " +
-                    "names(z) <- c(\"new X name\", \"new Y name\"); " +
-                    "z";
     private static ByteArrayInputStream correctFile;
     private static final String CORRECT_FILENAME =
             "fileRenjin.json";
@@ -181,132 +175,10 @@ public class RenjinTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testIllegalArgument1() throws Exception {
-        call.runCommandToGetVectors("", (String) null);
-
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegalArgument2() throws Exception {
-        call.runCommandToGetVector((String) null, "");
-
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegalArgument3() throws Exception {
-        call.runCommandToGetScalar("", (String) null);
-
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgument4() throws Exception {
         call.runScriptToGetVector((String) null,
                 (ByteArrayInputStream) null,
                 (ArrayList<DataSet>) null);
-    }
-
-    @Test
-    public void testCorrectCommandToGetScalarCorrectJsonData() {
-        try {
-            ScalarResult<Double> resX;
-            ScalarResult<Double> resY;
-            for (int i = 0; i < dataArray.getData().size(); i++) {
-                resX = call.runCommandToGetScalar("x[" +
-                        (int) (i + 1) + "]", TEST_DATA);
-                resY = call.runCommandToGetScalar("y[" +
-                        (int) (i + 1) + "]", TEST_DATA);
-                assertTrue("Scalar isn't returned correctly from Renjin",
-                        doubleEqual(resX.getValue(),
-                                dataArray.getData().get(i).getByKey("x")) &&
-                                doubleEqual(resY.getValue(),
-                                        dataArray.getData().get(i).getByKey("y")));
-            }
-        } catch (Exception e) {
-            fail("Scalar isn't returned correctly from Renjin");
-        }
-    }
-
-    @Test
-    public void testCorrectCommandToGetVectorCorrectJsonData() {
-        try {
-            ColumnResult<Double> res = call.runCommandToGetVector(
-                    "c(x[5], y[5])",
-                    TEST_DATA);
-            assertTrue("Vector isn't returned correctly from Renjin",
-                    doubleEqual(dataArray.getData().get(4).getByKey("x"),
-                            res.getValue().get(0)) &&
-                            doubleEqual(
-                                    dataArray.getData().get(4).getByKey("y"),
-                                    res.getValue().get(1)));
-        } catch (Exception e) {
-            fail("Vector isn't returned correctly from Renjin");
-        }
-    }
-
-    @Test
-    public void testCorrectCommandToGetVectorsCorrectJsonDataFromDataFrame() {
-        try {
-            Map<String, List<Double>> w = new HashMap<String, List<Double>>();
-            w.put("new X name", new ArrayList<Double>());
-            w.put("new Y name", new ArrayList<Double>());
-            for (Map.Entry<String, List<Double>> entry : w.entrySet()) {
-                entry.getValue().add(0.);
-                entry.getValue().add(1.);
-                entry.getValue().add(2.);
-            }
-            FileResult<Double> was = new FileResult<Double>(w);
-            FileResult<Double> res = call.runCommandToGetVectors(
-                    TEST_SCRIPT_FOR_VECTORS,
-                    TEST_DATA);
-            assertTrue("Vectors aren't returned  correctly from Renjin",
-                    was.equals(res));
-        } catch (Exception e) {
-            fail("Vectors aren't returned correctly from Renjin");
-        }
-    }
-
-
-    @Test(expected = Exception.class)
-    public void testIncorrectCommandToGetScalarCorrectJsonData() throws Exception {
-        call.runCommandToGetScalar(
-                "y[5",
-                TEST_DATA);
-    }
-
-    @Test(expected = Exception.class)
-    public void testIncorrectCommandToGetVectorCorrectJsonData() throws Exception {
-        call.runCommandToGetVector(
-                "c(x[5], y[5)",
-                TEST_DATA);
-
-    }
-
-    @Test(expected = Exception.class)
-    public void testIncorrectCommandToGetVectorsCorrectJsonData() throws Exception {
-        call.runCommandToGetVectors(
-                TEST_SCRIPT_FOR_VECTORS + "]",
-                TEST_DATA);
-    }
-
-    @Test(expected = Exception.class)
-    public void testCorrectCommandToGetScalarIncorrectJsonData() throws Exception {
-        call.runCommandToGetScalar(
-                "x[5]",
-                WRONG_TEST_DATA);
-    }
-
-    @Test(expected = Exception.class)
-    public void testCorrectCommandToGetVectorIncorrectJsonData() throws Exception {
-        call.runCommandToGetVector(
-                "c(x[5], y[5])",
-                WRONG_TEST_DATA);
-    }
-
-    @Test(expected = Exception.class)
-    public void testCorrectCommandToGetVectorsIncorrectJsonData() throws Exception {
-        call.runCommandToGetVectors(
-                TEST_SCRIPT_FOR_VECTORS,
-                WRONG_TEST_DATA);
     }
 
     @Test

@@ -33,9 +33,6 @@ public class FakeRTest {
             "{ \"x\": \"4\",\"y\": \"4\" },{ \"x\": \"5\",\"y\": \"5\" },{ \"x\": \"6\",\"y\": \"6\" }," +
             "{ \"x\": \"7\",\"y\": \"7\" },{ \"x\": \"8\",\"y\": \"8\" },{ \"x\": \"9\",\"y\": \"9\" }," +
             "{ \"x\": \"10\",\"y\": \"10\" }]}";
-    private static final String TEST_SCRIPT_FOR_POINTS = "matrix(c(x[1], " +
-            "y[1], x[1], y[1]), nrow = 2, " +
-            "ncol = 2, byrow=TRUE)";
     private static ByteArrayInputStream correctFile;
     private static final String CORRECT_FILENAME = "file.json";
     private static String correctFileId;
@@ -96,66 +93,10 @@ public class FakeRTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void testIllegalArgument1() throws Exception {
-        call.runCommandToGetVectors("", (String) null);
-
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegalArgument2() throws Exception {
-        call.runCommandToGetVector((String) null, "");
-
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void testIllegalArgument3() throws Exception {
-        call.runCommandToGetScalar("", (String) null);
-
-    }
-
-    @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgument4() throws Exception {
         call.runScriptToGetVector((String) null,
                 (ByteArrayInputStream) null,
                 (ArrayList<DataSet>) null);
-    }
-
-    @Test
-    public void testCorrectCommandToGetNumber() {
-        try {
-            ScalarResult<Double> resX = call.runCommandToGetScalar("x[1]", TEST_DATA);
-            ScalarResult<Double> resY = call.runCommandToGetScalar("y[5]", TEST_DATA);
-            assertTrue("Scalar isn't returned correctly from FakeR",
-                    doubleEqual(resX.getValue(), 0) && doubleEqual(resY.getValue(), 0));
-        } catch (Exception e) {
-            fail("Scalar isn't returned correctly from FakeR");
-        }
-    }
-
-    @Test
-    public void testCorrectCommandToGetPoint() {
-        try {
-            ColumnResult res = call.runCommandToGetVector(
-                    "c(x[5], y[5])",
-                    TEST_DATA);
-            assertTrue("Vector isn't returned correctly from FakeR",
-                    res.getValue() instanceof ArrayList);
-        } catch (Exception e) {
-            fail("Vector isn't returned correctly from FakeR");
-        }
-    }
-
-    @Test
-    public void testCorrectCommandToGetPoints() {
-        try {
-            FileResult res = call.runCommandToGetVectors(
-                    TEST_SCRIPT_FOR_POINTS,
-                    TEST_DATA);
-            assertTrue("Group of vectors aren't returned correctly from FakeR",
-                    res.getValue() instanceof HashMap);
-        } catch (Exception e) {
-            fail("Group of vectors aren't returned correctly from FakeR");
-        }
     }
 
     @Test

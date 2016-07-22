@@ -81,24 +81,6 @@ public class FileFromR<T> implements GetFromR<FileResult<T>> {
      * calls r using r.facade
      *
      * @param rCommand - string with correct r command
-     * @param jsonData - some valid data in json format for command to analyze
-     * @return FileResult<T>
-     * @throws Exception if r was impossible to call or there was in error in command
-     */
-    public FileResult<T> runCommand(String rCommand, String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        FileResult<T> result = RFacade.runCommandToGetVectors(
-                rCommand, jsonData);
-        return result;
-    }
-
-    /**
-     * calls r using r.facade
-     *
-     * @param rCommand - string with correct r command
      * @param data     - some valid data for command to analyze
      * @return result
      * @throws Exception if r was impossible to call or there was in error in command

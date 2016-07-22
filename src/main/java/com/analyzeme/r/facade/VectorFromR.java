@@ -80,23 +80,6 @@ public class VectorFromR<T> implements GetFromR<ColumnResult<T>> {
      * calls r using r.facade
      *
      * @param rCommand - string with correct r command
-     * @param jsonData - some valid data in json format for command to analyze
-     * @return vector of values
-     * @throws Exception if r was impossible to call or there was in error in command
-     */
-    public ColumnResult<T> runCommand(String rCommand, String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        ColumnResult<T> result = RFacade.runCommandToGetVector(rCommand, jsonData);
-        return result;
-    }
-
-    /**
-     * calls r using r.facade
-     *
-     * @param rCommand - string with correct r command
      * @param data     - some valid data for command to analyze
      * @return result
      * @throws Exception if r was impossible to call or there was in error in command

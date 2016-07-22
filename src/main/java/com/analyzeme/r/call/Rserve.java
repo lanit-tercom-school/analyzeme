@@ -5,13 +5,11 @@ import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
-import com.analyzeme.parsers.JsonParser;
 import com.analyzeme.streamreader.StreamToString;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -160,7 +158,7 @@ public class Rserve implements IRCaller {
         insertData(dataFiles);
         String script = StreamToString.convertStreamANSI(rScript);
         double[][] res = r.eval(script).asDoubleMatrix();
-		/*ArrayList<Point> result = new ArrayList<Point>();
+        /*ArrayList<Point> result = new ArrayList<Point>();
 		for (int i = 0; i < res.length; i++) {
 			Point p = new Point();
 			p.setX(res[i][0]);
@@ -195,38 +193,6 @@ public class Rserve implements IRCaller {
         REXP result = r.eval(rCommand);
         deleteData();
         return new NotParsedJsonStringResult(result.toString());
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return json form of result (may be errors)
-     * @throws Exception if failed to call r or command errored
-     */
-    public NotParsedJsonStringResult runCommandDefault(final String rCommand,
-                                                       final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-
-        InputStream is = new ByteArrayInputStream(jsonData.getBytes());
-        JsonParser jsonParser;
-        jsonParser = new JsonParser();
-		/*Point[] data = jsonParser.parse(is).toPointArray();
-
-		double[] x = new double[data.length];
-		double[] y = new double[data.length];
-		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i].getX();
-			y[i] = data[i].getY();
-		}
-		r.assign("x", x);
-		r.assign("y", y);
-		REXP result = r.eval(rCommand);
-		deleteData();*/
-        return new NotParsedJsonStringResult(null);
     }
 
 
@@ -301,119 +267,6 @@ public class Rserve implements IRCaller {
 		}                */
         deleteData();
         //return result;
-        return null;
-    }
-
-    //------------------
-    //command for data
-    //------------------
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return double result
-     * @throws Exception if failed to call r or command errored
-     */
-    public ScalarResult runCommandToGetScalar(final String rCommand,
-                                              final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-
-        InputStream is = new ByteArrayInputStream(jsonData.getBytes());
-		/*JsonParser jsonParser;
-		jsonParser = new JsonParser();
-		Point[] data = jsonParser.parse(is).toPointArray();
-
-		double[] x = new double[data.length];
-		double[] y = new double[data.length];
-		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i].getX();
-			y[i] = data[i].getY();
-		}
-		r.assign("x", x);
-		r.assign("y", y);
-		double result = r.eval(rCommand).asDouble();
-		deleteData();
-		//return result; */
-        return null;
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return one point
-     * @throws Exception if failed to call r or command errored
-     */
-    public ColumnResult runCommandToGetVector(final String rCommand,
-                                              final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-
-		/*InputStream is = new ByteArrayInputStream(jsonData.getBytes());
-		JsonParser jsonParser;
-		jsonParser = new JsonParser();
-		Point[] data = jsonParser.parse(is).toPointArray();
-
-		double[] x = new double[data.length];
-		double[] y = new double[data.length];
-		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i].getX();
-			y[i] = data[i].getY();
-		}
-		r.assign("x", x);
-		r.assign("y", y);
-		double[] res = r.eval(rCommand).asDoubles();
-		Point result = new Point();
-		result.setX(res[0]);
-		result.setY(res[1]);
-		deleteData();
-		//return result;  */
-        return null;
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return List<Point>
-     * @throws Exception if failed to call r or command errored
-     */
-    public FileResult runCommandToGetVectors(final String rCommand,
-                                             final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-
-		/*InputStream is = new ByteArrayInputStream(jsonData.getBytes());
-		JsonParser jsonParser;
-		jsonParser = new JsonParser();
-		Point[] data = jsonParser.parse(is).toPointArray();
-
-		double[] x = new double[data.length];
-		double[] y = new double[data.length];
-		for (int i = 0; i < data.length; i++) {
-			x[i] = data[i].getX();
-			y[i] = data[i].getY();
-		}
-		r.assign("x", x);
-		r.assign("y", y);
-		double[][] res = r.eval(rCommand).asDoubleMatrix();
-		ArrayList<Point> result = new ArrayList<Point>();
-		for (int i = 0; i < res.length; i++) {
-			Point p = new Point();
-			p.setX(res[i][0]);
-			p.setY(res[i][1]);
-			result.add(p);
-		}
-		deleteData();
-		//return result;   */
         return null;
     }
 

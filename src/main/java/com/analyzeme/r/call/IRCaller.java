@@ -102,49 +102,6 @@ public interface IRCaller {
      */
     FileResult runCommandToGetVectors(final String rCommand,
                                       final ArrayList<DataSet> dataFiles) throws Exception;
-
-    //------------------
-    //command for data
-    //------------------
-
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return json form of result (may be errors, auto-generated)
-     * @throws Exception if failed to call r or command errored
-     */
-    NotParsedJsonStringResult runCommandDefault(final String rCommand,
-                                                final String jsonData) throws Exception;
-
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return scalar result
-     * @throws Exception if failed to call r or command errored
-     */
-    ScalarResult runCommandToGetScalar(final String rCommand,
-                                       final String jsonData) throws Exception;
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return vector (~column)
-     * @throws Exception if failed to call r or command errored
-     */
-    ColumnResult runCommandToGetVector(final String rCommand,
-                                       final String jsonData) throws Exception;
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return group of vectors (~columns)
-     * @throws Exception if failed to call r or command errored
-     */
-    FileResult runCommandToGetVectors(final String rCommand,
-                                      final String jsonData) throws Exception;
-
     //------------------
     //command for data
     //------------------

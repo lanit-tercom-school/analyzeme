@@ -101,21 +101,6 @@ public class FakeR implements IRCaller {
 
     /**
      * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return json form of result (may be errors)
-     * @throws Exception if failed to call r or command errored
-     */
-    public NotParsedJsonStringResult runCommandDefault(final String rCommand,
-                                                       final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        return new NotParsedJsonStringResult("");
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
      * @param data     - data necessary for the script
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
@@ -166,51 +151,6 @@ public class FakeR implements IRCaller {
     public FileResult runCommandToGetVectors(final String rCommand,
                                              final ArrayList<DataSet> dataFiles) throws Exception {
         if (rCommand == null || rCommand.equals("") || dataFiles == null) {
-            throw new IllegalArgumentException();
-        }
-        return new FileResult(new HashMap<String, List>());
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return scalar result
-     * @throws Exception if failed to call r or command errored
-     */
-    public ScalarResult runCommandToGetScalar(final String rCommand,
-                                              final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        return new ScalarResult<Double>(0.);
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return one vector
-     * @throws Exception if failed to call r or command errored
-     */
-    public ColumnResult runCommandToGetVector(final String rCommand,
-                                              final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        return new ColumnResult(new ArrayList());
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param jsonData - data necessary for the script
-     * @return group of vectors
-     * @throws Exception if failed to call r or command errored
-     */
-    public FileResult runCommandToGetVectors(final String rCommand,
-                                             final String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
             throw new IllegalArgumentException();
         }
         return new FileResult(new HashMap<String, List>());

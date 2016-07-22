@@ -76,23 +76,6 @@ public class DefaultFromR implements GetFromR<NotParsedJsonStringResult> {
      * calls r using r.facade
      *
      * @param rCommand - string with correct r command
-     * @param jsonData - some valid data in json format for command to analyze
-     * @return auto-generated json result (mistakes are possible)
-     * @throws Exception if files not found, r was impossible to call or there was in error in command
-     */
-    public NotParsedJsonStringResult runCommand(String rCommand,
-                                                String jsonData) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                jsonData == null || jsonData.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        return RFacade.runCommandDefault(rCommand, jsonData);
-    }
-
-    /**
-     * calls r using r.facade
-     *
-     * @param rCommand - string with correct r command
      * @param data     - some valid data for command to analyze
      * @return result
      * @throws Exception if r was impossible to call or there was in error in command
