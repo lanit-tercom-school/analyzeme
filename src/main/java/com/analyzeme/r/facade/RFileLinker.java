@@ -14,10 +14,6 @@ import java.util.regex.Pattern;
 
 //TODO: unit-tests
 class RFileLinker {
-    //if our special variables look like
-    //y_from__repo__myFile.json__
-    //y_from__webRepo__webToken__
-    //time_from__repo__0_10.json__
     private final static String REGEXP =
             "([A-Za-z]+)_from__([A-Za-z]+)__([A-Za-z0-9,_.]+)__";
     private final static int FIELD_GROUP = 1;
@@ -32,7 +28,8 @@ class RFileLinker {
         return null;
     }
 
-    private static ArrayList<DataSet> formList(Matcher m, FileInRepositoryResolver resolver) throws Exception {
+    private static ArrayList<DataSet> formList(Matcher m,
+                                               FileInRepositoryResolver resolver) throws Exception {
         ArrayList<DataSet> result = new ArrayList<DataSet>();
         while (m.find()) {
             IDataSetResolver res;
@@ -68,28 +65,6 @@ class RFileLinker {
         Pattern pattern = Pattern.compile(REGEXP);
         Matcher m = pattern.matcher(StreamToString.convertStream(rScript));
         return formList(m, resolver);
-    }
-
-    /**
-     * finds out what files are necessary for the script to run
-     *
-     * @param rScript -script to call, correct .r file as a stream
-     * @return names of files
-     * @throws Exception if there were some mistakes in parsing or there are no necessary files
-     */
-    public static ArrayList<String> parseForTests(
-            ByteArrayInputStream rScript) throws Exception {
-        if (rScript == null) {
-            throw new IllegalArgumentException();
-        }
-        ArrayList<String> result = new ArrayList<String>();
-
-        Pattern pattern = Pattern.compile(REGEXP);
-        Matcher m = pattern.matcher(StreamToString.convertStream(rScript));
-        while (m.find()) {
-            result.add(m.group(FILE_GROUP));
-        }
-        return result;
     }
 
 

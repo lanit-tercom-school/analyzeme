@@ -1,11 +1,10 @@
 package com.analyzeme.r.facade;
 
-/**
- * Created by lagroffe on 13.04.2016 0:25
- */
+import com.analyzeme.r.facade.get.*;
+
 public class GetFromRFactory {
 
-    public static GetFromR getLinkToR(TypeOfReturnValue typeOfReturnValue) {
+    public static IFromR getLinkToR(TypeOfReturnValue typeOfReturnValue) {
         switch (typeOfReturnValue) {
             case DOUBLE:
                 return new ScalarFromR<Double>();
@@ -15,7 +14,7 @@ public class GetFromRFactory {
                 return new DefaultFromR();
             case VECTOR:
                 return new VectorFromR();
-            case FILE:
+            case VECTORS:
                 return new FileFromR();
             default:
                 throw new IllegalArgumentException(

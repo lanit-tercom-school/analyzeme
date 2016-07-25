@@ -13,25 +13,25 @@ public class GetFromRFactoryTest {
      /*
     @Test
     public void testFactoryDefault() {
-        GetFromR<String> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
+        IFromR<String> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         assertTrue(link instanceof DefaultFromR);
     }
 
     @Test
     public void testFactoryDouble() {
-        GetFromR<Double> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
+        IFromR<Double> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         assertTrue(link instanceof ScalarFromR);
     }
 
     @Test
     public void testFactoryPoint() {
-        GetFromR<Point> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
+        IFromR<Point> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         assertTrue(link instanceof VectorFromR);
     }
 
     @Test
     public void testFactoryPoints() {
-        GetFromR<List<Point>> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
+        IFromR<List<Point>> link = GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         assertTrue(link instanceof FileFromR);
     }
 

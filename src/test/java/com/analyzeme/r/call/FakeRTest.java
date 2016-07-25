@@ -20,10 +20,6 @@ import java.util.HashMap;
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-/**
- * Created by lagroffe on 26.03.2016 18:53
- */
-
 public class FakeRTest {
     private static final double EPS = 0.00001;
     private static IRCaller call;
@@ -95,17 +91,17 @@ public class FakeRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgument4() throws Exception {
         call.runScriptToGetVector((String) null,
-                (ByteArrayInputStream) null,
+                (String) null,
                 (ArrayList<DataSet>) null);
     }
 
     @Test
     public void testCorrectCommandToGetNumberCorrectFile() {
         try {
-            ScalarResult<Double> resX = call.runCommandToGetScalar(
+            ScalarResult<Double> resX = call.runScriptToGetScalar("",
                     correctX + "[2]",
                     correct);
-            ScalarResult<Double> resY = call.runCommandToGetScalar(
+            ScalarResult<Double> resY = call.runScriptToGetScalar("",
                     correctY + "[9]",
                     correct);
             assertTrue("Scalar isn't returned correctly from FakeR",
@@ -118,7 +114,7 @@ public class FakeRTest {
     @Test
     public void testCorrectCommandToGetPointCorrectFile() {
         try {
-            ColumnResult res = call.runCommandToGetVector(
+            ColumnResult res = call.runScriptToGetVector("",
                     "c(" + correctX + "[5], " +
                             correctY + "[5])", correct);
             assertTrue("Vector isn't returned correctly from FakeR",
@@ -131,53 +127,10 @@ public class FakeRTest {
     @Test
     public void testCorrectCommandToGetPointsCorrectFile() {
         try {
-            FileResult res = call.runCommandToGetVectors(
+            FileResult res = call.runScriptToGetVectors("",
                     correctScriptForCorrectFileString,
                     correct);
             assertTrue("Group of vectors aren't returned correctly from FakeR",
-                    res.getValue() instanceof HashMap);
-        } catch (Exception e) {
-            fail("Group of vectors aren't returned correctly from FakeR");
-        }
-    }
-
-    @Test
-    public void testCorrectScripToGetNumberCorrectFile() {
-        try {
-            ScalarResult<Double> resX = call.runScriptToGetScalar(correctScriptForCorrectFileName,
-                    convertStringToStream(correctX + "[2]"), correct);
-            ScalarResult<Double> resY = call.runScriptToGetScalar(correctScriptForCorrectFileName,
-                    convertStringToStream(correctY + "[3]"), correct);
-            assertTrue("Scalar isn't returned correctly from FakeR",
-                    doubleEqual(resX.getValue(), 0) &&
-                            doubleEqual(resY.getValue(), 0));
-        } catch (Exception e) {
-            fail("Scalar isn't returned correctly from FakeR");
-        }
-    }
-
-    @Test
-    public void testCorrectScriptToGetPointCorrectFile() {
-        try {
-            ColumnResult res = call.runScriptToGetVector(
-                    correctScriptForCorrectFileName,
-                    convertStringToStream(
-                            "c(" + correctX + "[5]," + correctY + "[5])"), correct);
-            assertTrue("Vector isn't returned correctly from FakeR",
-                    res.getValue() instanceof ArrayList);
-        } catch (Exception e) {
-            fail("Vector isn't returned correctly from FakeR");
-        }
-    }
-
-    @Test
-    public void testCorrectScriptToGetPointsCorrectFile() {
-        try {
-            FileResult res = call.runScriptToGetVectors(
-                    correctScriptForCorrectFileName,
-                    correctScriptForCorrectFile,
-                    correct);
-            assertTrue("Group of vectors doesn't return correctly from FakeR",
                     res.getValue() instanceof HashMap);
         } catch (Exception e) {
             fail("Group of vectors aren't returned correctly from FakeR");

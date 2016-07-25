@@ -1,7 +1,7 @@
 package com.analyzeme.analyzers.r;
 
 import com.analyzeme.analyzers.result.IResult;
-import com.analyzeme.r.facade.GetFromR;
+import com.analyzeme.r.facade.get.IFromR;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import org.slf4j.Logger;
@@ -35,19 +35,19 @@ public class UserScriptAnalyzer {
         switch (typeOfCall) {
             case MEMORY_CALL:
                 LOGGER.debug("runScript(): memory call");
-                GetFromR<IResult> rLink =
+                IFromR<IResult> rLink =
                         GetFromRFactory.getLinkToR(typeOfReturnValue);
-                LOGGER.debug("runScript(): GetFromR<IResult> is found",
+                LOGGER.debug("runScript(): IFromR<IResult> is found",
                         typeOfReturnValue);
-                return rLink.runScript(scriptName, userId, projectId);
+                //here script should be extracted from repo
+                return rLink.runScript(scriptName, scriptText, userId, projectId);
             case RUN:
                 LOGGER.debug("runScript(): run call");
-                GetFromR<IResult> rLinker =
+                IFromR<IResult> rLinker =
                         GetFromRFactory.getLinkToR(typeOfReturnValue);
-                LOGGER.debug("runScript(): GetFromR<IResult> is found",
+                LOGGER.debug("runScript(): IFromR<IResult> is found",
                         typeOfReturnValue);
-                return rLinker.runScript(scriptName,
-                        new ByteArrayInputStream(scriptText.getBytes()),
+                return rLinker.runScript(scriptName, scriptText,
                         userId, projectId);
             default:
                 return null;

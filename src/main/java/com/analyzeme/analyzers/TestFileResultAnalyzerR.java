@@ -13,7 +13,7 @@ public class TestFileResultAnalyzerR extends AbstractDoubleRAnalyzer {
     }
 
     public TestFileResultAnalyzerR() {
-        super(3, TypeOfReturnValue.FILE);
+        super(3, TypeOfReturnValue.VECTORS);
     }
 
     public String getScript() {

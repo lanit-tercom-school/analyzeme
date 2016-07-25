@@ -107,7 +107,7 @@ public class FormattedScriptUploader {
             return TypeOfReturnValue.VECTOR;
         }
         if (type.equalsIgnoreCase("VECTORS_DOUBLE")) {
-            return TypeOfReturnValue.FILE;
+            return TypeOfReturnValue.VECTORS;
         }
         LOGGER.info("toTypeOfReturnValue(): not supported argument");
         throw new IllegalArgumentException(

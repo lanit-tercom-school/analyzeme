@@ -228,7 +228,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultForNullScriptName()
             throws Exception {
-        GetFromR<String> link =
+        IFromR<String> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         link.runScript(
                 null, correctScriptForCorrectFile,
@@ -238,7 +238,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultForEmptyScriptName()
             throws Exception {
-        GetFromR<String> link =
+        IFromR<String> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         link.runScript(
                 "", correctScriptForCorrectFile,
@@ -248,7 +248,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultForNullScript()
             throws Exception {
-        GetFromR<String> link =
+        IFromR<String> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -258,7 +258,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultForIncorrectUserId()
             throws Exception {
-        GetFromR<String> link =
+        IFromR<String> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -268,7 +268,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultForNullProjectId()
             throws Exception {
-        GetFromR<String> link =
+        IFromR<String> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -278,7 +278,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testDefaultForEmptyProjectId()
             throws Exception {
-        GetFromR<String> link =
+        IFromR<String> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -289,7 +289,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNumberForNullScriptName()
             throws Exception {
-        GetFromR<Double> link =
+        IFromR<Double> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         link.runScript(
                 null, correctScriptForCorrectFile,
@@ -299,7 +299,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNumberForEmptyScriptName()
             throws Exception {
-        GetFromR<Double> link =
+        IFromR<Double> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         link.runScript(
                 "", correctScriptForCorrectFile,
@@ -309,7 +309,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNumberForNullScript()
             throws Exception {
-        GetFromR<Double> link =
+        IFromR<Double> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -319,7 +319,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNumberForIncorrectUserId()
             throws Exception {
-        GetFromR<Double> link =
+        IFromR<Double> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -329,7 +329,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNumberForNullProjectId()
             throws Exception {
-        GetFromR<Double> link =
+        IFromR<Double> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -339,7 +339,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testNumberForEmptyProjectId()
             throws Exception {
-        GetFromR<Double> link =
+        IFromR<Double> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -349,7 +349,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointForNullScriptName()
             throws Exception {
-        GetFromR<Point> link =
+        IFromR<Point> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         link.runScript(
                 null, correctScriptForCorrectFile,
@@ -359,7 +359,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointForEmptyScriptName()
             throws Exception {
-        GetFromR<Point> link =
+        IFromR<Point> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         link.runScript(
                 "", correctScriptForCorrectFile,
@@ -369,7 +369,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointForNullScript()
             throws Exception {
-        GetFromR<Point> link =
+        IFromR<Point> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -379,7 +379,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointForIncorrectUserId()
             throws Exception {
-        GetFromR<Point> link =
+        IFromR<Point> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -389,7 +389,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointForNullProjectId()
             throws Exception {
-        GetFromR<Point> link =
+        IFromR<Point> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -399,7 +399,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointForEmptyProjectId()
             throws Exception {
-        GetFromR<Point> link =
+        IFromR<Point> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -409,7 +409,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointsForNullScriptName()
             throws Exception {
-        GetFromR<List<Point>> link =
+        IFromR<List<Point>> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         link.runScript(
                 null, correctScriptForCorrectFile,
@@ -419,7 +419,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointsForEmptyScriptName()
             throws Exception {
-        GetFromR<List<Point>> link =
+        IFromR<List<Point>> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         link.runScript(
                 "", correctScriptForCorrectFile,
@@ -429,7 +429,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointsForNullScript()
             throws Exception {
-        GetFromR<List<Point>> link =
+        IFromR<List<Point>> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -439,7 +439,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointsForIncorrectUserId()
             throws Exception {
-        GetFromR<List<Point>> link =
+        IFromR<List<Point>> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -449,7 +449,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointsForNullProjectId()
             throws Exception {
-        GetFromR<List<Point>> link =
+        IFromR<List<Point>> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -459,7 +459,7 @@ public class FromRTest {
     @Test(expected = IllegalArgumentException.class)
     public void testPointsForEmptyProjectId()
             throws Exception {
-        GetFromR<List<Point>> link =
+        IFromR<List<Point>> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         link.runScript(
                 correctScriptForCorrectFileName,
@@ -470,7 +470,7 @@ public class FromRTest {
     @Test(expected = org.renjin.parser.ParseException.class)
     public void testDefaultRunCommandForIncorrectCommand()
             throws Exception {
-        GetFromR<String> link =
+        IFromR<String> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         link.runCommand(
                 incorrectScriptForCorrectFileString,
@@ -480,7 +480,7 @@ public class FromRTest {
     @Test(expected = com.analyzeme.parsers.JsonParserException.class)
     public void testDefaultRunCommandForIncorrectData()
             throws Exception {
-        GetFromR<String> link =
+        IFromR<String> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.STRING);
         link.runCommand(
                 correctScriptForCorrectFileString,
@@ -490,7 +490,7 @@ public class FromRTest {
     @Test(expected = org.renjin.parser.ParseException.class)
     public void testNumberRunCommandForIncorrectCommand()
             throws Exception {
-        GetFromR<Double> link =
+        IFromR<Double> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         link.runCommand(
                 incorrectScriptForCorrectFileString,
@@ -499,7 +499,7 @@ public class FromRTest {
 
     @Test(expected = com.analyzeme.parsers.JsonParserException.class)
     public void testNumberRunCommandForIncorrectData() throws Exception {
-        GetFromR<Double> link =
+        IFromR<Double> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.DOUBLE);
         link.runCommand(
                 correctScriptForCorrectFileString,
@@ -508,7 +508,7 @@ public class FromRTest {
 
     @Test(expected = org.renjin.parser.ParseException.class)
     public void testPointRunCommandForIncorrectCommand() throws Exception {
-        GetFromR<Point> link =
+        IFromR<Point> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         link.runCommand(
                 incorrectScriptForCorrectFileString,
@@ -518,7 +518,7 @@ public class FromRTest {
     @Test(expected = com.analyzeme.parsers.JsonParserException.class)
     public void testPointRunCommandForIncorrectData()
             throws Exception {
-        GetFromR<Point> link =
+        IFromR<Point> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINT);
         link.runCommand(
                 correctScriptForCorrectFileString,
@@ -528,7 +528,7 @@ public class FromRTest {
     @Test(expected = org.renjin.parser.ParseException.class)
     public void testPointsRunCommandForIncorrectCommand()
             throws Exception {
-        GetFromR<List<Point>> link =
+        IFromR<List<Point>> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         link.runCommand(
                 incorrectScriptForCorrectFileString,
@@ -539,7 +539,7 @@ public class FromRTest {
             com.analyzeme.parsers.JsonParserException.class)
     public void testPointsRunCommandForIncorrectData()
             throws Exception {
-        GetFromR<List<Point>> link =
+        IFromR<List<Point>> link =
                 GetFromRFactory.getLinkToR(TypeOfReturnValue.POINTS);
         link.runCommand(
                 correctScriptForCorrectFileString,

@@ -6,29 +6,25 @@ import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
 
-import java.io.ByteArrayInputStream;
-import java.util.*;
-
-/**
- * Created by lagroffe on 25.03.2016 1:14
- */
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
-//TODO: deprecate jsonData
 public class FakeR implements IRCaller {
 
     /**
      * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .r file as a stream
+     * @param rScript    - script to call, correct .r file as a string
      * @param dataFiles  - data necessary for the script
      * @return auto-generated json form of result (may be errors)
      * @throws Exception if failed to call r or script errored
      */
     public NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                      ByteArrayInputStream rScript,
-                                                      final ArrayList<DataSet> dataFiles) throws Exception {
-        if (scriptName == null || rScript == null ||
-                scriptName.equals("") || dataFiles == null) {
+                                                      final String rScript,
+                                                      final List<DataSet> dataFiles) throws Exception {
+        if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         return new NotParsedJsonStringResult("");
@@ -36,16 +32,15 @@ public class FakeR implements IRCaller {
 
     /**
      * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .r file as a stream
+     * @param rScript    - script to call, correct .r file as a string
      * @param dataFiles  - data necessary for the script
      * @return scalar result
      * @throws Exception if failed to call r or script errored
      */
     public ScalarResult runScriptToGetScalar(final String scriptName,
-                                             ByteArrayInputStream rScript,
-                                             final ArrayList<DataSet> dataFiles) throws Exception {
-        if (scriptName == null || rScript == null ||
-                scriptName.equals("") || dataFiles == null) {
+                                             final String rScript,
+                                             final List<DataSet> dataFiles) throws Exception {
+        if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         return new ScalarResult<Double>(0.);
@@ -53,16 +48,15 @@ public class FakeR implements IRCaller {
 
     /**
      * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .r file as a stream
+     * @param rScript    - script to call, correct .r file as a string
      * @param dataFiles  - data necessary for the script
      * @return one vector
      * @throws Exception if failed to call r or script errored
      */
     public ColumnResult runScriptToGetVector(final String scriptName,
-                                             ByteArrayInputStream rScript,
-                                             final ArrayList<DataSet> dataFiles) throws Exception {
-        if (scriptName == null || rScript == null ||
-                scriptName.equals("") || dataFiles == null) {
+                                             final String rScript,
+                                             final List<DataSet> dataFiles) throws Exception {
+        if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         return new ColumnResult(new ArrayList());
@@ -70,132 +64,84 @@ public class FakeR implements IRCaller {
 
     /**
      * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .r file as a stream
+     * @param rScript    - script to call, correct .r file as a string
      * @param dataFiles  - data necessary for the script
      * @return group of vectors
      * @throws Exception if failed to call r or script errored
      */
     public FileResult runScriptToGetVectors(final String scriptName,
-                                            ByteArrayInputStream rScript,
-                                            final ArrayList<DataSet> dataFiles) throws Exception {
-        if (scriptName == null || rScript == null ||
-                scriptName.equals("") || dataFiles == null) {
+                                            final String rScript,
+                                            final List<DataSet> dataFiles) throws Exception {
+        if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         return new FileResult(new HashMap<String, List>());
     }
 
+
     /**
-     * @param rCommand  - string with a command in r language
-     * @param dataFiles - data necessary for the script
+     * @param scriptName - name of the script to be called
+     * @param rScript    - string with a command in r language
+     * @param data       - data necessary for the script
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public NotParsedJsonStringResult runCommandDefault(final String rCommand,
-                                                       final ArrayList<DataSet> dataFiles) throws Exception {
-        if (rCommand == null || rCommand.equals("") || dataFiles == null) {
+    public <T> NotParsedJsonStringResult runScriptDefault(final String scriptName,
+                                                          final String rScript,
+                                                          final Map<String, List<T>> data) throws Exception {
+        if (rScript == null || rScript.equals("") ||
+                data == null) {
             throw new IllegalArgumentException();
         }
         return new NotParsedJsonStringResult("");
     }
 
     /**
-     * @param rCommand - string with a command in r language
-     * @param data     - data necessary for the script
-     * @return json form of result (may be errors)
-     * @throws Exception if failed to call r or command errored
-     */
-    public <T> NotParsedJsonStringResult runCommandDefault(final String rCommand,
-                                                           final Map<String, List<T>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null || data.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        return new NotParsedJsonStringResult("");
-    }
-
-    /**
-     * @param rCommand  - string with a command in r language
-     * @param dataFiles - data necessary for the script
+     * @param scriptName - name of the script to be called
+     * @param rScript    - string with a command in r language
+     * @param data       - data necessary for the script
      * @return scalar result
      * @throws Exception if failed to call r or command errored
      */
-    public ScalarResult runCommandToGetScalar(final String rCommand,
-                                              final ArrayList<DataSet> dataFiles) throws Exception {
-        if (rCommand == null || rCommand.equals("") || dataFiles == null) {
-            throw new IllegalArgumentException();
-        }
-        return new ScalarResult<Double>(0.);
-    }
-
-    /**
-     * @param rCommand  - string with a command in r language
-     * @param dataFiles - data necessary for the script
-     * @return one vector
-     * @throws Exception if failed to call r or command errored
-     */
-    public ColumnResult runCommandToGetVector(final String rCommand,
-                                              final ArrayList<DataSet> dataFiles) throws Exception {
-        if (rCommand == null || rCommand.equals("") || dataFiles == null) {
-            throw new IllegalArgumentException();
-        }
-        return new ColumnResult(new ArrayList());
-    }
-
-    /**
-     * @param rCommand  - string with a command in r language
-     * @param dataFiles - data necessary for the script
-     * @return group of vectors
-     * @throws Exception if failed to call r or command errored
-     */
-    public FileResult runCommandToGetVectors(final String rCommand,
-                                             final ArrayList<DataSet> dataFiles) throws Exception {
-        if (rCommand == null || rCommand.equals("") || dataFiles == null) {
-            throw new IllegalArgumentException();
-        }
-        return new FileResult(new HashMap<String, List>());
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param data     - data necessary for the script
-     * @return scalar result
-     * @throws Exception if failed to call r or command errored
-     */
-    public <T> ScalarResult runCommandToGetScalar(final String rCommand,
-                                                  final Map<String, List<T>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null || data.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        return new ScalarResult<Double>(0.);
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param data     - data necessary for the script
-     * @return one vector
-     * @throws Exception if failed to call r or command errored
-     */
-    public <T> ColumnResult runCommandToGetVector(final String rCommand,
-                                                  final Map<String, List<T>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null || data.equals("")) {
-            throw new IllegalArgumentException();
-        }
-        return new ColumnResult(new ArrayList());
-    }
-
-    /**
-     * @param rCommand - string with a command in r language
-     * @param data     - data necessary for the script
-     * @return group of vectors
-     * @throws Exception if failed to call r or command errored
-     */
-    public <T> FileResult runCommandToGetVectors(final String rCommand,
+    public <T> ScalarResult runScriptToGetScalar(final String scriptName,
+                                                 final String rScript,
                                                  final Map<String, List<T>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null || data.equals("")) {
+        if (rScript == null || rScript.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        return new ScalarResult<Double>(0.);
+    }
+
+    /**
+     * @param scriptName - name of the script to be called
+     * @param rScript    - string with a command in r language
+     * @param data       - data necessary for the script
+     * @return one vector
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> ColumnResult runScriptToGetVector(final String scriptName,
+                                                 final String rScript,
+                                                 final Map<String, List<T>> data) throws Exception {
+        if (rScript == null || rScript.equals("") ||
+                data == null) {
+            throw new IllegalArgumentException();
+        }
+        return new ColumnResult(new ArrayList());
+    }
+
+    /**
+     * @param scriptName - name of the script to be called
+     * @param rScript    - string with a command in r language
+     * @param data       - data necessary for the script
+     * @return group of vectors
+     * @throws Exception if failed to call r or command errored
+     */
+    public <T> FileResult runScriptToGetVectors(final String scriptName,
+                                                final String rScript,
+                                                final Map<String, List<T>> data) throws Exception {
+        if (rScript == null || rScript.equals("") ||
+                data == null) {
             throw new IllegalArgumentException();
         }
         return new FileResult(new HashMap<String, List>());

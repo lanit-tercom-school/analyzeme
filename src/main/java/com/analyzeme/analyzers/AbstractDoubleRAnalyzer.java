@@ -3,9 +3,9 @@ package com.analyzeme.analyzers;
 import com.analyzeme.analyzers.r.DataConverter;
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.IResult;
-import com.analyzeme.r.facade.GetFromR;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
+import com.analyzeme.r.facade.get.IFromR;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,21 +47,21 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer<Double> {
         Map<String, List<Double>> toR = DataConverter
                 .translateForR(data, keys);
         LOGGER.debug("analyze(): data is ready for integration");
-        GetFromR<IResult> linker = GetFromRFactory.getLinkToR(
+        IFromR<IResult> linker = GetFromRFactory.getLinkToR(
                 TYPE_OF_RETURN_VALUE);
         if (linker == null) {
-            LOGGER.info("analyze(): GetFromR<IResult> is not found",
+            LOGGER.info("analyze(): IFromR<IResult> is not found",
                     TYPE_OF_RETURN_VALUE);
             throw new IllegalArgumentException(
                     "This analyzer cannot be found");
         }
-        LOGGER.debug("analyze(): GetFromR<IResult> is found",
+        LOGGER.debug("analyze(): IFromR<IResult> is found",
                 TYPE_OF_RETURN_VALUE);
-        IResult result = linker.runCommand(getScript(), toR);
+        IResult result = linker.runScript("", getScript(), toR);
         if (result == null) {
             LOGGER.info("analyze(): null result");
         }
-        if (TYPE_OF_RETURN_VALUE.equals(TypeOfReturnValue.FILE)) {
+        if (TYPE_OF_RETURN_VALUE.equals(TypeOfReturnValue.VECTORS)) {
             LOGGER.debug("analyze(): FileResult is ready");
             return DataConverter.translateFromR(
                     (FileResult) result, keys);
@@ -75,5 +75,5 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer<Double> {
         return NUMBER_OF_PARAMS;
     }
 
-    abstract String getScript() throws Exception ;
+    abstract String getScript() throws Exception;
 }
