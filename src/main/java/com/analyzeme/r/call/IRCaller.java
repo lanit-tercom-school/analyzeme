@@ -5,6 +5,7 @@ import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataWithType.DataEntry;
 
 import java.util.List;
 import java.util.Map;
@@ -63,9 +64,9 @@ public interface IRCaller {
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or command errored
      */
-    <T> NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                   final String rScript,
-                                                   final Map<String, List<T>> data) throws Exception;
+    NotParsedJsonStringResult runScriptDefault(final String scriptName,
+                                               final String rScript,
+                                               final Map<String, List<DataEntry>> data) throws Exception;
 
 
     /**
@@ -75,9 +76,9 @@ public interface IRCaller {
      * @return scalar result
      * @throws Exception if failed to call r or command errored
      */
-    <T> ScalarResult runScriptToGetScalar(final String scriptName,
-                                          final String rScript,
-                                          final Map<String, List<T>> data) throws Exception;
+    ScalarResult runScriptToGetScalar(final String scriptName,
+                                      final String rScript,
+                                      final Map<String, List<DataEntry>> data) throws Exception;
 
     /**
      * @param scriptName - name of the script to be called
@@ -86,9 +87,9 @@ public interface IRCaller {
      * @return vector (~column)
      * @throws Exception if failed to call r or command errored
      */
-    <T> ColumnResult runScriptToGetVector(final String scriptName,
-                                          final String rScript,
-                                          final Map<String, List<T>> data) throws Exception;
+    ColumnResult runScriptToGetVector(final String scriptName,
+                                      final String rScript,
+                                      final Map<String, List<DataEntry>> data) throws Exception;
 
     /**
      * @param scriptName - name of the script to be called
@@ -97,7 +98,7 @@ public interface IRCaller {
      * @return group of vectors (~columns)
      * @throws Exception if failed to call r or command errored
      */
-    <T> FileResult runScriptToGetVectors(final String scriptName,
-                                         final String rScript,
-                                         final Map<String, List<T>> data) throws Exception;
+    FileResult runScriptToGetVectors(final String scriptName,
+                                     final String rScript,
+                                     final Map<String, List<DataEntry>> data) throws Exception;
 }

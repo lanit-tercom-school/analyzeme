@@ -1,14 +1,12 @@
 package com.analyzeme.data.resolvers.sourceinfo;
 
+import com.analyzeme.data.dataWithType.DataEntry;
 import com.analyzeme.repository.filerepository.FileRepository;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by lagroffe on 28.05.2016 14:28
- */
 public class ScriptInRepositoryInfo implements ISourceInfo {
     private final String uniqueNameInRepository;
 
@@ -28,7 +26,7 @@ public class ScriptInRepositoryInfo implements ISourceInfo {
     }
 
 
-    public List<Double> getByField(final String fieldName) throws Exception {
+    public List<DataEntry> getByField(final String fieldName) throws Exception {
         throw new IllegalStateException("ScriptInRepositoryInfo getByField(): method is not supported");
     }
 

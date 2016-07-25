@@ -3,6 +3,7 @@ package com.analyzeme.analyzers;
 import com.analyzeme.analyzers.r.DataConverter;
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.IResult;
+import com.analyzeme.data.dataWithType.DataEntry;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.r.facade.get.IFromR;
@@ -12,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.Map;
 
-public abstract class AbstractDoubleRAnalyzer implements IAnalyzer<Double> {
+public abstract class AbstractDoubleRAnalyzer implements IAnalyzer {
     protected final int NUMBER_OF_PARAMS;
     protected final TypeOfReturnValue TYPE_OF_RETURN_VALUE;
     private static final Logger LOGGER;
@@ -30,7 +31,7 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer<Double> {
 
     //here String is the name of the column, and List<T> is the data in it (only T=Double is supported now)
     public IResult analyze(
-            final Map<String, List<Double>> data) throws Exception {
+            final Map<String, List<DataEntry>> data) throws Exception {
         LOGGER.debug("analyze(): method started");
         if (data == null || data.isEmpty()) {
             LOGGER.info("analyze(): no data to analyze");
@@ -44,7 +45,7 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer<Double> {
         }
         Map<String, String> keys = DataConverter.getKeysForR(data);
         LOGGER.debug("analyze(): keys for r integration are found");
-        Map<String, List<Double>> toR = DataConverter
+        Map<String, List<DataEntry>> toR = DataConverter
                 .translateForR(data, keys);
         LOGGER.debug("analyze(): data is ready for integration");
         IFromR<IResult> linker = GetFromRFactory.getLinkToR(

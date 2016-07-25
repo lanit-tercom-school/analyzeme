@@ -3,12 +3,15 @@ package com.analyzeme.analyzers;
 import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataWithType.ListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
-public class GlobalMaximumAnalyzer implements IAnalyzer<Double> {
+public class GlobalMaximumAnalyzer implements IAnalyzer {
     private static final int NUMBER_OF_PARAMS = 0;
     private static final Logger LOGGER;
 
@@ -21,7 +24,7 @@ public class GlobalMaximumAnalyzer implements IAnalyzer<Double> {
         return NUMBER_OF_PARAMS;
     }
 
-    public IResult analyze(Map<String, List<Double>> data) {
+    public IResult analyze(Map<String, List<DataEntry>> data) {
         LOGGER.debug("analyze(): method started");
         if (data == null || data.isEmpty()) {
             LOGGER.info("analyze(): empty argument");
@@ -30,17 +33,17 @@ public class GlobalMaximumAnalyzer implements IAnalyzer<Double> {
         }
         if (data.size() == 1) {
             List<Double> list =
-                    data.values().iterator().next();
+                    ListHandler.toDoubleList(data.values().iterator().next());
             LOGGER.debug("analyze(): one-dim data");
-            return new ScalarResult<>(
-                    list.get(getMaxInd(list)));
+            return new ScalarResult( new DataEntry(DataEntryType.DOUBLE,
+                    list.get(getMaxInd(list))));
         }
         LOGGER.debug("analyze(): multi-dim data",
                 data.size());
-        List<Double> result = new ArrayList<Double>();
+        List<DataEntry> result = new ArrayList<DataEntry>();
         Set<String> keys = data.keySet();
-        int maxInd = getMaxInd(data.get(
-                keys.iterator().next()));
+        int maxInd = getMaxInd(ListHandler.toDoubleList(data.get(
+                keys.iterator().next())));
         Iterator<String> iterator = keys.iterator();
         while (iterator.hasNext()) {
             result.add(data.get(

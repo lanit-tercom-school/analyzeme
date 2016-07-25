@@ -1,6 +1,7 @@
 package com.analyzeme.data.resolvers.sourceinfo;
 
-import com.analyzeme.data.DataArray;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataWithTypeArray;
 import com.analyzeme.parsers.ParserFactory;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.TypeOfFile;
@@ -9,9 +10,6 @@ import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by ilya on 7/6/16.
- */
 public class DataRepositoryInfo implements ISourceInfo {
     private final String uniqueNameInRepository;
     private final TypeOfFile fileType;
@@ -25,7 +23,7 @@ public class DataRepositoryInfo implements ISourceInfo {
     }
 
     public ByteArrayInputStream getFileData() throws Exception {
-        DataArray<Double> dataArray = getDataArray();
+        DataWithTypeArray dataArray = getDataArray();
         return new ByteArrayInputStream(dataArray.toPointJson().getBytes());
     }
 
@@ -34,18 +32,18 @@ public class DataRepositoryInfo implements ISourceInfo {
     }
 
     public Set<String> getKeys() throws Exception {
-        DataArray<Double> dataArray = getDataArray();
-        return dataArray.getData().get(0).getKeys();
+        DataWithTypeArray dataArray = getDataArray();
+        return dataArray.getDataList().get(0).getKeys();
     }
 
-    public List<Double> getByField(String fieldName) throws Exception {
-        DataArray<Double> dataArray = getDataArray();
+    public List<DataEntry> getByField(String fieldName) throws Exception {
+        DataWithTypeArray dataArray = getDataArray();
         return dataArray.getByKey(fieldName);
     }
 
-    private DataArray<Double> getDataArray() throws Exception {
+    private DataWithTypeArray getDataArray() throws Exception {
         ByteArrayInputStream file = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
         //        System.out.println(array);
-        return ParserFactory.createParser(fileType).parse(file);
+        return ParserFactory.createParser(fileType).parseWithType(file);
     }
 }

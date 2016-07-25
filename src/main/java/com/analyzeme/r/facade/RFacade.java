@@ -5,6 +5,7 @@ import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataWithType.DataEntry;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import com.analyzeme.r.call.FakeR;
 import com.analyzeme.r.call.IRCaller;
@@ -49,9 +50,9 @@ public class RFacade {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static <T> NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                                 final String rScript,
-                                                                 final Map<String, List<T>> data) throws Exception {
+    public static NotParsedJsonStringResult runScriptDefault(final String scriptName,
+                                                             final String rScript,
+                                                             final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
@@ -68,8 +69,8 @@ public class RFacade {
      * @return scalar result
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static <T> ScalarResult runScriptToGetScalar(final String scriptName,
-                                                        final String rScript, final Map<String, List<T>> data)
+    public static ScalarResult runScriptToGetScalar(final String scriptName,
+                                                    final String rScript, final Map<String, List<DataEntry>> data)
             throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
@@ -88,9 +89,9 @@ public class RFacade {
      * @return one vector
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static <T> ColumnResult runScriptToGetVector(final String scriptName,
-                                                        final String rScript,
-                                                        final Map<String, List<T>> data) throws Exception {
+    public static ColumnResult runScriptToGetVector(final String scriptName,
+                                                    final String rScript,
+                                                    final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
@@ -108,9 +109,9 @@ public class RFacade {
      * @return group of vectors
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static <T> FileResult runScriptToGetVectors(final String scriptName,
-                                                       final String rScript,
-                                                       final Map<String, List<T>> data)
+    public static FileResult runScriptToGetVectors(final String scriptName,
+                                                   final String rScript,
+                                                   final Map<String, List<DataEntry>> data)
             throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {

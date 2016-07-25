@@ -5,6 +5,8 @@ import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataArray;
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.parsers.JsonParser;
@@ -180,16 +182,16 @@ public class RenjinTest {
     @Test
     public void testCorrectCommandToGetScalarCorrectFile() {
         try {
-            ScalarResult<Double> resX;
-            ScalarResult<Double> resY;
+            ScalarResult resX;
+            ScalarResult resY;
             for (int i = 0; i < dataArray.getData().size(); i++) {
                 resX = call.runScriptToGetScalar("", correctX + "[" +
                         (int) (i + 1) + "]", correct);
                 resY = call.runScriptToGetScalar("", correctY + "[" +
                         (int) (i + 1) + "]", correct);
                 assertTrue("Scalar isn't returned correctly from Renjin",
-                        doubleEqual(resX.getValue(), dataArray.getData().get(i).getByKey("x")) &&
-                                doubleEqual(resY.getValue(), dataArray.getData().get(i).getByKey("y")));
+                        doubleEqual(resX.getValue().getDoubleValue(), dataArray.getData().get(i).getByKey("x")) &&
+                                doubleEqual(resY.getValue().getDoubleValue(), dataArray.getData().get(i).getByKey("y")));
             }
         } catch (Exception e) {
             fail("Scalar isn't returned  correctly from Renjin");
@@ -199,11 +201,11 @@ public class RenjinTest {
     @Test
     public void testCorrectCommandToGetVectorCorrectFile() {
         try {
-            ColumnResult<Double> res = call.runScriptToGetVector("", "c(" + correctX +
+            ColumnResult res = call.runScriptToGetVector("", "c(" + correctX +
                     "[5], " + correctY + "[5])", correct);
             assertTrue("Vector isn't returned correctly from Renjin",
-                    doubleEqual(dataArray.getData().get(4).getByKey("x"), res.getValue().get(0)) &&
-                            doubleEqual(dataArray.getData().get(4).getByKey("y"), res.getValue().get(1)));
+                    doubleEqual(dataArray.getData().get(4).getByKey("x"), res.getValue().get(0).getDoubleValue()) &&
+                            doubleEqual(dataArray.getData().get(4).getByKey("y"), res.getValue().get(1).getDoubleValue()));
         } catch (Exception e) {
             fail("Vector isn't returned correctly from Renjin");
         }
@@ -212,16 +214,16 @@ public class RenjinTest {
     @Test
     public void testCorrectCommandToGetVectorsCorrectFileFromDataFrame() {
         try {
-            Map<String, List<Double>> w = new HashMap<String, List<Double>>();
-            w.put("new X name", new ArrayList<Double>());
-            w.put("new Y name", new ArrayList<Double>());
-            for (Map.Entry<String, List<Double>> entry : w.entrySet()) {
-                entry.getValue().add(0.);
-                entry.getValue().add(1.);
-                entry.getValue().add(2.);
+            Map<String, List<DataEntry>> w = new HashMap<String, List<DataEntry>>();
+            w.put("new X name", new ArrayList<DataEntry>());
+            w.put("new Y name", new ArrayList<DataEntry>());
+            for (Map.Entry<String, List<DataEntry>> entry : w.entrySet()) {
+                entry.getValue().add(new DataEntry(DataEntryType.DOUBLE, 0.));
+                entry.getValue().add(new DataEntry(DataEntryType.DOUBLE, 1.));
+                entry.getValue().add(new DataEntry(DataEntryType.DOUBLE, 2.));
             }
-            FileResult<Double> was = new FileResult<Double>(w);
-            FileResult<Double> res =
+            FileResult was = new FileResult(w);
+            FileResult res =
                     call.runScriptToGetVectors("",
                             correctScriptForCorrectFileString,
                             correct);

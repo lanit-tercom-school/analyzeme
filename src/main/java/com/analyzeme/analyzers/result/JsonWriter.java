@@ -1,14 +1,12 @@
 package com.analyzeme.analyzers.result;
 
+import com.analyzeme.data.dataWithType.DataEntry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.*;
 
-/**
- * Created by lagroffe on 22.07.2016 11:43
- */
-public class JsonWriter<T> {
+public class JsonWriter {
     private final StringBuilder builder = new StringBuilder();
 
     private void setUp() {
@@ -34,17 +32,17 @@ public class JsonWriter<T> {
         builder.append("}");
     }
 
-    private void addData(Double value) {
-        builder.append("\"Data\": [{\"value\" : \"");
-        builder.append(value);
-        builder.append("\"}]");
+    private void addData(DataEntry value) {
+        builder.append("\"Data\": {\"value\" : \"");
+        builder.append(value.toString());
+        builder.append("\"}");
     }
 
-    private void addData(List<Double> value) {
+    private void addData(List<DataEntry> value) {
         builder.append("\"Data\": [");
         for (int i = 0; i < value.size(); i++) {
             builder.append("{\"value\": \"");
-            builder.append(value.get(i));
+            builder.append(value.get(i).toString());
             builder.append("\"}");
             if (i != value.size() - 1) {
                 builder.append(", ");
@@ -53,7 +51,7 @@ public class JsonWriter<T> {
         builder.append("]");
     }
 
-    private void addColumnsDescription(Map<String, String> map) {
+    private void addColumnsDescription(Map<String, List<DataEntry>> value, Map<String, String> map) {
         builder.append("\"Metadata\": {");
         builder.append("\"columnsDescription\" : ");
         JSONArray array = new JSONArray();
@@ -61,6 +59,9 @@ public class JsonWriter<T> {
         for (Map.Entry<String, String> entry : map.entrySet()) {
             temp = new JSONObject();
             temp.put(entry.getKey(), entry.getValue());
+            if (!value.get(entry.getKey()).isEmpty()) {
+                temp.put("type", value.get(entry.getKey()).get(0).getType().getType());
+            }
             array.put(temp);
         }
         builder.append(array.toString());
@@ -71,17 +72,17 @@ public class JsonWriter<T> {
         Iterator<String> iterator = k.iterator();
         Map<String, String> result = new HashMap<>();
         int i = 0;
-        while(iterator.hasNext()) {
-             result.put(iterator.next(), "col_" + i);
+        while (iterator.hasNext()) {
+            result.put(iterator.next(), "col_" + i);
             i++;
         }
-        addColumnsDescription(result);
         return result;
     }
 
-    private void addData(Map<String, List<Double>> value) {
+    private void addData(Map<String, List<DataEntry>> value) {
         Set<String> k = value.keySet();
         Map<String, String> keys = generateKeys(k);
+        addColumnsDescription(value, keys);
         builder.append("\"Data\": [");
         Iterator<String> iterator = keys.keySet().iterator();
         int length = value.get(iterator.next()).size();
@@ -101,37 +102,38 @@ public class JsonWriter<T> {
         builder.append("]");
     }
 
-    public String toJson(Double value) {
+
+    public String toJson(DataEntry value) {
         if (value == null) {
             return null;
         }
         setUp();
         start();
-        addType("SCALAR_DOUBLE");
+        addType(value.getType().getType());
         addData(value);
         end();
         return builder.toString();
     }
 
-    public String toJson(List<Double> value) {
+    public String toJson(List<DataEntry> value) {
         if (value == null || value.isEmpty()) {
             return null;
         }
         setUp();
         start();
-        addType("VECTOR_DOUBLE");
+        addType("VECTOR_" + value.get(0).getType());
         addData(value);
         end();
         return builder.toString();
     }
 
-    public String toJson(Map<String, List<Double>> value) {
+    public String toJson(Map<String, List<DataEntry>> value) {
         if (value == null || value.isEmpty()) {
             return null;
         }
         setUp();
         start();
-        addType("VECTORS_DOUBLE");
+        addType("VECTORS");
         addData(value);
         end();
         return builder.toString();

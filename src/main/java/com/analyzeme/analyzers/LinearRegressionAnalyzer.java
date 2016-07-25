@@ -2,6 +2,7 @@ package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
+import com.analyzeme.data.dataWithType.DataEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,13 +12,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
+public class LinearRegressionAnalyzer implements IAnalyzer {
     private static final int
             NUMBER_OF_PARAMS = 2;
     private static final int
             NUMBER_OF_DECIMAL_PLACES = 3;
-    private List<Double> x;
-    private List<Double> y;
+    private List<DataEntry> x;
+    private List<DataEntry> y;
     private BigDecimal sumOfX =
             BigDecimal.ZERO;
     private BigDecimal sumOfY =
@@ -45,7 +46,7 @@ public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
      * @return null if data is Points are inappropriate
      * otherwise NotParsedJsonStringResult like: y=a*x+b
      */
-    public IResult analyze(Map<String, List<Double>> data) {
+    public IResult analyze(Map<String, List<DataEntry>> data) {
         LOGGER.debug("analyze(): method started");
         if (data == null || data.isEmpty()
                 || data.size() < 2) {
@@ -109,15 +110,15 @@ public class LinearRegressionAnalyzer implements IAnalyzer<Double> {
         try {
             for (int i = 0; i < x.size(); i++) {
                 sumOfX = sumOfX.add(BigDecimal.
-                        valueOf(x.get(i)));
+                        valueOf(x.get(i).getDoubleValue()));
                 sumOfY = sumOfY.add(BigDecimal.
-                        valueOf(y.get(i)));
+                        valueOf(y.get(i).getDoubleValue()));
                 sumOfXAndY = sumOfXAndY.add(BigDecimal.
-                        valueOf(x.get(i)
-                                * y.get(i)));
+                        valueOf(x.get(i).getDoubleValue()
+                                * y.get(i).getDoubleValue()));
                 sumOfPoweredX = sumOfPoweredX.
                         add(BigDecimal.valueOf(
-                                x.get(i) * x.get(i)));
+                                x.get(i).getDoubleValue() * x.get(i).getDoubleValue()));
             }
         } catch (NumberFormatException e) {
             LOGGER.info(e.toString());

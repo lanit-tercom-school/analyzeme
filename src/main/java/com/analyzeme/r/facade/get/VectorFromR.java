@@ -1,12 +1,13 @@
 package com.analyzeme.r.facade.get;
 
 import com.analyzeme.analyzers.result.ColumnResult;
+import com.analyzeme.data.dataWithType.DataEntry;
 import com.analyzeme.r.facade.RFacade;
 
 import java.util.List;
 import java.util.Map;
 
-public class VectorFromR<T> implements IFromR<ColumnResult<T>> {
+public class VectorFromR implements IFromR<ColumnResult> {
 
     /**
      * calls r using r.facade
@@ -36,7 +37,7 @@ public class VectorFromR<T> implements IFromR<ColumnResult<T>> {
      * @return result
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public <U> ColumnResult runScript(final String scriptName, final String rScript, final Map<String, List<U>> data) throws Exception {
+    public ColumnResult runScript(final String scriptName, final String rScript, final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();

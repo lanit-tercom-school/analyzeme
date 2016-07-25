@@ -1,5 +1,7 @@
 package com.analyzeme.r.facade.get;
 
+import com.analyzeme.data.dataWithType.DataEntry;
+
 import java.util.List;
 import java.util.Map;
 
@@ -24,5 +26,5 @@ public interface IFromR<T> {
      * @return result
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    <U> T runScript(final String scriptName, final String rScript, final Map<String, List<U>> data) throws Exception;
+    T runScript(final String scriptName, final String rScript, final Map<String, List<DataEntry>> data) throws Exception;
 }

@@ -4,6 +4,8 @@ import com.analyzeme.analyzers.AnalyzerFactory;
 import com.analyzeme.analyzers.IAnalyzer;
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -82,7 +84,7 @@ public class AnalysisController {
             LOGGER.trace(
                     "getResult(): keys for data is ready");
 
-            Map<String, List<Double>> toAnalyze = new HashMap<>();
+            Map<String, List<DataEntry>> toAnalyze = new HashMap<>();
             for (String field : f) {
                 toAnalyze.put(field, data.getByField(field));
             }

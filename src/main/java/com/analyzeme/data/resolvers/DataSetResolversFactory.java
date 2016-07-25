@@ -1,8 +1,5 @@
 package com.analyzeme.data.resolvers;
 
-/**
- * Created by lagroffe on 30.03.2016 13:48
- */
 public class DataSetResolversFactory {
 
     public static IDataSetResolver getDataSetResolver(final TypeOfSource type) throws IllegalArgumentException {

@@ -2,6 +2,7 @@ package com.analyzeme.analyzers.r;
 
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.IResult;
+import com.analyzeme.data.dataWithType.DataEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,11 +28,11 @@ public class DataConverter {
     /**
      * translates column names of data to standard form (for script execution)
      *
-     * @param data - Map<String, List<T>> name of column -> data in it
+     * @param data - Map<String, List<DataEntry>> name of column -> data in it
      * @return Map<String, String>, where the first String is the name of column in the given data, and the second - alias that is used in script
      */
-    public static <T> Map<String, String> getKeysForR(
-            final Map<String, List<T>> data) {
+    public static Map<String, String> getKeysForR(
+            final Map<String, List<DataEntry>> data) {
         LOGGER.debug("getKeysForR(): method started");
         if (data == null) {
             LOGGER.info("getKeysForR(): null argument");
@@ -51,13 +52,12 @@ public class DataConverter {
     /**
      * translates column names of data using keys (get by getKeysForR()) to use in R script
      *
-     * @param data - Map<String, List<T>> name of column -> data in it
+     * @param data - Map<String, List<DataEntry>> name of column -> data in it
      * @param keys - Map<String, String>, where the first String is the name of column in the given data, and the second - alias that is used in script
-     * @param <T>  - now only Double is supported
-     * @return Map<String, List<Double>> with column names changed to their aliases from keys map
+     * @return Map<String, List<DataEntry>> with column names changed to their aliases from keys map
      */
-    public static <T> Map<String, List<T>> translateForR(
-            final Map<String, List<T>> data,
+    public static Map<String, List<DataEntry>> translateForR(
+            final Map<String, List<DataEntry>> data,
             final Map<String, String> keys) {
         LOGGER.debug("translateForR(): method started");
         if (data == null || keys == null) {
@@ -65,8 +65,8 @@ public class DataConverter {
             throw new IllegalArgumentException(
                     "DataConverter translateForR: null argument");
         }
-        Map<String, List<T>> result =
-                new HashMap<String, List<T>>();
+        Map<String, List<DataEntry>> result =
+                new HashMap<String, List<DataEntry>>();
         Iterator<String> iterator = keys.keySet().iterator();
         String temp;
         while (iterator.hasNext()) {
@@ -80,13 +80,12 @@ public class DataConverter {
     /**
      * translates column names of data using keys (get by getKeysForR()) after R script execution
      *
-     * @param data - Map<String, List<T>> alias of column -> data in it
+     * @param data - Map<String, List<DataEntry>> alias of column -> data in it
      * @param keys - Map<String, String>, where the first String is the name of column in the given data, and the second - alias that is used in script
-     * @param <T>  - now only Double is supported
-     * @return Map<String, List<Double>> with aliases changed to column names from keys map
+     * @return Map<String, List<DataEntry>> with aliases changed to column names from keys map
      */
-    public static <T> Map<String, List<T>> translateFromR(
-            final Map<String, List<T>> data,
+    public static Map<String, List<DataEntry>> translateFromR(
+            final Map<String, List<DataEntry>> data,
             final Map<String, String> keys) {
         LOGGER.debug("translateFromR(Map): method started");
         if (data == null || keys == null) {
@@ -94,8 +93,8 @@ public class DataConverter {
             throw new IllegalArgumentException(
                     "DataConverter translateFromR: null argument");
         }
-        Map<String, List<T>> result =
-                new HashMap<String, List<T>>();
+        Map<String, List<DataEntry>> result =
+                new HashMap<String, List<DataEntry>>();
         Map<String, String> tempKeyMap = revertKeyMap(keys);
         LOGGER.debug("translateFromR(): keys map reverted");
         Iterator<String> iterator = tempKeyMap.keySet().iterator();
@@ -132,21 +131,20 @@ public class DataConverter {
     /**
      * translates column names of data using keys (get by getKeysForR()) after R script execution
      *
-     * @param result - FileResult (an object that contains Map<String, List<T>> alias of column -> data in it)
+     * @param result - FileResult (an object that contains Map<String, List<DataEntry>> alias of column -> data in it)
      * @param keys   - Map<String, String>, where the first String is the name of column in the given data, and the second - alias that is used in script
-     * @param <T>    - now only Double is supported
-     * @return FileResult (an object that contains Map<String, List<Double>> with aliases changed to column names from keys map)
+     * @return FileResult (an object that contains Map<String, List<DataEntry>> with aliases changed to column names from keys map)
      */
-    public static <T> IResult translateFromR(final FileResult<T> result,
-                                             final Map<String, String> keys) {
+    public static IResult translateFromR(final FileResult result,
+                                         final Map<String, String> keys) {
         LOGGER.debug("translateFromR(FileResult): method started");
         if (result == null) {
             LOGGER.info("translateFromR(): null argument");
             throw new IllegalArgumentException(
                     "DataConverter translateFromR: null argument");
         }
-        Map<String, List<T>> map = result.getValue();
-        Map<String, List<T>> resultMap = translateFromR(map, keys);
+        Map<String, List<DataEntry>> map = result.getValue();
+        Map<String, List<DataEntry>> resultMap = translateFromR(map, keys);
         LOGGER.debug("translateFromR(FileResult): method finished");
         return new FileResult(resultMap);
     }

@@ -5,6 +5,8 @@ import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import org.renjin.sexp.SEXP;
 
 import javax.script.ScriptEngine;
@@ -27,33 +29,6 @@ public class Renjin implements IRCaller {
         }
     }
 
-    private static void insertData(final List<DataSet> dataFiles)
-            throws Exception {
-        for (DataSet set : dataFiles) {
-            for (String field : set.getFields()) {
-                //TODO: refactor to work with other types, not only double
-                List<Double> value = set.getByField(field);
-                double[] v1 = new double[value.size()];
-                int i = 0;
-                for (Double v : value) {
-                    v1[i++] = v;
-                }
-                engine.put(field + "_from__repo__" +
-                        set.getReferenceName() + "__", v1);
-            }
-        }
-    }
-
-    private static <T> void insertDataFromMap(final Map<String, List<T>> data) throws Exception {
-        for (Map.Entry<String, List<T>> entry : data.entrySet()) {
-            //TODO: refactor to work with other types, not only double
-            double[] array = new double[entry.getValue().size()];
-            for (int i = 0; i < entry.getValue().size(); i++) {
-                array[i] = (double) ((Double) entry.getValue().get(i));
-            }
-            engine.put(entry.getKey(), array);
-        }
-    }
 
     private SEXP runScript(final String script) throws Exception {
         SEXP result = (SEXP) engine.eval(script);
@@ -87,7 +62,7 @@ public class Renjin implements IRCaller {
             throw new IllegalArgumentException();
         }
         initialize();
-        insertData(dataFiles);
+        RenjinInputHandler.insertData(engine, dataFiles);
         SEXP result = runScript(rScript);
         deleteData();
         return new NotParsedJsonStringResult(result.toString());
@@ -109,11 +84,11 @@ public class Renjin implements IRCaller {
             throw new IllegalArgumentException();
         }
         initialize();
-        insertData(dataFiles);
+        RenjinInputHandler.insertData(engine, dataFiles);
         SEXP result = runScript(rScript);
         deleteData();
         //TODO: refactor to work not only with double
-        return new ScalarResult<Double>(result.asReal());
+        return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, result.asReal()));
     }
 
 
@@ -132,7 +107,7 @@ public class Renjin implements IRCaller {
             throw new IllegalArgumentException();
         }
         initialize();
-        insertData(dataFiles);
+        RenjinInputHandler.insertData(engine, dataFiles);
         SEXP res = runScript(rScript);
         deleteData();
         return new ColumnResult(renjinNotNamedVectorToList(res));
@@ -153,7 +128,7 @@ public class Renjin implements IRCaller {
             throw new IllegalArgumentException();
         }
         initialize();
-        insertData(dataFiles);
+        RenjinInputHandler.insertData(engine, dataFiles);
         SEXP res = runScript(rScript);
         deleteData();
         return new FileResult(resultToFile(res));
@@ -166,15 +141,15 @@ public class Renjin implements IRCaller {
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or command errored
      */
-    public <T> NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                          final String rScript,
-                                                          final Map<String, List<T>> data) throws Exception {
+    public NotParsedJsonStringResult runScriptDefault(final String scriptName,
+                                                      final String rScript,
+                                                      final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
         initialize();
-        insertDataFromMap(data);
+        RenjinInputHandler.insertData(engine, data);
         SEXP result = runScript(rScript);
         deleteData();
         return new NotParsedJsonStringResult(result.toString());
@@ -188,20 +163,20 @@ public class Renjin implements IRCaller {
      * @return scalar result
      * @throws Exception if failed to call r or command errored
      */
-    public <T> ScalarResult runScriptToGetScalar(final String scriptName,
-                                                 final String rCommand,
-                                                 final Map<String, List<T>> data) throws Exception {
+    public ScalarResult runScriptToGetScalar(final String scriptName,
+                                             final String rCommand,
+                                             final Map<String, List<DataEntry>> data) throws Exception {
         //dataFiles can be empty for simple commands
         if (rCommand == null || rCommand.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
         initialize();
-        insertDataFromMap(data);
+        RenjinInputHandler.insertData(engine, data);
         SEXP result = runScript(rCommand);
         deleteData();
         //TODO: refactor to work with other types of ScalarResult (not only double)
-        return new ScalarResult<Double>(result.asReal());
+        return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, result.asReal()));
     }
 
     /**
@@ -211,15 +186,15 @@ public class Renjin implements IRCaller {
      * @return vector (~column)
      * @throws Exception if failed to call r or command errored
      */
-    public <T> ColumnResult runScriptToGetVector(final String scriptName,
-                                                 final String rCommand,
-                                                 final Map<String, List<T>> data) throws Exception {
+    public ColumnResult runScriptToGetVector(final String scriptName,
+                                             final String rCommand,
+                                             final Map<String, List<DataEntry>> data) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
         initialize();
-        insertDataFromMap(data);
+        RenjinInputHandler.insertData(engine, data);
         SEXP res = runScript(rCommand);
         deleteData();
         return new ColumnResult(renjinNotNamedVectorToList(res));
@@ -232,15 +207,15 @@ public class Renjin implements IRCaller {
      * @return group of vectors (~columns)
      * @throws Exception if failed to call r or command errored
      */
-    public <T> FileResult runScriptToGetVectors(final String scriptName,
-                                                final String rCommand,
-                                                final Map<String, List<T>> data) throws Exception {
+    public FileResult runScriptToGetVectors(final String scriptName,
+                                            final String rCommand,
+                                            final Map<String, List<DataEntry>> data) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
         initialize();
-        insertDataFromMap(data);
+        RenjinInputHandler.insertData(engine, data);
         SEXP res = runScript(rCommand);
         deleteData();
         return new FileResult(resultToFile(res));

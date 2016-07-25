@@ -2,7 +2,9 @@ package com.analyzeme.data.dataWithType;
 
 import com.analyzeme.parsers.DateAndTimeUtils;
 
-import java.time.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 
@@ -58,6 +60,7 @@ public class DataEntry {
 
     /**
      * Constructs new {@link DataEntry}. Automatically determines its type by given string
+     *
      * @param value string representation of object
      * @return created {@link DataEntry}
      */
@@ -75,24 +78,46 @@ public class DataEntry {
         }
     }
 
-    public String getStringVaue() {
+    public String getStringValue() throws IllegalStateException {
+        if (type != DataEntryType.STRING) {
+            throw new IllegalStateException("This value is not a string");
+        }
         return (String) value;
     }
 
-    public Double getDoubleValue() {
+    public Double getDoubleValue() throws IllegalStateException {
+        if (type != DataEntryType.DOUBLE) {
+            throw new IllegalStateException("This value is not a double");
+        }
         return (Double) value;
     }
 
-    public LocalTime getTimeValue() {
+    public LocalTime getTimeValue() throws IllegalStateException {
+        if (type != DataEntryType.TIME) {
+            throw new IllegalStateException("This value is not a time");
+        }
         return (LocalTime) value;
     }
 
-    public LocalDate getDateValue() {
+    public LocalDate getDateValue() throws IllegalStateException {
+        if (type != DataEntryType.DATE) {
+            throw new IllegalStateException("This value is not a date");
+        }
         return (LocalDate) value;
     }
 
-    public LocalDateTime getDateTimeValue() {
+    public LocalDateTime getDateTimeValue() throws IllegalStateException {
+        if (type != DataEntryType.DATE_TIME) {
+            throw new IllegalStateException("This value is not a date/time");
+        }
         return (LocalDateTime) value;
+    }
+
+    public Boolean getBooleanValue() throws IllegalStateException {
+        if (type != DataEntryType.BOOLEAN) {
+            throw new IllegalStateException("This value is not a boolean");
+        }
+        return (Boolean) value;
     }
 
     public DataEntryType getType() {

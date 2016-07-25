@@ -1,5 +1,8 @@
 package com.analyzeme.analyzers;
 
+import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -17,63 +20,63 @@ public class TestLinearCorrelationAnalyzer {
 
     @Test
     public void test1LinearCorrelationAnalyzer() {
-        List<Double> x = new ArrayList<Double>();
-        x.add(0.);
-        x.add(10.);
-        x.add(20.);
-        x.add(30.);
-        List<Double> y = new ArrayList<Double>();
-        y.add(10.);
-        y.add(20.);
-        y.add(30.);
-        y.add(40.);
-        Map<String, List<Double>> data = new HashMap();
+        List<DataEntry> x = new ArrayList<DataEntry>();
+        x.add(new DataEntry(DataEntryType.DOUBLE, 0.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 10.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 20.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 30.));
+        List<DataEntry> y = new ArrayList<DataEntry>();
+        y.add(new DataEntry(DataEntryType.DOUBLE, 10.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, 20.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, 30.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, 40.));
+        Map<String, List<DataEntry>> data = new HashMap();
         data.put("x", x);
         data.put("y", y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
         assertTrue("Linear correlation of y=10+x is wrong",
-                Math.abs(1.0 - (Double) Analyze.analyze(data).getValue()) < E);
+                Math.abs(1.0 - ((ScalarResult) Analyze.analyze(data)).getValue().getDoubleValue()) < E);
 
     }
 
     @Test
     public void test2LinearCorrelationAnalyzer() {
-        List<Double> x = new ArrayList<Double>();
-        x.add(0.);
-        x.add(10.);
-        x.add(20.);
-        x.add(30.);
-        List<Double> y = new ArrayList<Double>();
-        y.add(10.);
-        y.add(0.);
-        y.add(-10.);
-        y.add(-20.);
-        Map<String, List<Double>> data = new HashMap();
+        List<DataEntry> x = new ArrayList<DataEntry>();
+        x.add(new DataEntry(DataEntryType.DOUBLE, 0.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 10.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 20.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 30.));
+        List<DataEntry> y = new ArrayList<DataEntry>();
+        y.add(new DataEntry(DataEntryType.DOUBLE, 10.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, 0.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, -10.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, -20.));
+        Map<String, List<DataEntry>> data = new HashMap();
         data.put("x", x);
         data.put("y", y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
         assertTrue("Linear correlation of y=10-x is wrong",
-                Math.abs(-0.999 - (Double) Analyze.analyze(data).getValue()) < E);
+                Math.abs(-0.999 - ((ScalarResult) Analyze.analyze(data)).getValue().getDoubleValue()) < E);
 
     }
 
     @Test
     public void test3LinearCorrelationAnalyzer() {
-        List<Double> x = new ArrayList<Double>();
-        x.add(0.);
-        x.add(10.);
-        x.add(20.);
-        x.add(30.);
-        List<Double> y = new ArrayList<Double>();
-        y.add(10.);
-        y.add(0.);
-        y.add(10.);
-        y.add(-20.);
-        Map<String, List<Double>> data = new HashMap();
+        List<DataEntry> x = new ArrayList<DataEntry>();
+        x.add(new DataEntry(DataEntryType.DOUBLE, 0.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 10.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 20.));
+        x.add(new DataEntry(DataEntryType.DOUBLE, 30.));
+        List<DataEntry> y = new ArrayList<DataEntry>();
+        y.add(new DataEntry(DataEntryType.DOUBLE, 10.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, 0.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, 10.));
+        y.add(new DataEntry(DataEntryType.DOUBLE, -20.));
+        Map<String, List<DataEntry>> data = new HashMap();
         data.put("x", x);
         data.put("y", y);
         LinearCorrelationAnalyzer Analyze = new LinearCorrelationAnalyzer();
         assertTrue("Linear correlation of not lineal data is wrong",
-                Math.abs(-0.730 - (Double) Analyze.analyze(data).getValue()) < E);
+                Math.abs(-0.730 - ((ScalarResult) Analyze.analyze(data)).getValue().getDoubleValue()) < E);
     }
 }

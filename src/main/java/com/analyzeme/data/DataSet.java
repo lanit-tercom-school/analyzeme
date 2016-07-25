@@ -1,5 +1,6 @@
 package com.analyzeme.data;
 
+import com.analyzeme.data.dataWithType.DataEntry;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 
 import java.io.ByteArrayInputStream;
@@ -104,7 +105,7 @@ public class DataSet {
         return fields.keySet();
     }
 
-    public List<Double> getByField(final String field) throws Exception {
+    public List<DataEntry> getByField(final String field) throws Exception {
         return file.getByField(field);
     }
 

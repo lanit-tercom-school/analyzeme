@@ -1,5 +1,6 @@
 package com.analyzeme.analyzers.result;
 
+import com.analyzeme.data.dataWithType.DataEntry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -11,7 +12,7 @@ import java.util.List;
  * Use this type of result for anonymous vectors of some kind of objects
  */
 
-public class ColumnResult<T> implements IResult<List<T>> {
+public class ColumnResult implements IResult<List<DataEntry>> {
     private static final Logger LOGGER;
     private final JsonWriter writer = new JsonWriter();
 
@@ -21,13 +22,13 @@ public class ColumnResult<T> implements IResult<List<T>> {
     }
 
     private final ObjectMapper mapper = new ObjectMapper();
-    private final List<T> result;
+    private final List<DataEntry> result;
 
-    public ColumnResult(final List<T> result) {
+    public ColumnResult(final List<DataEntry> result) {
         this.result = result;
     }
 
-    public List<T> getValue() {
+    public List<DataEntry> getValue() {
         return result;
     }
 
@@ -36,10 +37,12 @@ public class ColumnResult<T> implements IResult<List<T>> {
         if (result == null || result.isEmpty()) {
             return null;
         }
-        if (result.get(0) instanceof Double) {
+        try {
             return writer.toJson(result);
+        } catch (Exception e) {
+            LOGGER.info("toJson(): impossible to use custom writer");
+            return mapper.writeValueAsString(result);
         }
-        return mapper.writeValueAsString(result);
     }
 
     @Override

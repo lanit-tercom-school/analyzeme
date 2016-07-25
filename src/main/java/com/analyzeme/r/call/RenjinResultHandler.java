@@ -1,5 +1,7 @@
 package com.analyzeme.r.call;
 
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import org.renjin.primitives.matrix.Matrix;
 import org.renjin.sexp.AtomicVector;
 import org.renjin.sexp.ListVector;
@@ -97,7 +99,7 @@ public class RenjinResultHandler {
         }
     }
 
-    public static Map<String, List<Double>> resultToFile(final SEXP result) throws Exception {
+    public static Map<String, List<DataEntry>> resultToFile(final SEXP result) throws Exception {
         if (result == null) {
             throw new IllegalArgumentException("Renjin resultHandler: null argument, impossible to proceed");
         }
@@ -111,7 +113,7 @@ public class RenjinResultHandler {
         throw new IllegalArgumentException("Renjin resultHandler: impossible to handle this result");
     }
 
-    static Map<String, List<Double>> renjinDataFrameToFile(final SEXP result) throws Exception {
+    static Map<String, List<DataEntry>> renjinDataFrameToFile(final SEXP result) throws Exception {
         if (result == null) {
             throw new IllegalArgumentException("Renjin to get FileResult: impossible to evaluate; cause: null result");
         }
@@ -119,12 +121,12 @@ public class RenjinResultHandler {
         if (res.hasAttributes()) {
             AtomicVector names = res.getNames();
             //TODO: refactor not for double only
-            Map<String, List<Double>> toReturn = new HashMap<>();
+            Map<String, List<DataEntry>> toReturn = new HashMap<>();
             for (int i = 0; i < names.length(); i++) {
                 Vector tempVector = res.getElementAsVector(names.getElementAsString(i));
-                List<Double> tempList = new ArrayList<>();
+                List<DataEntry> tempList = new ArrayList<>();
                 for (int j = 0; j < tempVector.length(); j++) {
-                    tempList.add(tempVector.getElementAsDouble(j));
+                    tempList.add(new DataEntry(DataEntryType.DOUBLE, tempVector.getElementAsDouble(j)));
                 }
                 toReturn.put(names.getElementAsString(i), tempList);
             }
@@ -133,22 +135,22 @@ public class RenjinResultHandler {
         return null;
     }
 
-    static Map<String, List<Double>> renjinMatrixToFile(final SEXP result) throws Exception {
+    static Map<String, List<DataEntry>> renjinMatrixToFile(final SEXP result) throws Exception {
         if (result == null || !result.hasAttributes() || result.getAttributes().getDim() == null) {
             throw new IllegalArgumentException("Renjin to get FileResult: impossible to evaluate; cause: null result");
         }
         Matrix m = new Matrix((Vector) result);
         //TODO: refactor to work not only with double
-        List<List<Double>> resultTemp = new ArrayList<List<Double>>();
+        List<List<DataEntry>> resultTemp = new ArrayList<List<DataEntry>>();
         for (int i = 0; i < m.getNumCols(); i++) {
-            resultTemp.add(new ArrayList<Double>());
+            resultTemp.add(new ArrayList<DataEntry>());
         }
         for (int i = 0; i < m.getNumRows(); i++) {
             for (int j = 0; j < m.getNumCols(); j++) {
-                resultTemp.get(j).add(m.getElementAsDouble(i, j));
+                resultTemp.get(j).add(new DataEntry(DataEntryType.DOUBLE, m.getElementAsDouble(i, j)));
             }
         }
-        Map<String, List<Double>> r = new HashMap<String, List<Double>>();
+        Map<String, List<DataEntry>> r = new HashMap<String, List<DataEntry>>();
         Vector colNames = m.getColNames();
         if (colNames == null || colNames.length() == 0) {
             for (int i = 0; i < resultTemp.size(); i++) {
@@ -167,10 +169,10 @@ public class RenjinResultHandler {
         if (v == null) {
             throw new IllegalArgumentException("Renjin to get ColumnResult: impossible to evaluate; cause: null result");
         }
-        List<Double> result = new ArrayList<Double>();
+        List<DataEntry> result = new ArrayList<DataEntry>();
         for (int i = 0; i < v.length(); i++) {
             //TODO: refactor not for double only
-            result.add(((Vector) v).getElementAsDouble(i));
+            result.add(new DataEntry(DataEntryType.DOUBLE, ((Vector) v).getElementAsDouble(i)));
         }
         return result;
     }

@@ -7,7 +7,7 @@ public class GetFromRFactory {
     public static IFromR getLinkToR(TypeOfReturnValue typeOfReturnValue) {
         switch (typeOfReturnValue) {
             case DOUBLE:
-                return new ScalarFromR<Double>();
+                return new ScalarFromR();
             case SCALAR:
                 return new ScalarFromR();
             case JSON_STRING:

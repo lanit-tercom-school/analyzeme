@@ -5,6 +5,8 @@ import com.analyzeme.analyzers.result.ColumnResult;
 import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 public class FakeRTest {
@@ -98,14 +102,14 @@ public class FakeRTest {
     @Test
     public void testCorrectCommandToGetNumberCorrectFile() {
         try {
-            ScalarResult<Double> resX = call.runScriptToGetScalar("",
+            ScalarResult resX = call.runScriptToGetScalar("",
                     correctX + "[2]",
                     correct);
-            ScalarResult<Double> resY = call.runScriptToGetScalar("",
+            ScalarResult resY = call.runScriptToGetScalar("",
                     correctY + "[9]",
                     correct);
-            assertTrue("Scalar isn't returned correctly from FakeR",
-                    doubleEqual(resX.getValue(), 0) && doubleEqual(resY.getValue(), 0));
+            assertEquals("Scalar isn't returned correctly from FakeR", new DataEntry(DataEntryType.DOUBLE, 0.), resX.getValue());
+            assertEquals("Scalar isn't returned correctly from FakeR", new DataEntry(DataEntryType.DOUBLE, 0.), resY.getValue());
         } catch (Exception e) {
             fail("Scalar isn't returned correctly from FakeR");
         }

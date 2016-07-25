@@ -5,6 +5,8 @@ import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +45,7 @@ public class FakeR implements IRCaller {
         if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
-        return new ScalarResult<Double>(0.);
+        return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, 0.));
     }
 
     /**
@@ -75,7 +77,7 @@ public class FakeR implements IRCaller {
         if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
-        return new FileResult(new HashMap<String, List>());
+        return new FileResult(new HashMap<String, List<DataEntry>>());
     }
 
 
@@ -86,9 +88,9 @@ public class FakeR implements IRCaller {
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public <T> NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                          final String rScript,
-                                                          final Map<String, List<T>> data) throws Exception {
+    public NotParsedJsonStringResult runScriptDefault(final String scriptName,
+                                                      final String rScript,
+                                                      final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
@@ -103,14 +105,14 @@ public class FakeR implements IRCaller {
      * @return scalar result
      * @throws Exception if failed to call r or command errored
      */
-    public <T> ScalarResult runScriptToGetScalar(final String scriptName,
-                                                 final String rScript,
-                                                 final Map<String, List<T>> data) throws Exception {
+    public ScalarResult runScriptToGetScalar(final String scriptName,
+                                             final String rScript,
+                                             final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
-        return new ScalarResult<Double>(0.);
+        return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, 0.));
     }
 
     /**
@@ -120,9 +122,9 @@ public class FakeR implements IRCaller {
      * @return one vector
      * @throws Exception if failed to call r or command errored
      */
-    public <T> ColumnResult runScriptToGetVector(final String scriptName,
-                                                 final String rScript,
-                                                 final Map<String, List<T>> data) throws Exception {
+    public ColumnResult runScriptToGetVector(final String scriptName,
+                                             final String rScript,
+                                             final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
@@ -137,13 +139,13 @@ public class FakeR implements IRCaller {
      * @return group of vectors
      * @throws Exception if failed to call r or command errored
      */
-    public <T> FileResult runScriptToGetVectors(final String scriptName,
-                                                final String rScript,
-                                                final Map<String, List<T>> data) throws Exception {
+    public FileResult runScriptToGetVectors(final String scriptName,
+                                            final String rScript,
+                                            final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
-        return new FileResult(new HashMap<String, List>());
+        return new FileResult(new HashMap<String, List<DataEntry>>());
     }
 }

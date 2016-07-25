@@ -5,6 +5,8 @@ import com.analyzeme.analyzers.result.FileResult;
 import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 
@@ -27,11 +29,11 @@ public class Rserve implements IRCaller {
             throws Exception {
         for (DataSet set : dataFiles) {
             for (String field : set.getFields()) {
-                List<Double> value = set.getByField(field);
+                List<DataEntry> value = set.getByField(field);
                 double[] v1 = new double[value.size()];
                 int i = 0;
-                for (Double v : value) {
-                    v1[i++] = v;
+                for (DataEntry v : value) {
+                    v1[i++] = v.getDoubleValue();
                 }
                 r.assign(field + "_from__repo__" +
                         set.getReferenceName() + "__", v1);
@@ -136,9 +138,9 @@ public class Rserve implements IRCaller {
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public <T> NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                          final String rScript,
-                                                          final Map<String, List<T>> data) throws Exception {
+    public NotParsedJsonStringResult runScriptDefault(final String scriptName,
+                                                      final String rScript,
+                                                      final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null || data.equals("")) {
             throw new IllegalArgumentException();
@@ -153,14 +155,14 @@ public class Rserve implements IRCaller {
      * @return scalar result
      * @throws Exception if failed to call r or command errored
      */
-    public <T> ScalarResult runScriptToGetScalar(final String scriptName,
-                                                 final String rCommand,
-                                                 final Map<String, List<T>> data) throws Exception {
+    public ScalarResult runScriptToGetScalar(final String scriptName,
+                                             final String rCommand,
+                                             final Map<String, List<DataEntry>> data) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 data == null || data.equals("")) {
             throw new IllegalArgumentException();
         }
-        return new ScalarResult<Double>(0.);
+        return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, null));
     }
 
     /**
@@ -170,9 +172,9 @@ public class Rserve implements IRCaller {
      * @return one vector
      * @throws Exception if failed to call r or command errored
      */
-    public <T> ColumnResult runScriptToGetVector(final String scriptName,
-                                                 final String rCommand,
-                                                 final Map<String, List<T>> data) throws Exception {
+    public ColumnResult runScriptToGetVector(final String scriptName,
+                                             final String rCommand,
+                                             final Map<String, List<DataEntry>> data) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 data == null || data.equals("")) {
             throw new IllegalArgumentException();
@@ -187,13 +189,13 @@ public class Rserve implements IRCaller {
      * @return group of vectors
      * @throws Exception if failed to call r or command errored
      */
-    public <T> FileResult runScriptToGetVectors(final String scriptName,
-                                                final String rCommand,
-                                                final Map<String, List<T>> data) throws Exception {
+    public FileResult runScriptToGetVectors(final String scriptName,
+                                            final String rCommand,
+                                            final Map<String, List<DataEntry>> data) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 data == null || data.equals("")) {
             throw new IllegalArgumentException();
         }
-        return new FileResult(new HashMap<String, List>());
+        return new FileResult(new HashMap<String, List<DataEntry>>());
     }
 }

@@ -1,5 +1,8 @@
 package com.analyzeme.analyzers;
 
+import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -15,15 +18,16 @@ public class TestGlobalMinimum {
 	@Test
 	public void testGlobalMin() throws Exception {
 		double x;
-		List<Double> y = new ArrayList<Double>();
+		List<DataEntry> y = new ArrayList<DataEntry>();
 		for (int i = 0; i < 1001; i++) {
 			x = 4 - i * 0.008;
-			y.add(Math.sin(x * x));
-		}Map<String, List<Double>> data = new HashMap();
+			y.add(new DataEntry(DataEntryType.DOUBLE, Math.sin(x * x)));
+		}
+		Map<String, List<DataEntry>> data = new HashMap();
 		data.put("y", y);
 		IAnalyzer tester = AnalyzerFactory.getAnalyzer("Global Minimum");
 		assertTrue("Global minimum of y=sin(x^2)is wrong",
-				Math.abs(-1 - (Double) tester.analyze(data).getValue()) < e);
+				Math.abs(-1 - ((ScalarResult)tester.analyze(data)).getValue().getDoubleValue()) < e);
 	}
 }
 

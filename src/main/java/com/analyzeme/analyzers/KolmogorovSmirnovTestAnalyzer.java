@@ -1,15 +1,15 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataWithType.ListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double> {
+public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer {
     private static final int NUMBER_OF_PARAMS = 2;
     private static final Logger LOGGER;
     private static final double APLHA = 0.05;
@@ -88,8 +88,8 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double> {
         return statisticTrue;
     }
 
-    public ScalarResult<Boolean> analyze(
-            Map<String, List<Double>> dataSets) throws IllegalArgumentException {
+    public ScalarResult analyze(
+            Map<String, List<DataEntry>> dataSets) throws IllegalArgumentException {
         LOGGER.debug("analyze(): method started");
         if (dataSets.size() != NUMBER_OF_PARAMS) {
             LOGGER.info("analyze(): wrong argument");
@@ -101,13 +101,13 @@ public class KolmogorovSmirnovTestAnalyzer implements IAnalyzer<Double> {
         Iterator<String> iterator =
                 dataSets.keySet().iterator();
         double statistic = calcSmirnovStatistic(
-                dataSets.get(iterator.next()),
-                dataSets.get(iterator.next()));
+                ListHandler.toDoubleList(dataSets.get(iterator.next())),
+                ListHandler.toDoubleList(dataSets.get(iterator.next())));
         LOGGER.debug("analyze(): Smirnov statistic is calculated");
         double coefficient = getCoefficient();
         LOGGER.debug("analyze(): coefficient is found");
         LOGGER.debug("analyze(): method finished");
-        return new ScalarResult<>(statistic < coefficient);
+        return new ScalarResult(new DataEntry(DataEntryType.BOOLEAN, statistic < coefficient));
     }
 
     public int getNumberOfParams() {

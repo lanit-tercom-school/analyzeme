@@ -2,6 +2,8 @@ package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataEntryType;
 import org.apache.commons.math.util.FastMath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +14,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
+public class LinearCorrelationAnalyzer implements IAnalyzer {
     private static final int NUMBER_OF_PARAMS = 2;
-    private List<Double> x;
-    private List<Double> y;
+    private List<DataEntry> x;
+    private List<DataEntry> y;
     private static final int NUMBER_OF_DECIMAL_PLACES = 3;
     private BigDecimal averageY = BigDecimal.ZERO;
     private BigDecimal averageX = BigDecimal.ZERO;
@@ -34,7 +36,7 @@ public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
         return NUMBER_OF_PARAMS;
     }
 
-    public IResult analyze(Map<String, List<Double>> data) {
+    public IResult analyze(Map<String, List<DataEntry>> data) {
         LOGGER.debug("analyze(): method started");
         if (data == null || data.isEmpty()
                 || data.size() < NUMBER_OF_PARAMS) {
@@ -67,8 +69,8 @@ public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
                         RoundingMode.CEILING);
 
         LOGGER.debug("analyze(): method finished");
-        return new ScalarResult<Double>(
-                result.doubleValue());
+        return new ScalarResult(
+                new DataEntry(DataEntryType.DOUBLE, result.doubleValue()));
     }
 
     private void calcAverage() {
@@ -77,10 +79,8 @@ public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
         BigDecimal sumOfX = BigDecimal.ZERO;
         BigDecimal sumOfXY = BigDecimal.ZERO;
         for (int i = 0; i < x.size(); i++) {
-            BigDecimal X = BigDecimal.valueOf(
-                    Double.parseDouble("" + x.get(i)));
-            BigDecimal Y = BigDecimal.valueOf(
-                    Double.parseDouble("" + y.get(i)));
+            BigDecimal X = BigDecimal.valueOf(x.get(i).getDoubleValue());
+            BigDecimal Y = BigDecimal.valueOf(y.get(i).getDoubleValue());
             sumOfX = sumOfX.add(X);
             sumOfY = sumOfY.add(Y);
             sumOfXY = sumOfXY.add(X.multiply(Y));
@@ -106,10 +106,8 @@ public class LinearCorrelationAnalyzer implements IAnalyzer<Double> {
         BigDecimal sumOfY = BigDecimal.ZERO;
         BigDecimal sumOfX = BigDecimal.ZERO;
         for (int i = 0; i < x.size(); i++) {
-            BigDecimal X = BigDecimal.valueOf(
-                    Double.parseDouble("" + x.get(i)));
-            BigDecimal Y = BigDecimal.valueOf(
-                    Double.parseDouble("" + y.get(i)));
+            BigDecimal X = BigDecimal.valueOf(x.get(i).getDoubleValue());
+            BigDecimal Y = BigDecimal.valueOf(y.get(i).getDoubleValue());
             sumOfX = sumOfX.add(
                     (X.subtract(averageX)).pow(2));
             sumOfY = sumOfY.add(

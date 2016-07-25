@@ -1,5 +1,6 @@
 package com.analyzeme.analyzers.result;
 
+import com.analyzeme.data.dataWithType.DataEntry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -9,10 +10,10 @@ import org.slf4j.LoggerFactory;
  * Use this type of result for scalar objects (for Lists or Maps use other types of result)
  */
 
-public class ScalarResult<T> implements IResult<T> {
+public class ScalarResult implements IResult<DataEntry> {
     private final ObjectMapper mapper = new ObjectMapper();
     private final JsonWriter writer = new JsonWriter();
-    private final T result;
+    private final DataEntry result;
     private static final Logger LOGGER;
 
     static {
@@ -20,11 +21,11 @@ public class ScalarResult<T> implements IResult<T> {
                 "com.analyzeme.analyzers.result.ScalarResult");
     }
 
-    public ScalarResult(final T result) {
+    public ScalarResult(final DataEntry result) {
         this.result = result;
     }
 
-    public T getValue() {
+    public DataEntry getValue() {
         return result;
     }
 
@@ -33,8 +34,10 @@ public class ScalarResult<T> implements IResult<T> {
         if (result == null) {
             return null;
         }
-        if (result instanceof Double) {
-            return writer.toJson((Double) result);
+        try {
+            return writer.toJson(result);
+        } catch (Exception e) {
+            LOGGER.info("toJson(): impossible to use custom writer");
         }
         return mapper.writeValueAsString(result);
     }

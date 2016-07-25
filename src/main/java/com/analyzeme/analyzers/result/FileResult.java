@@ -1,7 +1,8 @@
 package com.analyzeme.analyzers.result;
 
-import com.analyzeme.data.Data;
-import com.analyzeme.data.DataArray;
+import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataWithType.DataWithType;
+import com.analyzeme.data.dataWithType.DataWithTypeArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,10 +14,10 @@ import static java.lang.Math.abs;
  * Use this type of result for groups of vectors with names
  */
 
-public class FileResult<T> implements IResult<Map<String, List<T>>> {
+public class FileResult implements IResult<Map<String, List<DataEntry>>> {
     private static final Logger LOGGER;
     private static final double EPS_FOR_DOUBLE = 0.0001;
-    private final Map<String, List<T>> result;
+    private final Map<String, List<DataEntry>> result;
     private final JsonWriter writer = new JsonWriter();
 
     static {
@@ -24,11 +25,11 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
                 "com.analyzeme.analyzers.result.FileResult");
     }
 
-    public FileResult(final Map<String, List<T>> result) {
+    public FileResult(final Map<String, List<DataEntry>> result) {
         this.result = result;
     }
 
-    public Map<String, List<T>> getValue() {
+    public Map<String, List<DataEntry>> getValue() {
         return result;
     }
 
@@ -37,23 +38,25 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
         if (result == null) {
             return null;
         }
-        DataArray<T> temp = new DataArray<T>();
+        DataWithTypeArray temp = new DataWithTypeArray();
         Iterator<String> it = result.keySet().iterator();
         int length = 0;
         if (it.hasNext()) {
             String tempS = it.next();
-            if (result.get(tempS).get(0) instanceof Double) {
+            try {
                 return writer.toJson(result);
+            } catch (Exception e) {
+                LOGGER.info("toJson(): impossible to use custom writer");
             }
             length = result.get(tempS).size();
         }
         for (int i = 0; i < length; i++) {
-            Map<String, T> tempMap = new HashMap<String, T>();
-            for (Map.Entry<String, List<T>> entry : result.entrySet()) {
+            Map<String, DataEntry> tempMap = new HashMap<String, DataEntry>();
+            for (Map.Entry<String, List<DataEntry>> entry : result.entrySet()) {
                 tempMap.put(entry.getKey(),
                         entry.getValue().get(i));
             }
-            Data<T> d = new Data<T>(tempMap);
+            DataWithType d = new DataWithType(tempMap);
             temp.addData(d);
         }
         LOGGER.debug("toJson(): DataArray created");
@@ -64,22 +67,22 @@ public class FileResult<T> implements IResult<Map<String, List<T>>> {
     public boolean equals(Object other) {
         boolean result = false;
         if (other instanceof FileResult) {
-            FileResult<T> that = (FileResult) other;
+            FileResult that = (FileResult) other;
             result = that.getValue().keySet().equals(
                     this.getValue().keySet());
             if (result) {
                 Set<String> names = this.getValue().keySet();
                 for (String name : names) {
-                    List<T> tempThis = this.getValue().get(name);
-                    List<T> tempThat = that.getValue().get(name);
+                    List<DataEntry> tempThis = this.getValue().get(name);
+                    List<DataEntry> tempThat = that.getValue().get(name);
                     if (tempThis.size() != tempThat.size()) {
                         return false;
                     }
                     for (int i = 0; i < tempThis.size(); i++) {
-                        T objThis = tempThis.get(i);
-                        T objThat = tempThat.get(i);
+                        DataEntry objThis = tempThis.get(i);
+                        DataEntry objThat = tempThat.get(i);
                         //TODO: rewrite here to work not with double only
-                        if (abs((Double) objThis - (Double) objThat)
+                        if (abs(objThis.getDoubleValue() - objThat.getDoubleValue())
                                 > EPS_FOR_DOUBLE) {
                             return false;
                         }
