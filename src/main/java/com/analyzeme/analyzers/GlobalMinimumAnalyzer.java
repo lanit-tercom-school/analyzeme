@@ -1,8 +1,8 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.dataset.DataEntryType;
 import com.analyzeme.data.dataset.ListHandler;
@@ -35,7 +35,7 @@ public class GlobalMinimumAnalyzer implements IAnalyzer {
             LOGGER.debug("analyze(): one-dim data");
             List<Double> list =
                     ListHandler.toDoubleList(data.values().iterator().next());
-            return new ScalarResult( new DataEntry(DataEntryType.DOUBLE,
+            return new ScalarResult(new DataEntry(DataEntryType.DOUBLE,
                     list.get(getMinInd(list))));
         }
         LOGGER.debug("analyze(): multi-dim data",

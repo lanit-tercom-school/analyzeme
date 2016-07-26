@@ -1,12 +1,13 @@
 package com.analyzeme.r.call;
 
 import com.analyzeme.analyzers.result.NotParsedResult;
+import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.VectorsResult;
-import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.dataset.DataEntryType;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.scripts.Script;
 import org.rosuda.REngine.REXP;
 import org.rosuda.REngine.Rserve.RConnection;
 
@@ -49,60 +50,53 @@ public class Rserve implements IRCaller {
     }
 
     /**
-     * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .r file as a string
-     * @param dataFiles  - data necessary for the script
+     * @param script    - script to call
+     * @param dataFiles - data necessary for the script
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or script errored
      */
-    public NotParsedResult runScriptDefault(final String scriptName,
-                                            final String rScript,
+    public NotParsedResult runScriptDefault(final Script script,
                                             final List<DataSet> dataFiles) throws Exception {
-        if (rScript == null || dataFiles == null) {
+        if (script == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         insertData(dataFiles);
-        REXP result = r.eval(rScript);
+        REXP result = r.eval(script.getScript());
         deleteData();
         return new NotParsedResult(result.toString());
     }
 
     /**
-     * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .r file as a string
-     * @param dataFiles  - data necessary for the script
+     * @param script    - script to call
+     * @param dataFiles - data necessary for the script
      * @return double result
      * @throws Exception if failed to call r or script errored
      */
-    public ScalarResult runScriptToGetScalar(final String scriptName,
-                                             final String rScript,
+    public ScalarResult runScriptToGetScalar(final Script script,
                                              final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
-        if (scriptName == null || scriptName.equals("") ||
-                rScript == null || dataFiles == null) {
+        if (script == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         insertData(dataFiles);
-        double result = r.eval(rScript).asDouble();
+        double result = r.eval(script.getScript()).asDouble();
         deleteData();
         //return result;
         return null;
     }
 
     /**
-     * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .r file as a string
-     * @param dataFiles  - data necessary for the script
+     * @param script    - script to call
+     * @param dataFiles - data necessary for the script
      * @return one point
      * @throws Exception if failed to call r or script errored
      */
-    public VectorResult runScriptToGetVector(final String scriptName,
-                                             final String rScript,
+    public VectorResult runScriptToGetVector(final Script script,
                                              final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
-        if (rScript == null || dataFiles == null) {
+        if (script == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         return null;
@@ -110,90 +104,78 @@ public class Rserve implements IRCaller {
     }
 
     /**
-     * @param scriptName - name of the script to be called
-     * @param rScript    - script to call, correct .r file as a string
-     * @param dataFiles  - data necessary for the script
+     * @param script    - script to call
+     * @param dataFiles - data necessary for the script
      * @return List<Point>
      * @throws Exception if failed to call r or script errored
      */
-    public VectorsResult runScriptToGetVectors(final String scriptName,
-                                               final String rScript,
+    public VectorsResult runScriptToGetVectors(final Script script,
                                                final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
-        if (scriptName == null || scriptName.equals("") ||
-                rScript == null || dataFiles == null) {
+        if (script == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         insertData(dataFiles);
-        double[][] res = r.eval(rScript).asDoubleMatrix();
+        double[][] res = r.eval(script.getScript()).asDoubleMatrix();
         deleteData();
         return null;
     }
 
     /**
-     * @param scriptName - name of the script to be called
-     * @param rScript    - string with a command in r language
-     * @param data       - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public NotParsedResult runScriptDefault(final String scriptName,
-                                            final String rScript,
+    public NotParsedResult runScriptDefault(final Script script,
                                             final Map<String, List<DataEntry>> data) throws Exception {
-        if (rScript == null || rScript.equals("") ||
-                data == null || data.equals("")) {
+        if (script == null || data == null || data.equals("")) {
             throw new IllegalArgumentException();
         }
         return new NotParsedResult("");
     }
 
     /**
-     * @param scriptName - name of the script to be called
-     * @param rCommand   - string with a command in r language
-     * @param data       - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return scalar result
      * @throws Exception if failed to call r or command errored
      */
-    public ScalarResult runScriptToGetScalar(final String scriptName,
-                                             final String rCommand,
+    public ScalarResult runScriptToGetScalar(final Script script,
                                              final Map<String, List<DataEntry>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null || data.equals("")) {
+        if (script == null || data == null
+                || data.equals("")) {
             throw new IllegalArgumentException();
         }
         return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, null));
     }
 
     /**
-     * @param scriptName - name of the script to be called
-     * @param rCommand   - string with a command in r language
-     * @param data       - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return one vector
      * @throws Exception if failed to call r or command errored
      */
-    public VectorResult runScriptToGetVector(final String scriptName,
-                                             final String rCommand,
+    public VectorResult runScriptToGetVector(final Script script,
                                              final Map<String, List<DataEntry>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null || data.equals("")) {
+        if (script == null || data == null
+                || data.equals("")) {
             throw new IllegalArgumentException();
         }
         return new VectorResult(new ArrayList());
     }
 
     /**
-     * @param scriptName - name of the script to be called
-     * @param rCommand   - string with a command in r language
-     * @param data       - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return group of vectors
      * @throws Exception if failed to call r or command errored
      */
-    public VectorsResult runScriptToGetVectors(final String scriptName,
-                                               final String rCommand,
+    public VectorsResult runScriptToGetVectors(final Script script,
                                                final Map<String, List<DataEntry>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null || data.equals("")) {
+        if (script == null || data == null
+                || data.equals("")) {
             throw new IllegalArgumentException();
         }
         return new VectorsResult(new HashMap<String, List<DataEntry>>());

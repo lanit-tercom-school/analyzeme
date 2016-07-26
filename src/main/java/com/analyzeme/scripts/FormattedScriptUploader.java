@@ -140,7 +140,7 @@ public class FormattedScriptUploader {
 
             Script result = new Script(name,
                     id, num, toTypeOfReturnValue(output),
-                    ScriptSource.DISK_DEFAULT);
+                    ScriptSource.DISK_DEFAULT, null);
             LOGGER.debug("upload(): script is uploaded and ready");
             return result;
         }

@@ -10,8 +10,11 @@ import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.parsers.JsonParser;
+import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.TypeOfFile;
+import com.analyzeme.scripts.Script;
+import com.analyzeme.scripts.ScriptSource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -156,8 +159,7 @@ public class RenjinTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgument4() throws Exception {
-        call.runScriptToGetVector((String) null,
-                (String) null,
+        call.runScriptToGetVector((Script)  null,
                 (ArrayList<DataSet>) null);
     }
 
@@ -166,11 +168,15 @@ public class RenjinTest {
         try {
             ScalarResult resX;
             ScalarResult resY;
+            Script script;
             for (int i = 0; i < dataArray.getByKey("x").size(); i++) {
-                resX = call.runScriptToGetScalar("", correctX + "[" +
-                        (int) (i + 1) + "]", correct);
-                resY = call.runScriptToGetScalar("", correctY + "[" +
-                        (int) (i + 1) + "]", correct);
+                script = new Script("", null, 1, TypeOfReturnValue.SCALAR,
+                        ScriptSource.LIBRARY, correctX + "[" +
+                        (int) (i + 1) + "]");
+                resX = call.runScriptToGetScalar(script, correct);
+                script = new Script("", null, 1, TypeOfReturnValue.SCALAR,
+                        ScriptSource.LIBRARY, correctY + "[" + (int) (i + 1) + "]");
+                resY = call.runScriptToGetScalar(script, correct);
                 assertTrue("Scalar isn't returned correctly from Renjin",
                         doubleEqual(resX.getValue().getDoubleValue(),
                                 dataArray.getByKey("x").get(i).getDoubleValue()) &&
@@ -185,8 +191,10 @@ public class RenjinTest {
     @Test
     public void testCorrectCommandToGetVectorCorrectFile() {
         try {
-            VectorResult res = call.runScriptToGetVector("", "c(" + correctX +
-                    "[5], " + correctY + "[5])", correct);
+            Script script = new Script("", null, 2, TypeOfReturnValue.VECTOR,
+                    ScriptSource.LIBRARY, "c(" + correctX +
+                    "[5], " + correctY + "[5])");
+            VectorResult res = call.runScriptToGetVector(script, correct);
             assertTrue("Vector isn't returned correctly from Renjin",
                     doubleEqual(dataArray.getByKey("x").get(4).getDoubleValue(),
                             res.getValue().get(0).getDoubleValue()) &&
@@ -200,58 +208,78 @@ public class RenjinTest {
     @Test
     public void testCorrectCommandToGetVectorsCorrectFileFromDataFrame() {
         try {
-            Map<String, List<DataEntry>> w = new HashMap<String, List<DataEntry>>();
+            Map<String, List<DataEntry>> w
+                    = new HashMap<String, List<DataEntry>>();
             w.put("new X name", new ArrayList<DataEntry>());
             w.put("new Y name", new ArrayList<DataEntry>());
             for (Map.Entry<String, List<DataEntry>> entry : w.entrySet()) {
-                entry.getValue().add(new DataEntry(DataEntryType.DOUBLE, 0.));
-                entry.getValue().add(new DataEntry(DataEntryType.DOUBLE, 1.));
-                entry.getValue().add(new DataEntry(DataEntryType.DOUBLE, 2.));
+                entry.getValue().add(
+                        new DataEntry(DataEntryType.DOUBLE, 0.));
+                entry.getValue().add(
+                        new DataEntry(DataEntryType.DOUBLE, 1.));
+                entry.getValue().add(
+                        new DataEntry(DataEntryType.DOUBLE, 2.));
             }
             VectorsResult was = new VectorsResult(w);
+            Script script = new Script("", null, 3, TypeOfReturnValue.VECTORS,
+                    ScriptSource.LIBRARY, correctScriptForCorrectFileString);
             VectorsResult res =
-                    call.runScriptToGetVectors("",
-                            correctScriptForCorrectFileString,
+                    call.runScriptToGetVectors(script,
                             correct);
-            assertTrue("Vectors aren't returned correctly from Renjin",
+            assertTrue(
+                    "Vectors aren't returned correctly from Renjin",
                     was.equals(res));
         } catch (Exception e) {
-            fail("Vectors aren't returned correctly from Renjin");
+            fail(
+                    "Vectors aren't returned correctly from Renjin");
         }
     }
 
 
     @Test(expected = Exception.class)
     public void testIncorrectCommandToGetScalarCorrectFile() throws Exception {
-        call.runScriptToGetScalar("", correctX + "]", correct);
+        Script script = new Script("", null, 1, TypeOfReturnValue.SCALAR,
+                ScriptSource.LIBRARY, correctX + "]");
+        call.runScriptToGetScalar(script, correct);
     }
 
     @Test(expected = Exception.class)
     public void testIncorrectCommandToGetVectorCorrectFile() throws Exception {
-        call.runScriptToGetVector("", "c" + correctX + "[5," +
-                correctY + "[5)", correct);
+        Script script = new Script("", null, 2, TypeOfReturnValue.VECTOR,
+                ScriptSource.LIBRARY, "c" + correctX + "[5," +
+                correctY + "[5)");
+        call.runScriptToGetVector(script,
+                correct);
     }
 
     @Test(expected = Exception.class)
     public void testIncorrectCommandToGetVectorsCorrectFile() throws Exception {
-        call.runScriptToGetVectors("", incorrectScriptForCorrectFileString,
+        Script script = new Script("", null, 3, TypeOfReturnValue.VECTORS,
+                ScriptSource.LIBRARY, incorrectScriptForCorrectFileString);
+        call.runScriptToGetVectors(script,
                 correct);
     }
 
     @Test(expected = Exception.class)
     public void testCorrectCommandToGetScalarIncorrectFile() throws Exception {
-        call.runScriptToGetScalar("", incorrectX + "[5]", incorrect);
+        Script script = new Script("", null, 1, TypeOfReturnValue.SCALAR,
+                ScriptSource.LIBRARY,  incorrectX + "[5]");
+        call.runScriptToGetScalar(script, incorrect);
     }
 
     @Test(expected = Exception.class)
     public void testCorrectCommandToGetVectorIncorrectFile() throws Exception {
-        call.runScriptToGetVector("", "c(" + incorrectX + "[5], " +
-                incorrectY + "[5])", incorrect);
+        Script script = new Script("", null, 2, TypeOfReturnValue.VECTOR,
+                ScriptSource.LIBRARY, "c(" + incorrectX + "[5], " +
+                incorrectY + "[5])");
+        call.runScriptToGetVector(script, incorrect);
     }
 
     @Test(expected = Exception.class)
     public void testCorrectCommandToGetVectorsIncorrectFile() throws Exception {
-        call.runScriptToGetVectors("", correctScriptForIncorrectFileString,
+        Script script = new Script("", null, 3, TypeOfReturnValue.VECTORS,
+                ScriptSource.LIBRARY, correctScriptForIncorrectFileString);
+        call.runScriptToGetVectors(script,
                 incorrect);
     }
 }

@@ -1,12 +1,13 @@
 package com.analyzeme.r.call;
 
 import com.analyzeme.analyzers.result.NotParsedResult;
+import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.VectorsResult;
-import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.dataset.DataEntryType;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.scripts.Script;
 import org.renjin.sexp.SEXP;
 
 import javax.script.ScriptEngine;
@@ -30,8 +31,8 @@ public class Renjin implements IRCaller {
     }
 
 
-    private SEXP runScript(final String script) throws Exception {
-        SEXP result = (SEXP) engine.eval(script);
+    private SEXP runScript(final Script script) throws Exception {
+        SEXP result = (SEXP) engine.eval(script.getScript());
         if (result == null) {
             throw new IllegalArgumentException("Renjin run: incorrect script; cause: null result");
         } else {
@@ -48,44 +49,40 @@ public class Renjin implements IRCaller {
 
 
     /**
-     * @param scriptName - name of the script to be called (can be null or empty)
-     * @param rScript    - script to call, correct .r file as a string
-     * @param dataFiles  - data necessary for the script
+     * @param script    - script to call
+     * @param dataFiles - data necessary for the script
      * @return auto-generated json (not our format, may be errors)
      * @throws Exception if failed to call r or script errored
      */
-    public NotParsedResult runScriptDefault(final String scriptName,
-                                            final String rScript,
+    public NotParsedResult runScriptDefault(final Script script,
                                             final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
-        if (rScript == null || dataFiles == null) {
+        if (script == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         RenjinInputHandler.insertData(engine, dataFiles);
-        SEXP result = runScript(rScript);
+        SEXP result = runScript(script);
         deleteData();
         return new NotParsedResult(result.toString());
     }
 
 
     /**
-     * @param scriptName - name of the script to be called (can be null or empty)
-     * @param rScript    - script to call, correct .r file as a string
-     * @param dataFiles  - data necessary for the script
+     * @param script    - script to call
+     * @param dataFiles - data necessary for the script
      * @return scalar result
      * @throws Exception if failed to call r or script errored
      */
-    public ScalarResult runScriptToGetScalar(final String scriptName,
-                                             final String rScript,
+    public ScalarResult runScriptToGetScalar(final Script script,
                                              final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
-        if (rScript == null || dataFiles == null) {
+        if (script == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         RenjinInputHandler.insertData(engine, dataFiles);
-        SEXP result = runScript(rScript);
+        SEXP result = runScript(script);
         deleteData();
         //TODO: refactor to work not only with double
         return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, result.asReal()));
@@ -93,130 +90,114 @@ public class Renjin implements IRCaller {
 
 
     /**
-     * @param scriptName - name of the script to be called (can be null or empty)
-     * @param rScript    - script to call, correct .r file as a string
-     * @param dataFiles  - data necessary for the script
+     * @param script    - script to call
+     * @param dataFiles - data necessary for the script
      * @return one vector
      * @throws Exception if failed to call r or script errored
      */
-    public VectorResult runScriptToGetVector(final String scriptName,
-                                             final String rScript,
+    public VectorResult runScriptToGetVector(final Script script,
                                              final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
-        if (rScript == null || dataFiles == null) {
+        if (script == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         RenjinInputHandler.insertData(engine, dataFiles);
-        SEXP res = runScript(rScript);
+        SEXP res = runScript(script);
         deleteData();
         return new VectorResult(renjinNotNamedVectorToList(res));
     }
 
     /**
-     * @param scriptName - name of the script to be called (can be null or empty)
-     * @param rScript    - script to call, correct .r file as a string
-     * @param dataFiles  - data necessary for the script
+     * @param script    - script to call
+     * @param dataFiles - data necessary for the script
      * @return group of vectors
      * @throws Exception if failed to call r or script errored
      */
-    public VectorsResult runScriptToGetVectors(final String scriptName,
-                                               final String rScript,
+    public VectorsResult runScriptToGetVectors(final Script script,
                                                final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
-        if (rScript == null || dataFiles == null) {
+        if (script == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         RenjinInputHandler.insertData(engine, dataFiles);
-        SEXP res = runScript(rScript);
+        SEXP res = runScript(script);
         deleteData();
         return new VectorsResult(resultToFile(res));
     }
 
     /**
-     * @param scriptName - name of the script to be called (can be null or empty)
-     * @param rScript    - string with a command in r language
-     * @param data       - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or command errored
      */
-    public NotParsedResult runScriptDefault(final String scriptName,
-                                            final String rScript,
+    public NotParsedResult runScriptDefault(final Script script,
                                             final Map<String, List<DataEntry>> data) throws Exception {
-        if (rScript == null || rScript.equals("") ||
-                data == null) {
+        if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         RenjinInputHandler.insertData(engine, data);
-        SEXP result = runScript(rScript);
+        SEXP result = runScript(script);
         deleteData();
         return new NotParsedResult(result.toString());
     }
 
 
     /**
-     * @param scriptName - name of the script to be called (can be null or empty)
-     * @param rCommand   - string with a command in r language
-     * @param data       - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return scalar result
      * @throws Exception if failed to call r or command errored
      */
-    public ScalarResult runScriptToGetScalar(final String scriptName,
-                                             final String rCommand,
+    public ScalarResult runScriptToGetScalar(final Script script,
                                              final Map<String, List<DataEntry>> data) throws Exception {
         //dataFiles can be empty for simple commands
-        if (rCommand == null || rCommand.equals("") ||
-                data == null) {
+        if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         RenjinInputHandler.insertData(engine, data);
-        SEXP result = runScript(rCommand);
+        SEXP result = runScript(script);
         deleteData();
         //TODO: refactor to work with other types of ScalarResult (not only double)
         return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, result.asReal()));
     }
 
     /**
-     * @param scriptName - name of the script to be called (can be null or empty)
-     * @param rCommand   - string with a command in r language
-     * @param data       - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return vector (~column)
      * @throws Exception if failed to call r or command errored
      */
-    public VectorResult runScriptToGetVector(final String scriptName,
-                                             final String rCommand,
+    public VectorResult runScriptToGetVector(final Script script,
                                              final Map<String, List<DataEntry>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null) {
+        if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         RenjinInputHandler.insertData(engine, data);
-        SEXP res = runScript(rCommand);
+        SEXP res = runScript(script);
         deleteData();
         return new VectorResult(renjinNotNamedVectorToList(res));
     }
 
     /**
-     * @param scriptName - name of the script to be called (can be null or empty)
-     * @param rCommand   - string with a command in r language
-     * @param data       - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return group of vectors (~columns)
      * @throws Exception if failed to call r or command errored
      */
-    public VectorsResult runScriptToGetVectors(final String scriptName,
-                                               final String rCommand,
+    public VectorsResult runScriptToGetVectors(final Script script,
                                                final Map<String, List<DataEntry>> data) throws Exception {
-        if (rCommand == null || rCommand.equals("") ||
-                data == null) {
+        if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
         initialize();
         RenjinInputHandler.insertData(engine, data);
-        SEXP res = runScript(rCommand);
+        SEXP res = runScript(script);
         deleteData();
         return new VectorsResult(resultToFile(res));
     }
