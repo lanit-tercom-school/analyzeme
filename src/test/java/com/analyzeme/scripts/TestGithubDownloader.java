@@ -10,7 +10,7 @@ public class TestGithubDownloader {
 
     @Test
     public void test() throws Exception {
-        GithubDownloader.download("r/simple_anon_vector.R");
+        GithubDownloader.download("r/example_anon_vector.R");
         GithubDownloader.download("rscripts_info.txt");
     }
 }

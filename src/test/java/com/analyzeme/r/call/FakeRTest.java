@@ -1,16 +1,19 @@
 package com.analyzeme.r.call;
 
 
+import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.VectorsResult;
-import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.dataset.DataEntryType;
+import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
+import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.TypeOfFile;
+import com.analyzeme.scripts.Script;
+import com.analyzeme.scripts.ScriptSource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -21,11 +24,9 @@ import java.util.HashMap;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 public class FakeRTest {
-    private static final double EPS = 0.00001;
     private static IRCaller call;
 
     private static final String TEST_DATA = "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" }," +
@@ -40,14 +41,7 @@ public class FakeRTest {
     private static String correctY;
     private static ArrayList<DataSet> correct;
 
-    private static String correctScriptForCorrectFileName;
     private static String correctScriptForCorrectFileString;
-    private static ByteArrayInputStream correctScriptForCorrectFile;
-
-
-    public static boolean doubleEqual(double a, double b) {
-        return Math.abs(a - b) < EPS;
-    }
 
     private static ByteArrayInputStream convertStringToStream(String data) {
         byte[] b = new byte[data.length()];
@@ -78,13 +72,9 @@ public class FakeRTest {
         setCorrect.addField("y");
         correct.add(setCorrect);
 
-        correctScriptForCorrectFileName = "script.r";
         correctScriptForCorrectFileString = "matrix(c(" + correctX +
                 "[1], " + correctY + "[1], " + correctX + "[1], " +
                 correctY + "[1]), nrow = 2, ncol = 2, byrow=TRUE)";
-        correctScriptForCorrectFile =
-                convertStringToStream(
-                        correctScriptForCorrectFileString);
     }
 
     @AfterClass
@@ -94,22 +84,30 @@ public class FakeRTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgument4() throws Exception {
-        call.runScriptToGetVector((String) null,
-                (String) null,
+        call.runScriptToGetVector((Script) null,
                 (ArrayList<DataSet>) null);
     }
 
     @Test
     public void testCorrectCommandToGetNumberCorrectFile() {
         try {
-            ScalarResult resX = call.runScriptToGetScalar("",
-                    correctX + "[2]",
+            Script script = new Script("", null, 1,
+                    TypeOfReturnValue.SCALAR,
+                    ScriptSource.LIBRARY, correctX + "[2]");
+            ScalarResult resX = call.runScriptToGetScalar(
+                    script,
                     correct);
-            ScalarResult resY = call.runScriptToGetScalar("",
-                    correctY + "[9]",
+            script = new Script("", null, 1, TypeOfReturnValue.SCALAR,
+                    ScriptSource.LIBRARY, correctY + "[9]");
+            ScalarResult resY = call.runScriptToGetScalar(
+                    script,
                     correct);
-            assertEquals("Scalar isn't returned correctly from FakeR", new DataEntry(DataEntryType.DOUBLE, 0.), resX.getValue());
-            assertEquals("Scalar isn't returned correctly from FakeR", new DataEntry(DataEntryType.DOUBLE, 0.), resY.getValue());
+            assertEquals("Scalar isn't returned correctly from FakeR",
+                    new DataEntry(DataEntryType.DOUBLE, 0.),
+                    resX.getValue());
+            assertEquals("Scalar isn't returned correctly from FakeR",
+                    new DataEntry(DataEntryType.DOUBLE, 0.),
+                    resY.getValue());
         } catch (Exception e) {
             fail("Scalar isn't returned correctly from FakeR");
         }
@@ -118,9 +116,11 @@ public class FakeRTest {
     @Test
     public void testCorrectCommandToGetPointCorrectFile() {
         try {
-            VectorResult res = call.runScriptToGetVector("",
-                    "c(" + correctX + "[5], " +
-                            correctY + "[5])", correct);
+            Script script = new Script("", null,
+                    2, TypeOfReturnValue.VECTOR,
+                    ScriptSource.LIBRARY,
+                    "c(" + correctX + "[5], " + correctY + "[5])");
+            VectorResult res = call.runScriptToGetVector(script, correct);
             assertTrue("Vector isn't returned correctly from FakeR",
                     res.getValue() instanceof ArrayList);
         } catch (Exception e) {
@@ -131,8 +131,12 @@ public class FakeRTest {
     @Test
     public void testCorrectCommandToGetPointsCorrectFile() {
         try {
-            VectorsResult res = call.runScriptToGetVectors("",
-                    correctScriptForCorrectFileString,
+            Script script = new Script("", null, 3,
+                    TypeOfReturnValue.VECTORS,
+                    ScriptSource.LIBRARY,
+                    correctScriptForCorrectFileString);
+
+            VectorsResult res = call.runScriptToGetVectors(script,
                     correct);
             assertTrue("Group of vectors aren't returned correctly from FakeR",
                     res.getValue() instanceof HashMap);

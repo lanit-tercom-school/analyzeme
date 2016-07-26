@@ -1,7 +1,6 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.scripts.Script;
-import org.apache.commons.io.IOUtils;
 
 public class RScriptAnalyzer extends AbstractDoubleRAnalyzer {
     private final Script script;
@@ -15,7 +14,7 @@ public class RScriptAnalyzer extends AbstractDoubleRAnalyzer {
         return NUMBER_OF_PARAMS;
     }
 
-    public String getScript() throws Exception {
-        return IOUtils.toString(script.getScript());
+    public Script getScript() throws Exception {
+        return script;
     }
 }

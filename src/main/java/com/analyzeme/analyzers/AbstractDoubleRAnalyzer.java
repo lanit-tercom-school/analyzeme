@@ -1,12 +1,13 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.r.DataConverter;
-import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.IResult;
+import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.r.facade.get.IFromR;
+import com.analyzeme.scripts.Script;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,7 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer {
         }
         LOGGER.debug("analyze(): IFromR<IResult> is found",
                 TYPE_OF_RETURN_VALUE);
-        IResult result = linker.runScript("", getScript(), toR);
+        IResult result = linker.runScript(getScript(), toR);
         if (result == null) {
             LOGGER.info("analyze(): null result");
         }
@@ -76,5 +77,5 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer {
         return NUMBER_OF_PARAMS;
     }
 
-    abstract String getScript() throws Exception;
+    abstract Script getScript() throws Exception;
 }

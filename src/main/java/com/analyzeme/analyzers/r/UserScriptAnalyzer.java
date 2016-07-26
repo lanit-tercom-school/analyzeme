@@ -4,6 +4,8 @@ import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.r.facade.get.IFromR;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
+import com.analyzeme.scripts.Script;
+import com.analyzeme.scripts.ScriptSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +29,7 @@ public class UserScriptAnalyzer {
         //scriptText can be null for memory call
         if (userId <= 0 || projectId == null
                 || projectId.equals("")
-                || (scriptText == null ? true : scriptText.equals(""))
+                || scriptText == null || scriptText.equals("")
                 || typeOfReturnValue == null || typeOfCall == null) {
             LOGGER.info("runScript(): null argument");
             throw new IllegalArgumentException();
@@ -40,15 +42,22 @@ public class UserScriptAnalyzer {
                 LOGGER.debug("runScript(): IFromR<IResult> is found",
                         typeOfReturnValue);
                 //here script should be extracted from repo
-                return rLink.runScript(scriptName, scriptText, userId, projectId);
+                Script script = new Script(scriptName, null, 0,
+                        typeOfReturnValue,
+                        ScriptSource.LIBRARY,
+                        scriptText);
+                return rLink.runScript(script, userId, projectId);
             case RUN:
                 LOGGER.debug("runScript(): run call");
                 IFromR<IResult> rLinker =
                         GetFromRFactory.getLinkToR(typeOfReturnValue);
                 LOGGER.debug("runScript(): IFromR<IResult> is found",
                         typeOfReturnValue);
-                return rLinker.runScript(scriptName, scriptText,
-                        userId, projectId);
+                Script scr = new Script(scriptName, null, 0,
+                        typeOfReturnValue,
+                        ScriptSource.LIBRARY,
+                        scriptText);
+                return rLinker.runScript(scr, userId, projectId);
             default:
                 return null;
         }
