@@ -143,6 +143,8 @@
             <groupId>org.renjin</groupId>
             <artifactId>renjin-script-engine</artifactId>
             <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/maven-lib/renjin-script-engine-0.8.2137-jar-with-dependencies.jar</systemPath>
         </dependency>
 
         <dependency>
@@ -180,14 +182,6 @@
             <version>3.0.1</version>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>bedatadriven</id>
-            <name>bedatadriven public repo</name>
-            <url>https://nexus.bedatadriven.com/content/groups/public/</url>
-        </repository>
-    </repositories>
 
     <build>
         <finalName>analyzeme</finalName>
