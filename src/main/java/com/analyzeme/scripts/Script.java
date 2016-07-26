@@ -18,7 +18,7 @@ public class Script {
                   final int numberOfParams,
                   final TypeOfReturnValue typeOfReturnValue,
                   final ScriptSource scriptSource,
-                  final String scriptText) {
+                  final String scriptText, InputType inputType) {
         if (name == null || typeOfReturnValue == null) {
             throw new IllegalArgumentException("Null argument");
         }

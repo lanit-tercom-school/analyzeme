@@ -4,12 +4,11 @@ import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.r.facade.get.IFromR;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
+import com.analyzeme.scripts.InputType;
 import com.analyzeme.scripts.Script;
 import com.analyzeme.scripts.ScriptSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.ByteArrayInputStream;
 
 public class UserScriptAnalyzer {
     private static final Logger LOGGER;
@@ -45,7 +44,7 @@ public class UserScriptAnalyzer {
                 Script script = new Script(scriptName, null, 0,
                         typeOfReturnValue,
                         ScriptSource.LIBRARY,
-                        scriptText);
+                        scriptText, InputType.VECTORS);
                 return rLink.runScript(script, userId, projectId);
             case RUN:
                 LOGGER.debug("runScript(): run call");
@@ -56,7 +55,7 @@ public class UserScriptAnalyzer {
                 Script scr = new Script(scriptName, null, 0,
                         typeOfReturnValue,
                         ScriptSource.LIBRARY,
-                        scriptText);
+                        scriptText, InputType.VECTORS);
                 return rLinker.runScript(scr, userId, projectId);
             default:
                 return null;

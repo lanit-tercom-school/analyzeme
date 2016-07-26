@@ -1,6 +1,7 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.r.facade.TypeOfReturnValue;
+import com.analyzeme.scripts.InputType;
 import com.analyzeme.scripts.Script;
 import com.analyzeme.scripts.ScriptSource;
 import org.slf4j.Logger;
@@ -23,6 +24,6 @@ public class GlobalMaximumAnalyzerR extends AbstractDoubleRAnalyzer {
                 "getScript(): method started");
         return new Script("maximum", null, 1,
                 TypeOfReturnValue.DOUBLE,
-                ScriptSource.LIBRARY, "max(col_0)");
+                ScriptSource.LIBRARY, "max(col_0)", InputType.VECTORS);
     }
 }

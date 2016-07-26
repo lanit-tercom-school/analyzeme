@@ -12,6 +12,7 @@ import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.TypeOfFile;
+import com.analyzeme.scripts.InputType;
 import com.analyzeme.scripts.Script;
 import com.analyzeme.scripts.ScriptSource;
 import org.junit.AfterClass;
@@ -93,12 +94,12 @@ public class FakeRTest {
         try {
             Script script = new Script("", null, 1,
                     TypeOfReturnValue.SCALAR,
-                    ScriptSource.LIBRARY, correctX + "[2]");
+                    ScriptSource.LIBRARY, correctX + "[2]", InputType.VECTORS);
             ScalarResult resX = call.runScriptToGetScalar(
                     script,
                     correct);
             script = new Script("", null, 1, TypeOfReturnValue.SCALAR,
-                    ScriptSource.LIBRARY, correctY + "[9]");
+                    ScriptSource.LIBRARY, correctY + "[9]", InputType.VECTORS);
             ScalarResult resY = call.runScriptToGetScalar(
                     script,
                     correct);
@@ -119,7 +120,7 @@ public class FakeRTest {
             Script script = new Script("", null,
                     2, TypeOfReturnValue.VECTOR,
                     ScriptSource.LIBRARY,
-                    "c(" + correctX + "[5], " + correctY + "[5])");
+                    "c(" + correctX + "[5], " + correctY + "[5])", InputType.VECTORS);
             VectorResult res = call.runScriptToGetVector(script, correct);
             assertTrue("Vector isn't returned correctly from FakeR",
                     res.getValue() instanceof ArrayList);
@@ -134,7 +135,7 @@ public class FakeRTest {
             Script script = new Script("", null, 3,
                     TypeOfReturnValue.VECTORS,
                     ScriptSource.LIBRARY,
-                    correctScriptForCorrectFileString);
+                    correctScriptForCorrectFileString, InputType.VECTORS);
 
             VectorsResult res = call.runScriptToGetVectors(script,
                     correct);

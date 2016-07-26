@@ -8,7 +8,7 @@ import org.junit.Test;
  */
 public class TestFormattedScriptUploader {
     private static final String TEST_SCRIPT =
-            "#n = 2 #Input: TIME_ONE_DIM #Output: VECTOR_DOUBLE  " +
+            "#n = 2 #Input: TIME_SERIES #Output: VECTOR_DOUBLE  " +
                     "a <- col_0[5];  b <- mean(col_1); r <- c(a, b)";
     private static final String TEST_SCRIPT_NAME =
             "test.r";

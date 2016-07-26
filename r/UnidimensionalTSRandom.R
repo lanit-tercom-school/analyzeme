@@ -1,6 +1,6 @@
 #Name: unidim residials cyclical component
 #n = 1
-#Input: VECTOR_DOUBLE
+#Input: VECTORS
 #Output: VECTORS_DOUBLE
 data <- col_0 #or the URL of data from database
 coefficientOfFrequency <- data[length(data)-2]

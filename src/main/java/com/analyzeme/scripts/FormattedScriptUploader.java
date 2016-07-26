@@ -22,7 +22,7 @@ public class FormattedScriptUploader {
     private static final int NAME_GROUP = 3;
     private static final int MIN_N_GROUP = 8;
     private static final int N_GROUP = 12;
-    //private static final int INPUT_GROUP = 16;
+    private static final int INPUT_GROUP = 16;
     private static final int OUTPUT_GROUP = 20;
     private static final int SCRIPT_START_GROUP = 23;
     private static final Logger LOGGER;
@@ -39,7 +39,7 @@ public class FormattedScriptUploader {
         if (res == null || res.isEmpty()) {
             return name;
         } else {
-            while(res.endsWith(" ")) {
+            while (res.endsWith(" ")) {
                 res = res.substring(0, (res.length() - 1));
             }
             return res;
@@ -114,6 +114,22 @@ public class FormattedScriptUploader {
                 "This type of return value is not supported");
     }
 
+    private static InputType getInputType(final String type) {
+        if (type == null || type.equals("")
+                || type.equalsIgnoreCase("EMPTY")) {
+            return InputType.EMPTY;
+        }
+        if (type.equalsIgnoreCase("VECTORS")) {
+            return InputType.VECTORS;
+        }
+        if (type.equalsIgnoreCase("TIME_SERIES")) {
+            return InputType.TIME_SERIES;
+        }
+        LOGGER.info("getInputType(): not supported argument");
+        throw new IllegalArgumentException(
+                "This type of input value is not supported");
+    }
+
     public static Script upload(final String script,
                                 final String scriptName) throws IOException {
         LOGGER.debug("upload(): method started");
@@ -129,7 +145,7 @@ public class FormattedScriptUploader {
             int n = getInt(m, N_GROUP);
             int num = chooseNum(n, minN);
 
-            //String input = m.group(INPUT_GROUP);
+            String input = m.group(INPUT_GROUP);
             String output = m.group(OUTPUT_GROUP);
 
             String trimmedName = trimName(scriptName);
@@ -140,7 +156,8 @@ public class FormattedScriptUploader {
 
             Script result = new Script(name,
                     id, num, toTypeOfReturnValue(output),
-                    ScriptSource.DISK_DEFAULT, null);
+                    ScriptSource.DISK_DEFAULT, null,
+                    getInputType(input));
             LOGGER.debug("upload(): script is uploaded and ready");
             return result;
         }
