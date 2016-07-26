@@ -1,6 +1,6 @@
 package com.analyzeme.r.facade;
 
-import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.resolvers.DataSetResolversFactory;
 import com.analyzeme.data.resolvers.IDataSetResolver;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;

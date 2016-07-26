@@ -1,4 +1,4 @@
-package com.analyzeme.data.dataWithType;
+package com.analyzeme.data.dataset;
 
 /**
  * Types of {@link DataEntry}

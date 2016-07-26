@@ -1,6 +1,6 @@
 package com.analyzeme.repository.projects;
 
-import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.repository.filerepository.TypeOfFile;

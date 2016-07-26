@@ -1,11 +1,11 @@
 package com.analyzeme.r.facade;
 
-import com.analyzeme.analyzers.result.ColumnResult;
-import com.analyzeme.analyzers.result.FileResult;
-import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
+import com.analyzeme.analyzers.result.VectorResult;
+import com.analyzeme.analyzers.result.VectorsResult;
+import com.analyzeme.analyzers.result.NotParsedResult;
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.DataSet;
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import com.analyzeme.r.call.FakeR;
 import com.analyzeme.r.call.IRCaller;
@@ -50,9 +50,9 @@ public class RFacade {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
-    public static NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                             final String rScript,
-                                                             final Map<String, List<DataEntry>> data) throws Exception {
+    public static NotParsedResult runScriptDefault(final String scriptName,
+                                                   final String rScript,
+                                                   final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
@@ -89,14 +89,14 @@ public class RFacade {
      * @return one vector
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static ColumnResult runScriptToGetVector(final String scriptName,
+    public static VectorResult runScriptToGetVector(final String scriptName,
                                                     final String rScript,
                                                     final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
-        ColumnResult result = caller.runScriptToGetVector(scriptName, rScript, data);
+        VectorResult result = caller.runScriptToGetVector(scriptName, rScript, data);
         return result;
     }
 
@@ -109,15 +109,15 @@ public class RFacade {
      * @return group of vectors
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public static FileResult runScriptToGetVectors(final String scriptName,
-                                                   final String rScript,
-                                                   final Map<String, List<DataEntry>> data)
+    public static VectorsResult runScriptToGetVectors(final String scriptName,
+                                                      final String rScript,
+                                                      final Map<String, List<DataEntry>> data)
             throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
-        FileResult result = caller.runScriptToGetVectors(scriptName, rScript, data);
+        VectorsResult result = caller.runScriptToGetVectors(scriptName, rScript, data);
         return result;
     }
 
@@ -137,8 +137,8 @@ public class RFacade {
      * @return auto-generated json result (mistakes are possible)
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static NotParsedJsonStringResult runScriptDefault(final String scriptName, final String rScript,
-                                                             final int userId, final String projectId)
+    public static NotParsedResult runScriptDefault(final String scriptName, final String rScript,
+                                                   final int userId, final String projectId)
             throws Exception {
         if (rScript == null || rScript.equals("") ||
                 userId == 0 || projectId == null ||
@@ -183,7 +183,7 @@ public class RFacade {
      * @return one vector
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static ColumnResult runScriptToGetVector(final String scriptName,
+    public static VectorResult runScriptToGetVector(final String scriptName,
                                                     final String rScript,
                                                     final int userId, final String projectId)
             throws Exception {
@@ -192,7 +192,7 @@ public class RFacade {
             throw new IllegalArgumentException();
         }
         List<DataSet> files = getSets(rScript, userId, projectId);
-        ColumnResult result = caller.runScriptToGetVector(
+        VectorResult result = caller.runScriptToGetVector(
                 scriptName, rScript, files);
         return result;
     }
@@ -208,16 +208,16 @@ public class RFacade {
      * @return List<Point>
      * @throws Exception if files not found, r was impossible to call or there was in error in script
      */
-    public static FileResult runScriptToGetVectors(final String scriptName,
-                                                   final String rScript,
-                                                   final int userId,
-                                                   final String projectId) throws Exception {
+    public static VectorsResult runScriptToGetVectors(final String scriptName,
+                                                      final String rScript,
+                                                      final int userId,
+                                                      final String projectId) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 userId == 0 || projectId == null || projectId.equals("")) {
             throw new IllegalArgumentException();
         }
         List<DataSet> files = getSets(rScript, userId, projectId);
-        FileResult result = caller.runScriptToGetVectors(
+        VectorsResult result = caller.runScriptToGetVectors(
                 scriptName, rScript, files);
         return result;
     }

@@ -1,9 +1,9 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.r.DataConverter;
-import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.IResult;
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.r.facade.get.IFromR;
@@ -63,9 +63,9 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer {
             LOGGER.info("analyze(): null result");
         }
         if (TYPE_OF_RETURN_VALUE.equals(TypeOfReturnValue.VECTORS)) {
-            LOGGER.debug("analyze(): FileResult is ready");
+            LOGGER.debug("analyze(): VectorsResult is ready");
             return DataConverter.translateFromR(
-                    (FileResult) result, keys);
+                    (VectorsResult) result, keys);
         } else {
             LOGGER.debug("analyze(): result is ready");
             return result;

@@ -1,8 +1,8 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.data.DataSet;
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 
 import javax.script.ScriptEngine;
 import java.util.List;

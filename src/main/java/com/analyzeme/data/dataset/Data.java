@@ -1,4 +1,4 @@
-package com.analyzeme.data.dataWithType;
+package com.analyzeme.data.dataset;
 
 import org.json.simple.JSONObject;
 
@@ -10,14 +10,14 @@ import java.util.Set;
 /**
  * Represents vector of {@link DataEntry}
  */
-public class DataWithType {
+public class Data {
     private final Map<String, DataEntry> data;
 
-    public DataWithType() {
+    public Data() {
         data = new HashMap<>();
     }
 
-    public DataWithType(final Map<String, DataEntry> data) {
+    public Data(final Map<String, DataEntry> data) {
         this.data = data;
     }
 
@@ -27,7 +27,7 @@ public class DataWithType {
      * @param other other object
      * @return true if has, false otherwise
      */
-    public boolean hasSameTypesAndKeySets(DataWithType other) {
+    public boolean hasSameTypesAndKeySets(Data other) {
         if (!this.data.keySet().equals(other.data.keySet())) {
             return false;
         }
@@ -96,8 +96,8 @@ public class DataWithType {
     @Override
     public boolean equals(Object other) {
         boolean result = false;
-        if (other instanceof DataWithType) {
-            DataWithType that = (DataWithType) other;
+        if (other instanceof Data) {
+            Data that = (Data) other;
             result = this.getData().equals(that.getData());
         }
         return result;

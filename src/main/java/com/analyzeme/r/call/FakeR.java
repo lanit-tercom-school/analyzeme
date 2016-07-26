@@ -1,12 +1,12 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyzers.result.ColumnResult;
-import com.analyzeme.analyzers.result.FileResult;
-import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
+import com.analyzeme.analyzers.result.NotParsedResult;
+import com.analyzeme.analyzers.result.VectorResult;
+import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.DataSet;
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,13 +23,13 @@ public class FakeR implements IRCaller {
      * @return auto-generated json form of result (may be errors)
      * @throws Exception if failed to call r or script errored
      */
-    public NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                      final String rScript,
-                                                      final List<DataSet> dataFiles) throws Exception {
+    public NotParsedResult runScriptDefault(final String scriptName,
+                                            final String rScript,
+                                            final List<DataSet> dataFiles) throws Exception {
         if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
-        return new NotParsedJsonStringResult("");
+        return new NotParsedResult("");
     }
 
     /**
@@ -55,13 +55,13 @@ public class FakeR implements IRCaller {
      * @return one vector
      * @throws Exception if failed to call r or script errored
      */
-    public ColumnResult runScriptToGetVector(final String scriptName,
+    public VectorResult runScriptToGetVector(final String scriptName,
                                              final String rScript,
                                              final List<DataSet> dataFiles) throws Exception {
         if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
-        return new ColumnResult(new ArrayList());
+        return new VectorResult(new ArrayList());
     }
 
     /**
@@ -71,13 +71,13 @@ public class FakeR implements IRCaller {
      * @return group of vectors
      * @throws Exception if failed to call r or script errored
      */
-    public FileResult runScriptToGetVectors(final String scriptName,
-                                            final String rScript,
-                                            final List<DataSet> dataFiles) throws Exception {
+    public VectorsResult runScriptToGetVectors(final String scriptName,
+                                               final String rScript,
+                                               final List<DataSet> dataFiles) throws Exception {
         if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
         }
-        return new FileResult(new HashMap<String, List<DataEntry>>());
+        return new VectorsResult(new HashMap<String, List<DataEntry>>());
     }
 
 
@@ -88,14 +88,14 @@ public class FakeR implements IRCaller {
      * @return json form of result (may be errors)
      * @throws Exception if failed to call r or command errored
      */
-    public NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                      final String rScript,
-                                                      final Map<String, List<DataEntry>> data) throws Exception {
+    public NotParsedResult runScriptDefault(final String scriptName,
+                                            final String rScript,
+                                            final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
-        return new NotParsedJsonStringResult("");
+        return new NotParsedResult("");
     }
 
     /**
@@ -122,14 +122,14 @@ public class FakeR implements IRCaller {
      * @return one vector
      * @throws Exception if failed to call r or command errored
      */
-    public ColumnResult runScriptToGetVector(final String scriptName,
+    public VectorResult runScriptToGetVector(final String scriptName,
                                              final String rScript,
                                              final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
-        return new ColumnResult(new ArrayList());
+        return new VectorResult(new ArrayList());
     }
 
     /**
@@ -139,13 +139,13 @@ public class FakeR implements IRCaller {
      * @return group of vectors
      * @throws Exception if failed to call r or command errored
      */
-    public FileResult runScriptToGetVectors(final String scriptName,
-                                            final String rScript,
-                                            final Map<String, List<DataEntry>> data) throws Exception {
+    public VectorsResult runScriptToGetVectors(final String scriptName,
+                                               final String rScript,
+                                               final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
         }
-        return new FileResult(new HashMap<String, List<DataEntry>>());
+        return new VectorsResult(new HashMap<String, List<DataEntry>>());
     }
 }

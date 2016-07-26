@@ -3,7 +3,7 @@ package com.analyzeme.controllers;
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.analyzers.r.UserScriptAnalyzer;
 import com.analyzeme.analyzers.r.TypeOfCall;
-import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.repository.filerepository.FileInfo;
 import com.analyzeme.repository.filerepository.FileUploader;
 import com.analyzeme.repository.filerepository.TypeOfFile;

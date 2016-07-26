@@ -1,4 +1,4 @@
-#Name: some kind of name only letters and spaces
+#Name: letters and spaces
 #minN = 2
 #Output: VECTOR_DOUBLE
 a <- col_0[5];

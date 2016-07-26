@@ -1,7 +1,7 @@
 package com.analyzeme.analyzers.r;
 
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 import org.junit.BeforeClass;
 import org.junit.Test;
 

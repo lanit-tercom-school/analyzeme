@@ -1,20 +1,6 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.data.DataSet;
-import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
-import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
-import com.analyzeme.parsers.JsonParser;
-import com.analyzeme.repository.filerepository.FileRepository;
-import com.analyzeme.repository.filerepository.TypeOfFile;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Ignore;
-import org.junit.Test;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.fail;

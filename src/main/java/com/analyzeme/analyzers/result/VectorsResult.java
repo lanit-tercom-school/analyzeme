@@ -1,8 +1,8 @@
 package com.analyzeme.analyzers.result;
 
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataWithType;
-import com.analyzeme.data.dataWithType.DataWithTypeArray;
+import com.analyzeme.data.dataset.Data;
+import com.analyzeme.data.dataset.DataArray;
+import com.analyzeme.data.dataset.DataEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,7 +14,7 @@ import static java.lang.Math.abs;
  * Use this type of result for groups of vectors with names
  */
 
-public class FileResult implements IResult<Map<String, List<DataEntry>>> {
+public class VectorsResult implements IResult<Map<String, List<DataEntry>>> {
     private static final Logger LOGGER;
     private static final double EPS_FOR_DOUBLE = 0.0001;
     private final Map<String, List<DataEntry>> result;
@@ -22,10 +22,10 @@ public class FileResult implements IResult<Map<String, List<DataEntry>>> {
 
     static {
         LOGGER = LoggerFactory.getLogger(
-                "com.analyzeme.analyzers.result.FileResult");
+                "com.analyzeme.analyzers.result.VectorsResult");
     }
 
-    public FileResult(final Map<String, List<DataEntry>> result) {
+    public VectorsResult(final Map<String, List<DataEntry>> result) {
         this.result = result;
     }
 
@@ -38,7 +38,7 @@ public class FileResult implements IResult<Map<String, List<DataEntry>>> {
         if (result == null) {
             return null;
         }
-        DataWithTypeArray temp = new DataWithTypeArray();
+        DataArray temp = new DataArray();
         Iterator<String> it = result.keySet().iterator();
         int length = 0;
         if (it.hasNext()) {
@@ -56,7 +56,7 @@ public class FileResult implements IResult<Map<String, List<DataEntry>>> {
                 tempMap.put(entry.getKey(),
                         entry.getValue().get(i));
             }
-            DataWithType d = new DataWithType(tempMap);
+            Data d = new Data(tempMap);
             temp.addData(d);
         }
         LOGGER.debug("toJson(): DataArray created");
@@ -66,8 +66,8 @@ public class FileResult implements IResult<Map<String, List<DataEntry>>> {
     @Override
     public boolean equals(Object other) {
         boolean result = false;
-        if (other instanceof FileResult) {
-            FileResult that = (FileResult) other;
+        if (other instanceof VectorsResult) {
+            VectorsResult that = (VectorsResult) other;
             result = that.getValue().keySet().equals(
                     this.getValue().keySet());
             if (result) {

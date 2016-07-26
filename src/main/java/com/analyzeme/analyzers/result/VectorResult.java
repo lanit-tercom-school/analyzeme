@@ -1,6 +1,6 @@
 package com.analyzeme.analyzers.result;
 
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataEntry;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -12,19 +12,19 @@ import java.util.List;
  * Use this type of result for anonymous vectors of some kind of objects
  */
 
-public class ColumnResult implements IResult<List<DataEntry>> {
+public class VectorResult implements IResult<List<DataEntry>> {
     private static final Logger LOGGER;
     private final JsonWriter writer = new JsonWriter();
 
     static {
         LOGGER = LoggerFactory.getLogger(
-                "com.analyzeme.analyzers.result.ColumnResult");
+                "com.analyzeme.analyzers.result.VectorResult");
     }
 
     private final ObjectMapper mapper = new ObjectMapper();
     private final List<DataEntry> result;
 
-    public ColumnResult(final List<DataEntry> result) {
+    public VectorResult(final List<DataEntry> result) {
         this.result = result;
     }
 
@@ -48,8 +48,8 @@ public class ColumnResult implements IResult<List<DataEntry>> {
     @Override
     public boolean equals(Object other) {
         boolean result = false;
-        if (other instanceof ColumnResult) {
-            ColumnResult that = (ColumnResult) other;
+        if (other instanceof VectorResult) {
+            VectorResult that = (VectorResult) other;
             if (that.getValue().size()
                     != this.getValue().size()) {
                 return result;

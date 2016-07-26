@@ -1,6 +1,6 @@
 package com.analyzeme.controllers;
 
-import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
 import com.analyzeme.parsers.InfoToJson;
 import com.analyzeme.repository.UserInfo;

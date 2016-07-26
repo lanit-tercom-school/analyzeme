@@ -1,8 +1,8 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.IResult;
-import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.analyzers.result.NotParsedResult;
+import com.analyzeme.data.dataset.DataEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,7 +44,7 @@ public class LinearRegressionAnalyzer implements IAnalyzer {
     /**
      * @param data should contain two List<Double>
      * @return null if data is Points are inappropriate
-     * otherwise NotParsedJsonStringResult like: y=a*x+b
+     * otherwise NotParsedResult like: y=a*x+b
      */
     public IResult analyze(Map<String, List<DataEntry>> data) {
         LOGGER.debug("analyze(): method started");
@@ -76,11 +76,11 @@ public class LinearRegressionAnalyzer implements IAnalyzer {
         calculateSecondCoef();
         LOGGER.debug("analyze(): coefs are ready");
         if (secondCoef.compareTo(BigDecimal.ZERO) >= 0) {
-            return new NotParsedJsonStringResult(
+            return new NotParsedResult(
                     String.format("y=%s*x+%s",
                             firstCoef, secondCoef));
         }
-        return new NotParsedJsonStringResult(
+        return new NotParsedResult(
                 String.format("y=%s*x%s",
                         firstCoef, secondCoef));
     }

@@ -1,6 +1,6 @@
-simple_anon_vector.R
-simple_scalar.R
-simple_vectors.R
+example_anon_vector.R
+example_scalar.R
+example_vectors.R
 UnidimensionalTSRandom.R
 UnidimensionalTSSeasonal.R
 UnidimensionalTSTrend.R

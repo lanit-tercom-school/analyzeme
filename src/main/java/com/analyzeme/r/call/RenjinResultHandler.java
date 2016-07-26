@@ -1,7 +1,7 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 import org.renjin.primitives.matrix.Matrix;
 import org.renjin.sexp.AtomicVector;
 import org.renjin.sexp.ListVector;
@@ -115,7 +115,7 @@ public class RenjinResultHandler {
 
     static Map<String, List<DataEntry>> renjinDataFrameToFile(final SEXP result) throws Exception {
         if (result == null) {
-            throw new IllegalArgumentException("Renjin to get FileResult: impossible to evaluate; cause: null result");
+            throw new IllegalArgumentException("Renjin to get VectorsResult: impossible to evaluate; cause: null result");
         }
         ListVector res = (ListVector) result;
         if (res.hasAttributes()) {
@@ -137,7 +137,7 @@ public class RenjinResultHandler {
 
     static Map<String, List<DataEntry>> renjinMatrixToFile(final SEXP result) throws Exception {
         if (result == null || !result.hasAttributes() || result.getAttributes().getDim() == null) {
-            throw new IllegalArgumentException("Renjin to get FileResult: impossible to evaluate; cause: null result");
+            throw new IllegalArgumentException("Renjin to get VectorsResult: impossible to evaluate; cause: null result");
         }
         Matrix m = new Matrix((Vector) result);
         //TODO: refactor to work not only with double
@@ -167,7 +167,7 @@ public class RenjinResultHandler {
 
     static List renjinNotNamedVectorToList(final SEXP v) {
         if (v == null) {
-            throw new IllegalArgumentException("Renjin to get ColumnResult: impossible to evaluate; cause: null result");
+            throw new IllegalArgumentException("Renjin to get VectorResult: impossible to evaluate; cause: null result");
         }
         List<DataEntry> result = new ArrayList<DataEntry>();
         for (int i = 0; i < v.length(); i++) {

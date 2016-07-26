@@ -1,6 +1,6 @@
 package com.analyzeme.data.resolvers.sourceinfo;
 
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataEntry;
 
 import java.io.ByteArrayInputStream;
 import java.util.List;

@@ -1,12 +1,10 @@
 package com.analyzeme.repository.filerepository;
 
-import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.resolvers.sourceinfo.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by lagroffe on 20.05.2016 21:27

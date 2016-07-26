@@ -1,7 +1,7 @@
 package com.analyzeme.data.resolvers.sourceinfo;
 
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataWithTypeArray;
+import com.analyzeme.data.dataset.DataArray;
+import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.parsers.ParserFactory;
 import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.TypeOfFile;
@@ -23,7 +23,7 @@ public class DataRepositoryInfo implements ISourceInfo {
     }
 
     public ByteArrayInputStream getFileData() throws Exception {
-        DataWithTypeArray dataArray = getDataArray();
+        DataArray dataArray = getDataArray();
         return new ByteArrayInputStream(dataArray.toPointJson().getBytes());
     }
 
@@ -32,18 +32,18 @@ public class DataRepositoryInfo implements ISourceInfo {
     }
 
     public Set<String> getKeys() throws Exception {
-        DataWithTypeArray dataArray = getDataArray();
+        DataArray dataArray = getDataArray();
         return dataArray.getDataList().get(0).getKeys();
     }
 
     public List<DataEntry> getByField(String fieldName) throws Exception {
-        DataWithTypeArray dataArray = getDataArray();
+        DataArray dataArray = getDataArray();
         return dataArray.getByKey(fieldName);
     }
 
-    private DataWithTypeArray getDataArray() throws Exception {
+    private DataArray getDataArray() throws Exception {
         ByteArrayInputStream file = FileRepository.getRepo().getFileByID(uniqueNameInRepository);
         //        System.out.println(array);
-        return ParserFactory.createParser(fileType).parseWithType(file);
+        return ParserFactory.createParser(fileType).parse(file);
     }
 }

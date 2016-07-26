@@ -1,6 +1,6 @@
 package com.analyzeme.data.resolvers;
 
-import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.repository.UsersRepository;
 import com.analyzeme.repository.projects.ProjectInfo;
 

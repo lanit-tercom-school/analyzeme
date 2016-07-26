@@ -1,8 +1,8 @@
 package com.analyzeme.analyzers.r;
 
-import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.IResult;
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -131,13 +131,13 @@ public class DataConverter {
     /**
      * translates column names of data using keys (get by getKeysForR()) after R script execution
      *
-     * @param result - FileResult (an object that contains Map<String, List<DataEntry>> alias of column -> data in it)
+     * @param result - VectorsResult (an object that contains Map<String, List<DataEntry>> alias of column -> data in it)
      * @param keys   - Map<String, String>, where the first String is the name of column in the given data, and the second - alias that is used in script
-     * @return FileResult (an object that contains Map<String, List<DataEntry>> with aliases changed to column names from keys map)
+     * @return VectorsResult (an object that contains Map<String, List<DataEntry>> with aliases changed to column names from keys map)
      */
-    public static IResult translateFromR(final FileResult result,
+    public static IResult translateFromR(final VectorsResult result,
                                          final Map<String, String> keys) {
-        LOGGER.debug("translateFromR(FileResult): method started");
+        LOGGER.debug("translateFromR(VectorsResult): method started");
         if (result == null) {
             LOGGER.info("translateFromR(): null argument");
             throw new IllegalArgumentException(
@@ -145,8 +145,8 @@ public class DataConverter {
         }
         Map<String, List<DataEntry>> map = result.getValue();
         Map<String, List<DataEntry>> resultMap = translateFromR(map, keys);
-        LOGGER.debug("translateFromR(FileResult): method finished");
-        return new FileResult(resultMap);
+        LOGGER.debug("translateFromR(VectorsResult): method finished");
+        return new VectorsResult(resultMap);
     }
 
     private static Map<String, String> revertKeyMap(

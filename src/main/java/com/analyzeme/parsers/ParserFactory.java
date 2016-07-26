@@ -2,10 +2,10 @@ package com.analyzeme.parsers;
 
 import com.analyzeme.repository.filerepository.TypeOfFile;
 
-
 public class ParserFactory {
     /**
      * Gets parser for specified type
+     *
      * @param fileType type for parser
      * @return
      * @throws IllegalArgumentException if type is not supported

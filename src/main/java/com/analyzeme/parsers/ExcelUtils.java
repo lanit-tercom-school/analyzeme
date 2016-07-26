@@ -8,7 +8,6 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 
-
 /**
  * Helper class for working with Apache POI cells
  */

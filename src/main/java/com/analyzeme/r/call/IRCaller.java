@@ -1,11 +1,11 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyzers.result.ColumnResult;
-import com.analyzeme.analyzers.result.FileResult;
-import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
+import com.analyzeme.analyzers.result.NotParsedResult;
+import com.analyzeme.analyzers.result.VectorResult;
+import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.DataSet;
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.data.dataset.DataEntry;
 
 import java.util.List;
 import java.util.Map;
@@ -19,9 +19,9 @@ public interface IRCaller {
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or script errored
      */
-    NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                               final String rScript,
-                                               final List<DataSet> dataFiles) throws Exception;
+    NotParsedResult runScriptDefault(final String scriptName,
+                                     final String rScript,
+                                     final List<DataSet> dataFiles) throws Exception;
 
     /**
      * @param scriptName - name of the script to be called
@@ -41,7 +41,7 @@ public interface IRCaller {
      * @return vector (~column)
      * @throws Exception if failed to call r or script errored
      */
-    ColumnResult runScriptToGetVector(final String scriptName,
+    VectorResult runScriptToGetVector(final String scriptName,
                                       final String rScript,
                                       final List<DataSet> dataFiles) throws Exception;
 
@@ -52,9 +52,9 @@ public interface IRCaller {
      * @return group of vectors (~columns)
      * @throws Exception if failed to call r or script errored
      */
-    FileResult runScriptToGetVectors(final String scriptName,
-                                     final String rScript,
-                                     final List<DataSet> dataFiles) throws Exception;
+    VectorsResult runScriptToGetVectors(final String scriptName,
+                                        final String rScript,
+                                        final List<DataSet> dataFiles) throws Exception;
 
 
     /**
@@ -64,9 +64,9 @@ public interface IRCaller {
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or command errored
      */
-    NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                               final String rScript,
-                                               final Map<String, List<DataEntry>> data) throws Exception;
+    NotParsedResult runScriptDefault(final String scriptName,
+                                     final String rScript,
+                                     final Map<String, List<DataEntry>> data) throws Exception;
 
 
     /**
@@ -87,7 +87,7 @@ public interface IRCaller {
      * @return vector (~column)
      * @throws Exception if failed to call r or command errored
      */
-    ColumnResult runScriptToGetVector(final String scriptName,
+    VectorResult runScriptToGetVector(final String scriptName,
                                       final String rScript,
                                       final Map<String, List<DataEntry>> data) throws Exception;
 
@@ -98,7 +98,7 @@ public interface IRCaller {
      * @return group of vectors (~columns)
      * @throws Exception if failed to call r or command errored
      */
-    FileResult runScriptToGetVectors(final String scriptName,
-                                     final String rScript,
-                                     final Map<String, List<DataEntry>> data) throws Exception;
+    VectorsResult runScriptToGetVectors(final String scriptName,
+                                        final String rScript,
+                                        final Map<String, List<DataEntry>> data) throws Exception;
 }

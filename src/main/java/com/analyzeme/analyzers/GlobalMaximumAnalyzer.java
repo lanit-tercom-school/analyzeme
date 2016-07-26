@@ -1,11 +1,11 @@
 package com.analyzeme.analyzers;
 
-import com.analyzeme.analyzers.result.ColumnResult;
+import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
-import com.analyzeme.data.dataWithType.ListHandler;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
+import com.analyzeme.data.dataset.ListHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +50,7 @@ public class GlobalMaximumAnalyzer implements IAnalyzer {
                     iterator.next()).get(maxInd));
         }
         LOGGER.debug("analyze(): method finished");
-        return new ColumnResult(result);
+        return new VectorResult(result);
     }
 
     private int getMaxInd(final List<Double> column) {

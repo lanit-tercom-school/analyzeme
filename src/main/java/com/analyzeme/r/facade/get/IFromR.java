@@ -1,6 +1,6 @@
 package com.analyzeme.r.facade.get;
 
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataEntry;
 
 import java.util.List;
 import java.util.Map;

@@ -1,12 +1,12 @@
 package com.analyzeme.r.call;
 
 
-import com.analyzeme.analyzers.result.ColumnResult;
-import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.VectorResult;
+import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.DataSet;
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.repository.filerepository.FileRepository;
@@ -118,7 +118,7 @@ public class FakeRTest {
     @Test
     public void testCorrectCommandToGetPointCorrectFile() {
         try {
-            ColumnResult res = call.runScriptToGetVector("",
+            VectorResult res = call.runScriptToGetVector("",
                     "c(" + correctX + "[5], " +
                             correctY + "[5])", correct);
             assertTrue("Vector isn't returned correctly from FakeR",
@@ -131,7 +131,7 @@ public class FakeRTest {
     @Test
     public void testCorrectCommandToGetPointsCorrectFile() {
         try {
-            FileResult res = call.runScriptToGetVectors("",
+            VectorsResult res = call.runScriptToGetVectors("",
                     correctScriptForCorrectFileString,
                     correct);
             assertTrue("Group of vectors aren't returned correctly from FakeR",

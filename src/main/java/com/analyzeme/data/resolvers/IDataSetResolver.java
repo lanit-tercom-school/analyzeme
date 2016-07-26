@@ -1,6 +1,6 @@
 package com.analyzeme.data.resolvers;
 
-import com.analyzeme.data.DataSet;
+import com.analyzeme.data.dataset.DataSet;
 
 public interface IDataSetResolver {
 

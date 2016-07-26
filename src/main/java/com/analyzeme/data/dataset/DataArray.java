@@ -1,4 +1,4 @@
-package com.analyzeme.data.dataWithType;
+package com.analyzeme.data.dataset;
 
 import org.json.JSONArray;
 
@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 /**
  * Represents matrix of {@link DataEntry}
  */
-public class DataWithTypeArray {
-    private final List<DataWithType> dataList;
+public class DataArray {
+    private final List<Data> dataList;
 
-    public DataWithTypeArray() {
+    public DataArray() {
         dataList = new ArrayList<>();
     }
 
@@ -21,7 +21,7 @@ public class DataWithTypeArray {
      * @param data
      * @throws IllegalArgumentException if @{data} has different structure than others in lists
      */
-    public void addData(DataWithType data) {
+    public void addData(Data data) {
         if (!dataList.isEmpty()) {
             if (!data.hasSameTypesAndKeySets(dataList.get(0))) {
                 throw new IllegalArgumentException("Types should be same");
@@ -30,7 +30,7 @@ public class DataWithTypeArray {
         dataList.add(data);
     }
 
-    public List<DataWithType> getDataList() {
+    public List<Data> getDataList() {
         return dataList;
     }
 
@@ -49,7 +49,7 @@ public class DataWithTypeArray {
      */
     public Map<String, List<DataEntry>> getMap() {
         Map<String, List<DataEntry>> result = new HashMap<>();
-        for (DataWithType data : this.getDataList()) {
+        for (Data data : this.getDataList()) {
             for (String key : data.getKeys()) {
                 if (!result.containsKey(key)) {
                     result.put(key, new ArrayList<>());
@@ -72,16 +72,16 @@ public class DataWithTypeArray {
 
     /**
      * Creates JSON representation in given format:
-     * <i>{"DataWithType":[{ "x": "1","y": "1" },{"x": "20","y": "20"}]}</i>
+     * <i>{"Data":[{ "x": "1","y": "1" },{"x": "20","y": "20"}]}</i>
      *
      * @return JSON representation
      */
     public String toPointJson() {
         JSONArray result = new JSONArray();
-        for (DataWithType d : dataList) {
+        for (Data d : dataList) {
             result.put(d.toJson());
         }
-        return "{\"DataWithType\":" + result.toString() + "}";
+        return "{\"Data\":" + result.toString() + "}";
     }
 
     /**
@@ -97,7 +97,7 @@ public class DataWithTypeArray {
         s.deleteCharAt(s.length() - 1);
         s.append('\n');
 
-        for (DataWithType d : dataList) {
+        for (Data d : dataList) {
             s.append(d.toCsvWithNoHeader());
         }
         return s.toString();
@@ -110,7 +110,7 @@ public class DataWithTypeArray {
     public String toString() {
         StringBuilder builder = new StringBuilder();
         builder.append("[\n");
-        for (DataWithType d : dataList) {
+        for (Data d : dataList) {
             builder.append("   ");
             builder.append(d);
             builder.append(",\n");
@@ -121,6 +121,6 @@ public class DataWithTypeArray {
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof DataWithTypeArray && this.dataList.equals(((DataWithTypeArray) other).dataList);
+        return other instanceof DataArray && this.dataList.equals(((DataArray) other).dataList);
     }
 }

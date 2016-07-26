@@ -1,12 +1,12 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyzers.result.ColumnResult;
-import com.analyzeme.analyzers.result.FileResult;
+import com.analyzeme.analyzers.result.VectorResult;
+import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.DataArray;
-import com.analyzeme.data.DataSet;
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
+import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.resolvers.sourceinfo.DataRepositoryInfo;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import com.analyzeme.parsers.JsonParser;
@@ -29,7 +29,7 @@ import static junit.framework.Assert.fail;
 public class RenjinTest {
     private static final double EPS = 0.00001;
     private static IRCaller call;
-    private static DataArray<Double> dataArray;
+    private static DataArray dataArray;
 
     private static final String TEST_DATA =
             "{\"Data\":[{ \"x\": \"0\",\"y\": \"0\" }, " +
@@ -61,17 +61,11 @@ public class RenjinTest {
     private static String incorrectY;
     private static ArrayList<DataSet> incorrect;
 
-    private static String correctScriptForCorrectFileName;
     private static String correctScriptForCorrectFileString;
-    private static ByteArrayInputStream correctScriptForCorrectFile;
 
-    private static String incorrectScriptForCorrectFileName;
     private static String incorrectScriptForCorrectFileString;
-    private static ByteArrayInputStream incorrectScriptForCorrectFile;
 
-    private static String correctScriptForIncorrectFileName;
     private static String correctScriptForIncorrectFileString;
-    private static ByteArrayInputStream correctScriptForIncorrectFile;
 
 
     public static boolean doubleEqual(double a, double b) {
@@ -133,36 +127,24 @@ public class RenjinTest {
         setIncorrect.addField("x");
         setIncorrect.addField("y");
         incorrect.add(setIncorrect);
-        correctScriptForCorrectFileName = "script.r";
         correctScriptForCorrectFileString =
                 "x<-c(" + correctX + "[1], " + correctX + "[2], "
                         + correctX + "[3]); y<-c(" + correctY + "[1], "
                         + correctY + "[2], " + correctY
                         + "[3]); z<-data.frame(x, y); " +
                         "names(z) <- c(\"new X name\", \"new Y name\"); z";
-        correctScriptForCorrectFile =
-                convertStringToStream(correctScriptForCorrectFileString);
-
-        incorrectScriptForCorrectFileName =
-                "incorrectScript.r";
         incorrectScriptForCorrectFileString =
                 "x<-c(" + correctX + "[1], " + correctX
                         + "[2], " + correctX + "[3]); y<c("
                         + correctY + "[1], " + correctY + "[2], "
                         + correctY + "[3]); z<-data.frame(x, y); " +
                         "names(z <- c(\"new X name\", \"new Y name\"); z";
-        incorrectScriptForCorrectFile =
-                convertStringToStream(incorrectScriptForCorrectFileString);
-
-        correctScriptForIncorrectFileName = "scriptForIncorrect.r";
         correctScriptForIncorrectFileString =
                 "x<-c(" + incorrectX + "[1], "
                         + incorrectX + "[2], " + incorrectX + "[3]); y<-c("
                         + incorrectY + "[1], " + incorrectY + "[2], "
                         + incorrectY + "[3]); z<-data.frame(x, y); " +
                         "names(z) <- c(\"new X name\", \"new Y name\"); z";
-        correctScriptForIncorrectFile =
-                convertStringToStream(correctScriptForIncorrectFileString);
 
     }
 
@@ -184,14 +166,16 @@ public class RenjinTest {
         try {
             ScalarResult resX;
             ScalarResult resY;
-            for (int i = 0; i < dataArray.getData().size(); i++) {
+            for (int i = 0; i < dataArray.getByKey("x").size(); i++) {
                 resX = call.runScriptToGetScalar("", correctX + "[" +
                         (int) (i + 1) + "]", correct);
                 resY = call.runScriptToGetScalar("", correctY + "[" +
                         (int) (i + 1) + "]", correct);
                 assertTrue("Scalar isn't returned correctly from Renjin",
-                        doubleEqual(resX.getValue().getDoubleValue(), dataArray.getData().get(i).getByKey("x")) &&
-                                doubleEqual(resY.getValue().getDoubleValue(), dataArray.getData().get(i).getByKey("y")));
+                        doubleEqual(resX.getValue().getDoubleValue(),
+                                dataArray.getByKey("x").get(i).getDoubleValue()) &&
+                                doubleEqual(resY.getValue().getDoubleValue(),
+                                        dataArray.getByKey("y").get(i).getDoubleValue()));
             }
         } catch (Exception e) {
             fail("Scalar isn't returned  correctly from Renjin");
@@ -201,11 +185,13 @@ public class RenjinTest {
     @Test
     public void testCorrectCommandToGetVectorCorrectFile() {
         try {
-            ColumnResult res = call.runScriptToGetVector("", "c(" + correctX +
+            VectorResult res = call.runScriptToGetVector("", "c(" + correctX +
                     "[5], " + correctY + "[5])", correct);
             assertTrue("Vector isn't returned correctly from Renjin",
-                    doubleEqual(dataArray.getData().get(4).getByKey("x"), res.getValue().get(0).getDoubleValue()) &&
-                            doubleEqual(dataArray.getData().get(4).getByKey("y"), res.getValue().get(1).getDoubleValue()));
+                    doubleEqual(dataArray.getByKey("x").get(4).getDoubleValue(),
+                            res.getValue().get(0).getDoubleValue()) &&
+                            doubleEqual(dataArray.getByKey("y").get(4).getDoubleValue(),
+                                    res.getValue().get(1).getDoubleValue()));
         } catch (Exception e) {
             fail("Vector isn't returned correctly from Renjin");
         }
@@ -222,8 +208,8 @@ public class RenjinTest {
                 entry.getValue().add(new DataEntry(DataEntryType.DOUBLE, 1.));
                 entry.getValue().add(new DataEntry(DataEntryType.DOUBLE, 2.));
             }
-            FileResult was = new FileResult(w);
-            FileResult res =
+            VectorsResult was = new VectorsResult(w);
+            VectorsResult res =
                     call.runScriptToGetVectors("",
                             correctScriptForCorrectFileString,
                             correct);

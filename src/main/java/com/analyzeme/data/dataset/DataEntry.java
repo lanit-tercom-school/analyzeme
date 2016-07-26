@@ -1,4 +1,4 @@
-package com.analyzeme.data.dataWithType;
+package com.analyzeme.data.dataset;
 
 import com.analyzeme.parsers.DateAndTimeUtils;
 
@@ -131,6 +131,7 @@ public class DataEntry {
         final String dateTimeFormat = "dd-MM-yyyy HH:mm:ss";
         switch (type) {
             case DOUBLE:
+            case BOOLEAN:
             case STRING:
                 return value.toString();
             case TIME:

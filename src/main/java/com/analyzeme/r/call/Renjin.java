@@ -1,12 +1,12 @@
 package com.analyzeme.r.call;
 
-import com.analyzeme.analyzers.result.ColumnResult;
-import com.analyzeme.analyzers.result.FileResult;
-import com.analyzeme.analyzers.result.NotParsedJsonStringResult;
+import com.analyzeme.analyzers.result.NotParsedResult;
+import com.analyzeme.analyzers.result.VectorResult;
+import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.DataSet;
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataSet;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 import org.renjin.sexp.SEXP;
 
 import javax.script.ScriptEngine;
@@ -54,9 +54,9 @@ public class Renjin implements IRCaller {
      * @return auto-generated json (not our format, may be errors)
      * @throws Exception if failed to call r or script errored
      */
-    public NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                      final String rScript,
-                                                      final List<DataSet> dataFiles) throws Exception {
+    public NotParsedResult runScriptDefault(final String scriptName,
+                                            final String rScript,
+                                            final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
         if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
@@ -65,7 +65,7 @@ public class Renjin implements IRCaller {
         RenjinInputHandler.insertData(engine, dataFiles);
         SEXP result = runScript(rScript);
         deleteData();
-        return new NotParsedJsonStringResult(result.toString());
+        return new NotParsedResult(result.toString());
     }
 
 
@@ -99,7 +99,7 @@ public class Renjin implements IRCaller {
      * @return one vector
      * @throws Exception if failed to call r or script errored
      */
-    public ColumnResult runScriptToGetVector(final String scriptName,
+    public VectorResult runScriptToGetVector(final String scriptName,
                                              final String rScript,
                                              final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
@@ -110,7 +110,7 @@ public class Renjin implements IRCaller {
         RenjinInputHandler.insertData(engine, dataFiles);
         SEXP res = runScript(rScript);
         deleteData();
-        return new ColumnResult(renjinNotNamedVectorToList(res));
+        return new VectorResult(renjinNotNamedVectorToList(res));
     }
 
     /**
@@ -120,9 +120,9 @@ public class Renjin implements IRCaller {
      * @return group of vectors
      * @throws Exception if failed to call r or script errored
      */
-    public FileResult runScriptToGetVectors(final String scriptName,
-                                            final String rScript,
-                                            final List<DataSet> dataFiles) throws Exception {
+    public VectorsResult runScriptToGetVectors(final String scriptName,
+                                               final String rScript,
+                                               final List<DataSet> dataFiles) throws Exception {
         //dataFiles can be empty for simple commands
         if (rScript == null || dataFiles == null) {
             throw new IllegalArgumentException();
@@ -131,7 +131,7 @@ public class Renjin implements IRCaller {
         RenjinInputHandler.insertData(engine, dataFiles);
         SEXP res = runScript(rScript);
         deleteData();
-        return new FileResult(resultToFile(res));
+        return new VectorsResult(resultToFile(res));
     }
 
     /**
@@ -141,9 +141,9 @@ public class Renjin implements IRCaller {
      * @return json form of result (may be errors, auto-generated)
      * @throws Exception if failed to call r or command errored
      */
-    public NotParsedJsonStringResult runScriptDefault(final String scriptName,
-                                                      final String rScript,
-                                                      final Map<String, List<DataEntry>> data) throws Exception {
+    public NotParsedResult runScriptDefault(final String scriptName,
+                                            final String rScript,
+                                            final Map<String, List<DataEntry>> data) throws Exception {
         if (rScript == null || rScript.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
@@ -152,7 +152,7 @@ public class Renjin implements IRCaller {
         RenjinInputHandler.insertData(engine, data);
         SEXP result = runScript(rScript);
         deleteData();
-        return new NotParsedJsonStringResult(result.toString());
+        return new NotParsedResult(result.toString());
     }
 
 
@@ -186,7 +186,7 @@ public class Renjin implements IRCaller {
      * @return vector (~column)
      * @throws Exception if failed to call r or command errored
      */
-    public ColumnResult runScriptToGetVector(final String scriptName,
+    public VectorResult runScriptToGetVector(final String scriptName,
                                              final String rCommand,
                                              final Map<String, List<DataEntry>> data) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
@@ -197,7 +197,7 @@ public class Renjin implements IRCaller {
         RenjinInputHandler.insertData(engine, data);
         SEXP res = runScript(rCommand);
         deleteData();
-        return new ColumnResult(renjinNotNamedVectorToList(res));
+        return new VectorResult(renjinNotNamedVectorToList(res));
     }
 
     /**
@@ -207,9 +207,9 @@ public class Renjin implements IRCaller {
      * @return group of vectors (~columns)
      * @throws Exception if failed to call r or command errored
      */
-    public FileResult runScriptToGetVectors(final String scriptName,
-                                            final String rCommand,
-                                            final Map<String, List<DataEntry>> data) throws Exception {
+    public VectorsResult runScriptToGetVectors(final String scriptName,
+                                               final String rCommand,
+                                               final Map<String, List<DataEntry>> data) throws Exception {
         if (rCommand == null || rCommand.equals("") ||
                 data == null) {
             throw new IllegalArgumentException();
@@ -218,6 +218,6 @@ public class Renjin implements IRCaller {
         RenjinInputHandler.insertData(engine, data);
         SEXP res = runScript(rCommand);
         deleteData();
-        return new FileResult(resultToFile(res));
+        return new VectorsResult(resultToFile(res));
     }
 }

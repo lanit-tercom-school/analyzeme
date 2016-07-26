@@ -1,7 +1,7 @@
 package com.analyzeme.data;
 
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 import org.junit.Assert;
 import org.junit.Test;
 

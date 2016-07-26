@@ -1,4 +1,4 @@
-package com.analyzeme.data.dataWithType;
+package com.analyzeme.data.dataset;
 
 import java.util.ArrayList;
 import java.util.List;

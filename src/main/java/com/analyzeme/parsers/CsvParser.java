@@ -1,11 +1,8 @@
 package com.analyzeme.parsers;
 
-import com.analyzeme.data.Data;
-import com.analyzeme.data.DataArray;
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataWithType;
-import com.analyzeme.data.dataWithType.DataWithTypeArray;
-
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.Data;
+import com.analyzeme.data.dataset.DataArray;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -23,53 +20,37 @@ public class CsvParser implements IParser {
         SETTINGS.getFormat().setLineSeparator("\n");
     }
 
-    public DataArray<Double> parse(InputStream stream) throws InvalidFileException {
-        if (stream == null) {
-            throw new InvalidFileException("CsvParser parseTime(): impossible to parseTime null");
-        }
-        com.univocity.parsers.csv.CsvParser parser = new com.univocity.parsers.csv.CsvParser(SETTINGS);
-        List<String[]> allRows = parser.parseAll(stream);
-        if (!allRows.isEmpty() || allRows.size() == 1) {
-            String[] names = allRows.get(0);
-            DataArray<Double> result = new DataArray<Double>();
-            for (int i = 1; i < allRows.size(); i++) {
-                Map<String, Double> data = new HashMap<String, Double>();
-                for (int j = 0; j < allRows.get(i).length; j++) {
-                    data.put(names[j], Double.parseDouble(allRows.get(i)[j]));
-                }
-                Data<Double> d = new Data<Double>(data);
-                result.addData(d);
-            }
-            return result;
-        } else {
-            throw new InvalidFileException("CsvParser parseTime(): empty or incorrect data to parseTime");
-        }
-    }
-
     @Override
-    public DataWithTypeArray parseWithType(InputStream input) throws InvalidFileException {
+    public DataArray parse(
+            InputStream input) throws InvalidFileException {
         if (input == null) {
-            throw new InvalidFileException("CsvParser parseTime(): impossible to parseTime null");
+            throw new InvalidFileException(
+                    "CsvParser parseTime(): impossible to parseTime null");
         }
-        com.univocity.parsers.csv.CsvParser parser = new com.univocity.parsers.csv.CsvParser(SETTINGS);
+        com.univocity.parsers.csv.CsvParser parser
+                = new com.univocity.parsers.csv.CsvParser(SETTINGS);
         try {
             List<String[]> allRows = parser.parseAll(input);
             if (!allRows.isEmpty() || allRows.size() == 1) {
                 String[] names = allRows.get(0);
-                DataWithTypeArray result = new DataWithTypeArray();
+                DataArray result
+                        = new DataArray();
                 for (int i = 1; i < allRows.size(); i++) {
                     Map<String, DataEntry> data = new HashMap<>();
                     for (int j = 0; j < allRows.get(i).length; j++) {
-                        data.put(names[j], DataEntry.fromString(allRows.get(i)[j]));
+                        data.put(names[j],
+                                DataEntry.fromString(allRows.get(i)[j]));
                     }
-                    result.addData(new DataWithType(data));
+                    result.addData(new Data(data));
                 }
                 return result;
             } else {
-                throw new InvalidFileException("CsvParser parseTime(): empty or incorrect data to parseTime");
+                throw new InvalidFileException(
+                        "CsvParser parseTime(): empty or incorrect data to parseTime");
             }
         } catch (IllegalArgumentException e) {
-            throw new InvalidFileException("CsvParser parseTime(): empty or incorrect data to parseTime");
+            throw new InvalidFileException(
+                    "CsvParser parseTime(): empty or incorrect data to parseTime");
         }
 
     }

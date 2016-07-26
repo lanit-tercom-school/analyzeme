@@ -1,6 +1,5 @@
-package com.analyzeme.data;
+package com.analyzeme.data.dataset;
 
-import com.analyzeme.data.dataWithType.DataEntry;
 import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 
 import java.io.ByteArrayInputStream;
@@ -9,10 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-/**
- * Created by lagroffe on 30.03.2016 13:17
- */
 
 public class DataSet {
     //unique id in the project
@@ -31,9 +26,12 @@ public class DataSet {
      * @param file          - specific structure that gives a possibility to get binary data from any source
      * @throws Exception
      */
-    public DataSet(final String referenceName, final ISourceInfo file) throws Exception {
-        if (referenceName == null || referenceName.equals("") || file == null) {
-            throw new IllegalArgumentException("DataSet ctor: empty argument cannot be used");
+    public DataSet(final String referenceName,
+                   final ISourceInfo file) throws Exception {
+        if (referenceName == null
+                || referenceName.equals("") || file == null) {
+            throw new IllegalArgumentException(
+                    "DataSet ctor: empty argument cannot be used");
         }
         this.idInProject = BigInteger.ZERO;
         this.referenceName = referenceName;
@@ -60,9 +58,11 @@ public class DataSet {
      * @param referenceName - referenceName
      * @throws Exception
      */
-    public void setReferenceName(final String referenceName) throws Exception {
+    public void setReferenceName(
+            final String referenceName) throws Exception {
         if (referenceName == null || referenceName.equals("")) {
-            throw new IllegalArgumentException("DataSet setReferenceName(): empty argument cannot be used");
+            throw new IllegalArgumentException(
+                    "DataSet setReferenceName(): empty argument cannot be used");
         }
         this.referenceName = referenceName;
     }
@@ -73,7 +73,8 @@ public class DataSet {
      */
     public void addField(final String field) throws Exception {
         if (field == null || field.equals("")) {
-            throw new IllegalArgumentException("DataSet addField(): empty argument cannot be used");
+            throw new IllegalArgumentException(
+                    "DataSet addField(): empty argument cannot be used");
         }
         fields.put(field, field);
     }
@@ -83,9 +84,12 @@ public class DataSet {
      * @param fieldName - field name (sth like)
      * @throws Exception
      */
-    public void addField(final String field, final String fieldName) throws Exception {
-        if (field == null || field.equals("") || fieldName == null || fieldName.equals("")) {
-            throw new IllegalArgumentException("DataSet addField(): empty argument cannot be used");
+    public void addField(final String field,
+                         final String fieldName) throws Exception {
+        if (field == null || field.equals("")
+                || fieldName == null || fieldName.equals("")) {
+            throw new IllegalArgumentException(
+                    "DataSet addField(): empty argument cannot be used");
         }
         fields.put(field, fieldName);
     }
@@ -105,7 +109,8 @@ public class DataSet {
         return fields.keySet();
     }
 
-    public List<DataEntry> getByField(final String field) throws Exception {
+    public List<DataEntry> getByField(
+            final String field) throws Exception {
         return file.getByField(field);
     }
 
@@ -121,7 +126,8 @@ public class DataSet {
      */
     public void setIdInProject(BigInteger id) throws Exception {
         if (id == null) {
-            throw new IllegalArgumentException("DataSet setIdInProject: empty id");
+            throw new IllegalArgumentException(
+                    "DataSet setIdInProject: empty id");
         }
         idInProject = id;
     }
@@ -140,7 +146,9 @@ public class DataSet {
         if (!(other instanceof DataSet)) return false;
         try {
             DataSet o = (DataSet) other;
-            if ((o.getReferenceName().equals(referenceName)) && (o.getFile().getClass().equals(file.getClass())) && (o.getFile().getToken().equals(file.getToken())))
+            if ((o.getReferenceName().equals(referenceName))
+                    && (o.getFile().getClass().equals(file.getClass()))
+                    && (o.getFile().getToken().equals(file.getToken())))
                 return true;
         } catch (Exception e) {
             return false;

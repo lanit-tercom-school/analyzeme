@@ -1,7 +1,7 @@
 package com.analyzeme.analyzers.result;
 
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -67,7 +67,7 @@ public class JsonWriterTest {
 
     @Test
     public void testColumnResult() throws Exception {
-        IResult result = new ColumnResult(LIST);
+        IResult result = new VectorResult(LIST);
         String res = result.toJson();
         assertEquals(VECTOR, res);
     }
@@ -81,7 +81,7 @@ public class JsonWriterTest {
 
     @Test
     public void testFileResult() throws Exception {
-        IResult result = new FileResult(MAP);
+        IResult result = new VectorsResult(MAP);
         String res = result.toJson();
         assertEquals(FILE, res);
     }

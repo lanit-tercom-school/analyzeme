@@ -1,8 +1,8 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.dataWithType.DataEntry;
-import com.analyzeme.data.dataWithType.DataEntryType;
+import com.analyzeme.data.dataset.DataEntry;
+import com.analyzeme.data.dataset.DataEntryType;
 import org.junit.Test;
 
 import java.util.ArrayList;

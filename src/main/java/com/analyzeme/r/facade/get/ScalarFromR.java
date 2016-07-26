@@ -1,7 +1,7 @@
 package com.analyzeme.r.facade.get;
 
 import com.analyzeme.analyzers.result.ScalarResult;
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.r.facade.RFacade;
 
 import java.util.List;

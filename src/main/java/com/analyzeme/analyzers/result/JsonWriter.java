@@ -1,6 +1,6 @@
 package com.analyzeme.analyzers.result;
 
-import com.analyzeme.data.dataWithType.DataEntry;
+import com.analyzeme.data.dataset.DataEntry;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
