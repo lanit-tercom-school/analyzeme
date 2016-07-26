@@ -224,6 +224,15 @@
                 <version>2.3</version>
                 <configuration>
                     <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/maven-lib/</directory>
+                            <includes>
+                                <include>**/renjin-script-engine-0.8.2137-jar-with-dependencies.jar</include>
+                            </includes>
+                            <targetPath>WEB-INF/lib/</targetPath>
+                        </resource>
+                    </webResources>
                 </configuration>
             </plugin>
 
