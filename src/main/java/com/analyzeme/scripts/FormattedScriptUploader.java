@@ -84,13 +84,6 @@ public class FormattedScriptUploader {
         return name;
     }
 
-    private static String uploadScriptToRepo(final String script,
-                                             final String scriptName) throws IOException {
-        LOGGER.debug("uploadScriptToRepo(): method started");
-        return FileRepository.getRepo().persist(script,
-                scriptName);
-    }
-
     private static TypeOfReturnValue toTypeOfReturnValue(
             final String type) throws IllegalArgumentException {
         LOGGER.debug("toTypeOfReturnValue(): method started");
@@ -130,8 +123,15 @@ public class FormattedScriptUploader {
                 "This type of input value is not supported");
     }
 
-    public static Script upload(final String script,
-                                final String scriptName) throws IOException {
+    private static String uploadScriptToRepo(final String script,
+                                             final String scriptName) throws IOException {
+        LOGGER.debug("uploadScriptToRepo(): method started");
+        return FileRepository.getRepo().persist(script,
+                scriptName);
+    }
+
+    public static IScriptFromBoxBuilder upload(final String script,
+                                final String scriptName) throws Exception {
         LOGGER.debug("upload(): method started");
         String scriptTransformed = script.replaceAll(
                 "\n", new String(new char[]{(char) 32}));
@@ -154,12 +154,16 @@ public class FormattedScriptUploader {
             String s = trimScript(scriptTransformed, m);
             String id = uploadScriptToRepo(s, scriptName);
 
-            Script result = new Script(name,
-                    id, num, toTypeOfReturnValue(output),
-                    ScriptSource.DISK_DEFAULT, null,
-                    getInputType(input));
+
             LOGGER.debug("upload(): script is uploaded and ready");
-            return result;
+            return new ScriptBuilder()
+                    .fromBox()
+                    .name(name)
+                    .numberOfParams(num)
+                    .inputType(getInputType(input))
+                    .returnValue(toTypeOfReturnValue(output))
+                    .setId(id);
+
         }
         LOGGER.info("upload(): impossible to upload script");
         throw new IOException("Impossible to upload script");

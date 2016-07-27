@@ -14,7 +14,6 @@ import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.TypeOfFile;
 import com.analyzeme.scripts.InputType;
 import com.analyzeme.scripts.Script;
-import com.analyzeme.scripts.ScriptSource;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -89,17 +88,18 @@ public class FakeRTest {
                 (ArrayList<DataSet>) null);
     }
 
+    /*
     @Test
     public void testCorrectCommandToGetNumberCorrectFile() {
         try {
-            Script script = new Script("", null, 1,
-                    TypeOfReturnValue.SCALAR,
-                    ScriptSource.LIBRARY, correctX + "[2]", InputType.VECTORS);
+            Script script = new Script("", null, InputType.VECTORS, 1,
+                    TypeOfReturnValue.SCALAR
+            );
             ScalarResult resX = call.runScriptToGetScalar(
                     script,
                     correct);
-            script = new Script("", null, 1, TypeOfReturnValue.SCALAR,
-                    ScriptSource.LIBRARY, correctY + "[9]", InputType.VECTORS);
+            script = new Script("", null, InputType.VECTORS, 1, TypeOfReturnValue.SCALAR
+            );
             ScalarResult resY = call.runScriptToGetScalar(
                     script,
                     correct);
@@ -118,9 +118,8 @@ public class FakeRTest {
     public void testCorrectCommandToGetPointCorrectFile() {
         try {
             Script script = new Script("", null,
-                    2, TypeOfReturnValue.VECTOR,
-                    ScriptSource.LIBRARY,
-                    "c(" + correctX + "[5], " + correctY + "[5])", InputType.VECTORS);
+                    InputType.VECTORS, 2, TypeOfReturnValue.VECTOR
+            );
             VectorResult res = call.runScriptToGetVector(script, correct);
             assertTrue("Vector isn't returned correctly from FakeR",
                     res.getValue() instanceof ArrayList);
@@ -132,10 +131,9 @@ public class FakeRTest {
     @Test
     public void testCorrectCommandToGetPointsCorrectFile() {
         try {
-            Script script = new Script("", null, 3,
-                    TypeOfReturnValue.VECTORS,
-                    ScriptSource.LIBRARY,
-                    correctScriptForCorrectFileString, InputType.VECTORS);
+            Script script = new Script("", null, InputType.VECTORS, 3,
+                    TypeOfReturnValue.VECTORS
+            );
 
             VectorsResult res = call.runScriptToGetVectors(script,
                     correct);
@@ -144,5 +142,5 @@ public class FakeRTest {
         } catch (Exception e) {
             fail("Group of vectors aren't returned correctly from FakeR");
         }
-    }
+    }    */
 }

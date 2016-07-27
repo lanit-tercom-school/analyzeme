@@ -9,45 +9,38 @@ import java.io.ByteArrayInputStream;
 public class Script {
     private String name;
     private final String id;
+    private final InputType inputType;
     private final int numberOfParams;
     private final TypeOfReturnValue typeOfReturnValue;
-    private final ScriptSource scriptSource;
-    private final String scriptText;
 
-    public Script(final String name, final String id,
-                  final int numberOfParams,
-                  final TypeOfReturnValue typeOfReturnValue,
-                  final ScriptSource scriptSource,
-                  final String scriptText, InputType inputType) {
-        if (name == null || typeOfReturnValue == null) {
+    Script(final String name, final String id,
+                  InputType inputType, final int numberOfParams,
+                  final TypeOfReturnValue typeOfReturnValue) {
+        if (name == null || typeOfReturnValue == null
+                || id == null || id.isEmpty()
+                || inputType == null) {
             throw new IllegalArgumentException("Null argument");
-        }
-        if(scriptSource == ScriptSource.LIBRARY && scriptText == null
-                || (scriptSource == ScriptSource.FILE_REPOSITORY
-                        || scriptSource == ScriptSource.DISK_DEFAULT)
-                        && id == null) {
-            throw new IllegalArgumentException("Illegal combination of values");
         }
         this.name = name;
         this.id = id;
         this.numberOfParams = numberOfParams;
+        this.inputType = inputType;
         this.typeOfReturnValue = typeOfReturnValue;
-        this.scriptSource = scriptSource;
-        this.scriptText = scriptText;
+    }
+
+    public static ScriptBuilder builder() {
+        return new ScriptBuilder();
     }
 
     public ByteArrayInputStream getScriptStream() throws Exception {
-        if(scriptSource == ScriptSource.LIBRARY) {
-            return new ByteArrayInputStream(scriptText.getBytes());
-        }
-        return FileRepository.getRepo().getFileByID(this.id);
+        return FileRepository.getRepo()
+                .getFileByID(this.id);
     }
 
     public String getScript() throws Exception {
-        if(scriptSource == ScriptSource.LIBRARY) {
-            return scriptText;
-        }
-        return IOUtils.toString(FileRepository.getRepo().getFileByID(this.id));
+        return IOUtils.toString(
+                FileRepository.getRepo()
+                        .getFileByID(this.id));
     }
 
     public String getName() {
@@ -66,11 +59,11 @@ public class Script {
         return this.numberOfParams;
     }
 
-    public TypeOfReturnValue getTypeOfReturnValue() {
-        return this.typeOfReturnValue;
+    public InputType getInputType() {
+        return this.inputType;
     }
 
-    public ScriptSource getScriptSource() {
-        return this.scriptSource;
+    public TypeOfReturnValue getTypeOfReturnValue() {
+        return this.typeOfReturnValue;
     }
 }

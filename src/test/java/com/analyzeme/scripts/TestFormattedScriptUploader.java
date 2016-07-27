@@ -22,14 +22,14 @@ public class TestFormattedScriptUploader {
 
     @Test
     public void testUploading() throws Exception {
-        Script uploaded = FormattedScriptUploader.upload(TEST_SCRIPT, TEST_SCRIPT_NAME);
+        Script uploaded = FormattedScriptUploader.upload(TEST_SCRIPT, TEST_SCRIPT_NAME).build();
         System.out.println(uploaded.getName());
         System.out.println(IOUtils.toString(uploaded.getScriptStream()));
     }
 
     @Test
     public void testUploadingMultiLine() throws Exception {
-        Script uploaded = FormattedScriptUploader.upload(TEST_SCRIPT_MULTI_LINE, TEST_SCRIPT_NAME);
+        Script uploaded = FormattedScriptUploader.upload(TEST_SCRIPT_MULTI_LINE, TEST_SCRIPT_NAME).build();
         System.out.println(uploaded.getName());
         System.out.println(IOUtils.toString(uploaded.getScriptStream()));
     }

@@ -7,9 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 public class GithubDownloader {
-    private static final String LINK = "https://raw.githubusercontent.com/lanit-tercom-school/analyzeme/dev/";
+    private static final String LINK =
+            "https://raw.githubusercontent.com/" +
+                    "lanit-tercom-school/analyzeme/dev/";
 
-    private static boolean isRedirected(Map<String, List<String>> header) {
+    private static boolean isRedirected(
+            Map<String, List<String>> header) {
         for (String hv : header.get(null)) {
             if (hv.contains(" 301 ")
                     || hv.contains(" 302 ")) return true;
@@ -17,11 +20,14 @@ public class GithubDownloader {
         return false;
     }
 
-    public static InputStream download(final String fileName) throws Exception {
+    public static InputStream download(
+            final String fileName) throws Exception {
         String link = LINK + fileName;
         URL url = new URL(link);
-        HttpURLConnection http = (HttpURLConnection) url.openConnection();
-        Map<String, List<String>> header = http.getHeaderFields();
+        HttpURLConnection http =
+                (HttpURLConnection) url.openConnection();
+        Map<String, List<String>> header =
+                http.getHeaderFields();
         while (isRedirected(header)) {
             link = header.get("Location").get(0);
             url = new URL(link);
@@ -29,7 +35,6 @@ public class GithubDownloader {
             header = http.getHeaderFields();
         }
         InputStream input = http.getInputStream();
-        //System.out.println(IOUtils.toString(input));
         return input;
     }
 }

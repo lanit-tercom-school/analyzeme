@@ -31,7 +31,8 @@ public class BasicScriptLibrary implements ILibrary {
         while ((name = reader.readLine()) != null) {
             names.add(name);
             tempStream = GithubDownloader.download(FOLDER + name);
-            addScriptFromDisk(name, IOUtils.toString(tempStream));
+            addScriptFromDisk(name,
+                    IOUtils.toString(tempStream));
         }
     }
 
@@ -44,15 +45,19 @@ public class BasicScriptLibrary implements ILibrary {
     private void addScriptFromDisk(final String name,
                                    final String script) throws Exception {
         LOGGER.debug("addScriptFromDisk(): method started");
-        Script s = FormattedScriptUploader.upload(
-                script, name);
+        Script s = Script.builder()
+                .fromBox()
+                .name(name)
+                .uploadScriptWithMeta(script)
+                .build();
         LOGGER.debug("addScriptFromDisk(): script parsed");
         scripts.add(s);
         LOGGER.debug("addScriptFromDisk(): method finished");
     }
 
     private void checkUpdates() throws Exception {
-        InputStream stream = GithubDownloader.download(CONFIGS);
+        InputStream stream = GithubDownloader
+                .download(CONFIGS);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(stream));
         String name;
@@ -60,8 +65,10 @@ public class BasicScriptLibrary implements ILibrary {
         while ((name = reader.readLine()) != null) {
             if (!names.contains(name)) {
                 names.add(name);
-                tempStream = GithubDownloader.download(FOLDER + name);
-                addScriptFromDisk(name, IOUtils.toString(tempStream));
+                tempStream =
+                        GithubDownloader.download(FOLDER + name);
+                addScriptFromDisk(
+                        name, IOUtils.toString(tempStream));
             }
         }
     }

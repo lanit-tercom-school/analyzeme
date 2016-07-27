@@ -6,7 +6,6 @@ import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
 import com.analyzeme.scripts.InputType;
 import com.analyzeme.scripts.Script;
-import com.analyzeme.scripts.ScriptSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,10 +40,14 @@ public class UserScriptAnalyzer {
                 LOGGER.debug("runScript(): IFromR<IResult> is found",
                         typeOfReturnValue);
                 //here script should be extracted from repo
-                Script script = new Script(scriptName, null, 0,
-                        typeOfReturnValue,
-                        ScriptSource.LIBRARY,
-                        scriptText, InputType.VECTORS);
+                Script script = Script.builder()
+                        .fromParts()
+                        .name(scriptName)
+                        .inputType(InputType.VECTORS)
+                        .numberOfParams(0)
+                        .returnValue(typeOfReturnValue)
+                        .uploadText(scriptText)
+                        .build();
                 return rLink.runScript(script, userId, projectId);
             case RUN:
                 LOGGER.debug("runScript(): run call");
@@ -52,10 +55,14 @@ public class UserScriptAnalyzer {
                         GetFromRFactory.getLinkToR(typeOfReturnValue);
                 LOGGER.debug("runScript(): IFromR<IResult> is found",
                         typeOfReturnValue);
-                Script scr = new Script(scriptName, null, 0,
-                        typeOfReturnValue,
-                        ScriptSource.LIBRARY,
-                        scriptText, InputType.VECTORS);
+                Script scr = Script.builder()
+                        .fromParts()
+                        .name(scriptName)
+                        .inputType(InputType.VECTORS)
+                        .numberOfParams(0)
+                        .returnValue(typeOfReturnValue)
+                        .uploadText(scriptText)
+                        .build();
                 return rLinker.runScript(scr, userId, projectId);
             default:
                 return null;
