@@ -5,7 +5,6 @@ import com.analyzeme.data.resolvers.sourceinfo.ISourceInfo;
 import java.io.ByteArrayInputStream;
 import java.math.BigInteger;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -109,11 +108,6 @@ public class DataSet {
         return fields.keySet();
     }
 
-    public List<DataEntry> getByField(
-            final String field) throws Exception {
-        return file.getByField(field);
-    }
-
     /**
      * @return - unique id in project
      */
@@ -130,6 +124,10 @@ public class DataSet {
                     "DataSet setIdInProject: empty id");
         }
         idInProject = id;
+    }
+
+    public DataArray getDataArray() throws Exception {
+        return this.file.getDataArray();
     }
 
     /**

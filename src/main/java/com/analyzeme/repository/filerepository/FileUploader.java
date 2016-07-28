@@ -50,7 +50,7 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        for (String key : source.getKeys()) {
+        for (String key : source.getDataArray().getKeys()) {
             result.addField(key);
         }
         //next line should be deprecated when real referenceName is ready
@@ -77,7 +77,7 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        for (String key : source.getKeys()) {
+        for (String key : source.getDataArray().getKeys()) {
             result.addField(key);
         }
         //next line should be deprecated when real referenceName is ready
@@ -103,7 +103,7 @@ public class FileUploader {
         }
         ISourceInfo source = createSourceInfo(nameInRepo, typeOfFile);
         DataSet result = new DataSet(referenceName, source);
-        for (String key : source.getKeys()) {
+        for (String key : source.getDataArray().getKeys()) {
             result.addField(key);
         }
         //next line should be deprecated when real referenceName is ready

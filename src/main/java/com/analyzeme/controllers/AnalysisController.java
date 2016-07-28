@@ -85,7 +85,7 @@ public class AnalysisController {
 
             Map<String, List<DataEntry>> toAnalyze = new HashMap<>();
             for (String field : f) {
-                toAnalyze.put(field, data.getByField(field));
+                toAnalyze.put(field, data.getDataArray().getByKey(field));
             }
             LOGGER.trace(
                     "getResult(): data to analyze is ready");

@@ -24,8 +24,10 @@ public class DataEntry {
      * @throws IllegalArgumentException if  {@code object} type is not equals to {@code type}
      */
     public DataEntry(DataEntryType type, Object value) {
-        if (!value.getClass().isAssignableFrom(type.getJavaClass())) {
-            throw new IllegalArgumentException("DataEntryType's class and object's class should be equal");
+        if (!value.getClass().isAssignableFrom(
+                type.getJavaClass())) {
+            throw new IllegalArgumentException(
+                    "DataEntryType's class and object's class should be equal");
         }
         this.type = type;
         this.value = value;
@@ -41,12 +43,14 @@ public class DataEntry {
         this.value = value;
 
         for (DataEntryType type : DataEntryType.values()) {
-            if (value.getClass().isAssignableFrom(type.getJavaClass())) {
+            if (value.getClass().isAssignableFrom(
+                    type.getJavaClass())) {
                 this.type = type;
                 return;
             }
         }
-        throw new IllegalArgumentException("Object's type is not supported");
+        throw new IllegalArgumentException(
+                "Object's type is not supported");
     }
 
     private static boolean isValidDouble(String value) {
@@ -66,13 +70,17 @@ public class DataEntry {
      */
     public static DataEntry fromString(String value) {
         if (isValidDouble(value)) {
-            return new DataEntry(Double.parseDouble(value));
+            return new DataEntry(
+                    Double.parseDouble(value));
         } else if (DateAndTimeUtils.isValidTime(value)) {
-            return new DataEntry(DateAndTimeUtils.parseTime(value));
+            return new DataEntry(
+                    DateAndTimeUtils.parseTime(value));
         } else if (DateAndTimeUtils.isValidDate(value)) {
-            return new DataEntry(DateAndTimeUtils.parseDate(value));
+            return new DataEntry(
+                    DateAndTimeUtils.parseDate(value));
         } else if (DateAndTimeUtils.isValidDateTime(value)) {
-            return new DataEntry(DateAndTimeUtils.parseDateTime(value));
+            return new DataEntry(
+                    DateAndTimeUtils.parseDateTime(value));
         } else {
             return new DataEntry(value);
         }
@@ -80,42 +88,48 @@ public class DataEntry {
 
     public String getStringValue() throws IllegalStateException {
         if (type != DataEntryType.STRING) {
-            throw new IllegalStateException("This value is not a string");
+            throw new IllegalStateException(
+                    "This value is not a string");
         }
         return (String) value;
     }
 
     public Double getDoubleValue() throws IllegalStateException {
         if (type != DataEntryType.DOUBLE) {
-            throw new IllegalStateException("This value is not a double");
+            throw new IllegalStateException(
+                    "This value is not a double");
         }
         return (Double) value;
     }
 
     public LocalTime getTimeValue() throws IllegalStateException {
         if (type != DataEntryType.TIME) {
-            throw new IllegalStateException("This value is not a time");
+            throw new IllegalStateException(
+                    "This value is not a time");
         }
         return (LocalTime) value;
     }
 
     public LocalDate getDateValue() throws IllegalStateException {
         if (type != DataEntryType.DATE) {
-            throw new IllegalStateException("This value is not a date");
+            throw new IllegalStateException(
+                    "This value is not a date");
         }
         return (LocalDate) value;
     }
 
     public LocalDateTime getDateTimeValue() throws IllegalStateException {
         if (type != DataEntryType.DATE_TIME) {
-            throw new IllegalStateException("This value is not a date/time");
+            throw new IllegalStateException(
+                    "This value is not a date/time");
         }
         return (LocalDateTime) value;
     }
 
     public Boolean getBooleanValue() throws IllegalStateException {
         if (type != DataEntryType.BOOLEAN) {
-            throw new IllegalStateException("This value is not a boolean");
+            throw new IllegalStateException(
+                    "This value is not a boolean");
         }
         return (Boolean) value;
     }
@@ -135,11 +149,14 @@ public class DataEntry {
             case STRING:
                 return value.toString();
             case TIME:
-                return ((LocalTime) value).format(DateTimeFormatter.ofPattern(timeFormat));
+                return ((LocalTime) value).format(
+                        DateTimeFormatter.ofPattern(timeFormat));
             case DATE:
-                return ((LocalDate) value).format(DateTimeFormatter.ofPattern(dateFormat));
+                return ((LocalDate) value).format(
+                        DateTimeFormatter.ofPattern(dateFormat));
             case DATE_TIME:
-                return ((LocalDateTime) value).format(DateTimeFormatter.ofPattern(dateTimeFormat));
+                return ((LocalDateTime) value).format(
+                        DateTimeFormatter.ofPattern(dateTimeFormat));
             default:
                 return null;
         }
@@ -155,7 +172,8 @@ public class DataEntry {
         }
         switch (((DataEntry) other).type) {
             case DOUBLE:
-                return Math.abs((Double) this.value - (Double) ((DataEntry) other).value) < EPS_FOR_DOUBLE;
+                return Math.abs((Double) this.value
+                        - (Double) ((DataEntry) other).value) < EPS_FOR_DOUBLE;
             case STRING:
             case TIME:
             case DATE:

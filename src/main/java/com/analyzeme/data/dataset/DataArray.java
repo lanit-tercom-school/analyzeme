@@ -9,24 +9,22 @@ import java.util.stream.Collectors;
  * Represents matrix of {@link DataEntry}
  */
 public class DataArray {
-    private final List<Data> dataList;
+    private final List<Data> dataList = new ArrayList<>();
 
-    public DataArray() {
-        dataList = new ArrayList<>();
-    }
+    public DataArray() {}
 
     public DataArray(final Map<String, List<DataEntry>> map) {
-        dataList = new ArrayList<>();
         Iterator<String> it = map.keySet().iterator();
         if (it.hasNext()) {
-            for (int i = 0; i < map.get(it.next()).size(); i++) {
+            String t = it.next();
+            for (int i = 0; i < map.get(t).size(); i++) {
                 Iterator<String> iterator = map.keySet().iterator();
                 Data d = new Data();
                 while (iterator.hasNext()) {
                     String temp = iterator.next();
                     d.put(temp, map.get(temp).get(i));
                 }
-                dataList.add(d);
+                this.addData(d);
             }
         }
     }
@@ -46,7 +44,7 @@ public class DataArray {
         dataList.add(data);
     }
 
-    public List<Data> getDataList() {
+    public List<Data> getData() {
         return dataList;
     }
 
@@ -65,7 +63,7 @@ public class DataArray {
      */
     public Map<String, List<DataEntry>> getMap() {
         Map<String, List<DataEntry>> result = new HashMap<>();
-        for (Data data : this.getDataList()) {
+        for (Data data : this.getData()) {
             for (String key : data.getKeys()) {
                 if (!result.containsKey(key)) {
                     result.put(key, new ArrayList<>());
@@ -167,6 +165,7 @@ public class DataArray {
 
     @Override
     public boolean equals(Object other) {
-        return other instanceof DataArray && this.dataList.equals(((DataArray) other).dataList);
+        return other instanceof DataArray
+                && this.dataList.equals(((DataArray) other).dataList);
     }
 }

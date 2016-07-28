@@ -30,7 +30,7 @@ public class Rserve implements IRCaller {
             throws Exception {
         for (DataSet set : dataFiles) {
             for (String field : set.getFields()) {
-                List<DataEntry> value = set.getByField(field);
+                List<DataEntry> value = set.getDataArray().getByKey(field);
                 double[] v1 = new double[value.size()];
                 int i = 0;
                 for (DataEntry v : value) {

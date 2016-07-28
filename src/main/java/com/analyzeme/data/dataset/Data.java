@@ -21,7 +21,8 @@ public class Data {
         this.data = data;
     }
 
-    public void put(final String key, final DataEntry data) {
+    public void put(final String key,
+                    final DataEntry data) {
         this.data.put(key, data);
     }
 
@@ -32,12 +33,14 @@ public class Data {
      * @return true if has, false otherwise
      */
     public boolean hasSameTypesAndKeySets(Data other) {
-        if (!this.data.keySet().equals(other.data.keySet())) {
+        if (!this.data.keySet().equals(
+                other.data.keySet())) {
             return false;
         }
 
         for (Map.Entry<String, DataEntry> entry : this.data.entrySet()) {
-            if (other.data.get(entry.getKey()).getType() != entry.getValue().getType()) {
+            if (other.data.get(entry.getKey()).getType()
+                    != entry.getValue().getType()) {
                 return false;
             }
         }
