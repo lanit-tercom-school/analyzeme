@@ -1,6 +1,7 @@
 package com.analyzeme.r.facade.get;
 
 import com.analyzeme.analyzers.result.VectorResult;
+import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.r.facade.RFacade;
 import com.analyzeme.scripts.Script;
@@ -36,7 +37,7 @@ public class VectorFromR implements IFromR<VectorResult> {
      * @return result
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    public VectorResult runScript(final Script script, final Map<String, List<DataEntry>> data) throws Exception {
+    public VectorResult runScript(final Script script, final DataArray data) throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
         }

@@ -4,6 +4,7 @@ import com.analyzeme.analyzers.result.NotParsedResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.VectorsResult;
+import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.resolvers.FileInRepositoryResolver;
@@ -51,7 +52,7 @@ public class RFacade {
      * @throws Exception if files not found, r was impossible to call or there was in error in command
      */
     public static NotParsedResult runScriptDefault(final Script script,
-                                                   final Map<String, List<DataEntry>> data) throws Exception {
+                                                   final DataArray data) throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
@@ -67,7 +68,7 @@ public class RFacade {
      * @throws Exception if r was impossible to call or there was in error in command
      */
     public static ScalarResult runScriptToGetScalar(final Script script,
-                                                    final Map<String, List<DataEntry>> data)
+                                                    final DataArray data)
             throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
@@ -86,7 +87,7 @@ public class RFacade {
      * @throws Exception if r was impossible to call or there was in error in command
      */
     public static VectorResult runScriptToGetVector(final Script script,
-                                                    final Map<String, List<DataEntry>> data) throws Exception {
+                                                    final DataArray data) throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
@@ -104,7 +105,7 @@ public class RFacade {
      * @throws Exception if r was impossible to call or there was in error in command
      */
     public static VectorsResult runScriptToGetVectors(final Script script,
-                                                      final Map<String, List<DataEntry>> data)
+                                                      final DataArray data)
             throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();

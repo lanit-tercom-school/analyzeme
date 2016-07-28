@@ -21,6 +21,10 @@ public class Data {
         this.data = data;
     }
 
+    public void put(final String key, final DataEntry data) {
+        this.data.put(key, data);
+    }
+
     /**
      * Checks if entries in {@code other} has the same format as in current object
      *

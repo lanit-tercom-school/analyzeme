@@ -3,6 +3,7 @@ package com.analyzeme.analyzers;
 import com.analyzeme.analyzers.r.DataConverter;
 import com.analyzeme.analyzers.result.IResult;
 import com.analyzeme.analyzers.result.VectorsResult;
+import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.r.facade.GetFromRFactory;
 import com.analyzeme.r.facade.TypeOfReturnValue;
@@ -59,7 +60,7 @@ public abstract class AbstractDoubleRAnalyzer implements IAnalyzer {
         }
         LOGGER.debug("analyze(): IFromR<IResult> is found",
                 TYPE_OF_RETURN_VALUE);
-        IResult result = linker.runScript(getScript(), toR);
+        IResult result = linker.runScript(getScript(), new DataArray(toR));
         if (result == null) {
             LOGGER.info("analyze(): null result");
         }

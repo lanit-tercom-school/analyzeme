@@ -15,6 +15,22 @@ public class DataArray {
         dataList = new ArrayList<>();
     }
 
+    public DataArray(final Map<String, List<DataEntry>> map) {
+        dataList = new ArrayList<>();
+        Iterator<String> it = map.keySet().iterator();
+        if (it.hasNext()) {
+            for (int i = 0; i < map.get(it.next()).size(); i++) {
+                Iterator<String> iterator = map.keySet().iterator();
+                Data d = new Data();
+                while (iterator.hasNext()) {
+                    String temp = iterator.next();
+                    d.put(temp, map.get(temp).get(i));
+                }
+                dataList.add(d);
+            }
+        }
+    }
+
     /**
      * Adds new data to the list
      *
@@ -58,6 +74,36 @@ public class DataArray {
             }
         }
         return result;
+    }
+
+    public List<DataEntry> getDate() {
+        Iterator<String> iterator = this.getKeys().iterator();
+        while (iterator.hasNext()) {
+            String temp = iterator.next();
+            List<DataEntry> tempList = this.getByKey(temp);
+            if (tempList != null && !tempList.isEmpty()
+                    && tempList.get(0).getType() == DataEntryType.DATE) {
+                return tempList;
+            }
+        }
+        throw new IllegalArgumentException("No time column in this data array");
+    }
+
+    public List<Double> getDouble() {
+        Iterator<String> iterator = this.getKeys().iterator();
+        while (iterator.hasNext()) {
+            String temp = iterator.next();
+            List<DataEntry> tempList = this.getByKey(temp);
+            if (tempList != null && !tempList.isEmpty()
+                    && tempList.get(0).getType() == DataEntryType.DOUBLE) {
+                List<Double> res = new ArrayList<Double>();
+                for (DataEntry entry : tempList) {
+                    res.add(entry.getDoubleValue());
+                }
+                return res;
+            }
+        }
+        throw new IllegalArgumentException("No double column in this data array");
     }
 
     /**

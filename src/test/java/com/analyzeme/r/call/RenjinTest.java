@@ -15,17 +15,20 @@ import com.analyzeme.repository.filerepository.FileRepository;
 import com.analyzeme.repository.filerepository.TypeOfFile;
 import com.analyzeme.scripts.InputType;
 import com.analyzeme.scripts.Script;
+import org.json.simple.parser.JSONParser;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 
@@ -343,5 +346,46 @@ public class RenjinTest {
                 .build();
         call.runScriptToGetVectors(script,
                 incorrect);
+    }
+
+    private static final String fileWithDate =
+            "{\"Data\": [" +
+            "{\"some_double\": \"1\"," +
+            "\"some_date\": \"02-10-2010\"}," +
+            "{\"some_double\": \"2\"," +
+            "\"some_date\": \"01-11-2010\"}," +
+            "{\"some_double\": \"3\"," +
+            "\"some_date\": \"01-12-2010\"}]}";
+
+    @Test
+    public void testCorrectCommandToGetScalarForTSCorrectFile() throws Exception {
+        Script script = Script.builder()
+                .fromParts()
+                .name("")
+                .inputType(InputType.TIME_SERIES_ONE_DIM)
+                .numberOfParams(1)
+                .returnValue(TypeOfReturnValue.SCALAR)
+                .uploadText("ts_0[1]")
+                .build();
+        JsonParser parser = new JsonParser();
+        DataArray res = parser.parse(new ByteArrayInputStream(fileWithDate.getBytes()));
+        ScalarResult result = call.runScriptToGetScalar(script, res);
+        assertEquals(1., result.getValue().getDoubleValue());
+    }
+
+    @Test
+    public void testCorrectCommandToGetVectorForTSCorrectFile() throws Exception {
+        Script script = Script.builder()
+                .fromParts()
+                .name("")
+                .inputType(InputType.TIME_SERIES_ONE_DIM)
+                .numberOfParams(1)
+                .returnValue(TypeOfReturnValue.VECTOR)
+                .uploadText("ts_0")
+                .build();
+        JsonParser parser = new JsonParser();
+        DataArray res = parser.parse(new ByteArrayInputStream(fileWithDate.getBytes()));
+        VectorResult result = call.runScriptToGetVector(script, res);
+        assertEquals("{\"type\": \"VECTOR_DOUBLE\", \"Data\": [{\"value\": \"1.0\"}, {\"value\": \"2.0\"}, {\"value\": \"3.0\"}]}", result.toJson());
     }
 }

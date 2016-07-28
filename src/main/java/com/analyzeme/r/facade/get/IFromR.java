@@ -1,5 +1,6 @@
 package com.analyzeme.r.facade.get;
 
+import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.scripts.Script;
 
@@ -27,5 +28,5 @@ public interface IFromR<T> {
      * @return result
      * @throws Exception if r was impossible to call or there was in error in command
      */
-    T runScript(final Script script, final Map<String, List<DataEntry>> data) throws Exception;
+    T runScript(final Script script, final DataArray data) throws Exception;
 }

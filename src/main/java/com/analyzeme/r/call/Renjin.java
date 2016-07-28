@@ -4,6 +4,7 @@ import com.analyzeme.analyzers.result.NotParsedResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.VectorsResult;
+import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.dataset.DataEntryType;
 import com.analyzeme.data.dataset.DataSet;
@@ -13,7 +14,6 @@ import org.renjin.sexp.SEXP;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import java.util.List;
-import java.util.Map;
 
 import static com.analyzeme.r.call.RenjinResultHandler.renjinNotNamedVectorToList;
 import static com.analyzeme.r.call.RenjinResultHandler.resultToFile;
@@ -58,7 +58,7 @@ public class Renjin implements IRCaller {
         return result;
     }
 
-    private SEXP getSEXP(final Script script, final Map<String, List<DataEntry>> data) throws Exception {
+    private SEXP getSEXP(final Script script, final DataArray data) throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
@@ -128,7 +128,7 @@ public class Renjin implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public NotParsedResult runScriptDefault(final Script script,
-                                            final Map<String, List<DataEntry>> data) throws Exception {
+                                            final DataArray data) throws Exception {
         SEXP result = getSEXP(script, data);
         return new NotParsedResult(result.toString());
     }
@@ -141,7 +141,7 @@ public class Renjin implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public ScalarResult runScriptToGetScalar(final Script script,
-                                             final Map<String, List<DataEntry>> data) throws Exception {
+                                             final DataArray data) throws Exception {
         SEXP result = getSEXP(script, data);
         //TODO: refactor to work with other types of ScalarResult (not only double)
         return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, result.asReal()));
@@ -154,7 +154,7 @@ public class Renjin implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public VectorResult runScriptToGetVector(final Script script,
-                                             final Map<String, List<DataEntry>> data) throws Exception {
+                                             final DataArray data) throws Exception {
         SEXP result = getSEXP(script, data);
         return new VectorResult(renjinNotNamedVectorToList(result));
     }
@@ -166,7 +166,7 @@ public class Renjin implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public VectorsResult runScriptToGetVectors(final Script script,
-                                               final Map<String, List<DataEntry>> data) throws Exception {
+                                               final DataArray data) throws Exception {
         SEXP result = getSEXP(script, data);
         return new VectorsResult(resultToFile(result));
     }

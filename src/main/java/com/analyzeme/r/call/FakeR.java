@@ -4,6 +4,7 @@ import com.analyzeme.analyzers.result.NotParsedResult;
 import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.VectorsResult;
 import com.analyzeme.analyzers.result.ScalarResult;
+import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.dataset.DataSet;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.dataset.DataEntryType;
@@ -81,7 +82,7 @@ public class FakeR implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public NotParsedResult runScriptDefault(final Script script,
-                                            final Map<String, List<DataEntry>> data) throws Exception {
+                                            final DataArray data) throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
@@ -95,7 +96,7 @@ public class FakeR implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public ScalarResult runScriptToGetScalar(final Script script,
-                                             final Map<String, List<DataEntry>> data) throws Exception {
+                                             final DataArray data) throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
@@ -109,7 +110,7 @@ public class FakeR implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public VectorResult runScriptToGetVector(final Script script,
-                                             final Map<String, List<DataEntry>> data) throws Exception {
+                                             final DataArray data) throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
         }
@@ -123,7 +124,7 @@ public class FakeR implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public VectorsResult runScriptToGetVectors(final Script script,
-                                               final Map<String, List<DataEntry>> data) throws Exception {
+                                               final DataArray data) throws Exception {
         if (script == null || data == null) {
             throw new IllegalArgumentException();
         }

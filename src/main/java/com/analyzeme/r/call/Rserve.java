@@ -4,6 +4,7 @@ import com.analyzeme.analyzers.result.NotParsedResult;
 import com.analyzeme.analyzers.result.ScalarResult;
 import com.analyzeme.analyzers.result.VectorResult;
 import com.analyzeme.analyzers.result.VectorsResult;
+import com.analyzeme.data.dataset.DataArray;
 import com.analyzeme.data.dataset.DataEntry;
 import com.analyzeme.data.dataset.DataEntryType;
 import com.analyzeme.data.dataset.DataSet;
@@ -14,7 +15,6 @@ import org.rosuda.REngine.Rserve.RConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Rserve implements IRCaller {
     private static RConnection r = null;
@@ -129,7 +129,7 @@ public class Rserve implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public NotParsedResult runScriptDefault(final Script script,
-                                            final Map<String, List<DataEntry>> data) throws Exception {
+                                            final DataArray data) throws Exception {
         if (script == null || data == null || data.equals("")) {
             throw new IllegalArgumentException();
         }
@@ -143,7 +143,7 @@ public class Rserve implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public ScalarResult runScriptToGetScalar(final Script script,
-                                             final Map<String, List<DataEntry>> data) throws Exception {
+                                             final DataArray data) throws Exception {
         if (script == null || data == null
                 || data.equals("")) {
             throw new IllegalArgumentException();
@@ -158,7 +158,7 @@ public class Rserve implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public VectorResult runScriptToGetVector(final Script script,
-                                             final Map<String, List<DataEntry>> data) throws Exception {
+                                             final DataArray data) throws Exception {
         if (script == null || data == null
                 || data.equals("")) {
             throw new IllegalArgumentException();
@@ -173,7 +173,7 @@ public class Rserve implements IRCaller {
      * @throws Exception if failed to call r or command errored
      */
     public VectorsResult runScriptToGetVectors(final Script script,
-                                               final Map<String, List<DataEntry>> data) throws Exception {
+                                               final DataArray data) throws Exception {
         if (script == null || data == null
                 || data.equals("")) {
             throw new IllegalArgumentException();

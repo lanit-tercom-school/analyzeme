@@ -115,8 +115,8 @@ public class FormattedScriptUploader {
         if (type.equalsIgnoreCase("VECTORS")) {
             return InputType.VECTORS;
         }
-        if (type.equalsIgnoreCase("TIME_SERIES")) {
-            return InputType.TIME_SERIES;
+        if (type.equalsIgnoreCase("TIME_SERIES_ONE_DIM")) {
+            return InputType.TIME_SERIES_ONE_DIM;
         }
         LOGGER.info("getInputType(): not supported argument");
         throw new IllegalArgumentException(
