@@ -47,85 +47,79 @@ public class Renjin implements IRCaller {
         engine.eval("rm(list = ls())");
     }
 
+    private SEXP getSEXP(final Script script, final List<DataSet> data) throws Exception {
+        if (script == null || data == null) {
+            throw new IllegalArgumentException();
+        }
+        initialize();
+        RenjinInputHandler.insertData(engine, data, script.getInputType());
+        SEXP result = runScript(script);
+        deleteData();
+        return result;
+    }
+
+    private SEXP getSEXP(final Script script, final Map<String, List<DataEntry>> data) throws Exception {
+        if (script == null || data == null) {
+            throw new IllegalArgumentException();
+        }
+        initialize();
+        RenjinInputHandler.insertData(engine, data, script.getInputType());
+        SEXP res = runScript(script);
+        deleteData();
+        return res;
+    }
 
     /**
-     * @param script    - script to call
-     * @param dataFiles - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return auto-generated json (not our format, may be errors)
      * @throws Exception if failed to call r or script errored
      */
     public NotParsedResult runScriptDefault(final Script script,
-                                            final List<DataSet> dataFiles) throws Exception {
-        //dataFiles can be empty for simple commands
-        if (script == null || dataFiles == null) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-        RenjinInputHandler.insertData(engine, dataFiles);
-        SEXP result = runScript(script);
-        deleteData();
+                                            final List<DataSet> data) throws Exception {
+        SEXP result = getSEXP(script, data);
         return new NotParsedResult(result.toString());
     }
 
 
     /**
-     * @param script    - script to call
-     * @param dataFiles - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return scalar result
      * @throws Exception if failed to call r or script errored
      */
     public ScalarResult runScriptToGetScalar(final Script script,
-                                             final List<DataSet> dataFiles) throws Exception {
-        //dataFiles can be empty for simple commands
-        if (script == null || dataFiles == null) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-        RenjinInputHandler.insertData(engine, dataFiles);
-        SEXP result = runScript(script);
-        deleteData();
+                                             final List<DataSet> data) throws Exception {
+        SEXP result = getSEXP(script, data);
         //TODO: refactor to work not only with double
         return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, result.asReal()));
     }
 
 
     /**
-     * @param script    - script to call
-     * @param dataFiles - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return one vector
      * @throws Exception if failed to call r or script errored
      */
     public VectorResult runScriptToGetVector(final Script script,
-                                             final List<DataSet> dataFiles) throws Exception {
-        //dataFiles can be empty for simple commands
-        if (script == null || dataFiles == null) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-        RenjinInputHandler.insertData(engine, dataFiles);
-        SEXP res = runScript(script);
-        deleteData();
-        return new VectorResult(renjinNotNamedVectorToList(res));
+                                             final List<DataSet> data) throws Exception {
+        SEXP result = getSEXP(script, data);
+        return new VectorResult(renjinNotNamedVectorToList(result));
     }
 
     /**
-     * @param script    - script to call
-     * @param dataFiles - data necessary for the script
+     * @param script - script to call
+     * @param data   - data necessary for the script
      * @return group of vectors
      * @throws Exception if failed to call r or script errored
      */
     public VectorsResult runScriptToGetVectors(final Script script,
-                                               final List<DataSet> dataFiles) throws Exception {
-        //dataFiles can be empty for simple commands
-        if (script == null || dataFiles == null) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-        RenjinInputHandler.insertData(engine, dataFiles);
-        SEXP res = runScript(script);
-        deleteData();
-        return new VectorsResult(resultToFile(res));
+                                               final List<DataSet> data) throws Exception {
+        SEXP result = getSEXP(script, data);
+        return new VectorsResult(resultToFile(result));
     }
+
 
     /**
      * @param script - script to call
@@ -135,13 +129,7 @@ public class Renjin implements IRCaller {
      */
     public NotParsedResult runScriptDefault(final Script script,
                                             final Map<String, List<DataEntry>> data) throws Exception {
-        if (script == null || data == null) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-        RenjinInputHandler.insertData(engine, data);
-        SEXP result = runScript(script);
-        deleteData();
+        SEXP result = getSEXP(script, data);
         return new NotParsedResult(result.toString());
     }
 
@@ -154,14 +142,7 @@ public class Renjin implements IRCaller {
      */
     public ScalarResult runScriptToGetScalar(final Script script,
                                              final Map<String, List<DataEntry>> data) throws Exception {
-        //dataFiles can be empty for simple commands
-        if (script == null || data == null) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-        RenjinInputHandler.insertData(engine, data);
-        SEXP result = runScript(script);
-        deleteData();
+        SEXP result = getSEXP(script, data);
         //TODO: refactor to work with other types of ScalarResult (not only double)
         return new ScalarResult(new DataEntry(DataEntryType.DOUBLE, result.asReal()));
     }
@@ -174,14 +155,8 @@ public class Renjin implements IRCaller {
      */
     public VectorResult runScriptToGetVector(final Script script,
                                              final Map<String, List<DataEntry>> data) throws Exception {
-        if (script == null || data == null) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-        RenjinInputHandler.insertData(engine, data);
-        SEXP res = runScript(script);
-        deleteData();
-        return new VectorResult(renjinNotNamedVectorToList(res));
+        SEXP result = getSEXP(script, data);
+        return new VectorResult(renjinNotNamedVectorToList(result));
     }
 
     /**
@@ -192,13 +167,7 @@ public class Renjin implements IRCaller {
      */
     public VectorsResult runScriptToGetVectors(final Script script,
                                                final Map<String, List<DataEntry>> data) throws Exception {
-        if (script == null || data == null) {
-            throw new IllegalArgumentException();
-        }
-        initialize();
-        RenjinInputHandler.insertData(engine, data);
-        SEXP res = runScript(script);
-        deleteData();
-        return new VectorsResult(resultToFile(res));
+        SEXP result = getSEXP(script, data);
+        return new VectorsResult(resultToFile(result));
     }
 }

@@ -45,6 +45,9 @@ public class IScriptFromPartsBuilder {
             throw new IllegalArgumentException(
                     "uploadText(): set name before uploading");
         }
+        if (this.name.isEmpty()) {
+            name = "test";
+        }
         this.id = FileRepository.getRepo()
                 .persist(text, this.name);
         return this;

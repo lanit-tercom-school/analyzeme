@@ -159,11 +159,10 @@ public class RenjinTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgument4() throws Exception {
-        call.runScriptToGetVector((Script)  null,
+        call.runScriptToGetVector((Script) null,
                 (ArrayList<DataSet>) null);
     }
 
-    /*
     @Test
     public void testCorrectCommandToGetScalarCorrectFile() {
         try {
@@ -171,11 +170,27 @@ public class RenjinTest {
             ScalarResult resY;
             Script script;
             for (int i = 0; i < dataArray.getByKey("x").size(); i++) {
-                script = new Script("", null, InputType.VECTORS, 1, TypeOfReturnValue.SCALAR
-                );
+                script = Script.builder()
+                        .fromParts()
+                        .name("")
+                        .inputType(InputType.VECTORS)
+                        .numberOfParams(1)
+                        .returnValue(TypeOfReturnValue.SCALAR)
+                        .uploadText(correctX + "[" +
+                                (int) (i + 1) + "]")
+                        .build();
+
                 resX = call.runScriptToGetScalar(script, correct);
-                script = new Script("", null, InputType.VECTORS, 1, TypeOfReturnValue.SCALAR
-                );
+                script = Script.builder()
+                        .fromParts()
+                        .name("")
+                        .inputType(InputType.VECTORS)
+                        .numberOfParams(1)
+                        .returnValue(TypeOfReturnValue.SCALAR)
+                        .uploadText(correctY + "[" +
+                                (int) (i + 1) + "]")
+                        .build();
+
                 resY = call.runScriptToGetScalar(script, correct);
                 assertTrue("Scalar isn't returned correctly from Renjin",
                         doubleEqual(resX.getValue().getDoubleValue(),
@@ -191,8 +206,15 @@ public class RenjinTest {
     @Test
     public void testCorrectCommandToGetVectorCorrectFile() {
         try {
-            Script script = new Script("", null, InputType.VECTORS, 2, TypeOfReturnValue.VECTOR
-            );
+            Script script = Script.builder()
+                    .fromParts()
+                    .name("")
+                    .inputType(InputType.VECTORS)
+                    .numberOfParams(2)
+                    .returnValue(TypeOfReturnValue.VECTOR)
+                    .uploadText("c(" + correctX +
+                            "[5], " + correctY + "[5])")
+                    .build();
             VectorResult res = call.runScriptToGetVector(script, correct);
             assertTrue("Vector isn't returned correctly from Renjin",
                     doubleEqual(dataArray.getByKey("x").get(4).getDoubleValue(),
@@ -220,8 +242,14 @@ public class RenjinTest {
                         new DataEntry(DataEntryType.DOUBLE, 2.));
             }
             VectorsResult was = new VectorsResult(w);
-            Script script = new Script("", null, InputType.VECTORS, 3, TypeOfReturnValue.VECTORS
-            );
+            Script script = Script.builder()
+                    .fromParts()
+                    .name("")
+                    .inputType(InputType.VECTORS)
+                    .numberOfParams(3)
+                    .returnValue(TypeOfReturnValue.VECTORS)
+                    .uploadText(correctScriptForCorrectFileString)
+                    .build();
             VectorsResult res =
                     call.runScriptToGetVectors(script,
                             correct);
@@ -234,49 +262,86 @@ public class RenjinTest {
         }
     }
 
-
     @Test(expected = Exception.class)
     public void testIncorrectCommandToGetScalarCorrectFile() throws Exception {
-        Script script = new Script("", null, InputType.VECTORS, 1, TypeOfReturnValue.SCALAR
-        );
+        Script script =  Script.builder()
+                .fromParts()
+                .name("")
+                .inputType(InputType.VECTORS)
+                .numberOfParams(1)
+                .returnValue(TypeOfReturnValue.SCALAR)
+                .uploadText(correctX + "]")
+                .build();
         call.runScriptToGetScalar(script, correct);
     }
 
     @Test(expected = Exception.class)
     public void testIncorrectCommandToGetVectorCorrectFile() throws Exception {
-        Script script = new Script("", null, InputType.VECTORS, 2, TypeOfReturnValue.VECTOR
-        );
+        Script script =  Script.builder()
+                .fromParts()
+                .name("")
+                .inputType(InputType.VECTORS)
+                .numberOfParams(2)
+                .returnValue(TypeOfReturnValue.VECTOR)
+                .uploadText("c" + correctX + "[5," +
+                        correctY + "[5)")
+                .build();
         call.runScriptToGetVector(script,
                 correct);
     }
 
     @Test(expected = Exception.class)
     public void testIncorrectCommandToGetVectorsCorrectFile() throws Exception {
-        Script script = new Script("", null, InputType.VECTORS, 3, TypeOfReturnValue.VECTORS
-        );
+        Script script =  Script.builder()
+                .fromParts()
+                .name("")
+                .inputType(InputType.VECTORS)
+                .numberOfParams(3)
+                .returnValue(TypeOfReturnValue.VECTORS)
+                .uploadText(incorrectScriptForCorrectFileString)
+                .build();
         call.runScriptToGetVectors(script,
                 correct);
     }
 
     @Test(expected = Exception.class)
     public void testCorrectCommandToGetScalarIncorrectFile() throws Exception {
-        Script script = new Script("", null, InputType.VECTORS, 1, TypeOfReturnValue.SCALAR
-        );
+        Script script = Script.builder()
+                .fromParts()
+                .name("")
+                .inputType(InputType.VECTORS)
+                .numberOfParams(1)
+                .returnValue(TypeOfReturnValue.SCALAR)
+                .uploadText(incorrectX + "[5]")
+                .build();
         call.runScriptToGetScalar(script, incorrect);
     }
 
     @Test(expected = Exception.class)
     public void testCorrectCommandToGetVectorIncorrectFile() throws Exception {
-        Script script = new Script("", null, InputType.VECTORS, 2, TypeOfReturnValue.VECTOR
-        );
+        Script script = Script.builder()
+                .fromParts()
+                .name("")
+                .inputType(InputType.VECTORS)
+                .numberOfParams(2)
+                .returnValue(TypeOfReturnValue.VECTOR)
+                .uploadText("c(" + incorrectX + "[5], " +
+                        incorrectY + "[5])")
+                .build();
         call.runScriptToGetVector(script, incorrect);
     }
 
     @Test(expected = Exception.class)
     public void testCorrectCommandToGetVectorsIncorrectFile() throws Exception {
-        Script script = new Script("", null, InputType.VECTORS, 3, TypeOfReturnValue.VECTORS
-        );
+        Script script = Script.builder()
+                .fromParts()
+                .name("")
+                .inputType(InputType.VECTORS)
+                .numberOfParams(3)
+                .returnValue(TypeOfReturnValue.VECTORS)
+                .uploadText(correctScriptForIncorrectFileString)
+                .build();
         call.runScriptToGetVectors(script,
                 incorrect);
-    }    */
+    }
 }

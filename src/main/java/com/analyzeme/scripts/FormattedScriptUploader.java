@@ -150,6 +150,9 @@ public class FormattedScriptUploader {
 
             String trimmedName = trimName(scriptName);
             String name = getName(m, trimmedName);
+            if (name.isEmpty()) {
+                name = "test";
+            }
 
             String s = trimScript(scriptTransformed, m);
             String id = uploadScriptToRepo(s, scriptName);
