@@ -1,18 +1,30 @@
-# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=dev)](https://travis-ci.org/lanit-tercom-school/analyzeme) [![codecov.io](https://codecov.io/github/lanit-tercom-school/analyzeme/coverage.svg?branch=dev)](https://codecov.io/github/lanit-tercom-school/analyzeme?branch=dev) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/21aa2175753b48be8fd0609f720b141a)](https://www.codacy.com/app/lanit-tercom-school/analyzeme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lanit-tercom-school/analyzeme&amp;utm_campaign=Badge_Grade) [![codebeat badge](https://codebeat.co/badges/002af87c-039c-4373-ac52-3c7501ee1ffa)](https://codebeat.co/projects/github-com-lanit-tercom-school-analyzeme)
+# analyzeme [![Build Status](https://travis-ci.org/lanit-tercom-school/analyzeme.svg?branch=dev)](https://travis-ci.org/lanit-tercom-school/analyzeme) [![codecov.io](https://codecov.io/github/lanit-tercom-school/analyzeme/coverage.svg?branch=dev)](https://codecov.io/github/lanit-tercom-school/analyzeme?branch=dev) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/21aa2175753b48be8fd0609f720b141a)](https://www.codacy.com/app/lanit-tercom-school/analyzeme?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=lanit-tercom-school/analyzeme&amp;utm_campaign=Badge_Grade)
 
 ####Сборка проекта под Windows
 
 #####Перед использованием билд-скриптов
 
-Установить maven:
+Проверить, проинсталлирован ли Maven на Вашем компьютере:
+```
+mvn -v
+```
+Если нет, то установить maven:
 
 1. скачать и распаковать архив apache-maven (тестировалось с Apache Maven 3.3.3) http://maven.apache.org/download.cgi
 
+```
+echo %JAVA_HOME%
+```
 2. проверить значение environment variable JAVA\_HOME - она должна существовать и указывать на папку ${you\_jdk\_directory}
 
 3. проверить значение environment variable PATH - в ней должно содержаться, среди прочего, указание на папку ${you\_jdk\_directory}\bin (крайне желательно, чтобы только одно: из-за значений, созданных до вас, например, Oracle, могут возникать ошибки)
 
 4. добавить в  environment variable PATH указание на папку ${your\_maven\_directory}\bin
+
+Еще раз проверяем установку:
+```
+mvn -v
+```
 
 #####Сборка с использованием tomcat
 
@@ -34,7 +46,7 @@
 #####Сборка с использованием jetty
 
 1.  Установить jetty
-     * скачать и распаковать архив http://www.eclipse.org/jetty/downloads.php
+     * скачать и распаковать архив http://www.eclipse.org/jetty/download.html
 Cборка написана для **версии** Jetty 9.3.6.v20151106. В случае использования другой версии нужно перед запуском билд-скрипта отредактировать pom.xml - см.
  ```
  <properties>
