@@ -1,61 +1,134 @@
 package com.analyzeme.analyzers;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.analyzeme.scripts.BasicScriptLibrary;
+import com.analyzeme.scripts.ILibrary;
+import com.analyzeme.scripts.Script;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * Created by Ольга on 10.04.2016.
- */
+import java.util.*;
+
 public class AnalyzerFactory {
+    //info for js
+    private static List<String> supportedAnalyzers;
+    private static Map<String, IAnalyzer> analyzers =
+            new HashMap<String, IAnalyzer>();
+    private static ILibrary lib;
+    private static final Logger LOGGER;
 
-	private static Map<String, IAnalyzer> analyzers = new HashMap<String, IAnalyzer>();
+    static {
+        LOGGER = LoggerFactory.getLogger(
+                "com.analyzeme.analyzers.AnalyzerFactory");
+        supportedAnalyzers = Arrays.asList(new String[]{
+                "Linear Regression", "Global Maximum",
+                "Global Maximum R", "Global Minimum",
+                "Linear Correlation",
+                "Kolmogorov Smirnov Test", "Test File Result"});
+        try {
+            lib = new BasicScriptLibrary();
+        } catch (Exception e) {
+            LOGGER.info(
+                    "static block: impossible to use BasicScriptLibrary");
+        }
+    }
 
-	public static IAnalyzer getAnalyzer(String analyzerName) {
-		if (!analyzers.containsKey(analyzerName)) {
-			createAnalyzer(analyzerName);
-		}
-		return analyzers.get(analyzerName);
-	}
+    public static List<String> getSupportedAnalyzers() {
+        List<String> result = new ArrayList<String>();
+        if (supportedAnalyzers != null) {
+            result.addAll(supportedAnalyzers);
+        }
+        try {
+            List<String> scripts = lib.getAllScriptsNames();
+            if (scripts != null) {
+                result.addAll(scripts);
+            }
+        } catch (Exception e) {
+            LOGGER.info(
+                    "getSupportedAnalyzers(): problem in BasicScriptLibrary",
+                    e.toString());
+        }
+        return result;
+    }
+
+    public static IAnalyzer getAnalyzer(final String analyzerName) throws Exception {
+        LOGGER.debug("getAnalyzer(): method started");
+        if (analyzers.containsKey(analyzerName)) {
+            return analyzers.get(analyzerName);
+        }
+        if (supportedAnalyzers.contains(analyzerName)) {
+            createAnalyzer(analyzerName);
+            LOGGER.debug(
+                    "getAnalyzer(): analyzer created");
+            return analyzers.get(analyzerName);
+        }
+        List<String> scripts = null;
+        try {
+            scripts = lib.getAllScriptsNames();
+        } catch (Exception e) {
+            LOGGER.info(
+                    "getAnalyzer(): impossible to check R analyzers",
+                    e.toString());
+        }
+        if (scripts != null && scripts.contains(analyzerName)) {
+            createRAnalyzer(analyzerName);
+            LOGGER.debug(
+                    "getAnalyzer(): r analyzer created");
+            return analyzers.get(analyzerName);
+        }
+
+        LOGGER.info("getAnalyzer(): this analyzer is not supported",
+                analyzerName);
+        throw new IllegalArgumentException("not supported");
+    }
+
+    private static void createAnalyzer(final String name) {
+        if (name.equals("Linear Regression")) {
+            analyzers.put(name,
+                    new LinearRegressionAnalyzer());
+            return;
+        }
+        if (name.equals("Global Maximum")) {
+            analyzers.put(name,
+                    new GlobalMaximumAnalyzer());
+            return;
+        }
+        if (name.equals("Global Maximum R")) {
+            analyzers.put(name,
+                    new GlobalMaximumAnalyzerR());
+            return;
+        }
+        if (name.equals("Global Minimum")) {
+            analyzers.put(name,
+                    new GlobalMinimumAnalyzer());
+            return;
+        }
+        if (name.equals("Linear Correlation")) {
+            analyzers.put(name,
+                    new LinearCorrelationAnalyzer());
+            return;
+        }
+        if (name.equals("Kolmogorov Smirnov Test")) {
+            analyzers.put(name,
+                    new KolmogorovSmirnovTestAnalyzer());
+            return;
+        }
+        if (name.equals("Test File Result")) {
+            analyzers.put(name,
+                    new TestFileResultAnalyzerR());
+            return;
+        }
+        LOGGER.warn("createAnalyzer(): this place should not be reached",
+                name);
+        throw new IllegalArgumentException(
+                "Incorrect name");
+    }
 
 
-	//todo add all new analyzers here
-	private static void createAnalyzer(String name) {
-//        if(name.equals("GlobalMax")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("GlobalMin")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("SampleMeanOfMultiplication")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("SampleCorrelationMoment")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("PPMCorrelationCoefficient")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-		if (name.equals("LinearRegression")) {
-			analyzers.put(name, new LinearRegressionAnalyzer());
-			return;
-		}
-//        if(name.equals("TimeSeriesAnalysis")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("MovingAverage")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-//        if(name.equals("ExponentialSmoothing")) {
-//            //analyzers.put(name,new Analyzer());
-//            return;
-//        }
-		throw new IllegalArgumentException("Incorrect name");
-	}
+    private static void createRAnalyzer(final String name) throws Exception {
+        LOGGER.debug("createRAnalyzer(): method started");
+        Script script = lib.getScript(name);
+        IAnalyzer analyzer = new RScriptAnalyzer(script);
+        analyzers.put(name, analyzer);
+        LOGGER.debug("createRAnalyzer(): method finished");
+    }
 }

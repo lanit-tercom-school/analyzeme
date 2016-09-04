@@ -1,15 +1,36 @@
-<div style="float: left; background: lightcoral;">
-    <input (click)="addProject()" type="button" value="Add" style="width: 100%;"/>
-    <ul class="heroes">
-        <li *ngFor='#project of projects | checkProperty'
-            [class.selected]="isSelectedProject(project)">
-            <td style="width: 100%;" (click)="onSelect(project)">
-              <span class="badge">{{project.projectId}}</span>
-              {{project.projectName}}
-            </td>
-            <td style="width: 100%;">
-              <span class="close" (click)="deleteProject(project)">X</span>
-            </td>
-        </li>
-    </ul>
+<div class="mdl-layout--fixed-header mdl-layout mdl-js-layout">
+  <header class="mdl-layout__header mdl-layout__header--fixed-header">
+    <!-- Top row, always visible -->
+    <div class="mdl-layout__header-row">
+      <!-- Title -->
+      <span class="mdl-layout-title">Your projects</span>
+      <div class="mdl-layout-spacer"></div>
+      <button (click)="addProject()"
+          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--fab mdl-button--colored mdl-shadow--2dp mdl-button--accent">
+        <i class="material-icons">add</i>
+      </button>
+    </div>
+  </header>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+      <ul class="mdl-list">
+          <li *ngFor='#project of projects | checkProperty'
+              class="mdl-list__item mdl-list__item--two-line"
+              [class.selected]="isSelectedProject(project)">
+
+              <span (click)="onSelect(project)" class="mdl-list__item-primary-content">
+                <i class="material-icons mdl-list__item-icon">work</i>
+                <span>{{project.projectName}}</span>
+                <span class="mdl-list__item-sub-title">Id: {{project.projectId}}</span>
+              </span>
+              <span class="mdl-list__item-secondary-content">
+                <button (click)="deleteProject(project)" class="mdl-button mdl-button--icon mdl-js-button mdl-js-ripple-effect">
+                  <i class="material-icons">delete forever</i>
+                </button>
+              </span>
+
+          </li>
+      </ul>
+    </div>
+  </main>
 </div>

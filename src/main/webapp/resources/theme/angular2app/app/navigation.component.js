@@ -6,7 +6,7 @@
     ng.core.Component({
       "selector" : 'navigation',
       "templateUrl" : app.AppUtils.templateUrl("navigation"),
-      "styleUrls" : [app.AppUtils.cssUrls("app")],
+      //"styleUrls" : [app.AppUtils.cssUrls("app")],
       "directives" : [ng.router.ROUTER_DIRECTIVES]
     })
     .Class({

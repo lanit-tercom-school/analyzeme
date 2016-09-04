@@ -1,0 +1,35 @@
+<div>
+    <br/>
+    <h4 style="display: inline;">Functions:</h4>
+
+    <div style="display: inline-block;">
+      <button *ngFor="#function of _workspaceService.availableFunctions"
+              [style.display]="(isSelectExpanded || (function.func == functionType)) ? 'list-item' : 'none'"
+              (click)="selectFunction(function.func)"
+              class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+              style="width: 18em; z-index: 5;">
+          {{function.func}}
+          <p style="position: relative; right: -1em;"
+             [style.display]="(function.func == functionType) ? 'inline' : 'none'">
+            <i class="material-icons" style="font-size: 2.5em;">
+               {{!isSelectExpanded ? "expand_more" : "expand_less"}}
+            </i>
+          </p>
+      </button>
+    </div>
+
+    <button (click)="applyFunction()"
+            class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+            style="width: 18em;">
+      RUN
+    </button>
+
+    <br />
+    <div class="mdl-textfield">
+      <input type="text" size="21" class="mdl-textfield__input" readonly id="functionResult" value="">
+    </div>
+
+    <br />
+    <div id="svgVisualize" style="border:1px solid #2e7d32; min-width:70%; height: 400px; margin: 0 auto"></div>
+
+</div>

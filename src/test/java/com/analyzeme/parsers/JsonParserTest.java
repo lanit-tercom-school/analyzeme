@@ -1,145 +1,58 @@
 package com.analyzeme.parsers;
 
-import com.analyzeme.analyze.Point;
+import com.analyzeme.data.dataset.Data;
+import com.analyzeme.data.dataset.DataArray;
+import com.analyzeme.data.dataset.DataEntry;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.util.HashMap;
 
-
-/**
- * Created by Андрей Каликин on 07.12.2015.
- */
 public class JsonParserTest {
-	JsonParser jsonParser;
-	Point[] points;
 
-	@Test(expected = NullPointerException.class)
-	public void testNullArgumentInConstructor() throws Exception {
-		jsonParser = new JsonParser();
-		jsonParser.getPoints((InputStream) null);
-	}
+    @SuppressWarnings("Duplicates")
+    @Test
+    public void testFileWithDifferentTypes()
+            throws FileNotFoundException, InvalidFileException {
+        final String filepath = "/test_data/with_types.json";
+        FileInputStream file = new FileInputStream(
+                new File(this.getClass().getResource(filepath).getFile()));
+        JsonParser parser = new JsonParser();
+        DataArray result = parser.parse(
+                file);
 
-	@Test
-	public void testIncorrectFile() throws JsonParserException {
-		String s = join("\n", new String[]{
-				"{",
-				"\"x\":"
-		});
+        DataArray expected = new DataArray();
+        expected.addData(new Data(
+                new HashMap<String, DataEntry>() {{
+                    put("some_double", new DataEntry(1d));
+                    put("some_string", new DataEntry("hello"));
+                    put("some_time", new DataEntry(
+                            LocalTime.of(10, 30, 10)));
+                    put("some_date", new DataEntry(
+                            LocalDate.of(2010, Month.OCTOBER, 10)));
+                    put("some_datetime", new DataEntry(
+                            LocalDateTime.of(
+                                    2010, Month.OCTOBER, 10, 10, 30, 10)));
+                }}));
+        expected.addData(new Data(
+                new HashMap<String, DataEntry>() {{
+                    put("some_double", new DataEntry(2d));
+                    put("some_string", new DataEntry("bye"));
+                    put("some_time", new DataEntry(
+                            LocalTime.of(7, 40)));
+                    put("some_date", new DataEntry(
+                            LocalDate.of(2010, Month.NOVEMBER, 1)));
+                    put("some_datetime", new DataEntry(
+                            LocalDateTime.of(2010, Month.NOVEMBER, 1, 7, 40)));
+                }}));
 
-		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser();
-		try {
-			points = jsonParser.getPoints(is);
-			Assert.fail();
-		} catch (JsonParserException ex) {
-			Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
-					ex.getExType());
-		}
-	}
-
-	@Test
-	public void testDifferentArraysLength() throws JsonParserException {
-		String s = join("\n", new String[]{
-				"{",
-				"\"x\": [",
-				"\"4.7\"",
-				"],",
-				"\"y\": [",
-				"\"5\",",
-				"\"7.7\"",
-				"]",
-				"}",
-		});
-
-		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser();
-		try {
-			points = jsonParser.getPoints(is);
-			Assert.fail();
-		} catch (JsonParserException ex) {
-			Assert.assertEquals(JsonParserException.ExceptionType.DIFFERENT_LENGTH,
-					ex.getExType());
-		}
-	}
-
-	@Test
-	public void testIncorrectArrayElement() throws JsonParserException {
-		String s = join("\n", new String[]{
-				"{",
-				"\"x\": [",
-				"\"4.7\"",
-				"],",
-				"\"y\": [",
-				"\"b",
-				"]",
-				"}",
-		});
-
-		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser();
-		try {
-			points = jsonParser.getPoints(is);
-			Assert.fail();
-		} catch (JsonParserException ex) {
-			Assert.assertEquals(JsonParserException.ExceptionType.PARSE_FILE,
-					ex.getExType());
-		}
-	}
-
-	@Test(expected = NullPointerException.class)
-	public void testAnotherArrayName() throws JsonParserException {
-		String s = join("\n", new String[]{
-				"{",
-				"\"x\": [",
-				"\"4.7\"",
-				"],",
-				"\"z\": [",
-				"\"7.7\"",
-				"]",
-				"}"
-		});
-
-		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser();
-		points = jsonParser.getPoints(is);
-	}
-
-	@Test
-	public void testPointsDoubleWithInteger() throws JsonParserException {
-		String s = join("\n", new String[]{
-				"{",
-				"\"x\": [",
-				"\"1\",",
-				"\"2.5\",",
-				"\"4.7\"",
-				"],",
-				"\"y\": [",
-				"\"5\",",
-				"\"6.5\",",
-				"\"7.7\"",
-				"]",
-				"}"
-		});
-
-		InputStream is = new ByteArrayInputStream(s.getBytes());
-		jsonParser = new JsonParser();
-		points = jsonParser.getPoints(is);
-		Assert.assertArrayEquals(new Point[]{new Point(1.0, 5.0), new Point(2.5, 6.5),
-				new Point(4.7, 7.7)}, points);
-	}
-
-	static public String join(String delimiter, String[] list) {
-		StringBuilder sb = new StringBuilder();
-		boolean first = true;
-		for (String item : list) {
-			if (first)
-				first = false;
-			else
-				sb.append(delimiter);
-			sb.append(item);
-		}
-		return sb.toString();
-	}
+        Assert.assertEquals(expected, result);
+    }
 }

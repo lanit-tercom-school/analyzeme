@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-
+    <spring:url value="/resources/angular2app/" var="angularPath"/>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -11,6 +11,13 @@
     <meta name="author" content="">
 
     <title>AnalyzeMe</title>
+
+    <!-- Material-Design Lite -->
+    <spring:url value="/resources/css/output.css" var="schemeCss"/>
+    <link href="${schemeCss}" rel="stylesheet"/>
+    <!--<link rel="stylesheet" href="${angularPath}lib/mdl/material.min.css">-->
+    <script src="${angularPath}lib/mdl/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
     <!-- Bootstrap Core CSS -->
     <spring:url value="/resources/css/bootstrap.min.css" var="mainCss"/>
@@ -38,71 +45,59 @@
 
 <body>
 
-<!-- Navigation -->
-<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-    <div class="container topnav">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a href="index" type="button" class="btn btn-success btn-lg">AnalyzeMe</a>
-            <a href="demo" type="button" class="btn btn-info btn-lg">Try now</a>
-            <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
-            <a href="preview" type="button" class="btn btn-info btn-lg">Preview</a>
-
-
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title"></span>
+            <!-- Navigation -->
+            <nav class="mdl-navigation" role="navigation">
+                <a href="/index" class="mdl-navigation__link">AnalyzeMe</a>
+                <!-- next link will point to angular app-->
+                <a href="/app/demo" class="mdl-navigation__link">Try now</a>
+                <!--<a href="/app" class="mdl-navigation__link">Projects</a> -->
+                <a href="/data/spb" class="mdl-navigation__link">Preview</a>
+                <a href="/rconfig" class="mdl-navigation__link">RConfigurations</a>
+                <a href="/fconfig" class="mdl-navigation__link">FileConfigurations</a>
+            </nav>
         </div>
+    </header>
+    <main class="mdl-layout__content" style="overflow-y: hidden;">
+        <div class="page-content">
+            <!-- ---- -->
+            <!-- Header -->
+            <div class="intro-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="intro-message">
+                                <h1>AnalyzeMe</h1>
 
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
+                                <h3>A web service for data analysis</h3>
+                                <hr class="intro-divider" style="margin: 1em auto;">
+                                <ul class="list-inline intro-social-buttons">
+                                    <li>
+                                        <a href="/app/demo" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i>
+                                            <span class="network-name">   Try now </span></a>
+                                    </li>
+                                    <li>
+                                        <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-primary btn-lg"><i
+                                                class="fa fa-github fa-fw"></i> Source code</a>
+                                    </li>
 
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
 
-<!-- Header -->
-<a name="about"></a>
-
-<div class="intro-header">
-    <div class="container">
-
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="intro-message">
-                    <h1>AnalyzeMe</h1>
-
-                    <h3>A web service for data analysis</h3>
-                    <hr class="intro-divider">
-                    <ul class="list-inline intro-social-buttons">
-                        <li>
-                            <a href="demo" class="btn btn-primary btn-lg"><i class="glyphicon glyphicon-log-in"></i>
-                                <span class="network-name">   Try now </span></a>
-                        </li>
-                        <li>
-                            <a href="https://github.com/lanit-tercom-school/analyzeme" class="btn btn-primary btn-lg"><i
-                                    class="fa fa-github fa-fw"></i> Source code</a>
-                        </li>
-
-                    </ul>
                 </div>
+                <!-- /.container -->
+
             </div>
+            <!-- /.intro-header -->
+            <!-- ---- -->
         </div>
-
-    </div>
-    <!-- /.container -->
-
+    </main>
 </div>
-<!-- /.intro-header -->
-
-
-<!-- Footer -->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-
-                <p class="copyright text-muted small">Copyright &copy; lanit-tercom.school 2015. All Rights Reserved</p>
-            </div>
-        </div>
-    </div>
-</footer>
 
 <!-- jQuery -->
 <spring:url value="/resources/js/jquery.js" var="jqueryJs"/>

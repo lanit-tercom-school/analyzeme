@@ -10,6 +10,10 @@
 
     <properties>
         <jetty.version>9.3.6.v20151106</jetty.version>
+        <slf4j.version>1.6.4</slf4j.version>
+        <logback.version>1.0.1</logback.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -85,6 +89,12 @@
             <artifactId>json</artifactId>
             <version>20151123</version>
         </dependency>
+        <dependency>
+            <groupId>com.univocity</groupId>
+            <artifactId>univocity-parsers</artifactId>
+            <version>2.1.1</version>
+            <type>jar</type>
+        </dependency>
 
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -93,10 +103,28 @@
         </dependency>
 
         <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.14</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.14</version>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-mock</artifactId>
+            <version>2.0.8</version>
         </dependency>
 
         <dependency>
@@ -115,16 +143,45 @@
             <groupId>org.renjin</groupId>
             <artifactId>renjin-script-engine</artifactId>
             <version>RELEASE</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/maven-lib/renjin-script-engine-0.8.2137-jar-with-dependencies.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tika</groupId>
+            <artifactId>tika-core</artifactId>
+            <version>1.5</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.papertrailapp</groupId>
+            <artifactId>logback-syslog4j</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.firebase</groupId>
+            <artifactId>firebase-server-sdk</artifactId>
+            <version>3.0.1</version>
         </dependency>
     </dependencies>
-
-    <repositories>
-        <repository>
-            <id>bedatadriven</id>
-            <name>bedatadriven public repo</name>
-            <url>https://nexus.bedatadriven.com/content/groups/public/</url>
-        </repository>
-    </repositories>
 
     <build>
         <finalName>analyzeme</finalName>
@@ -167,7 +224,42 @@
                 <version>2.3</version>
                 <configuration>
                     <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/maven-lib/</directory>
+                            <includes>
+                                <include>**/renjin-script-engine-0.8.2137-jar-with-dependencies.jar</include>
+                            </includes>
+                            <targetPath>WEB-INF/lib/</targetPath>
+                        </resource>
+                    </webResources>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.eluder.coveralls</groupId>
+                <artifactId>coveralls-maven-plugin</artifactId>
+                <version>4.1.0</version>
+            </plugin>
+
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.5.201505241946</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
             <plugin>
@@ -176,7 +268,7 @@
                 <version>${jetty.version}</version>
                 <configuration>
                     <webApp>
-                        <contextPath>/analyzeme</contextPath>
+                        <contextPath>/</contextPath>
                     </webApp>
                     <stopPort>9999</stopPort>
                     <stopKey>foo</stopKey>

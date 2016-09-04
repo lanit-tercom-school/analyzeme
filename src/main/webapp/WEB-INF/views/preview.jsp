@@ -20,6 +20,15 @@
 
      <title>AnalyzeMe</title>
 
+     <!-- Material-Design Lite -->
+     <spring:url value="/resources/angular2app/" var="angularPath"/>
+     <spring:url value="/resources/css/output.css" var="schemeCss"/>
+     <link href="${schemeCss}" rel="stylesheet"/>
+     <!--<link rel="stylesheet" href="${angularPath}lib/mdl/material.min.css">-->
+     <script src="${angularPath}lib/mdl/material.min.js"></script>
+     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+
      <!-- Bootstrap Core CSS -->
      <spring:url value="/resources/css/bootstrap.min.css" var="mainCss"/>
      <link href="${mainCss}" rel="stylesheet"/>
@@ -46,95 +55,100 @@
 
  <body>
 
- <!-- Navigation -->
-<nav class="navbar navbar-default navbar-fixed-top topnav" role="navigation">
-    <div class="container topnav">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a href="index" type="button" class="btn btn-info btn-lg" href="index">AnalyzeMe</a>
-                <a href="demo" type="button" class="btn btn-info btn-lg">Try now</a>
-                    <a href="projects" type="button" class="btn btn-info btn-lg">Projects</a>
-            <a href="preview" type="button" class="btn btn-success btn-lg">Preview</a>
+ <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+     <header class="mdl-layout__header">
+         <div class="mdl-layout__header-row">
+             <span class="mdl-layout-title"></span>
+             <!-- Navigation -->
+             <nav class="mdl-navigation" role="navigation">
+                 <a href="/index" class="mdl-navigation__link">AnalyzeMe</a>
+                 <a href="/app/demo" class="mdl-navigation__link">Try now</a>
+                 <!--<a href="/app" class="mdl-navigation__link">Projects</a> -->
+                 <a href="/data/spb" class="mdl-navigation__link">Preview</a>
+                 <a href="/rconfig" class="mdl-navigation__link">RConfigurations</a>
+                 <a href="/fconfig" class="mdl-navigation__link">FileConfigurations</a>
+             </nav>
+         </div>
+     </header>
+     <main class="mdl-layout__content" style="overflow-x: auto;">
+         <div class="page-content">
+             <!-- Make a table -->
+             <a name="about"></a>
+             <div class="intro-header3">
+                 <div class="container">
 
-        </div>
+                     <div class="row clearfix">
+                         <div class="col-md-12 column">
 
-        <!-- /.navbar-collapse -->
-    </div>
-    <!-- /.container -->
-</nav>
+                             <table class="table table-bordered table-hover" id="myTable2" onclick="clickEvent(event)">
+                                 <thead>
+                                 <tr>
+                                     <th class="text-center">
 
- <!-- Make a table -->
-<a name="about"></a>
-    <div class="intro-header3">
-     <div class="container">
+                                     </th>
+                                     <th class="text-center">
+                                         Тип объекта (obj_type)
+                                     </th>
+                                     <th class="text-center">
+                                         Правовой режим (right)
+                                     </th>
+                                     <th class="text-center">
+                                         Уникальный код (obj_id)
+                                     </th>
 
-         <div class="row clearfix">
-             <div class="col-md-12 column">
+                                     <th class="text-center">
+                                         Доля Санкт-Петербурга в праве (obj_dolya_spb)
+                                     </th>
+                                     <th class="text-center">
+                                         Район (region)
+                                     </th>
+                                     <th class="text-center">
+                                         Кадастровый номер (obj_kd_nmb)
+                                     </th>
+                                     <th class="text-center">
+                                         Кадастровая стоимость ЗУ (kad_cost)
+                                     </th>
+                                     <th class="text-center">
+                                         Площадь (obj_sqr)
+                                     </th>
+                                     <th class="text-center">
+                                         Остаточная стоимость (cost)
+                                     </th>
+                                     <th class="text-center">
+                                         Использование (obj_use)
+                                     </th>
+                                     <th class="text-center">
+                                         Дата оценки (cost_date)
+                                     </th>
+                                     <th class="text-center">
+                                         Адрес (address)
+                                     </th>
+                                     <th class="text-center">
+                                         Основание регистрации права СПб (right_doc)
+                                     </th>
+                                     <th class="text-center">
+                                         Реестровый номер (obj_reestr_num)
+                                     </th>
 
-                 <table class="table table-bordered table-hover" id="myTable2" onclick="clickEvent(event)">
-                     <thead>
-                     <tr>
-                         <th class="text-center">
+                                 </tr>
+                                 </thead>
+                                 <tbody>
+                                 </tbody>
+                             </table>
+                         </div>
+                     </div>
 
-                         </th>
-                         <th class="text-center">
-                             Тип объекта (obj_type)
-                         </th>
-                         <th class="text-center">
-                             Правовой режим (right)
-                         </th>
-                         <th class="text-center">
-                             Уникальный код (obj_id)
-                         </th>
+                     <a class="btn btn-default pull-left" onclick="Show(); return true;">Show</a>
+                     <a class="btn btn-default pull-left" onclick="Go(); return true;">Go</a>
 
-                         <th class="text-center">
-                             Доля Санкт-Петербурга в праве (obj_dolya_spb)
-                         </th>
-                         <th class="text-center">
-                             Район (region)
-                         </th>
-                         <th class="text-center">
-                             Кадастровый номер (obj_kd_nmb)
-                         </th>
-                         <th class="text-center">
-                             Кадастровая стоимость ЗУ (kad_cost)
-                         </th>
-                         <th class="text-center">
-                             Площадь (obj_sqr)
-                         </th>
-                         <th class="text-center">
-                             Остаточная стоимость (cost)
-                         </th>
-                         <th class="text-center">
-                             Использование (obj_use)
-                         </th>
-                         <th class="text-center">
-                             Дата оценки (cost_date)
-                         </th>
-                         <th class="text-center">
-                             Адрес (address)
-                         </th>
-                         <th class="text-center">
-                             Основание регистрации права СПб (right_doc)
-                         </th>
-                         <th class="text-center">
-                             Реестровый номер (obj_reestr_num)
-                         </th>
+                 </div>
 
-                     </tr>
-                     </thead>
-                     <tbody>
-                     </tbody>
-                 </table>
              </div>
          </div>
+     </main>
+ </div>
 
-         <a class="btn btn-default pull-left" onclick="Show(); return true;">Show</a>
-         <a class="btn btn-default pull-left" onclick="Go(); return true;">Go</a>
 
-   </div>
-
-    </div>
 
  <!-- Connection -->
 

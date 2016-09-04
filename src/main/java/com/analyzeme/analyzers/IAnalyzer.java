@@ -1,13 +1,14 @@
 package com.analyzeme.analyzers;
 
 import com.analyzeme.analyzers.result.IResult;
+import com.analyzeme.data.dataset.DataEntry;
 
 import java.util.List;
+import java.util.Map;
 
-/**
- * Created by Ольга on 10.04.2016.
- */
 public interface IAnalyzer {
+    //here String is the name of the column, and List<T> is the data in it (only T=Double is supported now)
+    IResult analyze(Map<String, List<DataEntry>> data) throws Exception;
 
-    IResult analyze(List<List<Point>> data);
+    int getNumberOfParams();
 }

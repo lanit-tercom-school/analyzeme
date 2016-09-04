@@ -1,18 +1,6 @@
-<div *ngIf="project">
-    <h3>"{{project.projectName}}" Project</h3>
-    <files-list></files-list>
-    <div>
-        <svg id="svgVisualize" [style.width]="svgSize" [style.height]="svgSize" style="border:1px solid Red;">
-        </svg>
-        <div>
-            <select id="functionSelect">
-                <option *ngFor="#function of availableFunctions" [value]="function.func">
-                    {{function.name}}
-                </option>
-            </select>
-            <input (click)="applyFunction()" type="button" value="Apply">
-            <br />
-            <input type="text" size="21" readonly id="functionResult" value="">
-        </div>
+<div *ngIf="project" class="mdl-grid">
+    <files-list class="mdl-cell mdl-cell--3-col mdl-cell--4-col-phone"></files-list>
+    <div  class="mdl-cell mdl-cell--9-col">
+      <router-outlet></router-outlet>
     </div>
 </div>

@@ -1,5 +1,13 @@
-<div style="background: plum;">
-<navigation></navigation>
-<router-outlet></router-outlet>
-<footer></footer>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+  <header class="mdl-layout__header">
+    <div class="mdl-layout__header-row">
+      <span class="mdl-layout-title"><navigation></navigation></span>
+    </div>
+  </header>
+  <main class="mdl-layout__content">
+    <div class="page-content">
+      <router-outlet></router-outlet>
+      <!--<app-footer></app-footer>-->
+    </div>
+  </main>
 </div>

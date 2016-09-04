@@ -1,33 +1,17 @@
-h2 { 
-  color: #444;
-  font-family: Arial, Helvetica, sans-serif;   
-  font-weight: lighter;
+.router-link-active {
+  border-bottom: 2px solid white;
 }
-body { 
-  margin: 2em; 
+header.tab-panel {
+  /*border-bottom: 2px solid white;*/
 }
-body, input[text], button { 
-  color: #888; 
-  font-family: Cambria, Georgia; 
+a.workarea-tab.router-link-active {
+  color: black !important;
 }
-button {
-  font-family: Arial;
-  background-color: #eee;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  cursor: hand;
-}
-button:hover {
-  background-color: #cfd8dc;
-}
-button:disabled {
-  background-color: #eee;
-  color: #aaa; 
-  cursor: auto;
-}
-/* everywhere else */
-* { 
-  font-family: Arial, Helvetica, sans-serif; 
+.router-link-active.workarea-tab {
+  border-top: 2px solid rgb(46,125,50);
+  border-bottom: 0px;
+  /*border-top-left-radius: 20px;
+  border-top-right-radius: 20px;*/
+  background: white;
+  opacity: 100;
 }

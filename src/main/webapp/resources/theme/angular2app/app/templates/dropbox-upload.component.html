@@ -1,11 +1,42 @@
-<div class="dropbox-upload" style="width:100%;"
-(dragenter)="noon($event)" (dragover)="noon($event)" (drop)="onDrop($event)">
-    <form (submit)="onSubmit($event)" name="upload"
-            style="height: 100%; background: brown;">
-        <input type="file" name="myfile">
-        <br />
-        <input type="submit" value="Загрузить">
-        <br />
-        <input type="button" value="collapse" (click)="collapsed.next(false);">
-    </form>
+<div style="height: inherit; width:100%;" class="dropbox-upload mdl-layout mdl-color--primary">
+    <div style="padding: 5%;">
+        <style>
+        .dropbox-upload-child-element {
+            pointer-events: none;
+        }
+        </style>
+        <form (ngSubmit)="onSubmit($event)" name="upload"
+                style="padding: 5%;">
+            <div style="overflow:hidden;" class="mdl-button mdl-button--raised">
+                <span>CHOOSE FILES</span>
+                <input multiple
+                       type="file"
+                       (change)="updateFileNameField()"
+                       name="myfile"
+                       style=" cursor:pointer;position: absolute; top:0; width:100%; height: 100%; opacity:0; filter:alpha(opacity:0); font-size:199px; cursor:pointer; padding:0px; margin:0px; border:none; margin-left:-450px;">
+            </div>
+            <span id="fileNameField" class="dropbox-upload-child-element"></span>
+            <br />
+            <button type="submit"
+                    class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                    style="width: 100%;">
+              Upload
+            </button>
+            <br />
+            <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+                    (click)="cancelClicked = true; onSubmit($event)"
+                    style="width: 100%;">
+              Cancel
+            </button>
+        </form>
+        <div style="padding: 5%; border: 2px dashed;"
+             name="dropbox-upload-area"
+             (drop)="onDrop($event)" (dragover)="noon($event)"
+             (dragenter)="onDragEnter($event)" (dragleave)="onDragLeave($event)"
+             class="mdl-color--primary">
+            <h5 align="center" style="padding: 10%;" class="dropbox-upload-child-element" style="padding: 10%;">
+                You can drop files here
+            </h5>
+        </div>
+    </div>
 </div>

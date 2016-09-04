@@ -1,0 +1,33 @@
+<br/>
+<h4 style="display: inline;">
+  Type of return value
+  <a onclick="window.open('/help', '_blank', 'width=500, height=500');"
+     style="cursor: pointer;">
+    (?)
+  </a>
+</h4>
+
+<div style="display: inline-block;">
+  <button *ngFor="#returnType of _workspaceService.returnTypes"
+          [style.display]="(isSelectExpanded || (returnType == _workspaceService.session.returnType)) ? 'list-item' : 'none'"
+          (click)="setReturnType(returnType)"
+          class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+          style="width: 18em; z-index: 5;">
+      {{returnType}}
+      <p style="position: relative; right: -1em;"
+         [style.display]="(returnType == _workspaceService.session.returnType) ? 'inline' : 'none'">
+        <i class="material-icons" style="font-size: 2.5em;">
+           {{!isSelectExpanded ? "expand_more" : "expand_less"}}
+        </i>
+      </p>
+  </button>
+</div>
+
+<button (click)="runScript()"
+        class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect"
+        style="width: 18em; z-index: 5;">
+    Run
+</button>
+
+<br />
+<div id="editor" class="mdl-shadow--2dp" style="font-size: 1.3em; min-height: 48em;"></div>

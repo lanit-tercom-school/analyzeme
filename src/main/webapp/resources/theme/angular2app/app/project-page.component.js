@@ -9,7 +9,9 @@
       "directives" : [ng.router.ROUTER_DIRECTIVES,  app.ProjectsListComponent, app.NewProjectComponent]
     })
     .Class({
-      constructor : function ProjectPageComponent(){}
+      constructor : function ProjectPageComponent(){
+          document.title = "AnalyzeMe | Projects";
+      }
     });
 
     /*ng.router.RouteConfig([

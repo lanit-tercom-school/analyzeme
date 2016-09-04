@@ -3,10 +3,11 @@
 
   app.FooterComponent =
     ng.core.Component({
-      "selector" : 'footer',
-      "templateUrl" : app.AppUtils.templateUrl("footer")
+      "selector" : 'app-footer',
+      "templateUrl" : app.AppUtils.templateUrl("footer"),
+      "directives" : [ng.router.ROUTER_DIRECTIVES]
     })
     .Class({
-        constructor : function() {}
+        constructor : function FooterComponent() {}
     });
 })(window.app || (window.app = {}));
