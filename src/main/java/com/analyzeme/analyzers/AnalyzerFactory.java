@@ -23,7 +23,8 @@ public class AnalyzerFactory {
                 "Linear Regression", "Global Maximum",
                 "Global Maximum R", "Global Minimum",
                 "Linear Correlation",
-                "Kolmogorov Smirnov Test", "Test File Result"});
+                "Kolmogorov Smirnov Test", "Test File Result",
+                "Rosenstein Analyzer"});
         try {
             lib = new BasicScriptLibrary();
         } catch (Exception e) {
@@ -115,6 +116,11 @@ public class AnalyzerFactory {
         if (name.equals("Test File Result")) {
             analyzers.put(name,
                     new TestFileResultAnalyzerR());
+            return;
+        }
+        if (name.equals("Rosenstein Analyzer")) {
+            analyzers.put(name,
+                    new RosensteinAnalyzer());
             return;
         }
         LOGGER.warn("createAnalyzer(): this place should not be reached",
