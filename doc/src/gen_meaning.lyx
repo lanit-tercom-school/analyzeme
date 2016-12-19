@@ -1,0 +1,317 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass scrartcl
+\begin_preamble
+%\usepackage{nicefrac}
+%\usepackage{colortbl}
+%\usepackage[noend]{algpseudocode}
+
+%\usepackage[columns=1,itemlayout=singlepar,totoc=true]{idxlayout}
+
+%\@addtoreset{chapter}{part}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\rk}{rk}
+
+\newcommand{\bigperp}{%
+  \mathop{\mathpalette\bigp@rp\relax}%
+  \displaylimits
+}
+
+\newcommand{\bigp@rp}[2]{%
+  \vcenter{
+    \m@th\hbox{\scalebox{\ifx#1\displaystyle2.1\else1.5\fi}{$#1\perp$}}
+  }%
+}
+
+\newcommand{\bignparallel}{%
+  \mathop{\mathpalette\bignp@rp\relax}%
+  \displaylimits
+}
+
+\newcommand{\bignp@rp}[2]{%
+  \vcenter{
+    \m@th\hbox{\scalebox{\ifx#1\displaystyle2.1\else1.5\fi}{$#1\nparallel$}}
+  }%
+}
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams-bytype
+theorems-ams-extended-bytype
+theorems-chap-bytype
+\end_modules
+\maintain_unincluded_children false
+\begin_local_layout
+Format 49
+
+Style Solution
+        CopyStyle       "Proof"
+        LatexName       solution
+        Argument        1
+                LabelString   "Alternative Solution String"
+                Tooltip       "Alternative solution string"
+        EndArgument
+        LabelString     "Solution."
+        Preamble
+                \newenvironment{solution}
+                  {\renewcommand\qedsymbol{$\lrcorner$}
+                   \begin{proof}[\solutionname]}
+                  {\end{proof}}
+        EndPreamble
+        LangPreamble
+                \providecommand{\solutionname}{_(Solution)}
+        EndLangPreamble
+        BabelPreamble
+                \addto\captions$$lang{\renewcommand{\solutionname}{_(Solution)}}
+        EndBabelPreamble
+
+End
+\end_local_layout
+\language russian
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement h
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks true
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language french
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\bullet 1 0 25 -1
+\bullet 2 0 26 -1
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Генетический смысл данных
+\end_layout
+
+\begin_layout Standard
+Информация об организме может быть закодирована последовательностью (
+\emph on
+гаплотипом
+\emph default
+) на алфавите из четырех символов: 
+\family typewriter
+A
+\family default
+, 
+\family typewriter
+C
+\family default
+, 
+\family typewriter
+G
+\family default
+, 
+\family typewriter
+T
+\family default
+, (
+\emph on
+нуклеотидов
+\emph default
+) например,
+\end_layout
+
+\begin_layout LyX-Code
+ATCCCTAT
+\end_layout
+
+\begin_layout Standard
+У некоторых организмов, в том числе у людей, гаплотипа 
+\emph on
+два
+\emph default
+: одна копия от papa, вторая от maman.
+ Пара гаплотипов называется 
+\emph on
+генотипом
+\emph default
+.
+ Например:
+\end_layout
+
+\begin_layout LyX-Code
+ATCCCTAT
+\end_layout
+
+\begin_layout LyX-Code
+ATCCGTAT
+\end_layout
+
+\begin_layout Standard
+Видно, что в пятой позиции гаплотипы отличаются нуклеотидом.
+ Это называется 
+\emph on
+Single Nucleotide Polymorphism
+\emph default
+ (SNP).
+\end_layout
+
+\begin_layout Standard
+Последовательность нуклеотидов кодирует 
+\emph on
+ген
+\emph default
+.
+ Гены определяют признаки индивида (например, цвет глаз) --- 
+\emph on
+фенотип
+\emph default
+.
+ Гены могут иметь варианты (
+\emph on
+аллели
+\emph default
+), например в 5-й позиции могла стоять комбинация 
+\family typewriter
+(C;C)
+\family default
+ или 
+\family typewriter
+(G;G)
+\family default
+, что могло бы соответствовать разным фенотипам (например, разному цвету
+ глаз).
+\end_layout
+
+\begin_layout Remark*
+Часто аллель используют в значении 
+\begin_inset Quotes fld
+\end_inset
+
+нуклеотид в конкретной позиции конкретного гаплотипа
+\begin_inset Quotes frd
+\end_inset
+
+, а генотип --- в значении 
+\begin_inset Quotes fld
+\end_inset
+
+конкретная комбинация аллелей
+\begin_inset Quotes frd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Некоторые аллели встречаются чаще других в популяции.
+ К примеру, в приведенной последовательности пусть 
+\family typewriter
+C
+\family default
+ встречается чаще 
+\family typewriter
+G
+\family default
+.
+ Тогда 
+\family typewriter
+С
+\family default
+ называется major, а 
+\family typewriter
+G
+\family default
+ --- minor аллелем.
+ Информацию о генотипе поэтому удобно хранить в виде одной последовательности
+ на алфавите 0, 1, 2, что соответствует major или minor аллелю в обоих гаплотипа
+х, или разнице в типе.
+ Например:
+\end_layout
+
+\begin_layout LyX-Code
+011000110
+\end_layout
+
+\begin_layout LyX-Code
+001100010
+\end_layout
+
+\begin_layout LyX-Code
+---------
+\end_layout
+
+\begin_layout LyX-Code
+021200210
+\end_layout
+
+\begin_layout Standard
+Иногда добавляют 
+\begin_inset Quotes fld
+\end_inset
+
+3
+\begin_inset Quotes frd
+\end_inset
+
+ для индикации отсутствия данных по позиции.
+\end_layout
+
+\end_body
+\end_document
